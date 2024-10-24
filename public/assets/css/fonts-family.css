@@ -1,0 +1,31 @@
+/* Almarai Regular */
+@font-face {
+    font-family: 'Almarai';
+    src: url('/assets/fonts/Almarai-Regular.ttf') format('truetype');
+    font-weight: 400; /* Regular */
+    font-style: normal;
+}
+
+/* Almarai Light */
+@font-face {
+    font-family: 'Almarai';
+    src: url('/assets/fonts/Almarai-Light.ttf') format('truetype');
+    font-weight: 300; /* Light */
+    font-style: normal;
+}
+
+/* Almarai Bold */
+@font-face {
+    font-family: 'Almarai';
+    src: url('/assets/fonts/Almarai-Bold.ttf') format('truetype');
+    font-weight: 700; /* Bold */
+    font-style: normal;
+}
+
+/* Almarai Extra Bold */
+@font-face {
+    font-family: 'Almarai';
+    src: url('/assets/fonts/Almarai-ExtraBold.ttf') format('truetype');
+    font-weight: 800; /* Extra Bold */
+    font-style: normal;
+}

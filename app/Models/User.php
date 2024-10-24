@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Traits\HasCustomDefaultProfilePhoto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -14,7 +16,10 @@ class User extends Authenticatable
 {
     use HasApiTokens;
     use HasFactory;
-    use HasProfilePhoto;
+    use HasProfilePhoto, HasCustomDefaultProfilePhoto {
+        HasCustomDefaultProfilePhoto::defaultProfilePhotoUrl insteadof HasProfilePhoto;
+        HasCustomDefaultProfilePhoto::profilePhotoUrl insteadof HasProfilePhoto;
+    }
     use Notifiable;
     use TwoFactorAuthenticatable;
 
@@ -23,11 +28,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -59,7 +60,19 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            'password' => 'hashed'
         ];
+    }
+
+    public function isClinicAdmin(): bool
+    {
+        return $this->role == ClinicAdmin::class;
+    }
+
+    public function clinicAdmin()
+    {
+        ($this->isClinicAdmin())
+            ? $this->hasOne(ClinicAdmin::class, 'user_id', 'id')
+            : abort(403,'Unauthorized action.');
     }
 }

@@ -1,5 +1,5 @@
 <?php
-
+$URL = 'https://8544-197-132-238-214.ngrok-free.app';
 return [
 
     /*
@@ -33,6 +33,16 @@ return [
             'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
+    ],
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID', '880959900321-ti5o09mvuedb8iqkh25m2d0n6422iced.apps.googleusercontent.com'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET', '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'),
+        'redirect' => "{$URL}/auth/google/callback",
+    ],
+    'facebook' => [
+        'client_id' => '520747644156758',
+        'client_secret' => '0a146bd984be4498767f052fdf7f49c0',
+        'redirect' => "{$URL}/auth/facebook/callback"
     ],
 
 ];

@@ -1,27 +1,40 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<html   lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="{{ asset('assets/css/tailwind.output.css') }}" />
 
-        <!-- Styles -->
-        @livewireStyles
-    </head>
-    <body>
-        <div class="font-sans text-gray-900 antialiased">
-            {{ $slot }}
-        </div>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('assets/css/fonts-family.css') }}" />
 
-        @livewireScripts
-    </body>
+    <script src="{{ asset('assets/js/init-alpine.js') }}"></script>
+
+    <style>
+        body {
+            font-family: 'Almarai', sans-serif;
+        }
+    </style>
+
+    <!-- Styles -->
+    @livewireStyles
+</head>
+
+<body dir="rtl" x-data="data()" :class="{ 'theme-dark': dark }"  class="theme-dark">
+    <div class="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
+                @yield('main')
+    </div>
+
+    @stack('modals')
+
+    @livewireScripts
+
+</body>
+
 </html>
