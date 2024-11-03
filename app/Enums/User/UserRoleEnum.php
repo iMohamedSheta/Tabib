@@ -24,6 +24,7 @@ enum UserRoleEnum : String
         {
             self::MANAGER->value => route('app.admin.dashboard'),
             self::CLINIC_ADMIN->value => route('app.admin.dashboard'),
+            self::DOCTOR->value => route('app.admin.dashboard'),
         };
     }
 

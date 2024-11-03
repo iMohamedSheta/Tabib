@@ -34,4 +34,9 @@ enum ClinicTypeEnum : int
             self::OTHERS->value => 'عيادة أخرى',
         ];
     }
+
+    public static function matchClinicTypeLabels($clinicType): string
+    {
+        return self::getClinicTypeLabels()[$clinicType] ?? 'عيادة اخري';
+    }
 }

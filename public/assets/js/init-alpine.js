@@ -43,10 +43,6 @@ function data() {
     closeProfileMenu() {
       this.isProfileMenuOpen = false
     },
-    isPagesMenuOpen: false,
-    togglePagesMenu() {
-      this.isPagesMenuOpen = !this.isPagesMenuOpen
-    },
     // Modal
     isModalOpen: false,
     trapCleanup: null,
@@ -59,4 +55,38 @@ function data() {
       this.trapCleanup()
     },
   }
+}
+
+function dataSidebarDropDownMenu() {
+    return {
+            isPagesMenuOpen: false,
+            togglePagesMenu() {
+                this.isPagesMenuOpen = !this.isPagesMenuOpen
+            }
+        }
+}
+
+
+function fileUpload() {
+    return {
+        imagePreview: null,
+        isDragging: false,
+
+        showPreview(event) {
+            const file = event.target.files[0];
+            this.setImagePreview(file);
+        },
+
+        handleDrop(event) {
+            this.isDragging = false;
+            const file = event.dataTransfer.files[0];
+            this.setImagePreview(file);
+        },
+
+        setImagePreview(file) {
+            if (file && file.type.startsWith('image/')) {
+                this.imagePreview = URL.createObjectURL(file);
+            }
+        }
+    };
 }

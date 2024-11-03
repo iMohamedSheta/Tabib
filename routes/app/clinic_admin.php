@@ -11,6 +11,7 @@
 */
 
 use App\Http\Controllers\Clinic\ClinicController;
+use App\Http\Controllers\Doctor\DoctorController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware([
@@ -26,6 +27,10 @@ Route::middleware([
 
     Route::prefix('clinic')->name('clinic.')->group(function(){
         Route::get('', [ClinicController::class, 'index'])->name('index');
+    });
+
+    Route::prefix('doctor')->name('doctor.')->group(function(){
+        Route::get('', [DoctorController::class, 'index'])->name('index');
     });
 });
 

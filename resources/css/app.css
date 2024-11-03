@@ -7,3 +7,45 @@
 [x-cloak] {
     display: none;
 }
+
+/* Buttons */
+.btn-primary {
+    @apply px-4 py-2 text-white bg-[#9333EA] hover:bg-[#7928CA] rounded-md focus:outline-none focus:ring-2 focus:ring-[#9333EA] focus:ring-opacity-50 transition-colors focus:ring-offset-2  ease-in-out duration-150;
+}
+
+.btn-secondary {
+    @apply px-4 py-2 text-white bg-[#2D2D3A] hover:bg-[#3A3A4A] rounded-md focus:outline-none focus:ring-2 focus:ring-[#2D2D3A] focus:ring-opacity-50 transition-colors focus:ring-offset-2  ease-in-out duration-150;
+}
+
+.btn-gray {
+    @apply px-4 py-2 text-white bg-gray-500 hover:bg-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50 transition-colors focus:ring-offset-2  ease-in-out duration-150;
+}
+
+.btn-danger {
+    @apply px-4 py-2 text-white bg-[#DC2626] hover:bg-[#EF4444] rounded-md focus:outline-none focus:ring-2 focus:ring-[#EF4444] focus:ring-opacity-50 transition-colors focus:ring-offset-2  ease-in-out duration-150;
+}
+
+.btn-success {
+    @apply px-4 py-2 text-white bg-[#10B981] hover:bg-[#059669] rounded-md focus:outline-none focus:ring-2 focus:ring-[#10B981] focus:ring-opacity-50 transition-colors focus:ring-offset-2  ease-in-out duration-150;
+}
+
+.btn-info {
+    @apply px-4 py-2 text-white bg-[#3B82F6] hover:bg-[#2563EB] rounded-md focus:outline-none focus:ring-2 focus:ring-[#3B82F6] focus:ring-opacity-50 transition-colors focus:ring-offset-2  ease-in-out duration-150;
+}
+
+.btn-warning {
+    @apply px-4 py-2 text-white bg-[#F59E0B] hover:bg-[#D97706] rounded-md focus:outline-none focus:ring-2 focus:ring-[#F59E0B] focus:ring-opacity-50 transition-colors focus:ring-offset-2  ease-in-out duration-150;
+}
+
+.btn-light {
+    @apply px-4 py-2 text-black bg-white hover:bg-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50 transition-colors focus:ring-offset-2  ease-in-out duration-150;
+}
+
+.btn-dark {
+    @apply px-4 py-2 text-white bg-[#111827] hover:bg-[#1F2937] rounded-md focus:outline-none focus:ring-2 focus:ring-[#111827] focus:ring-opacity-50 transition-colors focus:ring-offset-2  ease-in-out duration-150;
+}
+
+.btn-outline {
+    @apply px-4 py-2 text-[#9333EA] border border-[#9333EA] hover:bg-[#9333EA] hover:text-white rounded-md focus:outline-none focus:ring-2 focus:ring-[#9333EA] focus:ring-opacity-50 transition-colors;
+}
+/* End Buttons */

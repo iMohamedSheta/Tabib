@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\ClinicIdScope;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+#[ScopedBy(ClinicIdScope::class)]
 class Clinic extends Model
 {
     use HasFactory;

@@ -2,11 +2,22 @@
 
 namespace {{ namespace }};
 
+use App\Collections\ActionResponseCollection;
+use App\Traits\ActionTraits\ActionResponse;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class {{ class }}
 {
-    public function handle()
+    use ActionResponse;
+    use AuthorizesRequests;
+
+    public function handle(): ActionResponseCollection
     {
         //
+    }
+
+    private function isNotAuthorized(): bool
+    {
+        return true;
     }
 }

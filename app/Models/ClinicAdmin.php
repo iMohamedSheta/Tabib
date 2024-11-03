@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class ClinicAdmin extends Model implements UserRoleModelInterface
 {
     use HasFactory;
+
     const TYPE_SUPER_ADMIN = 'super_admin';
     const TYPE_ADMIN = 'admin';
 

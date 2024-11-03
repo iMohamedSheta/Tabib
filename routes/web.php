@@ -13,6 +13,7 @@
 use App\Enums\User\UserRoleEnum;
 use App\Http\Controllers\Auth\Socialite\FacebookSocialiteController;
 use App\Http\Controllers\Auth\Socialite\GoogleSocialiteController;
+use Illuminate\Console\View\Components\Alert;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -34,3 +35,14 @@ Route::get('/auth/google/callback', [GoogleSocialiteController::class, 'callback
 
 Route::get('/auth/facebook/redirect', [FacebookSocialiteController::class, 'redirect'])->name('socialite.facebook.redirect');
 Route::get('/auth/facebook/callback', [FacebookSocialiteController::class, 'callback']);
+
+Route::get('test', function() {
+    flash()->success('User saved successfully!');
+    sweetalert()->error('There was an issue locking your account.');
+
+    return to_route('register');
+});
+
+Route::get('logotu', function ($id) {
+
+});

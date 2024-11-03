@@ -25,7 +25,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->prefix('admin')
                 ->name('app.admin.')
                 ->group(base_path('routes/app/clinic_admin.php'));
-        },
+        }
     )
     ->withMiddleware(function (Middleware $middleware) {
         //

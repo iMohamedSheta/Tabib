@@ -69,10 +69,28 @@ class User extends Authenticatable
         return $this->role == ClinicAdmin::class;
     }
 
+    public function isDoctor(): bool
+    {
+        return $this->role == Doctor::class;
+    }
+
+    public function user()
+    {
+        switch ($this->role) {
+            case ClinicAdmin::class:
+                return $this->clinicAdmin();
+            case Doctor::class:
+                return $this->doctor();
+            default:
+                return $this;
+        };
+    }
     public function clinicAdmin()
     {
-        ($this->isClinicAdmin())
-            ? $this->hasOne(ClinicAdmin::class, 'user_id', 'id')
-            : abort(403,'Unauthorized action.');
+        return $this->hasOne(ClinicAdmin::class, 'user_id', 'id');
+    }
+
+    public function doctor() {
+        return $this->hasOne(Doctor::class, 'user_id', 'id');
     }
 }

@@ -1,0 +1,97 @@
+<?php
+
+namespace App\Livewire\App\Doctor\Includes;
+
+use App\Actions\Doctor\UpdateDoctorAction;
+use App\DTOs\Doctor\UpdateDoctorDTO;
+use App\Enums\ActionResponseEnum;
+use App\Helpers\Helper;
+use Livewire\Component;
+use App\Http\Requests\Doctor\UpdateDoctorRequest;
+use App\Models\Doctor;
+use App\Traits\LivewireTraits\ActionResponseHandlerTrait;
+use Illuminate\Support\Facades\Hash;
+use Livewire\Attributes\Locked;
+use Livewire\Attributes\Validate;
+use Livewire\WithFileUploads;
+
+class UpdateDoctorModal extends Component
+{
+    use WithFileUploads;
+    use ActionResponseHandlerTrait;
+
+    public Doctor $doctor;
+
+    #[Locked]
+    public $clinics;
+
+    #[Validate]
+    public $username;
+    public $first_name;
+    public $last_name;
+    public $specialization;
+    public $clinic_id;
+    public $phone;
+    public $other_phone;
+    public $photo;
+
+    public $password;
+    public $password_confirmation;
+
+    public function mount(array $clinics, Doctor $doctor)
+    {
+        $this->clinics = $clinics;
+        $this->username = $doctor->user->username;
+        $this->first_name = $doctor->user->first_name;
+        $this->last_name = $doctor->user->last_name;
+        $this->specialization = $doctor->specialization;
+        $this->clinic_id = $doctor->clinic_id;
+        $this->phone = $doctor->user->phone;
+        $this->other_phone = $doctor->user->other_phone;
+    }
+
+    protected function rules(): array
+    {
+        return (new UpdateDoctorRequest($this->doctor, array_keys($this->clinics)))->rules();
+    }
+
+    public function updateDoctorAction()
+    {
+        $validatedData = $this->validate();
+        try
+        {
+            $doctor = Doctor::find($this->doctor->id);
+
+            $validatedData['old_password'] = $doctor->user->password;
+
+            $actionResponse = (new UpdateDoctorAction())->handle(
+                $doctor,
+                new UpdateDoctorDTO(...$validatedData)
+            );
+
+            flash()->{$actionResponse->success ? 'success' : 'error'}($this->matchStatus($actionResponse->status));
+
+            if (!$actionResponse->success) return;
+
+            $this->dispatch('updated');
+
+        } catch (\Exception $e) {
+            Helper::log($e);
+            flash()->error();
+        }
+    }
+
+    public function matchStatus($actionResponseStatus = null): string
+    {
+        return match ($actionResponseStatus) {
+            ActionResponseEnum::AUTHORIZE_ERROR => 'غير مسموح لك بتعديل الطبيب!!',
+            ActionResponseEnum::SUCCESS => 'تم تعديل الطبيب بنجاح',
+            default => 'حدث خطاء في عملية تعديل الطبيب، الرجاء المحاولة لاحقاً'
+        };
+    }
+
+    public function render()
+    {
+        return view('livewire.app.doctor.includes.update-doctor-modal');
+    }
+}

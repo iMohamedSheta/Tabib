@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,18 +21,20 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // @isRoute(route_name) Directive
-        Blade::directive('isRoute', function($expression) {
-            return "<?php if(Route::currentRouteName() === {$expression}): ?>";
-        });
-        // @endIsRoute()
-        Blade::directive('endIsRoute', function () {
-            return "<?php endif ?>";
-        });
+        $this->configureTelescope();
+        $this->configureCommands();
+    }
 
-        // @iteration($paginator)
-        Blade::directive('iteration', function ($paginator) {
-            return "<?php echo e(\$loop->iteration + ({$paginator}->currentPage() - 1) * {$paginator}->perPage()); ?>";
-        });
+    private function configureCommands(): void
+    {
+        DB::prohibitDestructiveCommands($this->app->environment('production'));
+    }
+
+    private function configureTelescope(): void
+    {
+        if ($this->app->environment('local')) {
+            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+            $this->app->register(TelescopeServiceProvider::class);
+        }
     }
 }

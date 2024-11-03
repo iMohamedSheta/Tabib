@@ -180,6 +180,7 @@ return [
     */
 
     'attributes' => [
+        'specialization'      => 'التخصص',
         'name'                  => 'الاسم',
         'username'              => 'اسم المُستخدم',
         'email'                 => 'البريد الالكتروني',
@@ -215,7 +216,8 @@ return [
         'type'                  => 'النوع',
         'link'                  => ' ',
         'slug'                  => ' ',
-        'policy'                => 'السياسات'
+        'policy'                => 'السياسات',
+        'clinic_id'             => 'العيادة',
     ],
 
 ];

@@ -8,26 +8,33 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link rel="stylesheet" href="{{ asset('assets/css/tailwind.output.css') }}" />
+    @vite('resources/css/app.css')
+    @vite('resources/js/app.js')
+    {{-- <link rel="stylesheet" href="{{ asset('assets/css/tailwind.output.css') }}" /> --}}
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="{{ asset('assets/css/fonts-family.css') }}" />
+    {{-- <link rel="stylesheet" href="{{ asset('assets/css/fonts-family.css') }}" /> --}}
 
     <script src="{{ asset('assets/js/init-alpine.js') }}"></script>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Changa:wght@200..800&family=El+Messiri:wght@400..700&display=swap" rel="stylesheet">
+
     <style>
         body {
-            font-family: 'Almarai', sans-serif;
-        }
+                font-family: "El Messiri", sans-serif;
+                font-optical-sizing: auto;
+                font-style: normal;
+            }
     </style>
-
+    @stack('styles')
     <!-- Styles -->
     @livewireStyles
 </head>
 
-<body dir="rtl" x-data="data()" :class="{ 'theme-dark': dark }" class="theme-dark">
-    <div class="flex h-screen bg-gray-50 dark:bg-gray-900" :class="{ 'overflow-hidden': isSideMenuOpen }">
+<body dir="rtl" x-data="data()" :class="{ 'dark': dark }" class="dark  overflow-hidden  ">
+    <div class="flex bg-gray-50 dark:bg-c-gray-900 ">
 
         {{-- DesktopSidebar --}}
         @include('layouts.app.sidebar')
@@ -36,29 +43,29 @@
         {{-- MobileSidebar --}}
         @include('layouts.app.sidebar_mobile')
         {{-- /MobileSidebar --}}
-        <div class="flex flex-col flex-1">
-
-            {{-- Header --}}
-            @include('layouts.app.header')
+        <div class="flex flex-col flex-1 h-screen overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800 min-h-[80vh] max-w-[100vw] ">
+        {{-- Header --}}
+        @include('layouts.app.header')
             {{-- /Header --}}
 
-            <main class="h-full pb-16 overflow-y-auto">
-                @yield('main')
 
-
-                <!-- Remove everything INSIDE this div to a really blank page -->
-                {{-- <div class="container py-6 mx-auto grid my-6 text-gray-700 dark:text-gray-200"> --}}
-                    {{-- <h2 class="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
-                        عنوان الصفحة
-                    </h2> --}}
-                {{-- </div> --}}
+            <main>
+                <div class="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800">
+                    @yield('main')
+                </div>
             </main>
+            <div class="block">
+                @include('layouts.app.footer')
+            </div>
         </div>
     </div>
 
     @stack('modals')
 
     @livewireScripts
+    @stack('scripts')
+    <script src="{{ asset('assets/js/sweetalert.all.js') }}"></script>
+    <script src="{{ asset('assets/helpers/sweetalertHelper.js') }}"></script>
 </body>
 
 </html>
