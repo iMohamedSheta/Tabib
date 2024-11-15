@@ -2,14 +2,13 @@
 
 namespace App\Http\Requests\Doctor;
 
-use App\Models\Doctor;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 
 class UpdateDoctorRequest extends FormRequest
 {
 
-    public function __construct(protected Doctor $doctor, protected array $clinics)
+    public function __construct(protected $doctor, protected array $clinics)
     {
         parent::__construct();
     }

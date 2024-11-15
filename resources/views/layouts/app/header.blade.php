@@ -1,4 +1,4 @@
-<header class="sticky top-0 z-10 py-4 m-4  flex  rounded-xl bg-purple-700 opacity-90 shadow-lg dark:bg-c-gray-800">
+<header class="sticky top-0 z-10 py-4 m-4  flex  rounded-xl bg-purple-700 opacity-90 shadow-lg dark:bg-c-gray-800 ">
     <div class="container contents  h-full px-6 mx-auto text-white dark:text-purple-300">
         <!-- Mobile hamburger -->
         <button class="p-1 -ml-1 mr-5 justify-start rounded-md md:hidden focus:outline-none focus:shadow-outline-purple"
@@ -10,32 +10,12 @@
             </svg>
         </button>
         <!-- Search input -->
-        <div class="flex justify-center flex-1 lg:ml-32">
+        <div  class="flex justify-start flex-1 lg:ml-32 px-10">
 
-            {{-- <div
-          class="relative w-full max-w-xl mr-6 focus-within:text-purple-500"
-        >
-          <div class="absolute inset-y-0 flex items-center pr-2">
-            <svg
-              class="w-4 h-4"
-              aria-hidden="true"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-                clip-rule="evenodd"
-              ></path>
-            </svg>
-          </div>
-          <input
-            class="w-full pr-8 pl-2 text-sm text-gray-700 placeholder-gray-600 bg-gray-100 border-0 rounded-md dark:placeholder-gray-500 dark:focus:shadow-outline-gray dark:focus:placeholder-gray-600 dark:bg-gray-700 dark:text-gray-200 focus:placeholder-gray-500 focus:bg-white focus:border-purple-300 focus:outline-none focus:shadow-outline-purple form-input"
-            type="text"
-            placeholder="Search for projects"
-            aria-label="Search"
-          />
-        </div> --}}
+            <button  class="  mx-2" x-on:click="toggleAppFullscreen()">
+                <i x-show="!isAppFullscreen" class="fas fa-compress"></i>
+                <i x-show="isAppFullscreen" class="fas fa-expand"></i>
+            </button>
         </div>
         <ul class="hidden md:flex items-center flex-shrink-0">
             <li class="relative mx-4 flex justify-center items-center">
@@ -76,7 +56,7 @@
                     </svg>
                     <!-- Notification badge -->
                     <span aria-hidden="true"
-                        class="absolute top-0 right-0 inline-block w-3 h-3 transform translate-x-1 -translate-y-1 bg-red-600 border-2 border-white rounded-full dark:border-gray-800"></span>
+                        class="absolute top-0 right-0 inline-block w-3 h-3 transform translate-x-1 -translate-y-1 bg-red-600 border-2 border-purple-700 rounded-full dark:border-gray-800"></span>
                 </button>
                 <template x-if="isNotificationsMenuOpen">
                     <ul x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100"

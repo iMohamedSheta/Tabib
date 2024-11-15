@@ -2,21 +2,18 @@
 
 namespace App\Actions\Doctor;
 
-use App\Collections\ActionResponseCollection;
 use App\Helpers\Helper;
 use App\Models\Doctor;
-use App\Traits\ActionTraits\ActionResponse;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
-use PhpParser\Comment\Doc;
+use App\Responses\ActionResponse;
+use App\Traits\ActionTraits\ActionResponseTrait;
 
 class DeleteDoctorAction
 {
-    use ActionResponse;
-    use AuthorizesRequests;
+    use ActionResponseTrait;
 
-    public function handle(Doctor $doctor): ActionResponseCollection
+    public function handle(Doctor $doctor): ActionResponse
     {
         try
         {

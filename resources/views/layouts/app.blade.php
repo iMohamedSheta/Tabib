@@ -50,7 +50,7 @@
 
 
             <main>
-                <div class="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800">
+                <div>
                     @yield('main')
                 </div>
             </main>

@@ -82,7 +82,7 @@
                         autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
                 </div>
 
-                <x-fileupload.profile-picture withError="photo" :defaultImage="$doctor->user->profile_photo_url"  wire:model="photo" ></x-fileupload.profile-picture>
+                <x-fileupload.profile-picture withError="photo" :defaultImage="$doctor->profile_photo_url"  wire:model="photo" ></x-fileupload.profile-picture>
 
                 <div class="my-4 w-full px-2">
                     <div class="flex items-center">

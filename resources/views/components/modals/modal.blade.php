@@ -1,6 +1,6 @@
-@props(['id' => null, 'maxWidth' => null])
+@props(['id' => null, 'maxWidth' => null, 'show' => 'show'])
 
-<x-modals.alpine-modal :id="$id" :maxWidth="$maxWidth" {{ $attributes }}>
+<x-modals.alpine-modal :id="$id" :show="$show" :maxWidth="$maxWidth" {{ $attributes }}>
     <div class="px-6 py-4">
         <div class="text-lg font-medium text-gray-900">
             {{ $title }}

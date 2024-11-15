@@ -23,7 +23,7 @@ enum UserRoleEnum : String
         return match ($role)
         {
             self::MANAGER->value => route('app.admin.dashboard'),
-            self::CLINIC_ADMIN->value => route('app.admin.dashboard'),
+            self::CLINIC_ADMIN->value => route('app.admin.clinic.index'),
             self::DOCTOR->value => route('app.admin.dashboard'),
         };
     }

@@ -23,7 +23,7 @@ class ClinicFactory extends Factory
         return [
             'billing_code' => random_int(100000, 999999),
             'name' => fake()->name(),
-            'type' => ClinicTypeEnum::NORMAL,
+            'type' => ClinicTypeEnum::DEFAULT,
             'status' => 'new',
             'plan_id' => $plan->id,
             'lease_started_at' => now(),

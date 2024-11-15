@@ -1,5 +1,5 @@
 <div x-data="addModal" x-on:added="show = false" >
-    <button class="btn-primary text-sm mx-2" @click="show = true">
+    <button class="btn-primary  mx-2" @click="show = true">
         <i class="fa-solid fa-pen-to-square px-1"></i>
         اضافة طبيب
     </button>
@@ -50,7 +50,7 @@
                                 <span class="text-red-600">*</span>
                             </label>
                             <x-select.select label="اختيار العيادة" withError="clinic_id"
-                            :items="$clinics" :items="$clinics" wire:model="clinic_id"
+                            :items="$clinics" wire:model="clinic_id"
                             class="mt-2 bg-gray-100 px-4 py-2 rounded text-sm text-gray-500 w-full break-all">
                             </x-select.select>
                         </div>

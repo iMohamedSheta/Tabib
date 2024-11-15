@@ -17,7 +17,7 @@ class User extends Authenticatable
     use HasApiTokens;
     use HasFactory;
     use HasProfilePhoto, HasCustomDefaultProfilePhoto {
-        HasCustomDefaultProfilePhoto::defaultProfilePhotoUrl insteadof HasProfilePhoto;
+        // HasCustomDefaultProfilePhoto::defaultProfilePhotoUrl insteadof HasProfilePhoto;
         HasCustomDefaultProfilePhoto::profilePhotoUrl insteadof HasProfilePhoto;
     }
     use Notifiable;
@@ -92,5 +92,20 @@ class User extends Authenticatable
 
     public function doctor() {
         return $this->hasOne(Doctor::class, 'user_id', 'id');
+    }
+
+    public function patient() {
+        return $this->hasOne(Patient::class, 'user_id', 'id');
+    }
+
+    public function scopeLikeIn($query, array $fields, $value)
+    {
+        $value = trim($value);
+
+        foreach ($fields as $index => $field) {
+            $query->{$index === 0 ? 'where' : 'orWhere'}($field, 'LIKE', "%$value%");
+        }
+
+        return $query;
     }
 }

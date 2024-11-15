@@ -4,7 +4,7 @@ namespace App\Livewire\App\Doctor\Includes;
 
 use App\Actions\Doctor\CreateDoctorAction;
 use App\DTOs\Doctor\CreateDoctorDTO;
-use App\Enums\ActionResponseEnum;
+use App\Enums\Actions\ActionResponseStatusEnum;
 use App\Helpers\Helper;
 use App\Http\Requests\Doctor\CreateDoctorRequest;
 use App\Traits\LivewireTraits\WithSteps;
@@ -66,8 +66,8 @@ class CreateDoctorModal extends Component
     public function matchStatus($actionResponseStatus): string
     {
         return match ($actionResponseStatus) {
-            ActionResponseEnum::AUTHORIZE_ERROR => 'غير مسموح لك باضافة طبيب!!',
-            ActionResponseEnum::SUCCESS => 'تم انشاء الطبيب بنجاح',
+            ActionResponseStatusEnum::AUTHORIZE_ERROR => 'غير مسموح لك باضافة طبيب!!',
+            ActionResponseStatusEnum::SUCCESS => 'تم انشاء الطبيب بنجاح',
             default => 'حدث خطاء في عملية انشاء الطبيب الرجاء المحاولة لاحقاً'
         };
     }

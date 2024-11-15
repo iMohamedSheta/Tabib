@@ -15,5 +15,18 @@ return [
                 // 'position' => 'center'
             ],
         ],
+        'flasher' => [
+            'scripts' => [
+                '/vendor/flasher/flasher.min.js',
+            ],
+            'styles' => [
+                '/assets/css/flasher/flasher.min.css',
+            ],
+            'options' => [
+                // Optional: Add global options here
+                'position' => 'top-right'
+            ],
+            'dark' => true
+        ],
     ],
 ];

@@ -2,22 +2,20 @@
 
 namespace {{ namespace }};
 
-use App\Collections\ActionResponseCollection;
-use App\Traits\ActionTraits\ActionResponse;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use App\Responses\ActionResponse;
+use App\Traits\ActionTraits\ActionResponseTrait;
 
 class {{ class }}
 {
-    use ActionResponse;
-    use AuthorizesRequests;
+    use ActionResponseTrait;
 
-    public function handle(): ActionResponseCollection
+    public function handle(): ActionResponse
     {
         //
     }
 
     private function isNotAuthorized(): bool
     {
-        return true;
+        return !Gate::allows('create', {{ class }});
     }
 }

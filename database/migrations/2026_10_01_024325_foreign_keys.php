@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::table('clinics', function(Blueprint $table) {
             $table->foreign('plan_id')->references('id')->on('plans')->cascadeOnDelete();
         });
-        #-----------------------------doctors--------------------------------#
+        #-----------------------------clinic_admin--------------------------------#
         Schema::table('clinic_admins', function(Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->foreign('clinic_id')->references('id')->on('clinics')->cascadeOnDelete();
@@ -23,6 +23,11 @@ return new class extends Migration
 
         #-----------------------------doctors--------------------------------#
         Schema::table('doctors', function(Blueprint $table) {
+            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
+            $table->foreign('clinic_id')->references('id')->on('clinics')->cascadeOnDelete();
+        });
+        #-----------------------------patients--------------------------------#
+        Schema::table('patients', function(Blueprint $table) {
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->foreign('clinic_id')->references('id')->on('clinics')->cascadeOnDelete();
         });
@@ -35,20 +40,22 @@ return new class extends Migration
     {
         #-----------------------------clinics--------------------------------#
         Schema::table('clinics', function(Blueprint $table){
-            // $table->dropForeign(['clinic_admin_id']);
             $table->dropForeign(['plan_id']);
         });
-
-        #-----------------------------clinics--------------------------------#
+        #-----------------------------clinic_admin--------------------------------#
         Schema::table('clinic_admins', function(Blueprint $table){
-            $table->dropForeign(['clinic_id']);
             $table->dropForeign(['user_id']);
+            $table->dropForeign(['clinic_id']);
         });
-
         #-----------------------------doctors--------------------------------#
         Schema::table('doctors', function(Blueprint $table){
-            $table->dropForeign(['clinic_id']);
             $table->dropForeign(['user_id']);
+            $table->dropForeign(['clinic_id']);
+        });
+        #-----------------------------patients--------------------------------#
+        Schema::table('patients', function(Blueprint $table){
+            $table->dropForeign(['user_id']);
+            $table->dropForeign(['clinic_id']);
         });
     }
 };

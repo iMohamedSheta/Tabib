@@ -2,20 +2,20 @@
 
 namespace App\Actions\Doctor;
 
-use App\Collections\ActionResponseCollection;
 use App\DTOs\Doctor\CreateDoctorDTO;
 use App\Helpers\Helper;
 use App\Models\Doctor;
 use App\Models\User;
-use App\Traits\ActionTraits\ActionResponse;
+use App\Responses\ActionResponse;
+use App\Traits\ActionTraits\ActionResponseTrait;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
 class CreateDoctorAction
 {
-    use ActionResponse;
+    use ActionResponseTrait;
 
-    public function handle(CreateDoctorDTO $dto): ActionResponseCollection
+    public function handle(CreateDoctorDTO $dto): ActionResponse
     {
         try
         {

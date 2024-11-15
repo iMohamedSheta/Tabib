@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth\Socialite;
 
 use App\Enums\User\Auth\OAuthProviderEnum;
+use App\Enums\User\UserRoleEnum;
 use App\Http\Controllers\Controller;
 use App\Models\ClinicAdmin;
 use App\Models\User;
@@ -75,7 +76,7 @@ class FacebookSocialiteController extends Controller
 
         Auth::login($user);
 
-        return to_route('app.admin.dashboard');
+        return redirect(UserRoleEnum::authRedirectRouteBasedOnType());
     }
 
     private function storeProfileImage($imageURL, $userId)

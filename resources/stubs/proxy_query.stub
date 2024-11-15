@@ -1,0 +1,27 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Support\Facades\DB;
+use App\Proxy\Query\QueryProxy;
+
+class {{ class }} extends QueryProxy
+{
+
+    protected function __construct()
+    {
+        parent::__construct(DB::table({{ class }}));
+    }
+
+    public function postProcessor(): void
+    {
+        //
+    }
+
+    public function globalScopes(): array
+    {
+        return [
+            //
+        ];
+    }
+}

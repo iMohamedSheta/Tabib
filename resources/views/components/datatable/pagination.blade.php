@@ -17,9 +17,10 @@
 
     <div class="flex justify-between p-4">
         <div class="relative">
+            @if ($paginator->total() > min($items))
             {{-- <li class="fa fa-caret-down absolute top-8 left-8"></li> --}}
             <select class ='block w-full text-sm dark:text-gray-500 focus:outline-none focus:shadow-outline-purple
-            border-gray-300 bg-gray-200 rounded-full shadow-md ring-0 ring-offset-0
+            border-gray-300 bg-purple-200 rounded-full shadow-md ring-0 ring-offset-0
             dark:focus:shadow-outline-gray form-input pr-8' wire:change="setPerPage($event.target.value)">
                 <option value="{{ $paginator->perPage() }}" selected>{{ $paginator->perPage() }}</option>
                 @foreach ($items as $item)
@@ -28,8 +29,7 @@
                     @endif
                 @endforeach
             </select>
-
-
+            @endif
         </div>
 
         @if ($paginator->hasPages())
@@ -58,7 +58,7 @@
                     @endif
 
                     <div class="hidden md:flex">
-                        @for ($i = 1; $i <= $paginator->lastPage(); $i++)
+                        @for ($i = 1; $i < $paginator->lastPage(); $i++)
                             @if ($i == 1 || $i == $paginator->lastPage() || ($i >= $paginator->currentPage() - 1 && $i <= $paginator->currentPage() + 1))
                                 <li>
                                     <button wire:click="setPageNumber({{ $i }})" class=" {{ $paginator->currentPage() === $i ? 'btn-primary' : 'btn-gray' }} text-xs mx-1 rounded">

@@ -4,7 +4,6 @@ namespace App\Enums\Clinic;
 
 enum ClinicTypeEnum : int
 {
-    case NORMAL = 1;        // عيادة عادية
     case DENTISTRY = 2;             // عيادات الأسنان
     case INTERNAL_MEDICINE = 3;     // عيادات الأمراض الباطنية
     case DERMATOLOGY = 4;           // عيادة الجلدية
@@ -16,12 +15,11 @@ enum ClinicTypeEnum : int
     case UROLOGY = 10;               // عيادة المسالك
     case OTHERS = 11;               // عيادة أخرى
 
-    const DEFAULT = self::NORMAL->value;
+    const DEFAULT = self::OTHERS->value;
 
 
     public static function getClinicTypeLabels(): array {
         return [
-            self::NORMAL->value => 'عيادة عادية',
             self::DENTISTRY->value => 'عيادات الأسنان',
             self::INTERNAL_MEDICINE->value => 'عيادات الأمراض الباطنية',
             self::DERMATOLOGY->value => 'عيادة الجلدية',
@@ -35,7 +33,7 @@ enum ClinicTypeEnum : int
         ];
     }
 
-    public static function matchClinicTypeLabels($clinicType): string
+    public static function matchClinicTypeLabel($clinicType): string
     {
         return self::getClinicTypeLabels()[$clinicType] ?? 'عيادة اخري';
     }

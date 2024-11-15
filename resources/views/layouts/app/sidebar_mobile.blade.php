@@ -8,7 +8,8 @@
     class="fixed inset-0 z-10 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center">
 </div>
 <aside
-    class="fixed m-4 pt-10 rounded-xl top-8 bottom-0 z-20 flex-shrink-0 w-64 mt-16 overflow-y-auto bg-white dark:bg-c-gray-800  md:hidden"
+    class="fixed m-4 pt-10 rounded-xl top-8 bottom-0 z-20 flex-shrink-0 w-64 mt-16 overflow-y-auto bg-white dark:bg-c-gray-800  md:hidden
+    scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800"
     x-show="isSideMenuOpen" x-transition:enter="transition ease-in-out duration-150"
     x-transition:enter-start="opacity-0 transform translate-x-20" x-transition:enter-end="opacity-100"
     x-transition:leave="transition ease-in-out duration-150" x-transition:leave-start="opacity-100"
@@ -37,16 +38,28 @@
                 <span class="mr-4">العيادات</span>
             </x-theme.sidebar-link>
 
-            <x-theme.sidebar-link href="{{ route('app.admin.doctor.index') }}" activeRoute="app.admin.doctor.index">
-                <i class="fa-solid fa-user-md fa-xl px-1"></i>
-                <span class="mr-4">
-                    الاطباء
-                </span>
-            </x-theme.sidebar-link>
-            <x-theme.sidebar-link href="{{ route('app.admin.clinic.index') }}" activeRoute="app.admin.clinic.index">
+                <x-theme.sidebar-link href="{{ route('app.admin.doctor.index') }}" activeRoute="app.admin.doctor.index">
+                    <i class="fa-solid fa-user-md fa-xl px-1"></i>
+                    <span class="mr-4">
+                        الاطباء
+                    </span>
+                </x-theme.sidebar-link>
+            <x-theme.sidebar-link href="{{ route('app.admin.patient.index') }}" activeRoute="app.admin.patient.index">
                     <i class="fa-solid fa-bed-pulse fa-xl px-1"></i>
                     <span class="mr-4">
                         المرضي
+                    </span>
+            </x-theme.sidebar-link>
+            <x-theme.sidebar-link href="{{ route('app.admin.calendar.index') }}" activeRoute="app.admin.calendar.index">
+                <i class="fa-solid fa-calendar fa-xl px-1"></i>
+                <span class="mr-4">
+                    المواعيد والحجوزات
+                </span>
+        </x-theme.sidebar-link>
+            <x-theme.sidebar-link href="{{ route('app.admin.queue.index') }}" activeRoute="app.admin.clinic.index">
+                    <i class="fa-solid fa-microphone-lines fa-xl px-1"></i>
+                    <span class="mr-4">
+                        طوابير الكشوفات - Queue
                     </span>
             </x-theme.sidebar-link>
             <x-theme.sidebar-link href="{{ route('app.admin.clinic.index') }}" activeRoute="app.admin.clinic.index">
@@ -57,15 +70,9 @@
             </x-theme.sidebar-link>
 
             <x-theme.sidebar-link href="{{ route('app.admin.clinic.index') }}" activeRoute="app.admin.clinic.index">
-                    <i class="fa-solid fa-calendar fa-xl px-1"></i>
-                    <span class="mr-4">
-                        المواعيد والحجوزات
-                    </span>
-            </x-theme.sidebar-link>
-            <x-theme.sidebar-link href="{{ route('app.admin.clinic.index') }}" activeRoute="app.admin.clinic.index">
                     <i class="fa-solid fa-newspaper fa-xl px-1"></i>
                     <span class="mr-4">
-                        السجلات الطبية الإلكترونية
+                        السجلات الطبية EMR
                     </span>
             </x-theme.sidebar-link>
             <x-theme.sidebar-link href="{{ route('app.admin.clinic.index') }}" activeRoute="app.admin.clinic.index">
@@ -87,11 +94,38 @@
                     </span>
             </x-theme.sidebar-link>
             <x-theme.sidebar-link href="{{ route('app.admin.clinic.index') }}" activeRoute="app.admin.clinic.index">
-                <i class="fa-solid fa-store fa-xl px-1"></i>
-                <span class="mr-4">
-                    المتجر
-                </span>
-        </x-theme.sidebar-link>
+                    <i class="fa-solid fa-store fa-xl px-1"></i>
+                    <span class="mr-4">
+                        المتجر
+                    </span>
+            </x-theme.sidebar-link>
+            <x-theme.sidebar-link href="{{ route('app.admin.clinic.index') }}" activeRoute="app.admin.clinic.index">
+                    <i class="fa-solid fa-store fa-xl px-1"></i>
+                    <span class="mr-4">
+                        الادوية الطبية
+                        {{-- الادوية النشطة ومشاركة في حالة وجود بدائل ارخص للدواء تقديم معلومات عن الوصفات أو الأدوية المتدرجة، --}}
+                    </span>
+            </x-theme.sidebar-link>
+
+            <x-theme.sidebar-link href="{{ route('app.admin.clinic.index') }}" activeRoute="app.admin.clinic.index">
+                    <i class="fa-solid fa-store fa-xl px-1"></i>
+                    <span class="mr-4">
+                        التأمين الطبي
+                    </span>
+            </x-theme.sidebar-link>
+
+            <x-theme.sidebar-link href="{{ route('app.admin.clinic.index') }}" activeRoute="app.admin.clinic.index">
+                    <i class="fa-solid fa-store fa-xl px-1"></i>
+                    <span class="mr-4">
+                        نظام دعم القرار
+                    </span>
+            </x-theme.sidebar-link>
+            <x-theme.sidebar-link href="{{ route('app.admin.clinic.index') }}" activeRoute="app.admin.clinic.index">
+                    <i class="fa-solid fa-store fa-xl px-1"></i>
+                    <span class="mr-4">
+                        الصيدلية
+                    </span>
+            </x-theme.sidebar-link>
             <x-theme.sidebar-link href="{{ route('app.admin.clinic.index') }}" activeRoute="app.admin.clinic.index">
                     <i class="fa-solid fa-bell fa-xl px-1"></i>
                     <span class="mr-4">
@@ -105,21 +139,6 @@
                 <x-slot:icon>
                     <i class="fa-solid fa-cogs fa-xl px-1"></i>
                 </x-slot:icon>
-                <x-theme.sidebar-link href="{{ route('app.admin.dashboard') }}" activeRoute="app.admin.dashboard">
-                    <i class="fa-solid fa-archway fa-xl px-1"></i>
-                    <span class="mr-4">الرئيسية</span>
-                </x-theme.sidebar-link>
-
-                <x-theme.sidebar-link href="{{ route('app.admin.clinic.index') }}" activeRoute="app.admin.clinic.index">
-                        <i class="fa-solid fa-house-chimney-medical fa-xl px-1"></i>
-                        <span class="mr-4">العيادات</span>
-                </x-theme.sidebar-link>
-            </x-theme.sidebar-dropdown-link>
-            <x-theme.sidebar-dropdown-link title="الصفحات" activeRoutes="app.admin.dashboard, app.admin.clinic.index">
-                <x-slot:icon>
-                    <i class="fa-solid fa-archway fa-xl px-1"></i>
-                </x-slot:icon>
-
                 <x-theme.sidebar-link href="{{ route('app.admin.dashboard') }}" activeRoute="app.admin.dashboard">
                     <i class="fa-solid fa-archway fa-xl px-1"></i>
                     <span class="mr-4">الرئيسية</span>

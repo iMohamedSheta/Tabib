@@ -54,7 +54,18 @@ function data() {
       this.isModalOpen = false
       this.trapCleanup()
     },
-  }
+    isAppFullscreen: JSON.parse(sessionStorage.getItem('isAppFullscreen')) || false,
+    toggleAppFullscreen() {
+        this.isAppFullscreen = !this.isAppFullscreen;
+        sessionStorage.setItem('isAppFullscreen', JSON.stringify(this.isAppFullscreen));
+
+        if (this.isAppFullscreen) {
+            document.documentElement.requestFullscreen();
+        } else {
+            document.exitFullscreen();
+        }
+    },
+}
 }
 
 function dataSidebarDropDownMenu() {

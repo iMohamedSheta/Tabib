@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('billing_code')->index()->unique();
             $table->string('name');
-            $table->unsignedInteger('type')->default(ClinicTypeEnum::NORMAL);
+            $table->unsignedInteger('type')->default(ClinicTypeEnum::DEFAULT);
             $table->string('status')->default('new');
             $table->unsignedBigInteger('plan_id');
             $table->string('location')->nullable();

@@ -4,13 +4,12 @@ namespace App\Livewire\App\Doctor\Includes;
 
 use App\Actions\Doctor\UpdateDoctorAction;
 use App\DTOs\Doctor\UpdateDoctorDTO;
-use App\Enums\ActionResponseEnum;
+use App\Enums\Actions\ActionResponseStatusEnum;
 use App\Helpers\Helper;
 use Livewire\Component;
 use App\Http\Requests\Doctor\UpdateDoctorRequest;
 use App\Models\Doctor;
 use App\Traits\LivewireTraits\ActionResponseHandlerTrait;
-use Illuminate\Support\Facades\Hash;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Validate;
 use Livewire\WithFileUploads;
@@ -20,7 +19,8 @@ class UpdateDoctorModal extends Component
     use WithFileUploads;
     use ActionResponseHandlerTrait;
 
-    public Doctor $doctor;
+    #[Locked]
+    public $doctor;
 
     #[Locked]
     public $clinics;
@@ -38,16 +38,16 @@ class UpdateDoctorModal extends Component
     public $password;
     public $password_confirmation;
 
-    public function mount(array $clinics, Doctor $doctor)
+    public function mount($doctor, array $clinics)
     {
         $this->clinics = $clinics;
-        $this->username = $doctor->user->username;
-        $this->first_name = $doctor->user->first_name;
-        $this->last_name = $doctor->user->last_name;
+        $this->username = $doctor->username;
+        $this->first_name = $doctor->first_name;
+        $this->last_name = $doctor->last_name;
         $this->specialization = $doctor->specialization;
         $this->clinic_id = $doctor->clinic_id;
-        $this->phone = $doctor->user->phone;
-        $this->other_phone = $doctor->user->other_phone;
+        $this->phone = $doctor->phone;
+        $this->other_phone = $doctor->other_phone;
     }
 
     protected function rules(): array
@@ -76,7 +76,7 @@ class UpdateDoctorModal extends Component
             $this->dispatch('updated');
 
         } catch (\Exception $e) {
-            Helper::log($e);
+            log_error($e);
             flash()->error();
         }
     }
@@ -84,8 +84,8 @@ class UpdateDoctorModal extends Component
     public function matchStatus($actionResponseStatus = null): string
     {
         return match ($actionResponseStatus) {
-            ActionResponseEnum::AUTHORIZE_ERROR => 'غير مسموح لك بتعديل الطبيب!!',
-            ActionResponseEnum::SUCCESS => 'تم تعديل الطبيب بنجاح',
+            ActionResponseStatusEnum::AUTHORIZE_ERROR => 'غير مسموح لك بتعديل الطبيب!!',
+            ActionResponseStatusEnum::SUCCESS => 'تم تعديل الطبيب بنجاح',
             default => 'حدث خطاء في عملية تعديل الطبيب، الرجاء المحاولة لاحقاً'
         };
     }

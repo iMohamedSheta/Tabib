@@ -37,5 +37,9 @@ class BladeServiceProvider extends ServiceProvider
         Blade::directive('iteration', function ($paginator) {
             return "<?php echo e(\$loop->iteration + ({$paginator}->currentPage() - 1) * {$paginator}->perPage()); ?>";
         });
+
+        Blade::directive('laravelPWA', function($expression) {
+            return "<?php \$config = (new \App\Services\PWA\ManifestService)->generate(); echo \$__env->make( 'vendor.laravelpwa.meta' , ['config' => \$config])->render(); ?>";
+        });
     }
 }

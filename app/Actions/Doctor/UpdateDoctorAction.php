@@ -2,19 +2,19 @@
 
 namespace App\Actions\Doctor;
 
-use App\Collections\ActionResponseCollection;
 use App\DTOs\Doctor\UpdateDoctorDTO;
 use App\Helpers\Helper;
 use App\Models\Doctor;
-use App\Traits\ActionTraits\ActionResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use App\Responses\ActionResponse;
+use App\Traits\ActionTraits\ActionResponseTrait;
 
 class UpdateDoctorAction
 {
-    use ActionResponse;
+    use ActionResponseTrait;
 
-    public function handle(Doctor $doctor, UpdateDoctorDTO $dto): ActionResponseCollection
+    public function handle(Doctor $doctor, UpdateDoctorDTO $dto): ActionResponse
     {
         try
         {

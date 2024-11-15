@@ -3,25 +3,24 @@
 namespace App\Livewire\App\Doctor;
 
 use App\Actions\Doctor\DeleteDoctorAction;
-use App\Enums\ActionResponseEnum;
-use App\Helpers\Helper;
+use App\Enums\Actions\ActionResponseStatusEnum;
 use App\Models\Clinic;
 use App\Models\Doctor;
+use App\Proxy\Query\DoctorQueryProxy;
 use App\Traits\Pagination\WithCustomPagination;
 use Livewire\Attributes\On;
 use Livewire\Component;
+
 #[On(['added', 'updated', 'deleted'])]
 class DoctorTable extends Component
 {
     use WithCustomPagination;
 
-    public bool $displayingToken = false;
-
     public function getDoctors()
     {
-        return Doctor::with('user', 'clinic:id,name')
-                ->latest()
-                ->paginate(perPage: $this->perPage, page: $this->page);
+        return DoctorQueryProxy::getDoctors()
+            ->latest('doctors.created_at')
+            ->paginate($this->perPage, $this->page);
     }
 
     public function getClinics()
@@ -44,7 +43,7 @@ class DoctorTable extends Component
             $this->dispatch('deleted');
         }
         catch (\Exception $e) {
-            Helper::log($e);
+            log_error($e);
             flash()->error($this->matchStatus());
         }
     }
@@ -52,8 +51,8 @@ class DoctorTable extends Component
     public function matchStatus($actionResponseStatus = null): string
     {
         return match ($actionResponseStatus) {
-            ActionResponseEnum::AUTHORIZE_ERROR => 'غير مسموح لك بحذف الطبيب!!',
-            ActionResponseEnum::SUCCESS => 'تم حذف الطبيب بنجاح',
+            ActionResponseStatusEnum::AUTHORIZE_ERROR => 'غير مسموح لك بحذف الطبيب!!',
+            ActionResponseStatusEnum::SUCCESS => 'تم حذف الطبيب بنجاح',
             default => 'حدث خطاء في عملية حذف الطبيب، الرجاء المحاولة لاحقاً'
         };
     }

@@ -32,6 +32,20 @@
                     </x-button>
             </form>
         </div>
+        <div class="my-8 border-t-2 h-1 border-gray-700" > </div>
+        <x-form.link href="{{ route('socialite.google.redirect') }}">
+            <i class="fa-brands fa-google"></i>
+            <span class="px-2">
+                التسجيل عن طريق بريد جوجل
+            </span>
+        </x-form.link>
+
+        <x-form.link href="{{ route('socialite.facebook.redirect') }}" class="mt-4">
+            <i class="fa-brands fa-facebook"></i>
+            <span class="px-2">
+                التسجيل عن طريق الفيس بوك
+            </span>
+        </x-form.link>
     </div>
     </div>
     </div>

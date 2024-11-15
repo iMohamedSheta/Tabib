@@ -10,11 +10,11 @@
     aria-hidden="true"
     ></span>
     @endIsRoute
-    <a class="inline-flex items-center px-6 py-4 dark:text-gray-400 text-gray-200 hover:bg-purple-500 hover:text-white  w-full text-sm font-semibold transition-colors duration-150
+    <button wire:navigate  wire:loading.attr="disabled"  class="inline-flex items-center px-6 py-4 dark:text-gray-400 text-purple-200 hover:bg-purple-500 hover:text-white  w-full text-sm font-semibold transition-colors duration-150
         {{ $attributes->get('class') }}"
         {{ $attributes->except('class') }}>
         {{ $slot }}
-    </a>
+    </button>
 </li>
 
 
