@@ -7,6 +7,7 @@ use App\Enums\User\UserRoleEnum;
 use App\Http\Controllers\Controller;
 use App\Models\ClinicAdmin;
 use App\Models\User;
+use App\Traits\Socialite\SocialiteResponseTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -14,6 +15,9 @@ use Laravel\Socialite\Facades\Socialite;
 
 class FacebookSocialiteController extends Controller
 {
+
+    use SocialiteResponseTrait;
+
     public function redirect()
     {
         return Socialite::driver('facebook')->redirect();
@@ -76,7 +80,7 @@ class FacebookSocialiteController extends Controller
 
         Auth::login($user);
 
-        return redirect(UserRoleEnum::authRedirectRouteBasedOnType());
+        return $this->socialiteLoginSuccess();
     }
 
     private function storeProfileImage($imageURL, $userId)

@@ -67,6 +67,8 @@ class AddEventModal extends Component
     public function getSearchResults()
     {
         return DB::table('users')
+            ->join('patients', 'users.id', '=', 'patients.user_id')
+            ->where('clinic_id', auth()->user()->clinic_id)
             ->where('role', Patient::class)
             ->where(function ($query) {
                 $query->likeIn(['first_name', 'last_name', 'phone', 'other_phone'], $this->search);

@@ -2,14 +2,21 @@
 
 namespace App\Macros;
 
+use App\Contracts\MacroInterface;
+use App\Models\Patient;
 use Illuminate\Database\Query\Builder;
 
-class QueryBuilderMacro
+class QueryBuilderMacro implements MacroInterface
 {
 
-    public static function register()
+    public static function boot(): void
     {
         self::registerLikeIn();
+    }
+
+    public static function register(): void
+    {
+        //
     }
 
     public static function registerLikeIn()
@@ -24,5 +31,15 @@ class QueryBuilderMacro
             return $this;
         });
     }
+
+    public static function registerPatient()
+    {
+        Builder::macro('patient', function () {
+            $this->where('role', Patient::class);
+            return $this;
+        });
+    }
+
+
 
 }

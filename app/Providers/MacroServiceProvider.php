@@ -12,7 +12,7 @@ class MacroServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        QueryBuilderMacro::register();
     }
 
     /**
@@ -20,6 +20,6 @@ class MacroServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        QueryBuilderMacro::register();
+        QueryBuilderMacro::boot();
     }
 }

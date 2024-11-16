@@ -56,12 +56,28 @@
                             </span>
                         </x-form.link>
 
-                        <x-form.link href="{{ route('socialite.facebook.redirect') }}" class="mt-4">
+                        <x-form.link href="javascript:void(0)" onclick="openFacebookLogin()" class="mt-4">
                             <i class="fa-brands fa-facebook"></i>
-                            <span class="px-2">
-                                التسجيل عن طريق الفيس بوك
-                            </span>
+                            <span class="px-2">التسجيل عن طريق الفيس بوك</span>
                         </x-form.link>
+
+                        @push('scripts')
+                        <script>
+                            function openFacebookLogin() {
+                                const loginWindow = window.open(
+                                    "{{ route('socialite.facebook.redirect') }}",
+                                    'facebook-login',
+                                    'width=600,height=400'
+                                );
+
+                                window.addEventListener('message', (event) => {
+                                    if (event.data === 'socialite-login-success') {
+                                        location.reload();
+                                    }
+                                });
+                            }
+                        </script>
+                        @endpush
 
                     </div>
                 </div>

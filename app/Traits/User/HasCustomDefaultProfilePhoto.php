@@ -1,11 +1,9 @@
 <?php
 
-namespace App\Traits;
+namespace App\Traits\User;
 
 use App\Services\User\GetProfilePhotoUrlService;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Support\Facades\Storage;
-
 
 trait HasCustomDefaultProfilePhoto
 {
