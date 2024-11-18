@@ -21,7 +21,7 @@
             <li class="relative mx-4 flex justify-center items-center">
                 <span class="text-white  text-sm dark:bg-gray-800 bg-purple-600 p-3 rounded-full shadow-lg">
                     كود التحصيل :
-                    {{ auth()->user()->clinicAdmin->clinic->billing_code }}
+                    {{ auth()->user()->organization->billing_code }}
                 </span>
             </li>
         </ul>

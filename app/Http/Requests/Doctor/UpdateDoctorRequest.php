@@ -19,7 +19,7 @@ class UpdateDoctorRequest extends FormRequest
             'username' => ['required', 'string', 'regex:/^[a-z0-9_-]{3,15}$/', 'unique:users,username,'. $this->doctor->user_id],
             'password' => ['nullable', 'string'],
             'specialization' => ['required', 'string'],
-            'clinic_id' => ['required', 'in:'. implode(',', $this->clinics)],
+            // 'clinic_id' => ['required', 'in:'. implode(',', $this->clinics)],
             'first_name' => ['required', 'string'],
             'last_name' => ['required', 'string'],
             'phone' => ['required', 'string', 'regex:/^01[0125][0-9]{8}$/'],

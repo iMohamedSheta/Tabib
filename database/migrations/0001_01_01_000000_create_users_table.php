@@ -14,6 +14,8 @@ return new class extends Migration
         // Only User Authentication Information
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('organization_id')->index()->nullable();
+
             $table->string('first_name');
             $table->string('last_name');
             $table->string('username')->unique()->nullable();

@@ -74,6 +74,11 @@ class User extends Authenticatable
         return $this->role == Doctor::class;
     }
 
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class, 'organization_id', 'id');
+    }
+
     public function user()
     {
         switch ($this->role) {

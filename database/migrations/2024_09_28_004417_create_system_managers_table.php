@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('managers', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('organization_id')->index()->nullable();
+
             $table->string('type')->default('manager'); // super_manager, manager
             $table->timestamps();
         });

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Proxy\Query;
+namespace App\Proxy\Query\Complicated\base;
 
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Support\Facades\Cache;

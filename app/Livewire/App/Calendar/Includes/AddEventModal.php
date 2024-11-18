@@ -8,6 +8,7 @@ use App\Models\Calendar;
 use App\Models\Patient;
 use App\Models\User;
 use App\Services\User\GetProfilePhotoUrlService;
+use App\Traits\LivewireTraits\withProfilePhotoTrait;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
@@ -16,6 +17,7 @@ use Livewire\Component;
 class AddEventModal extends Component
 {
 
+    use withProfilePhotoTrait;
     /*
     |------------------------------------------
     |  EventObject:
@@ -67,11 +69,11 @@ class AddEventModal extends Component
     public function getSearchResults()
     {
         return DB::table('users')
+            ->sameOrganization()
+            ->isPatient()
             ->join('patients', 'users.id', '=', 'patients.user_id')
-            ->where('clinic_id', auth()->user()->clinic_id)
-            ->where('role', Patient::class)
             ->where(function ($query) {
-                $query->likeIn(['first_name', 'last_name', 'phone', 'other_phone'], $this->search);
+                $query->likeIn(['users.first_name', 'users.last_name', 'users.phone', 'users.other_phone'], $this->search);
             })
             ->take(5)
             ->get();
@@ -130,11 +132,5 @@ class AddEventModal extends Component
         $this->start = Carbon::now()->format('Y/m/d');
         $this->end = null;
         $this->allDay = true;
-    }
-
-    #[Computed]
-    public function getUserProfilePhotoUrl($profile_photo_path, $username, $first_name)
-    {
-        return GetProfilePhotoUrlService::handle($profile_photo_path, $username, $first_name);
     }
 }

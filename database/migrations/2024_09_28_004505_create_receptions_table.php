@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('receptions', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('organization_id')->index()->nullable();
+
             $table->string('phone')->nullable();
             $table->string('other_phone')->nullable();
             $table->timestamps();

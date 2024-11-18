@@ -6,26 +6,39 @@ use App\Actions\Doctor\DeleteDoctorAction;
 use App\Enums\Actions\ActionResponseStatusEnum;
 use App\Models\Clinic;
 use App\Models\Doctor;
-use App\Proxy\Query\DoctorQueryProxy;
+use App\Proxy\Query\DoctorsQueryProxy;
+use App\Services\User\GetProfilePhotoUrlService;
+use App\Traits\LivewireTraits\withProfilePhotoTrait;
 use App\Traits\Pagination\WithCustomPagination;
+use App\Transformers\UserTransformer;
+use Illuminate\Support\Facades\DB;
+use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
+
+use function Laravel\Prompts\select;
 
 #[On(['added', 'updated', 'deleted'])]
 class DoctorTable extends Component
 {
     use WithCustomPagination;
+    use withProfilePhotoTrait;
 
     public function getDoctors()
     {
-        return DoctorQueryProxy::getDoctors()
-            ->latest('doctors.created_at')
-            ->paginate($this->perPage, $this->page);
+        $dataCollection = (new DoctorsQueryProxy)
+                ->getOrganizationDoctors()
+                ->paginate(perPage: $this->perPage, page: $this->page);
+
+
+        UserTransformer::transformCollection($dataCollection, ['fullname', 'profile_photo_url']);
+
+        return $dataCollection;
     }
 
-    public function getClinics()
+    public function getClinics(): array
     {
-        return Clinic::pluck('name', 'id')->toArray();
+        return Clinic::getClinicsList();
     }
 
     public function deleteDoctorAction($id)

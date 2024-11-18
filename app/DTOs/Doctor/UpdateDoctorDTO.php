@@ -11,7 +11,6 @@ class UpdateDoctorDTO
         public string $username,
         public string $old_password,
         public string $specialization,
-        public string $clinic_id,
         public string $first_name,
         public string $last_name,
         public string $phone,
@@ -37,7 +36,6 @@ class UpdateDoctorDTO
     {
         return [
             'specialization' => $this->specialization,
-            'clinic_id' => $this->clinic_id
         ];
     }
 }

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Proxy\Query;
+namespace App\Proxy\Query\Complicated;
 
-use App\Proxy\Query\QueryProxy;
+use App\Proxy\Query\Complicated\base\QueryProxy as BaseQueryProxy;
 use Illuminate\Support\Facades\DB;
 
-class PatientQueryProxy extends QueryProxy
+class PatientQueryProxy extends BaseQueryProxy
 {
 
     protected function __construct()

@@ -2,25 +2,54 @@
 
 namespace App\Actions\Clinic;
 
+use App\DTOs\Auth\RegisterUserDTO;
 use App\Enums\User\UserRoleEnum;
+use App\Generators\ClinicCodeGenerator;
+use App\Generators\OrganizationBillingCodeGenerator;
 use App\Models\Clinic;
 use App\Models\ClinicAdmin;
+use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CreateClinicAction
 {
-
-    public function handle(User $user,array $clinicData)
+    public function handle(RegisterUserDTO $userDTO, array $clinicData)
     {
         try
         {
             DB::beginTransaction();
 
-            $clinic = $this->createClinic($clinicData);
+            // Generate unique billing code
+            $code = OrganizationBillingCodeGenerator::generate();
 
-            $this->createClinicAdmin($clinic, $user->id);
+            // Create Organization
+            $organization = Organization::create([
+                'name' => $clinicData['name'],
+                'billing_code' => $code
+            ]);
+
+            // Create Clinic under Organization
+            $organization->clinics()->create([
+                'code' => $code,
+                'name' => $clinicData['name'],
+                'type' => $clinicData['type'],
+                'plan_id' => 1,
+                'lease_expired_at' => now()->addMonth(),
+                'lease_started_at' => now(),
+            ]);
+
+            // Create User and associate with the organization
+            $user = User::create(array_merge($userDTO->userData(), [
+                'organization_id' => $organization->id
+            ]));
+
+            // Create ClinicAdmin for the user
+            $user->clinicAdmin()->create([
+                'organization_id' => $organization->id,
+                'type' => ClinicAdmin::TYPE_SUPER_ADMIN
+            ]);
 
             DB::commit();
 
@@ -33,31 +62,5 @@ class CreateClinicAction
 
             dd($e);
         }
-    }
-
-    private function createClinicAdmin($clinic, $userId)
-    {
-        return ClinicAdmin::create([
-            'user_id' => $userId,
-            'clinic_id' => $clinic->id,
-            'type' => ClinicAdmin::TYPE_SUPER_ADMIN,
-        ]);
-    }
-
-    private function createClinic(array $clinicData)
-    {
-        return Clinic::create([
-            'billing_code' => $this->generateBillingCode(),
-            'name'=> $clinicData['name'],
-            'type' => $clinicData['type'],
-            'plan_id' => 1,
-            'lease_expired_at' => now()->addMonth(),
-            'lease_started_at' => now(),
-        ]);
-    }
-
-    private function generateBillingCode()
-    {
-        return random_int(100000, 999999);
     }
 }

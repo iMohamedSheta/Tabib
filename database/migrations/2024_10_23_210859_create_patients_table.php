@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('patients', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('organization_id')->index()->nullable();
+
             $table->unsignedBigInteger('user_id')->index();
             $table->unsignedBigInteger('clinic_id')->index();
             $table->unsignedTinyInteger('age');

@@ -100,7 +100,7 @@
                         <div class="text-center mt-2">
                             <h3 class="text-2xl text-slate-700 font-bold leading-normal mb-1">{{ $doctor->fullname }}</h3>
                             <div class="text-xs mt-0 mb-2 text-slate-400 font-bold uppercase">
-                                <i class="fas fa-map-marker-alt mr-2 text-slate-400 opacity-75 px-1 pb-2"></i>{{ $doctor->clinic_name }}
+                                <i class="fas fa-map-marker-alt mr-2 text-slate-400 opacity-75 px-1 pb-2"></i>{{ $doctor->organization_name }}
                                 <p class="font-light leading-relaxed text-slate-600 mb-4">{{ $doctor->specialization }}</p>
                             </div>
                         </div>

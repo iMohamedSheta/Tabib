@@ -2,17 +2,16 @@
 
 namespace App\Actions\Auth;
 
+use App\Enums\User\UserRoleEnum;
+use App\Models\Clinic;
+use App\Models\ClinicAdmin;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class RegisterAction
 {
-    /**
-     * Create a new action instance.
-     *
-     * @param User $user
-     * @param array $clinicData The required fields are:
-     *  - 'name' (string): The name of the clinic.
-     *  - 'type' (string): The type of clinic.
-     */
+
     public function handle(User $user,array $clinicData)
     {
         try
@@ -27,7 +26,7 @@ class RegisterAction
 
             Auth::login($user);
 
-            redirect()->route('dashboard');
+            redirect(UserRoleEnum::authRedirectRouteBasedOnType());
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -41,7 +40,7 @@ class RegisterAction
         return ClinicAdmin::create([
             'user_id' => $userId,
             'clinic_id' => $clinic->id,
-            'type' => ClinicAdmin::TYPE_SUPER_ADMIN
+            'type' => ClinicAdmin::TYPE_SUPER_ADMIN,
         ]);
     }
 

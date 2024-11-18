@@ -65,7 +65,7 @@
                                 {{ ClinicTypeEnum::matchClinicTypeLabel($clinic->type) }}
                             </td>
                             <td class="px-4 py-3">
-                                {{ $clinic->billing_code }}
+                                {{ $clinic->code }}
                             </td>
                             <td class="px-4 py-3">
                                 {{ $clinic->plan_name }}

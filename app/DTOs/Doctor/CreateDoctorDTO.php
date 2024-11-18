@@ -3,20 +3,25 @@
 namespace App\DTOs\Doctor;
 
 use App\Models\Doctor;
+use Illuminate\Support\Facades\Auth;
 
 class CreateDoctorDTO
 {
+    public $organization_id;
+
     public function __construct(
         public string $username,
         public string $password,
         public string $specialization,
-        public string $clinic_id,
         public string $first_name,
         public string $last_name,
         public string $phone,
         public ?string $other_phone,
-        public  $photo
-    ){}
+        public  $photo,
+
+    ){
+        $this->organization_id = Auth::user()->organization_id;
+    }
 
     public function userData(): array
     {
@@ -27,7 +32,8 @@ class CreateDoctorDTO
             'last_name' => $this->last_name,
             'phone' => $this->phone,
             'other_phone' => $this->other_phone,
-            'role' => Doctor::class
+            'role' => Doctor::class,
+            'organization_id' => $this->organization_id
         ];
     }
 
@@ -35,7 +41,7 @@ class CreateDoctorDTO
     {
         return [
             'specialization' => $this->specialization,
-            'clinic_id' => $this->clinic_id
+            'organization_id' => $this->organization_id
         ];
     }
 }

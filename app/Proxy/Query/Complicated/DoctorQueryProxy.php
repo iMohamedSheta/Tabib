@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Proxy\Query;
+namespace App\Proxy\Query\Complicated;
 
-use App\Proxy\Query\Scopes\ClinicIdScope;
+use App\Proxy\Query\Complicated\base\QueryProxy;
+use App\Proxy\Query\Complicated\Scopes\OrganizationScope;
 use App\Services\User\GetProfilePhotoUrlService;
 use Illuminate\Support\Facades\DB;
 
@@ -19,20 +20,19 @@ class DoctorQueryProxy extends QueryProxy
         return $this;
     }
 
-    public function clinics()
+    public function organizations()
     {
-        $this->query->join('clinics', 'doctors.clinic_id', '=', 'clinics.id');
+        $this->query->join('organizations', 'doctors.organization_id', '=', 'organizations.id');
         return $this;
     }
 
     public static function getDoctors(
-        array $relations = ['users', 'clinics'],
+        array $relations = ['users', 'organizations'],
         array $select =
         [
             'doctors.id',
             'doctors.specialization',
             'doctors.user_id',
-            'doctors.clinic_id',
             'doctors.biography',
             'doctors.created_at',
             'users.id as user_id',
@@ -48,8 +48,8 @@ class DoctorQueryProxy extends QueryProxy
             'users.profile_photo_path',
             'users.phone',
             'users.other_phone',
-            'clinics.id as clinic_id',
-            'clinics.name as clinic_name'
+            'organizations.id as organization_id',
+            'organizations.name as organization_name',
         ],
         bool $allowCache = false,
         int $cacheTTL = null,
@@ -64,9 +64,10 @@ class DoctorQueryProxy extends QueryProxy
     }
 
 
+
     public function postProcessor(): void
     {
-        $this->data->each(function ($doctor) {
+        $this->data->getCollection()->transform(function($doctor) {
             $doctor->fullname = $doctor->first_name . ' ' . $doctor->last_name;
             $doctor->profile_photo_url = GetProfilePhotoUrlService::handle($doctor->profile_photo_path, $doctor->username, $doctor->first_name);
         });
@@ -75,7 +76,7 @@ class DoctorQueryProxy extends QueryProxy
     public function globalScopes(): array
     {
         return [
-            ClinicIdScope::class
+            OrganizationScope::class
         ];
     }
 

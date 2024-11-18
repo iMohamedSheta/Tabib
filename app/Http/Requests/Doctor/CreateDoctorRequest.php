@@ -18,7 +18,7 @@ class CreateDoctorRequest extends FormRequest
             'username' => ['required', 'string', 'regex:/^[a-z0-9_-]{3,15}$/', 'unique:users,username'],
             'password' => ['required', Password::default(),'string'],
             'specialization' => ['required', 'string'],
-            'clinic_id' => ['required', 'in:'. implode(',', $this->clinics)],
+            // 'clinic_id' => ['required', 'in:'. implode(',', $this->clinics)],
             'first_name' => ['required', 'string'],
             'last_name' => ['required', 'string'],
             'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],

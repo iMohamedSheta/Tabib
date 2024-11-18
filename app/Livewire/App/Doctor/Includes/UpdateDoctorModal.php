@@ -30,7 +30,7 @@ class UpdateDoctorModal extends Component
     public $first_name;
     public $last_name;
     public $specialization;
-    public $clinic_id;
+    public $organization_id;
     public $phone;
     public $other_phone;
     public $photo;
@@ -45,7 +45,7 @@ class UpdateDoctorModal extends Component
         $this->first_name = $doctor->first_name;
         $this->last_name = $doctor->last_name;
         $this->specialization = $doctor->specialization;
-        $this->clinic_id = $doctor->clinic_id;
+        $this->organization_id = $doctor->organization_id;
         $this->phone = $doctor->phone;
         $this->other_phone = $doctor->other_phone;
     }

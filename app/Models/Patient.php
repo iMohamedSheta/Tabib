@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use App\Models\Scopes\ClinicIdScope;
+use App\Models\Scopes\OrganizationScope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-#[ScopedBy(ClinicIdScope::class)]
+#[ScopedBy(OrganizationScope::class)]
 class Patient extends Model
 {
     use HasFactory;

@@ -3,6 +3,7 @@
 namespace App\Livewire\Auth\Register\Steps;
 
 use App\Actions\Clinic\CreateClinicAction;
+use App\DTOs\Auth\RegisterUserDTO;
 use App\Enums\Clinic\ClinicTypeEnum;
 use App\Http\Requests\Clinic\CreateClinicRequest;
 use App\Models\Clinic;
@@ -14,14 +15,14 @@ use Livewire\Component;
 
 class OAuthCallback extends Component
 {
-    public $user;
+    public $userData;
     public $name;
     public $type;
     public $policy = true;
 
-    public function mount(User $user)
+    public function mount(array $userData)
     {
-        $this->user = $user;
+        $this->userData = $userData;
     }
 
     protected function rules(): array
@@ -45,7 +46,9 @@ class OAuthCallback extends Component
                 'type' => $this->type
             ];
 
-            (new CreateClinicAction())->handle($this->user, $clinicData);
+            $userDTO = new RegisterUserDTO(...$this->userData);
+
+            (new CreateClinicAction())->handle($userDTO, $clinicData);
 
         } catch (\Exception $e) {
             DB::rollBack();

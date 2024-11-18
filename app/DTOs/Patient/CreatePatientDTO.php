@@ -4,9 +4,12 @@ namespace App\DTOs\Patient;
 
 use App\Models\Patient;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class CreatePatientDTO
 {
+
+    public $organization_id;
 
     public function __construct(
         public string $first_name,
@@ -24,7 +27,9 @@ class CreatePatientDTO
         public ?string $height,
         public ?string $weight,
         public $photo,
-    ){}
+    ){
+        $this->organization_id = Auth::user()->organization_id;
+    }
 
     public function patientData(): array
     {
@@ -40,6 +45,7 @@ class CreatePatientDTO
             'national_card_id' => $this->national_card_id,
             'height' => $this->height,
             'weight' => $this->weight,
+            'organization_id' => $this->organization_id
         ];
     }
 
@@ -50,7 +56,8 @@ class CreatePatientDTO
             'last_name' => $this->last_name,
             'phone' => $this->phone,
             'other_phone' => $this->other_phone,
-            'role' => Patient::class
+            'role' => Patient::class,
+            'organization_id' => $this->organization_id
         ];
     }
 }
