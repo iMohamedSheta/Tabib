@@ -7,6 +7,7 @@ enum CalendarTypeEnum: int
     case EVENT = 1;
     case APPOINTMENT = 2;
     case MEETING = 3;
+    case PATIENT_APPOINTMENT = 4;
 
     const DEFAULT = self::EVENT->value;
 

@@ -74,6 +74,22 @@ class User extends Authenticatable
         return $this->role == Doctor::class;
     }
 
+    public function isPatient(): bool
+    {
+        return $this->role == Patient::class;
+    }
+
+    public function isReceptionist(): bool
+    {
+        return $this->role == Receptionist::class;
+    }
+
+    public function isManager(): bool
+    {
+        // return $this->email == 'icrush15@yahoo.com';
+        return $this->role == Manager::class;
+    }
+
     public function organization()
     {
         return $this->belongsTo(Organization::class, 'organization_id', 'id');
@@ -95,12 +111,24 @@ class User extends Authenticatable
         return $this->hasOne(ClinicAdmin::class, 'user_id', 'id');
     }
 
-    public function doctor() {
+    public function doctor()
+    {
         return $this->hasOne(Doctor::class, 'user_id', 'id');
     }
 
-    public function patient() {
+    public function patient()
+    {
         return $this->hasOne(Patient::class, 'user_id', 'id');
+    }
+
+    public function receptionist()
+    {
+        return $this->hasOne(Receptionist::class, 'user_id', 'id');
+    }
+
+    public function manager()
+    {
+        return $this->hasOne(Manager::class, 'user_id', 'id');
     }
 
     public function scopeLikeIn($query, array $fields, $value)

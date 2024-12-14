@@ -3,8 +3,7 @@
 namespace App\DTOs\Auth;
 
 use App\Enums\User\Auth\OAuthProviderEnum;
-
-use function Pest\Laravel\json;
+use Illuminate\Support\Facades\Hash;
 
 class RegisterUserDTO
 {
@@ -12,11 +11,11 @@ class RegisterUserDTO
     public function __construct(
         public $first_name,
         public $last_name,
+        public $phone,
+        public $role,
         public $email = null,
-        public $phone = null,
         public $username = null,
         public $password = null,
-        public $role = null,
         public $profile_photo_path = null,
         public $email_verified_at = null,
         public $oauth_id = null,
@@ -25,7 +24,8 @@ class RegisterUserDTO
         public $oauth_token_expires_in = null,
         public $oauth_scopes = null
     ) {
-        $this->oauth_scopes = json_encode($oauth_scopes);
+        $this->oauth_scopes = $this->oauth_scopes ? json_encode($oauth_scopes) : null;
+        $this->password = $this->password ? Hash::make($password) : null;
     }
 
     public function userData()
@@ -48,5 +48,3 @@ class RegisterUserDTO
         ];
     }
 }
-
-

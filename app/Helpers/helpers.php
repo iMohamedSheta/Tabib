@@ -72,11 +72,11 @@ if (!function_exists('js')) {
             $version = cache()->forever('js_version', config('app.versions.app') . config('app.versions.js'));
         }
 
-        if (str_ends_with($filename, '.js')){
+        if (str_ends_with($filename, '.js')) {
             return asset('assets/js/' . $filename . '?' . cache()->get('js_version'));
         }
 
-        return asset("assets/js/{$filename}.js?". cache()->get('js_version'));
+        return asset("assets/js/{$filename}.js?" . cache()->get('js_version'));
     }
 }
 
@@ -89,17 +89,39 @@ if (!function_exists('css')) {
             $version = cache()->forever('css_version', config('app.versions.app') . config('app.versions.css'));
         }
 
-        if (str_ends_with($filename, '.css')){
+        if (str_ends_with($filename, '.css')) {
             return asset('assets/css/' . $filename . '?' . $version);
         }
 
-        return asset("assets/css/{$filename}.css?". $version);
+        return asset("assets/css/{$filename}.css?" . $version);
     }
 }
 
 if (!function_exists('obj')) {
-    function obj(array $objectData)
+    function obj(array $objectData): object
     {
         return json_decode(json_encode($objectData));
+    }
+}
+
+if (!function_exists('array_only')) {
+    /**
+     * HELPER FUNCTION
+     * Get a subset of the items from the given array based on the specified keys.
+     *
+     * @param array $array The array to extract items from.
+     * @param array $keys The keys to extract from the array.
+     * @return array An array containing only the items with the specified keys.
+     */
+    function array_only(array $array, array $keys): array
+    {
+        return array_intersect_key($array, array_flip($keys));
+    }
+}
+
+if (!function_exists('log_dev')) {
+    function log_dev($e)
+    {
+        Log::channel('dev')->error($e);
     }
 }

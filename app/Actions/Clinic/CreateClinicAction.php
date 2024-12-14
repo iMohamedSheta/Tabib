@@ -4,9 +4,7 @@ namespace App\Actions\Clinic;
 
 use App\DTOs\Auth\RegisterUserDTO;
 use App\Enums\User\UserRoleEnum;
-use App\Generators\ClinicCodeGenerator;
 use App\Generators\OrganizationBillingCodeGenerator;
-use App\Models\Clinic;
 use App\Models\ClinicAdmin;
 use App\Models\Organization;
 use App\Models\User;
@@ -17,8 +15,7 @@ class CreateClinicAction
 {
     public function handle(RegisterUserDTO $userDTO, array $clinicData)
     {
-        try
-        {
+        try {
             DB::beginTransaction();
 
             // Generate unique billing code
@@ -56,7 +53,6 @@ class CreateClinicAction
             Auth::login($user);
 
             redirect(UserRoleEnum::authRedirectRouteBasedOnType());
-
         } catch (\Exception $e) {
             DB::rollBack();
 

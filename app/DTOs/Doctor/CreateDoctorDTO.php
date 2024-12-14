@@ -16,10 +16,16 @@ class CreateDoctorDTO
         public string $first_name,
         public string $last_name,
         public string $phone,
-        public ?string $other_phone,
-        public  $photo,
-
-    ){
+        public ?string $other_phone = null,
+        public  $photo = null,
+        public $license_number = null,
+        public $qualifications = null,
+        public $available_days = null,
+        public $start_time = null,
+        public $end_time = null,
+        public $telehealth_phone = null,
+        public $notes = null,
+    ) {
         $this->organization_id = Auth::user()->organization_id;
     }
 
@@ -41,7 +47,14 @@ class CreateDoctorDTO
     {
         return [
             'specialization' => $this->specialization,
-            'organization_id' => $this->organization_id
+            'organization_id' => $this->organization_id,
+            'license_number' => $this->license_number,
+            'qualifications' => $this->qualifications,
+            'available_days' => $this->available_days,
+            'start_time' => $this->start_time,
+            'end_time' => $this->end_time,
+            'telehealth_phone' => $this->telehealth_phone,
+            'notes' => $this->notes
         ];
     }
 }

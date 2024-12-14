@@ -14,7 +14,8 @@
         </x-slot>
     </x-main.head>
 
-    <div class="relative bg-purple-200 text-gray-700 dark:bg-c-gray-800 dark:text-white font-bold p-6 rounded-lg shadow-xl">
+    <div
+        class="relative bg-purple-200 text-gray-700 dark:bg-c-gray-800 dark:text-white font-bold p-6 rounded-lg shadow-xl">
         <x-datatable.table :total="$patients->total()">
             <x-slot name="thead">
                 <div class="flex justify-between mb-4" x-data="addModal" x-on:added="show = false">
@@ -29,7 +30,7 @@
                         <td class="px-4 py-3">
                             @iteration($patients)
                         </td>
-                        <x-datatable.tdata.actions :name="$patient->user->firstname">
+                        <x-datatable.tdata.actions :name='"{$patient->user->first_name}  {$patient->user->last_name}"'>
                             <div x-data="updateModal" x-on:updated="show = false">
                                 <x-datatable.tdata.link href="#" @click="show = true">
                                     <i class="fa-solid fa-pencil fa-lg px-2"></i>
@@ -89,7 +90,7 @@
                     let text = "سوف يتم حذف هذه المريض نهائياً!";
                     confirmDelete(title, text).then((result) => {
                         if (result.isConfirmed) {
-                            @this.call('deletepatientAction', patientId)
+                            @this.call('deletePatientAction', patientId)
                         }
                     });
                 }

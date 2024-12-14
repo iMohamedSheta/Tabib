@@ -10,44 +10,50 @@ use Illuminate\Support\Facades\Auth;
 class DoctorPolicy
 {
     /**
-     * Create a new policy instance.
+     * Determine whether the user can view the model.
      */
-    public function __construct()
+    public function view(User $user, Doctor $doctor): bool
     {
-        //
+        return $user->organization_id == $doctor->organization_id;
     }
 
-    public function create(?User $user): bool
+    /**
+     * Determine whether the user can create models.
+     */
+    public function create(User $user): bool
     {
-        if (!$user) {
-            return false;
-        }
-
-        return $user->role === ClinicAdmin::class;
+        return $user->isClinicAdmin() || $user->isReceptionist();
     }
 
-    public function update(?User $user, Doctor $doctor): bool
+    /**
+     * Determine whether the user can update the model.
+     */
+    public function update(User $user, Doctor $doctor): bool
     {
-        if (!$user) {
-            return false;
-        }
-
-        return $user->id === $doctor->id || $this->isAuthClinicAdminOfDoctorClinic($user, $doctor);
+        return $user->organization_id == $doctor->organization_id && $user->isClinicAdmin() || $user->isReceptionist();
     }
 
-    public function delete(?User $user, Doctor $doctor): bool
+    /**
+     * Determine whether the user can delete the model.
+     */
+    public function delete(User $user, Doctor $doctor): bool
     {
-        if (!$user) {
-            return false;
-        }
-
-        return $user->id === $doctor->id || $this->isAuthClinicAdminOfDoctorClinic($user, $doctor);
+        return $user->organization_id == $doctor->organization_id && $user->isClinicAdmin() || $user->isReceptionist();
     }
 
-
-    private function isAuthClinicAdminOfDoctorClinic(User $user, Doctor $doctor): bool
+    /**
+     * Determine whether the user can restore the model.
+     */
+    public function restore(User $user, Doctor $doctor): bool
     {
-        return $user->role === ClinicAdmin::class &&
-                $user->clinicAdmin?->clinic_id === $doctor->clinic_id;
+        return $user->organization_id == $doctor->organization_id && $user->isClinicAdmin() || $user->isReceptionist();
+    }
+
+    /**
+     * Determine whether the user can permanently delete the model.
+     */
+    public function forceDelete(User $user, Doctor $doctor): bool
+    {
+        return $user->organization_id == $doctor->organization_id && $user->isClinicAdmin();
     }
 }

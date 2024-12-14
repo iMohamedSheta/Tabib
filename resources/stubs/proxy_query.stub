@@ -2,26 +2,14 @@
 
 namespace {{ namespace }};
 
+use App\Proxy\Query\Base\QueryProxy;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
-use App\Proxy\Query\QueryProxy;
 
 class {{ class }} extends QueryProxy
 {
-
-    protected function __construct()
+    protected function initializeQuery(): Builder
     {
-        parent::__construct(DB::table({{ class }}));
-    }
-
-    public function postProcessor(): void
-    {
-        //
-    }
-
-    public function globalScopes(): array
-    {
-        return [
-            //
-        ];
+        return DB::table({{ class }});
     }
 }

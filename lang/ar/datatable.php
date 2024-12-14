@@ -14,4 +14,12 @@ return [
         'phone' => 'رقم الهاتف',
         'created_at' => 'تاريخ الانشاء',
     ],
+    'clinic_services_table' => [
+        'name' => 'اسم الخدمة',
+        'clinic' => 'العيادة',
+        'price' => 'السعر',
+        'color' => 'اللون المميز',
+        'patients' => 'عدد المرضى',
+        'created_at' => 'تاريخ الانشاء',
+    ]
 ];

@@ -10,7 +10,9 @@
 |__________________________________________
 */
 
+use App\Enums\Exceptions\ExceptionCodeEnum;
 use App\Enums\User\UserRoleEnum;
+use App\Exceptions\Test\TestException;
 use App\Http\Controllers\Auth\Socialite\FacebookSocialiteController;
 use App\Http\Controllers\Auth\Socialite\GoogleSocialiteController;
 use App\Http\Controllers\PWA\LaravelPWAController;
@@ -21,15 +23,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
-#Redirects - After Login based on type
-Route::get('/auth/app/redirect', function() {
-    return redirect(UserRoleEnum::authRedirectRouteBasedOnType());
-})->name('auth.app.redirect');
 
 # Home
 Route::get('/', function() {
     if (Auth::check()) {
-        return to_route('auth.app.redirect');
+        return redirect(UserRoleEnum::authRedirectRouteBasedOnType());
     }
     return to_route('register');
 });
@@ -75,3 +73,13 @@ Route::get('speed', function () {
 Route::view('testx', 'welcome');
 
 
+Route::get('/test', function () {
+    throw TestException::exception();
+    // throw \Exception('Hello world');
+    // trhow
+});
+
+Route::get('docs/exceptions/{code}', function ($code) {
+    $code = ExceptionCodeEnum::from($code);
+    dd($code->getLink());
+})->name('docs.exceptions');

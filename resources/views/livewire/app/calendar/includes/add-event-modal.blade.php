@@ -1,12 +1,13 @@
 @php
     use App\Enums\Clinic\ClinicTypeEnum;
+    use App\Enums\User\UserInfoEnum;
 @endphp
 <div>
-    <div  x-on:added="show = false">
+    <div x-on:added="show = false">
         <x-modals.modal @keydown.escape.window="show = false" maxWidth="3xl">
             <x-slot name="title">
                 <div x-show="step == 1">
-                    اختر الطريقة المناسبة
+                    اختر طريقة الحجز المناسبة
                 </div>
                 <div x-show="step == 2">
                     اضافة مريض جديد
@@ -19,7 +20,7 @@
             <x-slot name="content">
                 <div x-show="step == 1" x-transition:enter>
                     <h3 class="pb-3">
-                        اختر الطريقة المناسبة
+                        يمكنك اضافة مريض جديد او اختيار مريض مسجل لحجز موعد جديد
                     </h3>
                     <div class="flex flex-wrap">
                         <div class="w-full md:max-w-[95%]  space-y-4 mx-auto">
@@ -150,7 +151,17 @@
                             </label>
                             <input type="date" id="datepicker" wire:ignore x-model="start" wire:model="start"
                                 class='border-gray-300  focus:border-indigo-500 mt-4 bg-gray-100 px-4 py-2  text-sm text-gray-500 w-full break-all focus:ring-indigo-500 rounded shadow-sm' />
+                        </div>
 
+                        <div class="mt-6 w-full px-2">
+                            <label>
+                                نوع الخدمة
+                                <span class="text-red-600">*</span>
+                            </label>
+                            <x-select.select label="اختيار الخدمة" withError="service_id" :items="$clinicServices"
+                                wire:model="service_id"
+                                class="mt-2 bg-gray-100 px-4 py-2 rounded text-sm text-gray-500 w-full break-all">
+                            </x-select.select>
                         </div>
 
                         <div>
@@ -169,23 +180,82 @@
                                 الاسم
                                 <span class="text-red-600">*</span>
                             </label>
-                            <x-input type="text" id="patient" wire:model.live.debounce.500ms="search" withError="search"
+                            <x-input type="text" id="patient" wire:model.live.debounce.500ms="search"
+                                withError="search"
                                 class="mt-4 bg-gray-100 px-4 py-2 rounded  text-sm text-gray-500 w-full break-all"
                                 autofocus autocomplete="off" autocorrect="off" autocapitalize="off"
                                 spellcheck="false" />
                             <ul class="bg-[#111827] rounded-b-2xl">
                                 @foreach ($searchResults as $user)
-                                    <li class="relative w-full ">
-                                        <button class="flex justify-center items-center  px-4 py-2 text-white  hover:bg-[#1F2937] rounded-b-2xl focus:outline-none  transition-colors  ease-in-out duration-50 w-full" x-on:click="selectPatient('{{ $user->id }}')">
-                                            <img class="object-cover w-8 h-8 rounded-full" src="{{ $this->getUserProfilePhotoUrl($user->profile_photo_path, $user->username, $user->first_name) }}"
-                                            alt="" aria-hidden="true" />
+                                    <li x-data="{ showPopover: false }" class="relative w-full ">
+                                        <button
+                                            class="flex justify-center items-center  px-4 py-2 text-white  hover:bg-[#1F2937] rounded-b-2xl
+                                            focus:outline-none  transition-colors  ease-in-out duration-50 w-full"
+                                            x-on:click="selectPatient('{{ $user->id }}')"
+                                            x-on:mouseenter="showPopover = true"
+                                            x-on:mouseleave="showPopover = false">
+                                            <img class="object-cover w-8 h-8 rounded-full"
+                                                src="{{ $this->getUserProfilePhotoUrl($user->profile_photo_path, $user->username, $user->first_name) }}"
+                                                alt="" aria-hidden="true" />
                                             <span class="mr-2" aria-hidden="true">
                                                 {{ $user->first_name }} {{ $user->last_name }}
+                                                <span class="block text-sm text-gray-300" aria-hidden="true">
+                                                    {{ $user->phone }}
+                                                </span>
+                                                @if ($user->other_phone)
+                                                    <span class="block text-sm text-gray-300" aria-hidden="true">
+                                                        {{ $user->other_phone ?? 'N/A' }}
+                                                    </span>
+                                                @endif
                                             </span>
                                         </button>
+                                        <div x-show="showPopover" x-on:mouseenter="showPopover = true"
+                                            x-on:mouseleave="showPopover = false"
+                                            x-transition:enter="transition ease-out duration-200"
+                                            x-transition:enter-start="opacity-0 scale-90"
+                                            x-transition:enter-end="opacity-100 scale-100"
+                                            x-transition:leave="transition ease-in duration-150"
+                                            x-transition:leave-start="opacity-100 scale-100"
+                                            x-transition:leave-end="opacity-0 scale-90"
+                                            class="absolute top-full transform-gpu w-full lg:top-0 lg:right-full lg:w-80 bg-c-gray-800 shadow-lg rounded-lg p-4 text-purple-200 z-10">
+                                            <p class="font-medium leading-relaxed">
+                                                الاسم : {{ $user->first_name }} {{ $user->last_name }}
+                                            </p>
+                                            <p class="text-sm leading-relaxed">
+                                                رقم الهاتف : {{ $user->phone }}
+                                            </p>
+                                            <p class="text-sm leading-relaxed">
+                                                رقم الهاتف الاضافي :
+                                                {{ $user->other_phone ?? '[غير مسجل]' }}
+                                            </p>
+                                            <p class="text-sm leading-relaxed">
+                                                العيادة : {{ $user->clinic_name }}
+                                            </p>
+                                            <p class="text-sm leading-relaxed">
+                                                السن : {{ $user->age }}
+                                            </p>
+                                            <p class="text-sm leading-relaxed">
+                                                الجنس : {{ UserInfoEnum::genderLabel($user->gender) }}
+                                            </p>
+                                            <p class="text-sm leading-relaxed">
+                                                العنوان : {{ $user->address ?? '[غير مسجل]' }}
+                                            </p>
+                                            {{-- <p class="text-sm">Joined: {{ $user->created_at->format('M d, Y') }}</p> --}}
+                                        </div>
                                     </li>
                                 @endforeach
                             </ul>
+
+                            <div class="mt-6 w-full px-2">
+                                <label>
+                                    نوع الخدمة
+                                    <span class="text-red-600">*</span>
+                                </label>
+                                <x-select.select label="اختيار الخدمة" withError="service_id" :items="$clinicServices"
+                                    wire:model="service_id"
+                                    class="mt-2 bg-gray-100 px-4 py-2 rounded text-sm text-gray-500 w-full break-all">
+                                </x-select.select>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -200,17 +270,16 @@
 
                     <div class="flex justify-between w-full">
                         <div>
-                            <button class="btn-primary text-sm disabled:opacity-50"
-                                x-on:click="step = 1">
+                            <button class="btn-primary text-sm disabled:opacity-50" x-on:click="step = 1">
                                 <i class="fa fa-arrow-right px-1"></i>
                                 {{ __('رجوع') }}
                             </button>
                         </div>
                         <div>
                             <button class="mx-2 btn-dark text-sm disabled:opacity-50"
-                                x-on:keydown.enter.window="@this.addEventAction" wire:click="addEventAction"
-                                wire:loading.attr="disabled">
-                                <i class="fa fa-spinner fa-spin px-1" wire:loading wire:target="addEventAction"></i>
+                                wire:click="addPatientWithEventAction" wire:loading.attr="disabled">
+                                <i class="fa fa-spinner fa-spin px-1" wire:loading
+                                    wire:target="addPatientWithEventAction"></i>
                                 {{ __('حفظ') }}
                             </button>
                             <x-danger-button x-on:click="show = false;setTimeout(() => step = 1, 300)">
@@ -220,6 +289,6 @@
                     </div>
                 </div>
             </x-slot>
-    </x-modals.modal>
-</div>
+        </x-modals.modal>
+    </div>
 </div>

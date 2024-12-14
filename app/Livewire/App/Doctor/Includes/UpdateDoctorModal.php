@@ -52,7 +52,7 @@ class UpdateDoctorModal extends Component
 
     protected function rules(): array
     {
-        return (new UpdateDoctorRequest($this->doctor, array_keys($this->clinics)))->rules();
+        return (new UpdateDoctorRequest($this->doctor))->rules();
     }
 
     public function updateDoctorAction()

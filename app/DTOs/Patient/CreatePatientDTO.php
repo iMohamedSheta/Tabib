@@ -12,21 +12,21 @@ class CreatePatientDTO
     public $organization_id;
 
     public function __construct(
-        public string $first_name,
-        public string $last_name,
-        public string $age,
-        public string $clinic_id,
-        public string $phone,
-        public string $gender,
-        public ?string $other_phone,
-        public ?string $nationality,
-        public ?string $address,
-        public ?string $allergies,
-        public ?string $notes,
-        public ?string $national_card_id,
-        public ?string $height,
-        public ?string $weight,
-        public $photo,
+        public $first_name,
+        public $last_name,
+        public $age,
+        public $clinic_id,
+        public $phone,
+        public $gender,
+        public $other_phone = null,
+        public $nationality = null,
+        public $address = null,
+        public $allergies = null,
+        public $notes = null,
+        public $national_card_id = null,
+        public $height = null,
+        public $weight = null,
+        public $photo = null,
     ){
         $this->organization_id = Auth::user()->organization_id;
     }

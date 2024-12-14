@@ -41,7 +41,7 @@ class CreateDoctorAction
             );
         } catch (\Exception $e) {
             DB::rollBack();
-            Helper::log($e);
+            log_error($e);
             return $this->error("حدث خطأ في عملية أنشاء الطبيب، الرجاء المحاولة لاحقاً");
         }
     }

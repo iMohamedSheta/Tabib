@@ -1,4 +1,4 @@
-<header class="sticky top-0 z-10 py-4 m-4  flex  rounded-xl bg-purple-700 opacity-90 shadow-lg dark:bg-c-gray-800 ">
+<header class="sticky top-0 z-10 py-4 m-4  flex  rounded-xl bg-purple-800 opacity-90 shadow-lg dark:bg-c-gray-800 ">
     <div class="container contents  h-full px-6 mx-auto text-white dark:text-purple-300">
         <!-- Mobile hamburger -->
         <button class="p-1 -ml-1 mr-5 justify-start rounded-md md:hidden focus:outline-none focus:shadow-outline-purple"
@@ -10,9 +10,9 @@
             </svg>
         </button>
         <!-- Search input -->
-        <div  class="flex justify-start flex-1 lg:ml-32 px-10">
+        <div class="flex justify-start flex-1 lg:ml-32 px-10">
 
-            <button  class="  mx-2" x-on:click="toggleAppFullscreen()">
+            <button class="  mx-2" x-on:click="toggleAppFullscreen()">
                 <i x-show="!isAppFullscreen" class="fas fa-compress"></i>
                 <i x-show="isAppFullscreen" class="fas fa-expand"></i>
             </button>
@@ -122,7 +122,8 @@
                             <a class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
                                 href="#">
                                 <svg class="w-4 h-4 mr-3" aria-hidden="true" fill="none" stroke-linecap="round"
-                                    stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                    stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
+                                    stroke="currentColor">
                                     <path
                                         d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z">
                                     </path>
@@ -134,20 +135,21 @@
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}" x-data>
                             @csrf
-                        <li class="flex">
-                            <button class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
-                                type="submit">
-                                <svg class="w-4 h-4 mr-3 " aria-hidden="true" fill="none" stroke-linecap="round"
-                                    stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
-                                    stroke="currentColor">
-                                    <path
-                                        d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1">
-                                    </path>
-                                </svg>
-                                <span class="px-1">تسجيل الخروج</span>
-                            </button>
-                        </li>
-                    </form>
+                            <li class="flex">
+                                <button
+                                    class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
+                                    type="submit">
+                                    <svg class="w-4 h-4 mr-3 " aria-hidden="true" fill="none"
+                                        stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        viewBox="0 0 24 24" stroke="currentColor">
+                                        <path
+                                            d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1">
+                                        </path>
+                                    </svg>
+                                    <span class="px-1">تسجيل الخروج</span>
+                                </button>
+                            </li>
+                        </form>
                     </ul>
                 </template>
             </li>

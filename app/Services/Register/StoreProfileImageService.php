@@ -6,11 +6,6 @@ use Illuminate\Support\Facades\Storage;
 
 class StoreProfileImageService
 {
-    public function handle()
-    {
-        //
-    }
-
     public static function handleFacebookImage($imageURL, $userId)
     {
         try {

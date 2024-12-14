@@ -26,15 +26,15 @@ class Calendar extends Component
                 'id' => $event->id,
                 'title' => $event->data->title,
                 'start' => $event->data->start,
-                'end' => $event->data?->end ?? null,
-                'allDay' => $event->data?->allDay ?? false,
+                'end' => $event->data->end ?? null,
+                'allDay' => $event->data->allDay ?? false,
                 'editable' => true,
                 // 'borderColor' => $event->data?->borderColor ?? 'inherit',
-                'backgroundColor' => $event->data?->backgroundColor ?? sprintf('#%06X', mt_rand(0, 0xFFFFFF)),
+                'backgroundColor' => $event->data->backgroundColor ?? sprintf('#%06X', mt_rand(0, 0xFFFFFF)),
                 // 'color' => $event->data?->color ?? 'inherit',
                 'textColor' => '#FFFFFF',
                 'className' => 'event',
-                'overlap' => $event->data?->overlap ?? true,
+                'overlap' => $event->data->overlap ?? true,
                 // 'display' => $event->data?->display ?? 'block',
                 // 'allow' => $event->data?->allow ?? null,
             ];
@@ -45,6 +45,6 @@ class Calendar extends Component
 
     public function getClinics()
     {
-        return Clinic::pluck('name', 'id')->toArray();
+        return Clinic::list();
     }
 }

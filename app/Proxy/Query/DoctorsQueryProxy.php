@@ -21,7 +21,6 @@ class DoctorsQueryProxy extends QueryProxy
                 'doctors.id',
                 'doctors.specialization',
                 'doctors.user_id',
-                'doctors.biography',
                 'doctors.created_at',
                 'users.id as user_id',
                 'users.first_name',

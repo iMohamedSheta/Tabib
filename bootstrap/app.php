@@ -1,5 +1,6 @@
 <?php
 
+use App\Exceptions\Base\InternalException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -31,5 +32,16 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+
+        $exceptions->renderable(function (InternalException $e) {
+            $code = $e->getInternalCode();
+            return response()->json([
+                'status' => $e->getCode(),
+                'error_code' => $code->value,
+                'message' => $e->getMessage(),
+                'description' => $e->getDescription(),
+                'link' => $code->getLink(),
+            ], $e->getCode());
+        });
+
     })->create();

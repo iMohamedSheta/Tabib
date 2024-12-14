@@ -3,6 +3,7 @@
 namespace App\Livewire\Auth\Register;
 
 use App\Actions\Clinic\CreateClinicAction;
+use App\DTOs\Auth\RegisterUserDTO;
 use App\Http\Requests\Clinic\CreateClinicRequest;
 use App\Models\ClinicAdmin;
 use App\Models\User;
@@ -58,36 +59,30 @@ class Register extends Component
         $this->validate($this->stepThreeRules());
 
 
-        try
-        {
+        try {
             $clinicData = [
                 'name' => $this->name,
                 'type' => $this->type
             ];
 
-            $user = User::create([
-                'first_name' => $this->first_name,
-                'last_name' => $this->last_name,
-                'phone' => $this->phone,
-                'username' => $this->username,
-                'password' => Hash::make($this->password),
-                'role' => ClinicAdmin::class
-            ]);
+            $userDTO = new RegisterUserDTO(
+                first_name: $this->first_name,
+                last_name: $this->last_name,
+                phone: $this->phone,
+                username: $this->username,
+                password: $this->password,
+                role: ClinicAdmin::class
+            );
 
-            (new CreateClinicAction())->handle($user, $clinicData);
-
+            (new CreateClinicAction())->handle($userDTO, $clinicData);
         } catch (\Exception $e) {
             DB::rollBack();
-
-            dd($e);
         }
-
     }
 
     public function createClinicAction()
     {
         $this->validate();
-
     }
 
     public function render()

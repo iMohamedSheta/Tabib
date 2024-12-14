@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Blade;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,8 +23,23 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->configureTelescope();
+        $this->configureVite();
+        $this->configurePulse();
         $this->configureCommands();
+        $this->configureTelescope();
+    }
+
+    private function configureVite()
+    {
+        Vite::prefetch(3); // After the page is loaded for the first time,
+        // lazily load all the chunks of our website to the user.
+    }
+
+    private function configurePulse()
+    {
+        Gate::define('viewPulse', function (User $user) {
+            return $this->app->environment('local') || $user->isManager();
+        });
     }
 
     private function configureCommands(): void

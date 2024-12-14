@@ -6,6 +6,7 @@ use App\Models\Scopes\OrganizationScope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+
 #[ScopedBy(OrganizationScope::class)]
 class Clinic extends Model
 {
@@ -28,7 +29,7 @@ class Clinic extends Model
         return $this->belongsTo(Organization::class, 'organization_id', 'id');
     }
 
-    public static function getClinicsList(): array
+    public static function list(): array
     {
         return self::pluck('name', 'id')->toArray();
     }

@@ -14,11 +14,16 @@ return new class extends Migration
         Schema::create('doctors', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('organization_id')->index()->nullable();
-
-            // $table->unsignedBigInteger('clinic_id')->index();
             $table->unsignedBigInteger('user_id')->index()->unique();
             $table->string('specialization');
-            $table->text('biography')->nullable();
+            $table->string('license_number')->nullable();
+            $table->string('qualifications')->nullable();
+            $table->json('clinics')->nullable();
+            $table->json('available_days')->nullable();
+            $table->time('start_time')->nullable();
+            $table->time('end_time')->nullable();
+            $table->string('telehealth_phone')->nullable();
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

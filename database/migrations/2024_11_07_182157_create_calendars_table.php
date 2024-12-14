@@ -14,8 +14,9 @@ return new class extends Migration
     {
         Schema::create('calendars', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('organization_id')->index()->nullable();
-
+            $table->unsignedBigInteger('organization_id')->index();
+            $table->unsignedBigInteger('patient_id')->index()->nullable();
+            $table->unsignedBigInteger('clinic_service_id')->index()->nullable();
             $table->unsignedTinyInteger('type')->default(CalendarTypeEnum::DEFAULT);
             $table->json('data');
             $table->timestamps();

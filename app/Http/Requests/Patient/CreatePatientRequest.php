@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class CreatePatientRequest extends FormRequest
 {
-    public function __construct(protected array $clinics)
+    public function __construct(protected array $clinicsIds)
     {
         parent::__construct();
     }
@@ -17,7 +17,7 @@ class CreatePatientRequest extends FormRequest
             'first_name' => ['required', 'string'],
             'last_name' => ['required', 'string'],
             'age' => ['required', 'integer'],
-            'clinic_id' => ['required', 'in:' . implode(',', $this->clinics)],
+            'clinic_id' => ['required', 'in:' . implode(',', $this->clinicsIds)],
             'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
             'phone' => [
                 'required',
@@ -37,7 +37,6 @@ class CreatePatientRequest extends FormRequest
             'weight' => ['nullable', 'integer'],
             'national_card_id' => ['nullable', 'string'],
             'notes' => ['nullable', 'string'],
-
         ];
     }
 }

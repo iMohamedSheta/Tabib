@@ -8,7 +8,7 @@ use Illuminate\Validation\Rules\Password;
 class UpdateDoctorRequest extends FormRequest
 {
 
-    public function __construct(protected $doctor, protected array $clinics)
+    public function __construct(protected $doctor)
     {
         parent::__construct();
     }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html   lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="UTF-8" />
@@ -17,17 +17,19 @@
 
     <script src="{{ asset('assets/js/init-alpine.js') }}"></script>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Changa:wght@200..800&family=El+Messiri:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Changa:wght@200..800&family=El+Messiri:wght@400..700&display=swap"
+        rel="stylesheet">
 
-@laravelPWA
+    @laravelPWA
     <style>
         body {
-                font-family: "El Messiri", sans-serif;
-                font-optical-sizing: auto;
-                font-style: normal;
-            }
+            font-family: "El Messiri", sans-serif;
+            font-optical-sizing: auto;
+            font-style: normal;
+        }
     </style>
     @stack('styles')
     <!-- Styles -->
@@ -44,14 +46,17 @@
         {{-- MobileSidebar --}}
         @include('layouts.app.sidebar_mobile')
         {{-- /MobileSidebar --}}
-        <div class="flex flex-col flex-1 h-screen overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800 min-h-[80vh] max-w-[100vw] ">
+        <div
+            class="flex flex-col flex-1 h-screen overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-track-purple-800 scrollbar-thumb-purple-500 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800 min-h-[80vh] max-w-[100vw] ">
 
-        {{-- Header --}}
-        @include('layouts.app.header')
-        {{-- /Header --}}
+            {{-- Header --}}
+            @include('layouts.app.header')
+            {{-- /Header --}}
 
             <main>
-                <div>
+                <div class="min-h-[82vh]">
+                    <x-spinners.t-spinner></x-spinners.t-spinner>
+
                     {{ $slot }}
                 </div>
             </main>

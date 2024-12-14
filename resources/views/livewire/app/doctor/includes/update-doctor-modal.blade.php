@@ -1,5 +1,5 @@
 <div>
-    <x-modals.modal @keydown.escape.window="show = false"  maxWidth="4xl">
+    <x-modals.modal @keydown.escape.window="show = false" maxWidth="4xl">
         <x-slot name="title">
             تعديل طبيب
         </x-slot>
@@ -15,8 +15,8 @@
                         <span class="text-red-600">*</span>
                     </label>
                     <x-input type="text" wire:model="username" withError="username"
-                        class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 w-full break-all"
-                        autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+                        class="mt-4 bg-gray-100 px-4 py-2 rounded  text-sm text-gray-500 w-full break-all" autofocus
+                        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
                 </div>
                 <div class="mt-4 w-full md:w-1/2 px-2">
                     <label>
@@ -24,10 +24,10 @@
                         <span class="text-red-600">*</span>
                     </label>
                     <x-input type="text" wire:model="specialization" withError="specialization"
-                        class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 w-full break-all"
-                        autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+                        class="mt-4 bg-gray-100 px-4 py-2 rounded  text-sm text-gray-500 w-full break-all" autofocus
+                        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
                 </div>
-                <div class="mt-6 w-full md:w-1/2 px-2">
+                {{-- <div class="mt-6 w-full md:w-1/2 px-2">
                     <label>
                         العيادة
                         <span class="text-red-600">*</span>
@@ -36,13 +36,13 @@
                         wire:model="clinic_id"
                         class="mt-2 bg-gray-100 px-4 py-2 rounded text-sm text-gray-500 w-full break-all">
                     </x-select.select>
-                </div>
+                </div> --}}
                 <div class="mt-6 w-full md:w-1/2 px-2">
                     <label>
-                        العيادة
-                        <span class="text-red-600">*</span>
+                        العيادات
                     </label>
-                    <x-select.multiselect :items="$clinics" label="اختيار العيادات" withError="clinic_id" class="mt-2 bg-gray-100 px-4 py-2 rounded text-sm text-gray-500 w-full break-all">
+                    <x-select.multiselect :items="$clinics" label="اختيار العيادات" withError="clinic_id"
+                        class="mt-2 bg-gray-100 px-4 py-2 rounded text-sm text-gray-500 w-full break-all">
 
                     </x-select.multiselect>
                 </div>
@@ -52,8 +52,8 @@
                         <span class="text-red-600">*</span>
                     </label>
                     <x-input type="text" wire:model="first_name" withError="first_name"
-                        class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 w-full break-all"
-                        autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+                        class="mt-4 bg-gray-100 px-4 py-2 rounded  text-sm text-gray-500 w-full break-all" autofocus
+                        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
                 </div>
                 <div class="mt-4 w-full md:w-1/2 px-2">
                     <label>
@@ -61,8 +61,8 @@
                         <span class="text-red-600">*</span>
                     </label>
                     <x-input type="text" wire:model="last_name" withError="last_name"
-                        class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 w-full break-all"
-                        autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+                        class="mt-4 bg-gray-100 px-4 py-2 rounded  text-sm text-gray-500 w-full break-all" autofocus
+                        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
                 </div>
                 <div class="mt-4 w-full md:w-1/2 px-2">
                     <label>
@@ -70,19 +70,20 @@
                         <span class="text-red-600">*</span>
                     </label>
                     <x-input type="text" wire:model="phone" withError="phone"
-                        class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 w-full break-all"
-                        autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+                        class="mt-4 bg-gray-100 px-4 py-2 rounded  text-sm text-gray-500 w-full break-all" autofocus
+                        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
                 </div>
                 <div class="mt-4 w-full md:w-1/2 px-2">
                     <label>
                         رقم الهاتف الاضافي
                     </label>
                     <x-input type="text" wire:model="other_phone" withError="other_phone"
-                        class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 w-full break-all"
-                        autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+                        class="mt-4 bg-gray-100 px-4 py-2 rounded  text-sm text-gray-500 w-full break-all" autofocus
+                        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
                 </div>
 
-                <x-fileupload.profile-picture withError="photo" :defaultImage="$doctor->profile_photo_url"  wire:model="photo" ></x-fileupload.profile-picture>
+                <x-fileupload.profile-picture withError="photo" :defaultImage="$doctor->profile_photo_url"
+                    wire:model="photo"></x-fileupload.profile-picture>
 
                 <div class="my-4 w-full px-2">
                     <div class="flex items-center">
@@ -95,17 +96,18 @@
                         <span class="text-red-600">*</span>
                     </label>
                     <x-input type="password" id="password" wire:model="password" withError="password"
-                        class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 w-full break-all"
-                        autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+                        class="mt-4 bg-gray-100 px-4 py-2 rounded  text-sm text-gray-500 w-full break-all" autofocus
+                        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
                 </div>
                 <div class="my-4  w-full md:w-1/2 px-2" x-show="togglePassword">
                     <label>
                         تاكيد الرقم السري
                         <span class="text-red-600">*</span>
                     </label>
-                    <x-input type="password" id="password" wire:model="password_confirmation" withError="password_confirmation"
-                        class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 w-full break-all"
-                        autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+                    <x-input type="password" id="password" wire:model="password_confirmation"
+                        withError="password_confirmation"
+                        class="mt-4 bg-gray-100 px-4 py-2 rounded  text-sm text-gray-500 w-full break-all" autofocus
+                        autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
                 </div>
             </div>
         </x-slot>
@@ -123,12 +125,12 @@
 </div>
 
 @push('scripts')
-<script>
-function updateModal() {
-    return {
-        show: false,
-        togglePassword: false
-    }
-}
-</script>
+    <script>
+        function updateModal() {
+            return {
+                show: false,
+                togglePassword: false
+            }
+        }
+    </script>
 @endpush

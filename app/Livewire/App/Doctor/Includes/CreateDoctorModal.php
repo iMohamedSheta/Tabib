@@ -11,6 +11,7 @@ use App\Traits\LivewireTraits\WithSteps;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+
 class CreateDoctorModal extends Component
 {
     use WithFileUploads;
@@ -18,19 +19,40 @@ class CreateDoctorModal extends Component
 
     #[Locked]
     public $clinics;
+    public $days;
 
     public $username;
     public $password;
     public $first_name;
     public $last_name;
     public $specialization;
-    public $clinic_id;
+    public $clinic_ids;
     public $phone;
     public $other_phone;
     public $photo;
+    public $selected_days;
+    public $license_number;
+    public $qualifications;
+    public $available_days;
+    public $start_time;
+    public $end_time;
+    public $telehealth_phone;
+    public $notes;
 
     public function mount(array $clinics)
     {
+        $this->days = [
+            'السبت',
+            'الاحد',
+            'الاثنين',
+            'الثلاثاء',
+            'الاربع',
+            'الخميس',
+            'الجمعة'
+        ];
+
+
+
         $this->maxSteps = 4;
         $this->clinics = $clinics;
         $this->clinic_id = array_key_first($this->clinics);
@@ -38,18 +60,17 @@ class CreateDoctorModal extends Component
 
     protected function rules(): array
     {
-        return (new CreateDoctorRequest(array_keys($this->clinics)))->rules();
+        return (new CreateDoctorRequest)->rules();
     }
 
 
     public function addDoctorAction()
     {
         $validatedData = $this->validate();
-        try
-        {
+        try {
             $actionResponse = (new CreateDoctorAction())->handle(
-                    new CreateDoctorDTO(...$validatedData)
-                );
+                new CreateDoctorDTO(...$validatedData)
+            );
 
             flash()->{$actionResponse->success ? 'success' : 'error'}($this->matchStatus($actionResponse->status));
 
@@ -57,7 +78,6 @@ class CreateDoctorModal extends Component
 
             $this->resetForm();
             $this->dispatch('added');
-
         } catch (\Exception $e) {
             Helper::log($e);
         }
@@ -72,7 +92,8 @@ class CreateDoctorModal extends Component
         };
     }
 
-    private function resetForm() {
+    private function resetForm()
+    {
         $this->username = $this->password = $this->first_name = $this->last_name = $this->specialization = $this->phone = $this->photo = $this->other_phone = null;
         $this->clinic_id = array_key_first($this->clinics);
     }

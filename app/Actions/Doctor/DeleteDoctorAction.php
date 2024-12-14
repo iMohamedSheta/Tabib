@@ -33,7 +33,7 @@ class DeleteDoctorAction
             );
         } catch (\Exception $e) {
             DB::rollBack();
-            Helper::log($e);
+            log_error($e);
             return $this->error("حدث خطأ في عملية حذف الطبيب الرجاء المحاولة لاحقاً");
         }
     }

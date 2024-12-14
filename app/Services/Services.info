@@ -1,0 +1,20 @@
+# What is a Service?
+
+A service is a class responsible for handling internal operations or remote procedure calls (RPCs) within the application.
+It does not directly interact with external APIs or user-facing actions, but rather focuses on performing specific business logic,
+setting up necessary configurations, or executing tasks that are crucial for the application's flow.
+
+## Key Characteristics:
+- **Internal Operations**: Services perform internal processes that may not require user interaction but are essential for the system's functionality.
+- **No Direct User Interaction**: Services typically don't expose an endpoint or API; instead, they operate within the application's internal logic.
+- **Remote Procedure Calls (RPCs)**: A service may act like an internal RPC, calling various methods or orchestrating actions without needing external input.
+
+## Example of Service:
+- [OrganizationSetupService]:
+--  This service is responsible for setting up the organization profile after the organization is created.
+--   It handles the initialization of starter data (e.g., default clinic services) and other configuration steps.
+--   It does not trigger any external API requests or responses but performs actions within the application after the organization is created.
+
+## Summary:
+Services in this application are designed to handle business logic, internal setup,
+and other background tasks that don't directly involve API interactions but are essential to the application's processes.

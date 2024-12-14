@@ -7,7 +7,6 @@ use App\Enums\Actions\ActionResponseStatusEnum;
 use App\Models\Clinic;
 use App\Models\Doctor;
 use App\Proxy\Query\DoctorsQueryProxy;
-use App\Services\User\GetProfilePhotoUrlService;
 use App\Traits\LivewireTraits\withProfilePhotoTrait;
 use App\Traits\Pagination\WithCustomPagination;
 use App\Transformers\UserTransformer;
@@ -15,8 +14,6 @@ use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
-
-use function Laravel\Prompts\select;
 
 #[On(['added', 'updated', 'deleted'])]
 class DoctorTable extends Component
@@ -27,8 +24,8 @@ class DoctorTable extends Component
     public function getDoctors()
     {
         $dataCollection = (new DoctorsQueryProxy)
-                ->getOrganizationDoctors()
-                ->paginate(perPage: $this->perPage, page: $this->page);
+            ->getOrganizationDoctors()
+            ->paginate(perPage: $this->perPage, page: $this->page);
 
 
         UserTransformer::transformCollection($dataCollection, ['fullname', 'profile_photo_url']);
@@ -38,13 +35,12 @@ class DoctorTable extends Component
 
     public function getClinics(): array
     {
-        return Clinic::getClinicsList();
+        return Clinic::list();
     }
 
     public function deleteDoctorAction($id)
     {
-        try
-        {
+        try {
             $actionResponse = (new DeleteDoctorAction())->handle(
                 Doctor::find($id)
             );
@@ -54,8 +50,7 @@ class DoctorTable extends Component
             if (!$actionResponse->success) return;
 
             $this->dispatch('deleted');
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             log_error($e);
             flash()->error($this->matchStatus());
         }

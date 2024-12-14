@@ -3,7 +3,6 @@
 namespace App\Proxy\Query\Base;
 
 use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Facades\DB;
 
 abstract class QueryProxy
 {

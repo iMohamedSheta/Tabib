@@ -1,10 +1,12 @@
 @props(['items' => [], 'withError' => false, 'label' => 'اختر العناصر'])
 
-<div x-data="multiSelect()" class="relative block text-sm ">
+<div x-data="multiSelect('{{ json_encode($items, true) }}')" class="relative block text-sm ">
     <!-- Selected Tags Display -->
-    <div {!! $attributes->merge([ 'class' => 'flex flex-wrap gap-1 border  p-2 cursor-pointer w-full  text-sm bg-gray-200  dark:text-gray-500 focus:outline-none focus:shadow-outline-purple
-            border-gray-300 focus:border-purple-500 focus:ring-purple-500 rounded-md shadow-sm
-            dark:focus:shadow-outline-gray form-input']) !!} {{ $attributes->except('class') }}  @click="toggleDropdown">
+    <div {!! $attributes->merge([
+        'class' => 'flex flex-wrap gap-1 border  p-2 cursor-pointer w-full  text-sm bg-gray-200  dark:text-gray-500 focus:outline-none focus:shadow-outline-purple
+                                        border-gray-300 focus:border-purple-500 focus:ring-purple-500 rounded-md shadow-sm
+                                        dark:focus:shadow-outline-gray form-input',
+    ]) !!} {{ $attributes->except('class') }} @click="toggleDropdown">
         <template x-for="(option, index) in selectedOptions" :key="index">
             <span class="bg-purple-600 text-white px-2  rounded flex items-center space-x-1 text-sm">
                 <span x-text="option"></span>
@@ -37,11 +39,11 @@
 
 @push('scripts')
     <script>
-        function multiSelect() {
+        function multiSelect(items) {
             return {
                 dropdownOpen: false,
                 selectedOptions: [],
-                options: @json($items),
+                options: JSON.parse(items),
                 toggleDropdown() {
                     this.dropdownOpen = !this.dropdownOpen;
                 },
@@ -49,10 +51,9 @@
                     this.dropdownOpen = false;
                 },
                 toggleOption(option) {
-                    console.log(this.options);
                     if (this.isSelected(option)) {
                         this.selectedOptions = this.selectedOptions.filter(
-                            (selected) => selected.id !== option.id
+                            (selected) => selected !== option
                         );
                     } else {
                         this.selectedOptions.push(option);
@@ -60,11 +61,11 @@
                 },
                 removeOption(option) {
                     this.selectedOptions = this.selectedOptions.filter(
-                        (selected) => selected.id !== option.id
+                        (selected) => selected !== option
                     );
                 },
                 isSelected(option) {
-                    return this.selectedOptions.some((selected) => selected.id === option.id);
+                    return this.selectedOptions.includes(option);
                 },
             };
         }
