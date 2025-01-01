@@ -6,7 +6,7 @@ use App\Actions\ClinicService\DeleteClinicServiceAction;
 use App\Enums\Actions\ActionResponseStatusEnum;
 use App\Models\Clinic;
 use App\Models\ClinicService;
-use App\Proxy\Query\ClinicServicesQueryProxy;
+use App\Proxy\QueryBuilders\ClinicServiceQueryBuilderProxy;
 use App\Traits\Pagination\WithCustomPagination;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -18,10 +18,7 @@ class ClinicServiceTable extends Component
 
     protected function getClinicServices()
     {
-        return (new ClinicServicesQueryProxy)
-            ->getOrganizationClinicServices()
-            ->subQueryPatientsCount()
-            ->paginate(perPage: $this->perPage, page: $this->page);
+        return ClinicServiceQueryBuilderProxy::getClinicServicesForTable($this->perPage, $this->page);
     }
     public function getClinics()
     {

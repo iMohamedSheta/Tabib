@@ -2,14 +2,9 @@
 
 namespace {{ namespace }};
 
-use App\Proxy\Query\Base\QueryProxy;
-use Illuminate\Database\Query\Builder;
-use Illuminate\Support\Facades\DB;
+use App\Attributes\UsedIn;
 
-class {{ class }} extends QueryProxy
+class {{ class }}
 {
-    protected function initializeQuery(): Builder
-    {
-        return DB::table({{ class }});
-    }
+    //
 }

@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,11 +29,14 @@ class AppServiceProvider extends ServiceProvider
         $this->configurePulse();
         $this->configureCommands();
         $this->configureTelescope();
+        $this->configureModals();
+        $this->configureURLs();
     }
 
     private function configureVite()
     {
-        Vite::prefetch(3); // After the page is loaded for the first time,
+        Vite::usePrefetchStrategy('aggressive');
+        // Vite::prefetch(3); // After the page is loaded for the first time,
         // lazily load all the chunks of our website to the user.
     }
 
@@ -52,6 +57,19 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment('local')) {
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
+        }
+    }
+
+    private function configureModals(): void
+    {
+        Model::shouldBeStrict();
+        Model::unguard();
+    }
+
+    private function configureURLs(): void
+    {
+        if ($this->app->environment('production')) {
+            URL::forceScheme('https');
         }
     }
 }

@@ -65,6 +65,12 @@ function data() {
             document.exitFullscreen();
         }
     },
+    isAppSidebarClosed: JSON.parse(localStorage.getItem('isAppSidebarClosed')) || false,
+    toggleAppSidebar() {
+      this.isAppSidebarClosed = !this.isAppSidebarClosed;
+      localStorage.setItem('isAppSidebarClosed', JSON.stringify(this.isAppSidebarClosed));
+      console.log('this.isAppSidebarClosed '+ this.isAppSidebarClosed);
+    }
 }
 }
 

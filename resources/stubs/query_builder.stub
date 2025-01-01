@@ -1,0 +1,15 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\QueryBuilders\Base\QueryBuilderWrapper;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Support\Facades\DB;
+
+class {{ class }} extends QueryBuilderWrapper
+{
+    protected function initializeQuery(): Builder
+    {
+        return DB::table('');
+    }
+}

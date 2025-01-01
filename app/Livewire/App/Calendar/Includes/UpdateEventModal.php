@@ -31,10 +31,10 @@ class UpdateEventModal extends Component
     public function updateEventAction($event)
     {
         $validator = Validator::make($event, [
-            'id' => ['required','exists:calendars,id'],
-            'title' => ['required','string','max:255'],
-            'start' => ['required','date', new StartDateBeforeEndDate($event['end'])],
-            'end' => ['nullable','date','after_or_equal:start']
+            'id' => ['required', 'exists:calendars,id'],
+            'title' => ['required', 'string', 'max:255'],
+            'start' => ['required', 'date', new StartDateBeforeEndDate($event['end'])],
+            'end' => ['nullable', 'date', 'after_or_equal:start']
         ]);
 
         if (isset($event['end'])) {
@@ -54,16 +54,15 @@ class UpdateEventModal extends Component
         $calendarEvent = Calendar::find($eventId);
         $existingData = json_decode($calendarEvent->data, true) ?? [];
 
-        foreach($event as $key => $value) {
-            if(!blank($value)) {
-                if ((array_key_exists($key, $existingData) && $value != $existingData[$key] || !array_key_exists($key, $existingData) && $key != 'id') ) {
+        foreach ($event as $key => $value) {
+            if (!blank($value)) {
+                if ((array_key_exists($key, $existingData) && $value != $existingData[$key] || !array_key_exists($key, $existingData) && $key != 'id')) {
 
                     if (in_array($key, ['start', 'end'])) {
                         $existingData[$key] = Carbon::parse($value)->toIso8601String();
                     } else {
                         $existingData[$key] = $value;
                     }
-
                 }
             }
         }
@@ -75,7 +74,8 @@ class UpdateEventModal extends Component
     }
 
     #[On('updateEventDateAction')]
-    public function updateEventDateAction($id, $start, $end, $allDay) {
+    public function updateEventDateAction($id, $start, $end, $allDay)
+    {
         $event = Calendar::find($id);
         $event->data = json_decode($event->data);
         $event->data->start = $start;

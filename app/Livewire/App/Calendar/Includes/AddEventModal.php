@@ -10,12 +10,15 @@ use App\Enums\Calendar\CalendarTypeEnum;
 use App\Http\Requests\Patient\CreatePatientRequest;
 use App\Models\Calendar;
 use App\Models\ClinicService;
+use App\Models\Patient;
 use App\Models\User;
+use App\Proxy\QueryBuilders\PatientQueryBuilderProxy;
 use App\Rules\StartDateBeforeEndDate;
 use App\Traits\LivewireTraits\withProfilePhotoTrait;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\Locked;
 use Livewire\Component;
 
 class AddEventModal extends Component
@@ -41,34 +44,22 @@ class AddEventModal extends Component
     |--------------------------------------------
     */
     public $title = null;
-
     public $start = null;
-
     public $end = null;
-
     public $allDay = false;
-
+    public $search = '';
     public $clinics = [];
 
-    public $users;
-
-    public $search = '';
-
+    #[Locked]
     public $searchResults = [];
 
     // Step 2 Add new patient
     public $first_name = null;
-
     public $last_name = null;
-
     public $phone = null;
-
     public $other_phone = null;
-
     public $age = null;
-
     public $gender = null;
-
     public $clinic_id = null;
 
     // Step 3 select existing patient
@@ -77,14 +68,8 @@ class AddEventModal extends Component
     // Both (Step 2, Step 3)
     public $service_id = null;
 
-    public function mount()
-    {
-        $this->resetForm();
-    }
-
     public function render()
     {
-        $this->users = User::all();
         if (! blank($this->search)) {
             $this->searchResults = $this->getSearchResults();
         } else {
@@ -104,36 +89,13 @@ class AddEventModal extends Component
 
     public function getSearchResults()
     {
-        return DB::table('users')
-            ->sameOrganization()
-            ->isPatient()
-            ->select(
-                'users.id',
-                'users.first_name',
-                'users.last_name',
-                'users.username',
-                'users.phone',
-                'users.other_phone',
-                'users.profile_photo_path',
-                'patients.clinic_id',
-                'patients.age',
-                'patients.address',
-                'patients.gender',
-                'clinics.name as clinic_name',
-                'clinics.id as clinic_id'
-            )
-            ->join('patients', 'users.id', '=', 'patients.user_id')
-            ->join('clinics', 'patients.clinic_id', '=', 'clinics.id')
-            ->where(function ($query) {
-                $query->likeIn(['users.first_name', 'users.last_name', 'users.phone', 'users.other_phone'], $this->search);
-            })
-            ->take(5)
-            ->get();
+        return PatientQueryBuilderProxy::searchPatients($this->search);
     }
 
     protected function rules()
     {
         return array_merge(
+            $this->addedRules(),
             array_only((new CreatePatientRequest(array_keys($this->clinics)))->rules(),
                 [
                     'first_name',
@@ -144,11 +106,25 @@ class AddEventModal extends Component
                     'clinic_id',
                     'other_phone',
                 ]
-            ),
+            )
+        );
+    }
+
+    protected function addedRules(): array
+    {
+        return [
+            'start' => ['required', new StartDateBeforeEndDate($this->end)],
+            'end' => ['nullable', 'after_or_equal:start'],
+            'service_id' => ['required', 'in:' . implode(',', array_keys($this->getClinicServices()))],
+        ];
+    }
+
+    protected function rulesForAddEventWithExistingPatient(): array
+    {
+        return array_merge(
+            $this->addedRules(),
             [
-                'start' => ['required', new StartDateBeforeEndDate($this->end)],
-                'end' => ['nullable', 'after_or_equal:start'],
-                'service_id' => ['required', 'in:' . implode(',', array_keys($this->getClinicServices()))],
+                'patient_id' => ['required', 'exists:patients,id,organization_id,' . auth()->user()->organization_id],
             ]
         );
     }
@@ -204,12 +180,53 @@ class AddEventModal extends Component
         }
     }
 
-    public function matchStatus($actionResponseStatus): string
+    public function addEventWithExistingPatientAction()
+    {
+        $this->validate($this->rulesForAddEventWithExistingPatient());
+
+        try {
+            $this->start = CalendarDatepickerAdapter::handle($this->start);
+            $this->end = CalendarDatepickerAdapter::handle($this->end);
+
+            $clinicService = ClinicService::findOrFail($this->service_id);
+
+            $patient = Patient::with('user')->findOrFail($this->patient_id);
+
+            $title = "[{$clinicService->name}] {$patient->user->first_name} {$patient->user->last_name}";
+
+            $event = Calendar::create([
+                'organization_id' => auth()->user()->organization_id,
+                'clinic_service_id' => $clinicService->id,
+                'type' => CalendarTypeEnum::PATIENT_APPOINTMENT,
+                'data' => json_encode([
+                    'title' => $title,
+                    'start' => $this->start,
+                    'end' => $this->end,
+                    'allDay' => $this->allDay,
+                    'backgroundColor' => $clinicService->color,
+                ]),
+            ]);
+
+
+            flash()->success($this->matchStatus(ActionResponseStatusEnum::SUCCESS));
+            // flash()->{$actionResponse->success ? 'success' : 'error'}($this->matchStatus($actionResponse->status));
+
+            // if (! $actionResponse->success) {
+            //     return;
+            // }
+
+            $this->dispatchEventToCalendar('added', $event);
+            $this->resetForm();
+        } catch (\Exception $e) {
+        }
+    }
+
+    protected function matchStatus($actionResponseStatus): string
     {
         return match ($actionResponseStatus) {
-            ActionResponseStatusEnum::AUTHORIZE_ERROR => 'غير مسموح لك باضافة مريض!!',
-            ActionResponseStatusEnum::SUCCESS => 'تم انشاء المريض بنجاح',
-            default => 'حدث خطاء في عملية انشاء المريض، الرجاء المحاولة لاحقاً'
+            ActionResponseStatusEnum::AUTHORIZE_ERROR => 'غير مسموح لك بتسجيل الحجز للمريض!!',
+            ActionResponseStatusEnum::SUCCESS => 'تم تسجيل الحجز للمريض بنجاح',
+            default => 'حدث خطاء في عملية تسجيل الحجز  للمريض، الرجاء المحاولة لاحقاً'
         };
     }
 
@@ -232,7 +249,7 @@ class AddEventModal extends Component
         ]);
     }
 
-    public function resetForm()
+    protected function resetForm()
     {
         $this->title = null;
         $this->start = Carbon::now()->format('Y/m/d');
@@ -246,5 +263,8 @@ class AddEventModal extends Component
         $this->age = null;
         $this->gender = null;
         $this->clinic_id = null;
+        $this->service_id = null;
+        $this->patient_id = null;
+        $this->search = null;
     }
 }

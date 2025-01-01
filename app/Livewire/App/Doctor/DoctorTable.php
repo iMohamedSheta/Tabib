@@ -6,12 +6,10 @@ use App\Actions\Doctor\DeleteDoctorAction;
 use App\Enums\Actions\ActionResponseStatusEnum;
 use App\Models\Clinic;
 use App\Models\Doctor;
-use App\Proxy\Query\DoctorsQueryProxy;
+use App\Proxy\QueryBuilders\DoctorQueryBuilderProxy;
 use App\Traits\LivewireTraits\withProfilePhotoTrait;
 use App\Traits\Pagination\WithCustomPagination;
 use App\Transformers\UserTransformer;
-use Illuminate\Support\Facades\DB;
-use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -23,10 +21,7 @@ class DoctorTable extends Component
 
     public function getDoctors()
     {
-        $dataCollection = (new DoctorsQueryProxy)
-            ->getOrganizationDoctors()
-            ->paginate(perPage: $this->perPage, page: $this->page);
-
+        $dataCollection = DoctorQueryBuilderProxy::getDoctorsForTable($this->perPage, $this->page);
 
         UserTransformer::transformCollection($dataCollection, ['fullname', 'profile_photo_url']);
 

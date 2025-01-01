@@ -11,11 +11,26 @@
         </button>
         <!-- Search input -->
         <div class="flex justify-start flex-1 lg:ml-32 px-10">
-
-            <button class="  mx-2" x-on:click="toggleAppFullscreen()">
+            <button class="hidden md:block mx-2" x-on:click="toggleAppSidebar()">
+                <i x-show="isAppSidebarClosed" class="fas fa-arrow-left"></i>
+                <i x-show="!isAppSidebarClosed" class="fas fa-arrow-right "></i>
+            </button>
+            <button class=" mx-2" x-on:click="toggleAppFullscreen()">
                 <i x-show="!isAppFullscreen" class="fas fa-compress"></i>
                 <i x-show="isAppFullscreen" class="fas fa-expand"></i>
             </button>
+            <li class="relative mx-4 flex justify-center items-center " x-data="receptionGlobalSearchModal">
+                <form autocomplete="off">
+                    <x-input type="search" class="py-1 bg-purple-200 text-sm hidden lg:block  xl:w-80"
+                        placeholder="بحث" name="search-input" spellcheck="false"
+                        x-on:click="showReceptionSearchModal = true" />
+                </form>
+
+
+                @teleport('body')
+                    <livewire:app.reception.reception-global-search-modal show="showReceptionSearchModal" />
+                @endteleport
+            </li>
         </div>
         <ul class="hidden md:flex items-center flex-shrink-0">
             <li class="relative mx-4 flex justify-center items-center">
@@ -111,7 +126,8 @@
                             <a class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
                                 href="#">
                                 <svg class="w-4 h-4 mr-3" aria-hidden="true" fill="none" stroke-linecap="round"
-                                    stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                                    stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
+                                    stroke="currentColor">
                                     <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
                                     </path>
                                 </svg>

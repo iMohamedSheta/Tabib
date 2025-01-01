@@ -175,23 +175,37 @@
                         اختيار مريض مسجل
                     </h3>
                     <div class="flex flex-wrap">
-                        <div class="mt-4 w-full px-2">
+                        <div class="mt-4 w-full px-2" x-data="{
+                            selectedPatient: '',
+                            showSearchResults: true,
+                            searchResultClicked(name, id) {
+                                this.selectedPatient = name;
+                                showPopover = false;
+                                this.showSearchResults = false;
+                                $refs.search.classList.add('text-blue-100', 'font-bold', 'bg-[#1F2937]', 'text-2xl');
+                                $refs.search.value = name;
+                                $refs.patientId.value = id;
+                                triggerLivewireInputEvent($refs.patientId)
+                            }
+                        }">
                             <label>
                                 الاسم
                                 <span class="text-red-600">*</span>
                             </label>
-                            <x-input type="text" id="patient" wire:model.live.debounce.500ms="search"
-                                withError="search"
-                                class="mt-4 bg-gray-100 px-4 py-2 rounded  text-sm text-gray-500 w-full break-all"
+                            <x-input type="text" x-ref="search" wire:model.live.debounce.500ms="search"
+                                x-on:input="if (selectedPatient === '') { $refs.patientId.value = '';$refs.search.classList.add('text-gray-500');triggerLivewireInputEvent($refs.patientId) }"
+                                withError="search" x-model="selectedPatient" x-on:click="showSearchResults = true"
+                                class="mt-4 px-4 py-2 rounded  text-sm {{ !blank($patient_id) ? 'text-blue-100 text-2xl font-bold bg-[#1F2937]' : '' }}  w-full break-all"
                                 autofocus autocomplete="off" autocorrect="off" autocapitalize="off"
                                 spellcheck="false" />
-                            <ul class="bg-[#111827] rounded-b-2xl">
+                            <input type="hidden" x-ref="patientId" wire:model="patient_id">
+                            <ul class="bg-[#111827] rounded-b-2xl" x-show="showSearchResults">
                                 @foreach ($searchResults as $user)
                                     <li x-data="{ showPopover: false }" class="relative w-full ">
                                         <button
                                             class="flex justify-center items-center  px-4 py-2 text-white  hover:bg-[#1F2937] rounded-b-2xl
                                             focus:outline-none  transition-colors  ease-in-out duration-50 w-full"
-                                            x-on:click="selectPatient('{{ $user->id }}')"
+                                            x-on:click="searchResultClicked('{{ $user->first_name }} {{ $user->last_name }}', '{{ $user->patient_id }}')"
                                             x-on:mouseenter="showPopover = true"
                                             x-on:mouseleave="showPopover = false">
                                             <img class="object-cover w-8 h-8 rounded-full"
@@ -276,10 +290,16 @@
                             </button>
                         </div>
                         <div>
-                            <button class="mx-2 btn-dark text-sm disabled:opacity-50"
+                            <button class="mx-2 btn-dark text-sm disabled:opacity-50" x-show="step == 2"
                                 wire:click="addPatientWithEventAction" wire:loading.attr="disabled">
                                 <i class="fa fa-spinner fa-spin px-1" wire:loading
                                     wire:target="addPatientWithEventAction"></i>
+                                {{ __('حفظ') }}
+                            </button>
+                            <button class="mx-2 btn-dark text-sm disabled:opacity-50" x-show="step == 3"
+                                wire:click="addEventWithExistingPatientAction" wire:loading.attr="disabled">
+                                <i class="fa fa-spinner fa-spin px-1" wire:loading
+                                    wire:target="addEventWithExistingPatientAction"></i>
                                 {{ __('حفظ') }}
                             </button>
                             <x-danger-button x-on:click="show = false;setTimeout(() => step = 1, 300)">

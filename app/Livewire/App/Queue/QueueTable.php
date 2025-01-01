@@ -4,16 +4,18 @@ namespace App\Livewire\App\Queue;
 
 use App\Models\Clinic;
 use App\Models\Patient;
+use App\Proxy\QueryBuilders\PatientQueryBuilderProxy;
 use App\Traits\Pagination\WithCustomPagination;
 use Livewire\Component;
 
 class QueueTable extends Component
 {
     use WithCustomPagination;
+    public $search = '';
 
     public function getQueues()
     {
-        return Patient::query()->paginate(perPage: $this->perPage, page: $this->page);
+        return PatientQueryBuilderProxy::getPatientsForTable($this->perPage, $this->page, $this->search);
     }
 
     public function getClinics()

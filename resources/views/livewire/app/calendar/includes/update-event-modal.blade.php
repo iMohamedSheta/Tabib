@@ -19,7 +19,7 @@
                             عنوان المهمة
                             <span class="text-red-600">*</span>
                         </label>
-                        <x-input type="text" id="update_title"  x-model="update_title" wire:ignore withError="title"
+                        <x-input type="text" id="update_title" x-model="update_title" wire:ignore withError="title"
                             class="mt-4 bg-gray-100 px-4 py-2 rounded  text-sm text-gray-500 w-full break-all" autofocus
                             autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
                     </div>
@@ -28,7 +28,8 @@
                             يبدا في
                             <span class="text-red-600">*</span>
                         </label>
-                        <x-input type="date" id="update-evert-start-datepicker" wire:ignore x-model="update_start" withError="start"
+                        <x-input type="date" id="update-evert-start-datepicker" wire:ignore x-model="update_start"
+                            withError="start"
                             class='border-gray-300  focus:border-indigo-500 mt-4 bg-gray-100 px-4 py-2  text-sm text-gray-500 w-full break-all focus:ring-indigo-500 rounded shadow-sm' />
 
                     </div>
@@ -36,8 +37,8 @@
                         <label>
                             ينتهي في
                         </label>
-                        <x-input type="date" id="update-evert-end-datepicker" wire:ignore x-model="update_end" withError="end"
-                            wire:model="update_end"
+                        <x-input type="date" id="update-evert-end-datepicker" wire:ignore x-model="update_end"
+                            withError="end" wire:model="update_end"
                             class='border-gray-300  focus:border-indigo-500 mt-4 bg-gray-100 px-4 py-2  text-sm text-gray-500 w-full break-all focus:ring-indigo-500 rounded shadow-sm' />
 
                     </div>
@@ -108,22 +109,24 @@
                     <i class="fa fa-spinner fa-spin px-1" wire:loading wire:target="updateEventAction"></i>
                     {{ __('حفظ') }}
                 </button> --}}
-                <div>
-                    <button
-                        type="button"
-                        x-on:click="isUpdateLoading = true; updateEventAction()"
-                        x-bind:disabled="isUpdateLoading"
-                        x-on:rendered-update-event-modal.window="isUpdateLoading = false"
-                        class="mx-2 btn-dark text-sm disabled:opacity-50"
-                    >
-                        <i class="fa fa-spinner fa-spin px-1" x-show="isUpdateLoading"></i>
-                        {{ __('حفظ') }}
-                    </button>
+                <div class="flex justify-between items-center w-full">
+                    <x-danger-button x-on:click="deleteEventAction('{{ $update_title }}', '{{ $update_event_id }}')"
+                        x-on:deleted:event.window="showUpdate = false; this.$refresh()" wire:loading.attr="disabled">
+                        {{ __('حذف') }}
+                    </x-danger-button>
+                    <div>
+                        <button type="button" x-on:click="isUpdateLoading = true; updateEventAction()"
+                            x-bind:disabled="isUpdateLoading"
+                            x-on:rendered-update-event-modal.window="isUpdateLoading = false"
+                            class="mx-2 btn-dark text-sm disabled:opacity-50">
+                            <i class="fa fa-spinner fa-spin px-1" x-show="isUpdateLoading"></i>
+                            {{ __('حفظ') }}
+                        </button>
+                        <x-danger-button x-on:click="showUpdate = false">
+                            {{ __('اغلاق') }}
+                        </x-danger-button>
+                    </div>
                 </div>
-
-                <x-danger-button x-on:click="showUpdate = false">
-                    {{ __('اغلاق') }}
-                </x-danger-button>
             </x-slot>
         </x-modals.modal>
     </div>

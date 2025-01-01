@@ -4,6 +4,7 @@ namespace App\Livewire\App\Patient;
 
 use App\Models\Clinic;
 use App\Models\Patient;
+use App\Proxy\QueryBuilders\PatientQueryBuilderProxy;
 use App\Traits\Pagination\WithCustomPagination;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -12,20 +13,23 @@ use Livewire\Component;
 class PatientTable extends Component
 {
     use WithCustomPagination;
+
+    public $search = null;
+
     public function getPatients()
     {
-        // return DB::table('patients')->where('clinic_id', auth()->user()->clinicAdmin->clinic_id)->paginate(perPage: $this->perPage, page: $this->page);
-        return Patient::paginate(perPage: $this->perPage, page: $this->page);
+
+        return PatientQueryBuilderProxy::getPatientsForTable($this->perPage, $this->page, $this->search);
     }
 
     public function getClinics()
     {
-        return Clinic::pluck('name', 'id')->toArray();
+        return Clinic::list();
     }
 
     public function render()
     {
-        return view('livewire.app.patient.patient-table',[
+        return view('livewire.app.patient.patient-table', [
             'patients' => $this->getPatients(),
             'clinics' => $this->getClinics()
         ]);

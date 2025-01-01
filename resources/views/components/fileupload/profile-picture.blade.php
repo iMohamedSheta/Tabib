@@ -1,12 +1,12 @@
-@props(['withError' => false, 'defaultImage' => 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y'])
+@props([
+    'withError' => false,
+    'defaultImage' => 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y',
+])
 
 <div x-data="fileUpload()" class="mt-4 w-full px-2">
-    <div
-        class="w-full py-6 bg-gray-50 rounded-2xl border border-gray-300 border-dashed"
-        :class="{ 'border-purple-600 bg-indigo-50': isDragging }"
-        @dragover.prevent="isDragging = true"
-        @dragleave.prevent="isDragging = false"
-        @drop.prevent="handleDrop">
+    <div class="w-full py-6 bg-gray-50 rounded-2xl border border-gray-300 border-dashed"
+        :class="{ 'border-purple-600 bg-indigo-50': isDragging }" @dragover.prevent="isDragging = true"
+        @dragleave.prevent="isDragging = false" @drop.prevent="handleDrop">
 
         <div class="grid gap-3">
             <div>
@@ -19,7 +19,7 @@
                 </template>
 
                 <h2 class="text-center text-gray-400 text-xs font-light leading-4">
-                    PNG, JPG, JPEG, اصغر من 15MB
+                    PNG, JPG, JPEG, اصغر من 2MB
                 </h2>
             </div>
 
@@ -29,7 +29,8 @@
                 </h4>
                 <div class="flex items-center justify-center">
                     <label>
-                        <input type="file" {{ $attributes->except('class') }} hidden x-ref="fileInput" @change="showPreview">
+                        <input type="file" {{ $attributes->except('class') }} hidden x-ref="fileInput"
+                            @change="showPreview">
                         <div
                             class="flex w-32 h-9 px-2 flex-col bg-purple-600 rounded-full shadow text-white text-xs font-semibold leading-4 items-center justify-center cursor-pointer focus:outline-none">
                             اختيار صورة شخصية

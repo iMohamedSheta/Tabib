@@ -1,6 +1,6 @@
 @php
     use Carbon\Carbon;
-    use App\Enums\Helper\HelperEnum;
+    use App\Enums\Helpers\HelperEnum;
     use App\Formatters\MoneyFormatter;
 @endphp
 <div>
@@ -51,7 +51,7 @@
                                 </span>
                                 <span class="p-2 rounded-full text-white"
                                     style="background-color:{{ $clinicService->color }}">
-                                    {{ $clinicService->color ?? HelperEnum::NOT_AVAILABLE }}
+                                    {{ $clinicService->color ?? HelperEnum::NOT_AVAILABLE->label() }}
                                 </span>
                             </dd>
                         </div>
@@ -60,7 +60,7 @@
                                 وصف الخدمة الطبية
                             </dt>
                             <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                {{ $clinicService->description ?? HelperEnum::NOT_AVAILABLE }}
+                                {{ $clinicService->description ?? HelperEnum::NOT_AVAILABLE->label() }}
                             </dd>
                         </div>
                     </dl>

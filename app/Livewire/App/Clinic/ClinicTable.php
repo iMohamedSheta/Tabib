@@ -4,20 +4,18 @@ namespace App\Livewire\App\Clinic;
 
 use App\Enums\User\UserRoleEnum;
 use App\Models\Clinic;
+use App\Proxy\QueryBuilders\ClinicQueryBuilderProxy;
+use App\Traits\Pagination\WithCustomPagination;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class ClinicTable extends Component
 {
+    use WithCustomPagination;
 
     protected function getClinics()
     {
-        return DB::table('clinics')
-            ->sameOrganization()
-            ->select(['clinics.*', 'plans.id as plan_id', 'plans.name as plan_name'])
-            ->join('plans', 'clinics.plan_id', '=', 'plans.id')
-            ->where('deleted_at', null)
-            ->paginate();
+        return ClinicQueryBuilderProxy::getClinicsForTable($this->perPage, $this->page);
     }
 
     public function render()
@@ -25,10 +23,5 @@ class ClinicTable extends Component
         return view('livewire.app.clinic.clinic-table', [
             'clinics' => $this->getClinics()
         ]);
-    }
-
-    public function getAuthUserPrefix(): string
-    {
-        return UserRoleEnum::getAuthPrefix();
     }
 }

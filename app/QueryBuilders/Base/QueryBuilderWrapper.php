@@ -1,16 +1,21 @@
 <?php
 
-namespace App\Proxy\Query\Base;
+namespace App\QueryBuilders\Base;
 
 use Illuminate\Database\Query\Builder;
 
-abstract class QueryProxy
+abstract class QueryBuilderWrapper
 {
     protected Builder $query;
 
     public function __construct()
     {
         $this->query = $this->initializeQuery();
+    }
+
+    public static function Instance(): static
+    {
+        return new static();
     }
 
     // Abstract method that forces the subclass to define how the query should be initialized

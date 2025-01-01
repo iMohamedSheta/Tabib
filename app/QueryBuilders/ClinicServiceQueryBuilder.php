@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Proxy\Query;
+namespace App\QueryBuilders;
 
-use App\Proxy\Query\Base\QueryProxy;
+use App\QueryBuilders\Base\QueryBuilderWrapper;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 
-class ClinicServicesQueryProxy extends QueryProxy
+class ClinicServiceQueryBuilder extends QueryBuilderWrapper
 {
     protected function initializeQuery(): Builder
     {
@@ -24,7 +24,7 @@ class ClinicServicesQueryProxy extends QueryProxy
         return $this;
     }
 
-    public function subQueryPatientsCount()
+    public function withPatientsCount()
     {
         $patientCountQuery = DB::table('calendars')
             ->select('clinic_service_id', DB::raw('COUNT(id) as patients_count'))

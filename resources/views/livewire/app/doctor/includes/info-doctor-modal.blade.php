@@ -1,6 +1,6 @@
 @php
     use Carbon\Carbon;
-    use App\Enums\Helper\HelperEnum;
+    use App\Enums\Helpers\HelperEnum;
 @endphp
 <div>
     <x-modals.modal @keydown.escape.window="show = false" maxWidth="4xl">
@@ -57,7 +57,7 @@
                                 رقم الهاتف الاضافي
                             </dt>
                             <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                {{ $doctor->other_phone ?? HelperEnum::NOT_AVAILABLE }}
+                                {{ $doctor->other_phone ?? HelperEnum::NOT_AVAILABLE->label() }}
                             </dd>
                         </div>
                         <div class="px-4 py-3  sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -65,7 +65,7 @@
                                 الحالة
                             </dt>
                             <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                {{ $doctor->is_active ? 'مفعل' : 'غير مفعل' ?? HelperEnum::NOT_AVAILABLE }}
+                                {{ $doctor->is_active ? 'مفعل' : 'غير مفعل' ?? HelperEnum::NOT_AVAILABLE->label() }}
                             </dd>
                         </div>
                         <div class="px-4 py-3  sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -73,7 +73,7 @@
                                 اسم المستخدم
                             </dt>
                             <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                {{ $doctor->username ?? HelperEnum::NOT_AVAILABLE }}
+                                {{ $doctor->username ?? HelperEnum::NOT_AVAILABLE->label() }}
                             </dd>
                         </div>
                         <div class="px-4 py-3  sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -81,7 +81,7 @@
                                 البريد الالكتروني
                             </dt>
                             <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                {{ $doctor->email ?? HelperEnum::NOT_AVAILABLE }}
+                                {{ $doctor->email ?? HelperEnum::NOT_AVAILABLE->label() }}
                             </dd>
                         </div>
                         <div class="px-4 py-3  sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -89,7 +89,7 @@
                                 اخر اتصال بالنظام
                             </dt>
                             <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                {{ Carbon::parse($doctor->last_connect)->diffForHumans() ?? HelperEnum::NOT_AVAILABLE }}
+                                {{ Carbon::parse($doctor->last_connect)->diffForHumans() ?? HelperEnum::NOT_AVAILABLE->label() }}
                             </dd>
                         </div>
                         <div class="px-4 py-3  sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -97,7 +97,7 @@
                                 الوصف
                             </dt>
                             <dd class="mt-1 text-sm/6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                {{ $doctor->biography ?? HelperEnum::NOT_AVAILABLE }}
+                                {{ $doctor->biography ?? HelperEnum::NOT_AVAILABLE->label() }}
                             </dd>
                         </div>
                     </dl>

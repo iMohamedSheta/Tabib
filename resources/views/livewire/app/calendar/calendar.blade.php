@@ -71,7 +71,7 @@
                         eventResizableFromStart: true,
                         eventStartEditable: true,
                         eventDurationEditable: true,
-                        displayEventTime: true,
+                        displayEventTime: false,
                         locale: 'ar',
                         direction: 'rtl',
                         allDaySlot: true,
@@ -218,6 +218,17 @@
                     this.calendar.refetchEvents();
                     this.calendar.render();
                     // this.showUpdate = false;
+                },
+                deleteEventAction() {
+                    let title = "هل أنت متأكد من حذف الميعاد " + this.update_title + " ؟";
+                    let text = "سوف يتم حذف هذه الميعاد نهائياً!";
+                    confirmDelete(title, text).then((result) => {
+                        if (result.isConfirmed) {
+                            @this.call('deleteEventAction', this.update_event_id)
+                            const calendarEvent = this.calendar.getEventById(this.update_event_id);
+                            calendarEvent.remove();
+                        }
+                    });
                 },
                 toggleFullscreen() {
                     const calendarContainer = document.getElementById('calendarComponent');

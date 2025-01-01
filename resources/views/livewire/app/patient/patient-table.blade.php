@@ -21,6 +21,10 @@
                 <div class="flex justify-between mb-4" x-data="addModal" x-on:added="show = false">
                     <livewire:app.patient.includes.create-patient-modal
                         :clinics="$clinics"></livewire:app.patient.includes.create-patient-modal>
+                    <div class="w-1/2 flex justify-end">
+                        <x-input wire:model.live.debounce.500ms="search" placeholder="بحث"
+                            class="py-1 text-sm mt-2 w-1/3 text-gray-600 bg-purple-200" />
+                    </div>
                 </div>
                 <x-datatable.thead :headers="__('datatable.patient_table')" :iterator="true" :sorting="true"></x-datatable.thead>
             </x-slot>
@@ -30,7 +34,7 @@
                         <td class="px-4 py-3">
                             @iteration($patients)
                         </td>
-                        <x-datatable.tdata.actions :name='"{$patient->user->first_name}  {$patient->user->last_name}"'>
+                        <x-datatable.tdata.actions :name='"{$patient->first_name}  {$patient->last_name}"'>
                             <div x-data="updateModal" x-on:updated="show = false">
                                 <x-datatable.tdata.link href="#" @click="show = true">
                                     <i class="fa-solid fa-pencil fa-lg px-2"></i>
@@ -56,7 +60,7 @@
 
                             <div x-data="deleteData">
                                 <x-datatable.tdata.link href="#"
-                                    x-on:click="confirmedDelete('{{ $patient->user->firstname }}', '{{ $patient->id }}')"
+                                    x-on:click="confirmedDelete('{{ $patient->first_name }}', '{{ $patient->id }}')"
                                     class="bg-red-500 hover:bg-red-600 dark:hover:bg-red-600  text-white hover:text-white">
                                     <i class="fa-solid fa-trash fa-lg px-2"></i>
                                     حذف
@@ -64,10 +68,10 @@
                             </div>
                         </x-datatable.tdata.actions>
                         <td class="px-4 py-3">
-                            {{ $patient->clinic->name }}
+                            {{ $patient->clinic_name }}
                         </td>
                         <td class="px-4 py-3">
-                            {{ $patient->user->phone }}
+                            {{ $patient->phone }}
                         </td>
                         <td class="px-4 py-3" dir="ltr">
                             {{ Carbon::parse($patient->created_at)->format('d/m/Y - h:ia ') }}

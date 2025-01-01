@@ -5,6 +5,7 @@ namespace App\Livewire\App\Doctor\Includes;
 use App\Actions\Doctor\CreateDoctorAction;
 use App\DTOs\Doctor\CreateDoctorDTO;
 use App\Enums\Actions\ActionResponseStatusEnum;
+use App\Enums\Helpers\Dates\DaysEnum;
 use App\Helpers\Helper;
 use App\Http\Requests\Doctor\CreateDoctorRequest;
 use App\Traits\LivewireTraits\WithSteps;
@@ -41,21 +42,9 @@ class CreateDoctorModal extends Component
 
     public function mount(array $clinics)
     {
-        $this->days = [
-            'السبت',
-            'الاحد',
-            'الاثنين',
-            'الثلاثاء',
-            'الاربع',
-            'الخميس',
-            'الجمعة'
-        ];
-
-
-
+        $this->days = DaysEnum::getDaysLabels();
         $this->maxSteps = 4;
         $this->clinics = $clinics;
-        $this->clinic_id = array_key_first($this->clinics);
     }
 
     protected function rules(): array
@@ -95,7 +84,6 @@ class CreateDoctorModal extends Component
     private function resetForm()
     {
         $this->username = $this->password = $this->first_name = $this->last_name = $this->specialization = $this->phone = $this->photo = $this->other_phone = null;
-        $this->clinic_id = array_key_first($this->clinics);
     }
 
     public function render()

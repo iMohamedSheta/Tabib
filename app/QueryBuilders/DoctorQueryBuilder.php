@@ -1,14 +1,13 @@
 <?php
 
-namespace App\Proxy\Query;
+namespace App\QueryBuilders;
 
-use App\Proxy\Query\Base\QueryProxy;
+use App\QueryBuilders\Base\QueryBuilderWrapper;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 
-class DoctorsQueryProxy extends QueryProxy
+class DoctorQueryBuilder extends QueryBuilderWrapper
 {
-
     protected function initializeQuery(): Builder
     {
         return DB::table('doctors');
