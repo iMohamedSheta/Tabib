@@ -12,7 +12,7 @@
     @vite('resources/js/app.js')
     {{-- <link rel="stylesheet" href="{{ asset('assets/css/tailwind.output.css') }}" /> --}}
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    {{-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" /> --}}
     {{-- <link rel="stylesheet" href="{{ asset('assets/css/fonts-family.css') }}" /> --}}
 
     <script src="{{ asset('assets/js/init-alpine.js') }}"></script>
@@ -20,16 +20,26 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Changa:wght@200..800&family=El+Messiri:wght@400..700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Changa:wght@200..800&family=El+Messiri:wght@400..700&family=Kufam:ital,wght@0,400..900;1,400..900&display=swap"
         rel="stylesheet">
-
     @laravelPWA
     <style>
-        body {
+        /* body {
             font-family: "El Messiri", sans-serif;
             font-optical-sizing: auto;
             font-style: normal;
+        } */
+        body {
+            font-family: "Cairo", sans-serif;
+            font-size: 0.75rem !important;
+            font-weight: 500 !important;
         }
+
+        /* body {
+            font-family: "Changa", sans-serif;
+            font-size: 0.75rem !important;
+            font-weight: 500 !important;
+        } */
     </style>
     @stack('styles')
     <!-- Styles -->
@@ -54,7 +64,7 @@
             {{-- /Header --}}
 
             <main>
-                <div class="min-h-[82vh]">
+                <div class="min-h-[87vh]">
                     <x-spinners.t-spinner></x-spinners.t-spinner>
 
                     {{ $slot }}

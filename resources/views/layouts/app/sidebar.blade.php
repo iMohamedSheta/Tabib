@@ -4,7 +4,7 @@
  scrollbar-thin scrollbar-track-purple-800 scrollbar-thumb-purple-500 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800 transition-all  duration-500"
     style="z-index: 0" :class="{ 'w-64': !isAppSidebarClosed, 'w-24': isAppSidebarClosed }">
     <div class="pb-4 text-gray-500 dark:text-gray-400">
-        <div class="text-center bg-c-gray-800 dark:bg-purple-800  pb-2 pt-4 rounded transition-all duration-500"
+        <div class="text-center bg-c-gray-800   pb-2 pt-4 rounded transition-all duration-500"
             x-show="!isAppSidebarClosed">
             <a class="text-2xl font-extrabold text-purple-200 dark:text-purple-200 " href="#">
                 {{-- طبيب<span class=" text-purple-300 dark:text-purple-600 ">.كلاود</span> --}}

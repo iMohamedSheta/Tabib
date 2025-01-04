@@ -28,7 +28,7 @@ class FacebookSocialiteController extends Controller
 
     public function callback()
     {
-        $socialite = Socialite::driver('facebook')->user();
+        $socialite = Socialite::driver('facebook')->stateless()->user();
 
         // Search for existing user either by OAuth ID or email
         $user = User::where(function ($query) use ($socialite) {

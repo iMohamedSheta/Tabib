@@ -2,7 +2,7 @@
     use Carbon\Carbon;
 @endphp
 
-<div class="md:container py-6 mx-auto grid my-6 text-gray-700 dark:text-gray-200">
+<div class="py-6 md:mx-4 grid  text-gray-700 dark:text-gray-200">
     <x-main.head wire:ignore>
         <x-slot name="title">
             المرضي
@@ -23,7 +23,7 @@
                         :clinics="$clinics"></livewire:app.patient.includes.create-patient-modal>
                     <div class="w-1/2 flex justify-end">
                         <x-input wire:model.live.debounce.500ms="search" placeholder="بحث"
-                            class="py-1 text-sm mt-2 w-1/3 text-gray-600 bg-purple-200" />
+                            class="py-1 text-xs mt-2 w-1/3 text-gray-600 bg-purple-200" />
                     </div>
                 </div>
                 <x-datatable.thead :headers="__('datatable.patient_table')" :iterator="true" :sorting="true"></x-datatable.thead>

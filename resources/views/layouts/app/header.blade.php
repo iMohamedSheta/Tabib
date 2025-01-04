@@ -1,4 +1,4 @@
-<header class="sticky top-0 z-10 py-4 m-4  flex  rounded-xl bg-purple-800 opacity-90 shadow-lg dark:bg-c-gray-800 ">
+<header class="sticky top-0 z-10 py-2   flex   bg-purple-800 opacity-90 shadow-lg dark:bg-c-gray-800 ">
     <div class="container contents  h-full px-6 mx-auto text-white dark:text-purple-300">
         <!-- Mobile hamburger -->
         <button class="p-1 -ml-1 mr-5 justify-start rounded-md md:hidden focus:outline-none focus:shadow-outline-purple"
@@ -12,8 +12,8 @@
         <!-- Search input -->
         <div class="flex justify-start flex-1 lg:ml-32 px-10">
             <button class="hidden md:block mx-2" x-on:click="toggleAppSidebar()">
-                <i x-show="isAppSidebarClosed" class="fas fa-arrow-left"></i>
-                <i x-show="!isAppSidebarClosed" class="fas fa-arrow-right "></i>
+                <i x-show="isAppSidebarClosed" class="fas fa-bars-staggered "></i>
+                <i x-show="!isAppSidebarClosed" class="fas fa-bars "></i>
             </button>
             <button class=" mx-2" x-on:click="toggleAppFullscreen()">
                 <i x-show="!isAppFullscreen" class="fas fa-compress"></i>
@@ -21,7 +21,7 @@
             </button>
             <li class="relative mx-4 flex justify-center items-center " x-data="receptionGlobalSearchModal">
                 <form autocomplete="off">
-                    <x-input type="search" class="py-1 bg-purple-200 text-sm hidden lg:block  xl:w-80"
+                    <x-input type="search" class="py-1 bg-purple-200 text-xs hidden lg:block  xl:w-80"
                         placeholder="بحث" name="search-input" spellcheck="false"
                         x-on:click="showReceptionSearchModal = true" />
                 </form>
@@ -34,7 +34,7 @@
         </div>
         <ul class="hidden md:flex items-center flex-shrink-0">
             <li class="relative mx-4 flex justify-center items-center">
-                <span class="text-white  text-sm dark:bg-gray-800 bg-purple-600 p-3 rounded-full shadow-lg">
+                <span class="text-white  dark:bg-gray-800 bg-purple-600 p-3 rounded-full shadow-lg">
                     كود التحصيل :
                     {{ auth()->user()->organization->billing_code }}
                 </span>
@@ -80,7 +80,7 @@
                         class="absolute left-0 w-56 p-2 mt-2 space-y-2 text-gray-600 bg-white border border-gray-100 rounded-md shadow-md dark:text-gray-300 dark:border-gray-700 dark:bg-gray-700"
                         aria-label="submenu">
                         <li class="flex">
-                            <a class="inline-flex items-center justify-between w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
+                            <a class="inline-flex items-center justify-between w-full px-2 py-1  font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
                                 href="#">
                                 <span>Messages</span>
                                 <span
@@ -90,7 +90,7 @@
                             </a>
                         </li>
                         <li class="flex">
-                            <a class="inline-flex items-center justify-between w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
+                            <a class="inline-flex items-center justify-between w-full px-2 py-1  font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
                                 href="#">
                                 <span>Sales</span>
                                 <span
@@ -100,7 +100,7 @@
                             </a>
                         </li>
                         <li class="flex">
-                            <a class="inline-flex items-center justify-between w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
+                            <a class="inline-flex items-center justify-between w-full px-2 py-1  font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
                                 href="#">
                                 <span>Alerts</span>
                             </a>
@@ -123,7 +123,7 @@
                         class="absolute left-0 w-56 p-2 mt-2 space-y-2  bg-purple-600 text-white  rounded-md shadow-md dark:border-gray-700 dark:text-gray-300 dark:bg-gray-700"
                         aria-label="submenu">
                         <li class="flex">
-                            <a class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
+                            <a class="inline-flex items-center w-full px-2 py-1  font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
                                 href="#">
                                 <svg class="w-4 h-4 mr-3" aria-hidden="true" fill="none" stroke-linecap="round"
                                     stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
@@ -135,7 +135,7 @@
                             </a>
                         </li>
                         <li class="flex">
-                            <a class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
+                            <a class="inline-flex items-center w-full px-2 py-1  font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
                                 href="#">
                                 <svg class="w-4 h-4 mr-3" aria-hidden="true" fill="none" stroke-linecap="round"
                                     stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
@@ -153,7 +153,7 @@
                             @csrf
                             <li class="flex">
                                 <button
-                                    class="inline-flex items-center w-full px-2 py-1 text-sm font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
+                                    class="inline-flex items-center w-full px-2 py-1  font-semibold transition-colors duration-150 rounded-md hover:bg-gray-100 hover:text-gray-800 dark:hover:bg-gray-800 dark:hover:text-gray-200"
                                     type="submit">
                                     <svg class="w-4 h-4 mr-3 " aria-hidden="true" fill="none"
                                         stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

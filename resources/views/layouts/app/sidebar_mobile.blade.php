@@ -8,7 +8,7 @@
         class="fixed inset-0 z-10 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center">
     </div>
     <aside
-        class="fixed m-4 pt-10 rounded-xl top-8 bottom-0 z-20 flex-shrink-0 w-64 mt-16 overflow-y-auto bg-white dark:bg-c-gray-800  md:hidden
+        class="fixed top-12 bottom-0 z-20 flex-shrink-0 w-64  overflow-y-auto bg-white dark:bg-c-gray-800  md:hidden
     scrollbar-thin scrollbar-thumb-gray-400 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800"
         x-show="isSideMenuOpen" x-transition:enter="transition ease-in-out duration-150"
         x-transition:enter-start="opacity-0 transform translate-x-20" x-transition:enter-end="opacity-100"

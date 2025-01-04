@@ -13,6 +13,8 @@
 use App\Enums\Exceptions\ExceptionCodeEnum;
 use App\Enums\User\UserRoleEnum;
 use App\Exceptions\Test\TestException;
+use App\Generators\ClinicCodeGenerator;
+use App\Generators\PUIDGenerator;
 use App\Http\Controllers\Auth\Socialite\FacebookSocialiteController;
 use App\Http\Controllers\Auth\Socialite\GoogleSocialiteController;
 use App\Http\Controllers\PWA\LaravelPWAController;
@@ -25,7 +27,7 @@ use Illuminate\Support\Facades\Route;
 
 
 # Home
-Route::get('/', function() {
+Route::get('/', function () {
     if (Auth::check()) {
         return redirect(UserRoleEnum::authRedirectRouteBasedOnType());
     }
@@ -33,8 +35,7 @@ Route::get('/', function() {
 });
 
 # PWA
-Route::group(['as' => 'laravelpwa.'], function()
-{
+Route::group(['as' => 'laravelpwa.'], function () {
     // Instead of using the file generate file every time with the updated version from the laravelpwa config
     Route::get('/manifest.json', [LaravelPWAController::class, 'manifestJson'])->name('manifest');
     Route::get('offline', [LaravelPWAController::class, 'offline']);
@@ -51,7 +52,7 @@ Route::get('/auth/facebook/callback', [FacebookSocialiteController::class, 'call
 
 
 # Test Routes
-Route::get('test', function() {
+Route::get('test', function () {
     flash()->success('User saved successfully!');
     sweetalert()->error('There was an issue locking your account.');
 
@@ -61,12 +62,12 @@ Route::get('test', function() {
 Route::get('speed', function () {
     return speedTest(function () {
         return  DB::table('users')
-                    ->where('role', Patient::class)
-                    ->where(function ($query) {
-                        $query->likeIn(['first_name', 'last_name', 'phone', 'other_phone'], 'i');
-                    })
-                    ->take(5)
-                    ->get();
+            ->where('role', Patient::class)
+            ->where(function ($query) {
+                $query->likeIn(['first_name', 'last_name', 'phone', 'other_phone'], 'i');
+            })
+            ->take(5)
+            ->get();
     }, 1000);
 });
 
@@ -83,3 +84,7 @@ Route::get('docs/exceptions/{code}', function ($code) {
     $code = ExceptionCodeEnum::from($code);
     dd($code->getLink());
 })->name('docs.exceptions');
+
+Route::get('check', function () {
+    return PUIDGenerator::generate();
+});

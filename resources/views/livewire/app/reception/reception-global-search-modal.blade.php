@@ -16,7 +16,7 @@
             <div class="flex flex-wrap">
 
                 <div class="w-full">
-                    <x-input wire:model.live.debounce.500ms="search" type="text" class="w-full"
+                    <x-input wire:model.live.debounce.500ms="search" type="text" class="w-full bg-gray-100"
                         placeholder="ادخل اسم الخدمة الطبية" />
                 </div>
 
@@ -83,6 +83,11 @@
                         @endforeach
                     </ul>
                 </div>
+                <div class="w-full my-4">
+                    <x-select :items="['patient' => 'مريض', 'appointment' => 'موعد', 'doctor' => 'طبيب']" label="اختيار نوع البحث" withError="searchType" wire:model="searchType"
+                        class="bg-gray-100"></x-select>
+                </div>
+            </div>
         </x-slot>
 
         <x-slot name="footer">

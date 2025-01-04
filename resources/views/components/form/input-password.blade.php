@@ -27,7 +27,7 @@
 </div>
 @if ($withError)
     @error($withError)
-        <h6 class="text-sm text-red-500 p-1">
+        <h6 class=" text-red-500 p-1">
             {{ $message }}
         </h6>
     @enderror

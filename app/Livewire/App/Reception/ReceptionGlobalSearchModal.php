@@ -14,6 +14,7 @@ class ReceptionGlobalSearchModal extends Component
 
     public $show = 'showReceptionGlobalSearchModal';
     public $search = '';
+    public $searchType = 'patient';
 
     public function render()
     {
