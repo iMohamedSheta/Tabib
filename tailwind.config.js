@@ -3,10 +3,11 @@ import forms from '@tailwindcss/forms';
 import typography from '@tailwindcss/typography';
 import colors from 'tailwindcss/colors';
 import scrollbar from 'tailwind-scrollbar'; // import the plugin
+import withMT from "@material-tailwind/html/utils/withMT";
 
 
 /** @type {import('tailwindcss').Config} */
-export default {
+export default withMT({
     darkMode: 'selector',
     content: [
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
@@ -35,6 +36,8 @@ export default {
                 'c-gray-800' : '#191c23',
                 "c-gray-700": '#242731',
                 "c-gray-600": '#2c3038',
+                "purple": colors.purple,
+                "gray": colors.gray,
             }
 
         },
@@ -42,4 +45,4 @@ export default {
     },
 
     plugins: [forms, typography, scrollbar],
-};
+});

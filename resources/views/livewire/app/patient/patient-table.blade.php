@@ -13,7 +13,6 @@
             معلوماته الطبية وسجلاته الصحية بشكل شامل ومنظم.
         </x-slot>
     </x-main.head>
-
     <div
         class="relative bg-purple-200 text-gray-700 dark:bg-c-gray-800 dark:text-white font-bold p-6 rounded-lg shadow-xl">
         <x-datatable.table :total="$patients->total()">

@@ -48,6 +48,9 @@ Route::get('/auth/google/callback', [GoogleSocialiteController::class, 'callback
 Route::get('/auth/facebook/redirect', [FacebookSocialiteController::class, 'redirect'])->name('socialite.facebook.redirect');
 Route::get('/auth/facebook/callback', [FacebookSocialiteController::class, 'callback']);
 
+Route::get('welcome', function () {
+    return view('welcome');
+});
 
 
 

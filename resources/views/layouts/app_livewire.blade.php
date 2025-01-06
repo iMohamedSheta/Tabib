@@ -16,7 +16,6 @@
     {{-- <link rel="stylesheet" href="{{ asset('assets/css/fonts-family.css') }}" /> --}}
 
     <script src="{{ asset('assets/js/init-alpine.js') }}"></script>
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -83,6 +82,23 @@
     <script src="{{ asset('assets/js/sweetalert.all.js') }}"></script>
     <script src="{{ asset('assets/helpers/sweetalertHelper.js') }}"></script>
     <script src="{{ asset('assets/helpers/mainHelpers.js') }}"></script>
+    <script src="{{ asset('assets/js/vendor/ripple.min.js') }}"></script>
+    {{-- <script>
+        // Function to initialize Ripple.js
+        function initializeRipple() {
+            const ripple = window.ripple; // Access ripple from the global scope
+            if (ripple) ripple();
+        }
+
+        // Initialize Ripple effect on page load
+        initializeRipple();
+
+        // Reinitialize after Livewire events
+        document.addEventListener('livewire:load', initializeRipple); // On Livewire load
+        document.addEventListener('livewire:update', initializeRipple); // On Livewire DOM update
+        document.addEventListener('livewire:navigate', initializeRipple); // On SPA navigation
+    </script> --}}
+
 </body>
 
 </html>

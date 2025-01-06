@@ -7,7 +7,7 @@
         @if ($isTable) @click="toggleActionsMenu()" @endif>
         <div class="relative bg-c-gray-700 rounded-full">
             <div class="flex relative  items-center justify-center  ">
-                <div
+                <div data-ripple-light="true"
                     class=" w-full bg-purple-500 hover:bg-purple-600  dark:bg-gray-800 rounded-full transform transition-transform duration-300 hover:-translate-x-1 hover:-translate-y-1  hover:shadow-2xl">
                     <button
                         class="flex w-full items-center group-hover:dark:text-white group-hover:text-purple-100 justify-center p-4  font-medium leading-5 text-purple-100 rounded-lg
