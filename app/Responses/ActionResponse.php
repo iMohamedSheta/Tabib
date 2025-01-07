@@ -10,7 +10,7 @@ class ActionResponse
         public bool $success,
         public ActionResponseStatusEnum $status,
         public string $message,
-        public $data = null
+        public $data = null,
     ) {
         $this->data = is_array($data) ? json_decode(json_encode($data)) : $data;
     }

@@ -17,7 +17,7 @@ enum CalendarTypeEnum: int
             self::EVENT => 'Event',
             self::APPOINTMENT => 'Appointment',
             self::MEETING => 'Meeting',
-            self::PATIENT_APPOINTMENT => 'Patient Appointment'
+            self::PATIENT_APPOINTMENT => 'Patient Appointment',
         };
     }
 }
