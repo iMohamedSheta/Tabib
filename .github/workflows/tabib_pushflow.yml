@@ -139,10 +139,13 @@ jobs:
           DB_PASSWORD: password
         run: php artisan migrate --force
 
-      - name: Set output for migrations
-        if: failure()
-        run: echo "migrations_failed=true" >> $GITHUB_ENV
-        shell: bash
+      # Add npm install to install frontend dependencies
+      - name: Install Node.js dependencies
+        run: npm install
+
+      # Add npm run build to compile assets and generate manifest.json
+      - name: Build assets with Vite
+        run: npm run build
 
       - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
         id: run_tests
