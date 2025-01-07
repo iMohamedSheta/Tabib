@@ -12,7 +12,6 @@ class Organization extends Model
 
     protected $guarded = [];
 
-
     public function clinics()
     {
         return $this->hasMany(Clinic::class, 'organization_id', 'id');
@@ -30,7 +29,7 @@ class Organization extends Model
      */
     protected static function booted()
     {
-        self::created(function ($organization) {
+        self::created(function ($organization): void {
             OrganizationSetupService::setup($organization);
         });
     }

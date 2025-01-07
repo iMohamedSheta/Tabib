@@ -17,7 +17,7 @@ class CreateDoctorDTO
         public string $last_name,
         public string $phone,
         public ?string $other_phone = null,
-        public  $photo = null,
+        public $photo = null,
         public $license_number = null,
         public $qualifications = null,
         public $available_days = null,
@@ -39,7 +39,7 @@ class CreateDoctorDTO
             'phone' => $this->phone,
             'other_phone' => $this->other_phone,
             'role' => Doctor::class,
-            'organization_id' => $this->organization_id
+            'organization_id' => $this->organization_id,
         ];
     }
 
@@ -54,7 +54,7 @@ class CreateDoctorDTO
             'start_time' => $this->start_time,
             'end_time' => $this->end_time,
             'telehealth_phone' => $this->telehealth_phone,
-            'notes' => $this->notes
+            'notes' => $this->notes,
         ];
     }
 }

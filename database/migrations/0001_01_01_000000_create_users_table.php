@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -31,11 +30,11 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('other_phone')->nullable();
 
-            //Features
+            // Features
             $table->timestamp('email_verified_at')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
 
-            //OAuth2
+            // OAuth2
             $table->string('oauth_id')->nullable();
             $table->string('oauth_provider')->nullable();
             $table->text('oauth_token')->nullable();

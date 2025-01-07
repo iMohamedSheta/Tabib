@@ -5,19 +5,18 @@ namespace App\Livewire\App\Doctor\Includes;
 use App\Actions\Doctor\UpdateDoctorAction;
 use App\DTOs\Doctor\UpdateDoctorDTO;
 use App\Enums\Actions\ActionResponseStatusEnum;
-use App\Helpers\Helper;
-use Livewire\Component;
 use App\Http\Requests\Doctor\UpdateDoctorRequest;
 use App\Models\Doctor;
 use App\Traits\LivewireTraits\ActionResponseHandlerTrait;
 use Livewire\Attributes\Locked;
 use Livewire\Attributes\Validate;
+use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class UpdateDoctorModal extends Component
 {
-    use WithFileUploads;
     use ActionResponseHandlerTrait;
+    use WithFileUploads;
 
     #[Locked]
     public $doctor;
@@ -27,18 +26,26 @@ class UpdateDoctorModal extends Component
 
     #[Validate]
     public $username;
+
     public $first_name;
+
     public $last_name;
+
     public $specialization;
+
     public $organization_id;
+
     public $phone;
+
     public $other_phone;
+
     public $photo;
 
     public $password;
+
     public $password_confirmation;
 
-    public function mount($doctor, array $clinics)
+    public function mount($doctor, array $clinics): void
     {
         $this->clinics = $clinics;
         $this->username = $doctor->username;
@@ -55,28 +62,28 @@ class UpdateDoctorModal extends Component
         return (new UpdateDoctorRequest($this->doctor))->rules();
     }
 
-    public function updateDoctorAction()
+    public function updateDoctorAction(): void
     {
         $validatedData = $this->validate();
-        try
-        {
+        try {
             $doctor = Doctor::find($this->doctor->id);
 
             $validatedData['old_password'] = $doctor->user->password;
 
             $actionResponse = (new UpdateDoctorAction())->handle(
                 $doctor,
-                new UpdateDoctorDTO(...$validatedData)
+                new UpdateDoctorDTO(...$validatedData),
             );
 
             flash()->{$actionResponse->success ? 'success' : 'error'}($this->matchStatus($actionResponse->status));
 
-            if (!$actionResponse->success) return;
+            if (!$actionResponse->success) {
+                return;
+            }
 
             $this->dispatch('updated');
-
-        } catch (\Exception $e) {
-            log_error($e);
+        } catch (\Exception $exception) {
+            log_error($exception);
             flash()->error();
         }
     }
@@ -86,7 +93,7 @@ class UpdateDoctorModal extends Component
         return match ($actionResponseStatus) {
             ActionResponseStatusEnum::AUTHORIZE_ERROR => 'غير مسموح لك بتعديل الطبيب!!',
             ActionResponseStatusEnum::SUCCESS => 'تم تعديل الطبيب بنجاح',
-            default => 'حدث خطاء في عملية تعديل الطبيب، الرجاء المحاولة لاحقاً'
+            default => 'حدث خطاء في عملية تعديل الطبيب، الرجاء المحاولة لاحقاً',
         };
     }
 

@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class ClinicAdminFactory extends Factory
 {
     protected $model = ClinicAdmin::class;
+
     /**
      * Define the model's default state.
      *

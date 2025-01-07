@@ -9,11 +9,11 @@ class OrganizationSetupService
     public static function setup(Organization $organization): void
     {
         $organization->clinicServices()->createMany(
-            self::starterClinicServices($organization)
+            self::starterClinicServices($organization),
         );
     }
 
-    private static function starterClinicServices($organization): array
+    private static function starterClinicServices(Organization $organization): array
     {
         return [
             self::makeClinicService('كشف', 250, '#f56565', $organization),
@@ -22,7 +22,7 @@ class OrganizationSetupService
         ];
     }
 
-    private static function makeClinicService($name, $price, $color, $organization, $description = null, $clinic_id = null): array
+    private static function makeClinicService(string $name, int $price, string $color, Organization $organization, $description = null, $clinic_id = null): array
     {
         return [
             'name' => $name,
@@ -30,7 +30,7 @@ class OrganizationSetupService
             'color' => $color,
             'organization_id' => $organization->id,
             'description' => $description,
-            'clinic_id' => $clinic_id
+            'clinic_id' => $clinic_id,
         ];
     }
 }

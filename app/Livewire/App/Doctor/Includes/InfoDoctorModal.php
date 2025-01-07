@@ -12,7 +12,7 @@ class InfoDoctorModal extends Component
 
     public $clinics;
 
-    public function mount($doctor, array $clinics)
+    public function mount($doctor, array $clinics): void
     {
         $this->doctor = $doctor;
         $this->clinics = $clinics;

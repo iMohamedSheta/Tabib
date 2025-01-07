@@ -2,7 +2,6 @@
 
 namespace App\View\Components\spinners;
 
-use Closure;
 use Illuminate\View\Component;
 
 class TSpinner extends Component
@@ -12,7 +11,6 @@ class TSpinner extends Component
      */
     public function __construct()
     {
-        //
     }
 
     /**

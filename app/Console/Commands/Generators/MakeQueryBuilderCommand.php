@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands\Helpers;
+namespace App\Console\Commands\Generators;
 
 use Illuminate\Console\GeneratorCommand;
 
@@ -22,22 +22,19 @@ class MakeQueryBuilderCommand extends GeneratorCommand
 
     /**
      * Get the stub file for the generator.
-     *
-     * @return string
      */
     protected function getStub(): string
     {
         return resource_path('stubs/query_builder.stub');
     }
 
-
     /**
      * Get the default namespace for the class.
      *
-     * @param  string  $rootNamespace
+     * @param string $rootNamespace
      */
     protected function getDefaultNamespace($rootNamespace): string
     {
-        return $rootNamespace . '\QueryBuilders';
+        return $rootNamespace.'\QueryBuilders';
     }
 }

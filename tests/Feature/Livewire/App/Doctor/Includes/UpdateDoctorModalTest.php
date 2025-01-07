@@ -6,13 +6,13 @@ use App\Models\ClinicAdmin;
 use App\Models\Doctor;
 use Livewire\Livewire;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $clinic = Clinic::factory()->create();
 
     $clinics = [$clinic->id => $clinic->name];
 
     $doctor = Doctor::factory()->create([
-        'clinic_id' => $clinic->id
+        'clinic_id' => $clinic->id,
     ]);
 
     $this->clinicId = $clinic->id;
@@ -23,10 +23,7 @@ beforeEach(function () {
     $this->actingAs($this->clinicAdmin->user);
 });
 
-
-
-
-it('renders successfully', function () {
+it('renders successfully', function (): void {
     Livewire::test(UpdateDoctorModal::class, $this->mountingData)
         ->assertStatus(200);
 });

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands\Helpers;
+namespace App\Console\Commands\Generators;
 
 use Illuminate\Console\GeneratorCommand;
 
@@ -23,13 +23,12 @@ class MakeServiceCommand extends GeneratorCommand
     /**
      * Get the default namespace for the class.
      *
-     * @param  string  $rootNamespace
+     * @param string $rootNamespace
      */
     protected function getDefaultNamespace($rootNamespace): string
     {
         return $rootNamespace.'\Services';
     }
-
 
     /**
      * Get the stub file for the generator.
@@ -44,7 +43,8 @@ class MakeServiceCommand extends GeneratorCommand
      *
      * Remove the base controller import if we are already in the base namespace.
      *
-     * @param  string  $name
+     * @param string $name
+     *
      * @return string
      */
     protected function buildClass($name)
@@ -56,8 +56,9 @@ class MakeServiceCommand extends GeneratorCommand
         $replace["use {$serviceNamespace}\Service;\n"] = '';
 
         return str_replace(
-            array_keys($replace), array_values($replace), parent::buildClass($name)
+            array_keys($replace),
+            array_values($replace),
+            parent::buildClass($name),
         );
     }
-
 }

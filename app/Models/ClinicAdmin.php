@@ -13,8 +13,9 @@ class ClinicAdmin extends Model implements UserRoleModelInterface
 {
     use HasFactory;
 
-    const TYPE_SUPER_ADMIN = 'super_admin';
-    const TYPE_ADMIN = 'admin';
+    public const TYPE_SUPER_ADMIN = 'super_admin';
+
+    public const TYPE_ADMIN = 'admin';
 
     protected $guarded = [];
 
@@ -25,9 +26,9 @@ class ClinicAdmin extends Model implements UserRoleModelInterface
      */
     protected static function booted()
     {
-        self::deleting(function($clinicAdmin) {
+        self::deleting(function ($clinicAdmin): void {
             // Check when deleting main admin if he have clinic and delete it with all the other info
-            if ($clinicAdmin->type == self::TYPE_SUPER_ADMIN && $clinicAdmin->clinic) {
+            if (self::TYPE_SUPER_ADMIN == $clinicAdmin->type && $clinicAdmin->clinic) {
                 $clinicAdmin->clinic->delete();
             }
         });

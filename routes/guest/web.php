@@ -9,13 +9,3 @@
 |   Example     =>   N/A
 |__________________________________________
 */
-
-use Illuminate\Support\Facades\Route;
-
-
-
-
-
-
-
-

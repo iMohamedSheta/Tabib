@@ -21,11 +21,11 @@ class DoctorTable extends Component
 
     public function getDoctors()
     {
-        $dataCollection = DoctorQueryBuilderProxy::getDoctorsForTable($this->perPage, $this->page);
+        $lengthAwarePaginator = DoctorQueryBuilderProxy::getDoctorsForTable($this->perPage, $this->page);
 
-        UserTransformer::transformCollection($dataCollection, ['fullname', 'profile_photo_url']);
+        UserTransformer::transformCollection($lengthAwarePaginator, ['fullname', 'profile_photo_url']);
 
-        return $dataCollection;
+        return $lengthAwarePaginator;
     }
 
     public function getClinics(): array
@@ -33,20 +33,22 @@ class DoctorTable extends Component
         return Clinic::list();
     }
 
-    public function deleteDoctorAction($id)
+    public function deleteDoctorAction($id): void
     {
         try {
             $actionResponse = (new DeleteDoctorAction())->handle(
-                Doctor::find($id)
+                Doctor::find($id),
             );
 
             flash()->{$actionResponse->success ? 'success' : 'error'}($this->matchStatus($actionResponse->status));
 
-            if (!$actionResponse->success) return;
+            if (!$actionResponse->success) {
+                return;
+            }
 
             $this->dispatch('deleted');
-        } catch (\Exception $e) {
-            log_error($e);
+        } catch (\Exception $exception) {
+            log_error($exception);
             flash()->error($this->matchStatus());
         }
     }
@@ -56,14 +58,15 @@ class DoctorTable extends Component
         return match ($actionResponseStatus) {
             ActionResponseStatusEnum::AUTHORIZE_ERROR => 'غير مسموح لك بحذف الطبيب!!',
             ActionResponseStatusEnum::SUCCESS => 'تم حذف الطبيب بنجاح',
-            default => 'حدث خطاء في عملية حذف الطبيب، الرجاء المحاولة لاحقاً'
+            default => 'حدث خطاء في عملية حذف الطبيب، الرجاء المحاولة لاحقاً',
         };
     }
+
     public function render()
     {
         return view('livewire.app.doctor.doctor-table', [
             'doctors' => $this->getDoctors(),
-            'clinics' => $this->getClinics()
+            'clinics' => $this->getClinics(),
         ]);
     }
 }

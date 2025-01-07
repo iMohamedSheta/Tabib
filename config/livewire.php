@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |---------------------------------------------------------------------------
     | Class Namespace
@@ -76,7 +75,7 @@ return [
         'preview_mimes' => [
             'png',
             'jpg',
-            'jpeg'
+            'jpeg',
         ],
         'max_upload_time' => 1, // Max duration (in minutes) before an upload is invalidated...
         'cleanup' => true, // Should cleanup temporary uploads older than 24 hrs...

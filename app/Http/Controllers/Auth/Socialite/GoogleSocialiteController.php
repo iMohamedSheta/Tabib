@@ -11,7 +11,7 @@ use Laravel\Socialite\Facades\Socialite;
 
 class GoogleSocialiteController extends Controller
 {
-    #Login or Register
+    // Login or Register
     public function redirect()
     {
         return Socialite::driver('google')->redirect();
@@ -22,14 +22,13 @@ class GoogleSocialiteController extends Controller
         $socialite = Socialite::driver('google')->user();
         $userData = $socialite->user;
         // Check if the user already exists
-        $user = User::where(function ($query) use ($userData) {
+        $user = User::where(function ($query) use ($userData): void {
             $query->where('oauth_id', $userData['id'])
                 ->where('oauth_provider', OAuthProviderEnum::GOOGLE);
         })->orWhere('email', $userData['email'])->first();
 
         // If the user doesn't exist, create a new one
-        if (!$user)
-        {
+        if (!$user) {
             $user = User::create([
                 'first_name' => $userData['given_name'],
                 'last_name' => $userData['family_name'],
@@ -47,12 +46,13 @@ class GoogleSocialiteController extends Controller
 
         $clinicAdmin = ClinicAdmin::where('user_id', $user->id)->first();
 
-        if (!$clinicAdmin)
-        {
-            return view('auth.register-steps.oauth-callback',
-            [
-                'user' => $user
-            ]);
+        if (!$clinicAdmin) {
+            return view(
+                'auth.register-steps.oauth-callback',
+                [
+                    'user' => $user,
+                ],
+            );
         }
 
         Auth::login($user);

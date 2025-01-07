@@ -7,8 +7,7 @@ use App\Responses\ActionResponse;
 
 trait ActionResponseTrait
 {
-
-    private function createResponse(ActionResponseStatusEnum $status, bool $success, string $message, $data = null)
+    private function createResponse(ActionResponseStatusEnum $status, bool $success, string $message, $data = null): ActionResponse
     {
         return new ActionResponse(
             $success,
@@ -24,7 +23,7 @@ trait ActionResponseTrait
             message: $message,
             data: $data,
             status: ActionResponseStatusEnum::SUCCESS,
-            success: true
+            success: true,
         );
     }
 
@@ -34,7 +33,7 @@ trait ActionResponseTrait
             message: $message,
             data: $data,
             status: ActionResponseStatusEnum::ERROR,
-            success: false
+            success: false,
         );
     }
 
@@ -44,7 +43,7 @@ trait ActionResponseTrait
             message: $message,
             data: $data,
             status: ActionResponseStatusEnum::AUTHORIZE_ERROR,
-            success: false
+            success: false,
         );
     }
 }

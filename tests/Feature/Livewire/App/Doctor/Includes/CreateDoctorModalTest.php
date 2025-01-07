@@ -3,11 +3,11 @@
 use App\Livewire\App\Doctor\Includes\CreateDoctorModal;
 use App\Models\Clinic;
 use App\Models\ClinicAdmin;
-use App\Models\User;
 use App\Models\Doctor;
+use App\Models\User;
 use Livewire\Livewire;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->user = User::factory()->create(['role' => ClinicAdmin::class]);
 
     $clinic = Clinic::factory()->create();
@@ -18,19 +18,18 @@ beforeEach(function () {
     $this->actingAs($this->clinicAdmin->user);
 });
 
-it('mounts with the first clinic selected', function () {
+it('mounts with the first clinic selected', function (): void {
     Livewire::test(CreateDoctorModal::class, $this->mountingData)
         ->assertSet('clinic_id', $this->clinicId);
 });
 
-it('renders successfully with localized content', function () {
+it('renders successfully with localized content', function (): void {
     Livewire::test(CreateDoctorModal::class, $this->mountingData)
         ->assertSee('اضافة طبيب')
         ->assertSet('clinic_id', $this->clinicId);
 });
 
-it('validates the input correctly', function () {
-
+it('validates the input correctly', function (): void {
     Livewire::test(CreateDoctorModal::class, $this->mountingData)
         ->set('username', '')
         ->set('password', '')
@@ -41,11 +40,9 @@ it('validates the input correctly', function () {
         ->set('clinic_id', '')
         ->call('addDoctorAction')
         ->assertHasErrors(['username', 'password', 'first_name', 'last_name', 'specialization', 'phone', 'clinic_id']);
+});
 
-    });
-
-it('adds a doctor successfully', function ()
-{
+it('adds a doctor successfully', function (): void {
     Livewire::test(CreateDoctorModal::class, $this->mountingData)
         ->set('username', 'johndoe')
         ->set('password', 'password123')

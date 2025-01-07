@@ -2,19 +2,18 @@
 
 namespace App\Enums\Clinic;
 
-enum ClinicLevelEnum : int
+enum ClinicLevelEnum: int
 {
     case PRIMARY = 1;
     case SECONDARY = 2;
 
-    const DEFAULT = self::PRIMARY->value;
+    public const DEFAULT = self::PRIMARY->value;
 
-
-    public static function getClinicLevelLabels(): array {
+    public static function getClinicLevelLabels(): array
+    {
         return [
             self::PRIMARY->value => 'عيادة الرئيسية',
             self::SECONDARY->value => 'عيادة الفرعية',
-
         ];
     }
 

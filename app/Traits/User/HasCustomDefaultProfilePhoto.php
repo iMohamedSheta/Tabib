@@ -9,9 +9,6 @@ trait HasCustomDefaultProfilePhoto
 {
     public function profilePhotoUrl(): Attribute
     {
-        return Attribute::get(function (): string
-        {
-            return $this->profile_photo_path = GetProfilePhotoUrlService::handle($this->profile_photo_path, $this->username, $this->first_name);
-        });
+        return Attribute::get(fn (): string => $this->profile_photo_path = GetProfilePhotoUrlService::handle($this->profile_photo_path, $this->username, $this->first_name));
     }
 }

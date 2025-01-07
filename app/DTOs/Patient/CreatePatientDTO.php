@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 
 class CreatePatientDTO
 {
-
     public $organization_id;
 
     public function __construct(
@@ -27,7 +26,7 @@ class CreatePatientDTO
         public $height = null,
         public $weight = null,
         public $photo = null,
-    ){
+    ) {
         $this->organization_id = Auth::user()->organization_id;
     }
 
@@ -45,7 +44,7 @@ class CreatePatientDTO
             'national_card_id' => $this->national_card_id,
             'height' => $this->height,
             'weight' => $this->weight,
-            'organization_id' => $this->organization_id
+            'organization_id' => $this->organization_id,
         ];
     }
 
@@ -57,9 +56,7 @@ class CreatePatientDTO
             'phone' => $this->phone,
             'other_phone' => $this->other_phone,
             'role' => Patient::class,
-            'organization_id' => $this->organization_id
+            'organization_id' => $this->organization_id,
         ];
     }
 }
-
-

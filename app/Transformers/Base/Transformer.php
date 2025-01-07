@@ -4,32 +4,29 @@ namespace App\Transformers\Base;
 
 class Transformer
 {
-    protected $item;
-
-    public function __construct($item = null)
+    public function __construct(protected $item = null)
     {
-        $this->item = $item;
     }
 
-    public static function transform(&$item)
+    public static function transform(&$item): static
     {
-        return (new static($item));
+        return new static($item);
     }
 
-    public static function transformCollection(&$items, array $methods = [])
+    public static function transformCollection(&$items, array $methods = []): void
     {
-        $transformer = new static();
+        $static = new static();
 
-        $items->transform(function($item) use ($transformer, $methods) {
-            $transformer->item = $item;
+        $items->transform(function ($item) use ($static, $methods) {
+            $static->item = $item;
 
             foreach ($methods as $method) {
                 if (!empty($method) && is_string($method)) {
-                    $transformer->{$method}();
+                    $static->{$method}();
                 }
             }
 
-            return $transformer->item;
+            return $static->item;
         });
     }
 }

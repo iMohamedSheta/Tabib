@@ -6,12 +6,12 @@ use Illuminate\Support\Facades\Log;
 
 class Helper
 {
-    public static function log(\Exception $e)
+    public static function log(\Exception $exception): void
     {
         Log::error('Exception Occurred: ', [
-            'message' => $e->getMessage(),
-            'file' => $e->getFile(),
-            'line' => $e->getLine(),
+            'message' => $exception->getMessage(),
+            'file' => $exception->getFile(),
+            'line' => $exception->getLine(),
             'timestamp' => now()->toDateTimeString(),
         ]);
     }

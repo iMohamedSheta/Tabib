@@ -3,7 +3,7 @@
 namespace App\Contracts;
 
 /**
- * Interface UserRoleModelInterface
+ * Interface UserRoleModelInterface.
  *
  * This interface defines the contract for a User Role model.
  * Any model that implements this interface is considered a User Role

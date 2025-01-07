@@ -6,17 +6,12 @@ use App\Enums\Actions\ActionResponseStatusEnum;
 
 class ActionResponse
 {
-    public bool $success;
-    public ActionResponseStatusEnum $status;
-    public string $message;
-    public $data;
-
-    public function __construct(bool $success, ActionResponseStatusEnum $status, string $message, $data = null)
-    {
-        $this->success = $success;
-        $this->status = $status;
-        $this->message = $message;
-
+    public function __construct(
+        public bool $success,
+        public ActionResponseStatusEnum $status,
+        public string $message,
+        public $data = null
+    ) {
         $this->data = is_array($data) ? json_decode(json_encode($data)) : $data;
     }
 
@@ -25,17 +20,17 @@ class ActionResponse
         return $this->data;
     }
 
-    public function isSuccess()
+    public function isSuccess(): bool
     {
         return $this->success;
     }
 
-    public function getStatus()
+    public function getStatus(): ActionResponseStatusEnum
     {
         return $this->status;
     }
 
-    public function getMessage()
+    public function getMessage(): string
     {
         return $this->message;
     }

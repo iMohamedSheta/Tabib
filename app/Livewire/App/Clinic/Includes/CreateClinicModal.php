@@ -14,7 +14,8 @@ class CreateClinicModal extends Component
         return view('livewire.app.clinic.includes.create-clinic-modal');
     }
 
-    public function addClinicAction() {
+    public function addClinicAction(): void
+    {
         dd('hello addClinicAction');
     }
 }

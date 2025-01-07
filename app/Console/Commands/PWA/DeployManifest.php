@@ -3,7 +3,6 @@
 namespace App\Console\Commands\PWA;
 
 use App\Services\PWA\ManifestService;
-
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
@@ -35,18 +34,12 @@ class DeployManifest extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return mixed
      */
-    public function handle()
+    public function handle(): void
     {
-
-        $output = (new ManifestService)->generate();
-        File::put(public_path("manifest.json"), json_encode($output, JSON_PRETTY_PRINT));
+        $output = (new ManifestService())->generate();
+        File::put(public_path('manifest.json'), json_encode($output, JSON_PRETTY_PRINT));
 
         $this->info('manifest.json file has been created.');
-
     }
-
-
 }

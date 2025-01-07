@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 class CreateClinicAction
 {
-    public function handle(RegisterUserDTO $userDTO, array $clinicData)
+    public function handle(RegisterUserDTO $registerUserDTO, array $clinicData): void
     {
         try {
             DB::beginTransaction();
@@ -24,7 +24,7 @@ class CreateClinicAction
             // Create Organization
             $organization = Organization::create([
                 'name' => $clinicData['name'],
-                'billing_code' => $code
+                'billing_code' => $code,
             ]);
 
             // Create Clinic under Organization
@@ -38,14 +38,14 @@ class CreateClinicAction
             ]);
 
             // Create User and associate with the organization
-            $user = User::create(array_merge($userDTO->userData(), [
-                'organization_id' => $organization->id
+            $user = User::create(array_merge($registerUserDTO->userData(), [
+                'organization_id' => $organization->id,
             ]));
 
             // Create ClinicAdmin for the user
             $user->clinicAdmin()->create([
                 'organization_id' => $organization->id,
-                'type' => ClinicAdmin::TYPE_SUPER_ADMIN
+                'type' => ClinicAdmin::TYPE_SUPER_ADMIN,
             ]);
 
             DB::commit();
@@ -53,10 +53,10 @@ class CreateClinicAction
             Auth::login($user);
 
             redirect(UserRoleEnum::authRedirectRouteBasedOnType());
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             DB::rollBack();
 
-            dd($e);
+            dd($exception);
         }
     }
 }

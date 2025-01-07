@@ -3,7 +3,6 @@
 namespace App\Livewire\App\Queue;
 
 use App\Models\Clinic;
-use App\Models\Patient;
 use App\Proxy\QueryBuilders\PatientQueryBuilderProxy;
 use App\Traits\Pagination\WithCustomPagination;
 use Livewire\Component;
@@ -11,9 +10,10 @@ use Livewire\Component;
 class QueueTable extends Component
 {
     use WithCustomPagination;
+
     public $search = '';
 
-    public function getQueues()
+    public function getQueues(): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
         return PatientQueryBuilderProxy::getPatientsForTable($this->perPage, $this->page, $this->search);
     }
@@ -23,12 +23,11 @@ class QueueTable extends Component
         return Clinic::pluck('name', 'id')->toArray();
     }
 
-
     public function render()
     {
         return view('livewire.app.queue.queue-table', [
             'queues' => $this->getQueues(),
-            'clinics' => $this->getClinics()
+            'clinics' => $this->getClinics(),
         ]);
     }
 }

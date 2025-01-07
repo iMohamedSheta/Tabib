@@ -12,7 +12,6 @@ class BladeServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
     }
 
     /**
@@ -20,26 +19,16 @@ class BladeServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Blade::directive('iteration', function ($paginator) {
-            return "<?php echo e(\$loop->iteration + ({$paginator}->currentPage() - 1) * {$paginator}->perPage()); ?>";
-        });
+        Blade::directive('iteration', fn ($paginator): string => sprintf('<?php echo e($loop->iteration + (%s->currentPage() - 1) * %s->perPage()); ?>', $paginator, $paginator));
 
         // @isRoute(route_name) Directive
-        Blade::directive('isRoute', function($expression) {
-            return "<?php if(Route::currentRouteName() === {$expression}): ?>";
-        });
+        Blade::directive('isRoute', fn ($expression): string => sprintf('<?php if(Route::currentRouteName() === %s): ?>', $expression));
         // @endIsRoute()
-        Blade::directive('endIsRoute', function () {
-            return "<?php endif ?>";
-        });
+        Blade::directive('endIsRoute', fn (): string => '<?php endif ?>');
 
         // @iteration($paginator)
-        Blade::directive('iteration', function ($paginator) {
-            return "<?php echo e(\$loop->iteration + ({$paginator}->currentPage() - 1) * {$paginator}->perPage()); ?>";
-        });
+        Blade::directive('iteration', fn ($paginator): string => sprintf('<?php echo e($loop->iteration + (%s->currentPage() - 1) * %s->perPage()); ?>', $paginator, $paginator));
 
-        Blade::directive('laravelPWA', function($expression) {
-            return "<?php \$config = (new \App\Services\PWA\ManifestService)->generate(); echo \$__env->make( 'vendor.laravelpwa.meta' , ['config' => \$config])->render(); ?>";
-        });
+        Blade::directive('laravelPWA', fn ($expression): string => "<?php \$config = (new \App\Services\PWA\ManifestService)->generate(); echo \$__env->make( 'vendor.laravelpwa.meta' , ['config' => \$config])->render(); ?>");
     }
 }

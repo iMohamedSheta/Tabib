@@ -9,8 +9,9 @@ class UpdateClinicServiceDTO
         protected float $price,
         protected ?int $clinic_id = null,
         protected ?string $description = null,
-        protected ?string $color = null
-    ) {}
+        protected ?string $color = null,
+    ) {
+    }
 
     public function clinicServiceData(): array
     {
@@ -19,7 +20,7 @@ class UpdateClinicServiceDTO
             'name' => $this->name,
             'price' => $this->price,
             'description' => $this->description,
-            'color' => $this->color
+            'color' => $this->color,
         ];
     }
 }

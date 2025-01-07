@@ -12,18 +12,24 @@ use Livewire\Component;
 class UpdateClinicServiceModal extends Component
 {
     public $showName = 'showUpdate';
+
     public $withButton = false;
+
     public $clinics;
 
     public $clinicServiceId;
 
     public $name;
+
     public $price;
+
     public $description;
+
     public $color;
+
     public $clinic_id;
 
-    public function mount($clinicService, array $clinics)
+    public function mount($clinicService, array $clinics): void
     {
         $this->clinicServiceId = $clinicService->id;
 
@@ -49,27 +55,30 @@ class UpdateClinicServiceModal extends Component
     protected function prepareForValidation($attributes): array
     {
         $attributes['clinic_id'] = empty($this->clinic_id) ? null : $this->clinic_id;
+
         return $attributes;
     }
 
-    public function updateClinicServiceAction()
+    public function updateClinicServiceAction(): void
     {
         $validatedData = $this->validate();
         try {
             $actionResponse = (new UpdateClinicServiceAction())->handle(
                 ClinicService::find($this->clinicServiceId),
-                new UpdateClinicServiceDTO(...$validatedData)
+                new UpdateClinicServiceDTO(...$validatedData),
             );
 
             flash()->{$actionResponse->success ? 'success' : 'error'}($this->matchStatus($actionResponse->status));
 
-            if (!$actionResponse->success) return;
+            if (!$actionResponse->success) {
+                return;
+            }
 
             $this->resetForm();
 
             $this->dispatch('updated');
-        } catch (\Exception $e) {
-            log_error($e);
+        } catch (\Exception $exception) {
+            log_error($exception);
             flash()->error($this->matchStatus());
         }
     }
@@ -79,12 +88,17 @@ class UpdateClinicServiceModal extends Component
         return match ($status) {
             ActionResponseStatusEnum::AUTHORIZE_ERROR => 'غير مسموح لك بتعديل خدمة طبية!!',
             ActionResponseStatusEnum::SUCCESS => 'تم تعديل الخدمة الطبية بنجاح',
-            default => 'حدث خطاء في عملية تعديل الخدمة الطبية الرجاء المحاولة لاحقاً'
+            default => 'حدث خطاء في عملية تعديل الخدمة الطبية الرجاء المحاولة لاحقاً',
         };
     }
 
     protected function resetForm()
     {
-        $this->name = $this->clinicServiceId = $this->color = $this->clinic_id = $this->price = $this->description = null;
+        $this->name = null;
+        $this->clinicServiceId = null;
+        $this->color = null;
+        $this->clinic_id = null;
+        $this->price = null;
+        $this->description = null;
     }
 }

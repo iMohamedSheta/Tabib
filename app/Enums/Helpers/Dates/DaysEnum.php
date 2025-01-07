@@ -2,8 +2,6 @@
 
 namespace App\Enums\Helpers\Dates;
 
-use App\Enums\Helpers\HelperEnum;
-
 enum DaysEnum: int
 {
     case SATURDAY = 1;

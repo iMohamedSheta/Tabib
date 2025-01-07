@@ -7,7 +7,7 @@ abstract class Generator
     protected function generateUniqueCode(int $length = 6, int $batchSize = 5, int $maxAttempts = 10, ?string $prefix = '', ?string $suffix = ''): string
     {
         if ($length < 1 || $batchSize < 1) {
-            throw new \InvalidArgumentException("Code length and batch size must be at least 1.");
+            throw new \InvalidArgumentException('Code length and batch size must be at least 1.');
         }
 
         $min = 10 ** ($length - 1); // 10**5  = 100,000
@@ -28,14 +28,14 @@ abstract class Generator
             // Find a code that doesn't exist
             $uniqueCodes = array_diff($codes, $existingCodes);
 
-            if (!empty($uniqueCodes)) {
+            if ([] !== $uniqueCodes) {
                 return reset($uniqueCodes); // Return the first unique code
             }
 
-            $attempts++;
+            ++$attempts;
         }
 
-        throw new \RuntimeException("Failed to generate a unique billing code after $maxAttempts attempts.");
+        throw new \RuntimeException(sprintf('Failed to generate a unique billing code after %d attempts.', $maxAttempts));
     }
 
     abstract protected function checkExistingCodes(array $generatedCodes): array;

@@ -3,7 +3,6 @@
 namespace App\Actions\Doctor;
 
 use App\DTOs\Doctor\CreateDoctorDTO;
-use App\Helpers\Helper;
 use App\Models\Doctor;
 use App\Models\User;
 use App\Responses\ActionResponse;
@@ -15,34 +14,34 @@ class CreateDoctorAction
 {
     use ActionResponseTrait;
 
-    public function handle(CreateDoctorDTO $dto): ActionResponse
+    public function handle(CreateDoctorDTO $createDoctorDTO): ActionResponse
     {
-        try
-        {
+        try {
             if ($this->isNotAuthorized()) {
                 return $this->authorizeError('غير مسموح لك باضافة الطبيب!!');
             }
 
             DB::beginTransaction();
 
-            $user = User::create($dto->userData());
+            $user = User::create($createDoctorDTO->userData());
 
-            if ($dto->photo) {
-                $user->updateProfilePhoto($dto->photo);
+            if ($createDoctorDTO->photo) {
+                $user->updateProfilePhoto($createDoctorDTO->photo);
             }
 
-            $user->doctor()->create($dto->doctorData());
+            $user->doctor()->create($createDoctorDTO->doctorData());
 
             DB::commit();
 
             return $this->success(
                 message: 'تم انشاء الطبيب بنجاح',
-                data: ['user' => $user]
+                data: ['user' => $user],
             );
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             DB::rollBack();
-            log_error($e);
-            return $this->error("حدث خطأ في عملية أنشاء الطبيب، الرجاء المحاولة لاحقاً");
+            log_error($exception);
+
+            return $this->error('حدث خطأ في عملية أنشاء الطبيب، الرجاء المحاولة لاحقاً');
         }
     }
 
@@ -50,5 +49,4 @@ class CreateDoctorAction
     {
         return !Gate::allows('create', Doctor::class);
     }
-
 }

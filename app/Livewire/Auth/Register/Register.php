@@ -9,7 +9,6 @@ use App\Models\ClinicAdmin;
 use App\Models\User;
 use App\Traits\LivewireTraits\WithSteps;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Livewire\Component;
 
 class Register extends Component
@@ -17,11 +16,25 @@ class Register extends Component
     use WithSteps;
 
     public $name;
+
     public $type;
-    public $first_name, $last_name, $phone, $username, $password, $password_confirmation; # User
+
+    public $first_name;
+
+    public $last_name;
+
+    public $phone;
+
+    public $username;
+
+    public $password;
+
+    public $password_confirmation;
+
+    // User
     public $policy = true;
 
-    public function mount()
+    public function mount(): void
     {
         $this->maxSteps = 3;
     }
@@ -41,46 +54,45 @@ class Register extends Component
         return (new CreateClinicRequest())->stepThreeRules();
     }
 
-    public function submitStepOne()
+    public function submitStepOne(): void
     {
         $this->validate($this->stepOneRules());
 
         $this->nextStep();
     }
 
-    public function submitStepTwo()
+    public function submitStepTwo(): void
     {
         $this->validate($this->stepTwoRules());
         $this->nextStep();
     }
 
-    public function submitStepThree()
+    public function submitStepThree(): void
     {
         $this->validate($this->stepThreeRules());
-
 
         try {
             $clinicData = [
                 'name' => $this->name,
-                'type' => $this->type
+                'type' => $this->type,
             ];
 
-            $userDTO = new RegisterUserDTO(
+            $registerUserDTO = new RegisterUserDTO(
                 first_name: $this->first_name,
                 last_name: $this->last_name,
                 phone: $this->phone,
                 username: $this->username,
                 password: $this->password,
-                role: ClinicAdmin::class
+                role: ClinicAdmin::class,
             );
 
-            (new CreateClinicAction())->handle($userDTO, $clinicData);
-        } catch (\Exception $e) {
+            (new CreateClinicAction())->handle($registerUserDTO, $clinicData);
+        } catch (\Exception) {
             DB::rollBack();
         }
     }
 
-    public function createClinicAction()
+    public function createClinicAction(): void
     {
         $this->validate();
     }

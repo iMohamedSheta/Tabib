@@ -2,7 +2,7 @@
 
 namespace App\Enums\Clinic;
 
-enum ClinicTypeEnum : int
+enum ClinicTypeEnum: int
 {
     case DENTISTRY = 2;             // عيادات الأسنان
     case INTERNAL_MEDICINE = 3;     // عيادات الأمراض الباطنية
@@ -15,10 +15,10 @@ enum ClinicTypeEnum : int
     case UROLOGY = 10;               // عيادة المسالك
     case OTHERS = 11;               // عيادة أخرى
 
-    const DEFAULT = self::OTHERS->value;
+    public const DEFAULT = self::OTHERS->value;
 
-
-    public static function getClinicTypeLabels(): array {
+    public static function getClinicTypeLabels(): array
+    {
         return [
             self::DENTISTRY->value => 'عيادات الأسنان',
             self::INTERNAL_MEDICINE->value => 'عيادات الأمراض الباطنية',

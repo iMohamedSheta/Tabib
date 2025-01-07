@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class QueryBuilderMacro implements MacroInterface
 {
-
     public static function boot(): void
     {
         self::registerLikeIn();
@@ -21,59 +20,60 @@ class QueryBuilderMacro implements MacroInterface
 
     public static function register(): void
     {
-        //
     }
 
-    public static function registerLikeIn()
+    public static function registerLikeIn(): void
     {
-        Builder::macro('likeIn', function (array $fields, $value) {
+        Builder::macro('likeIn', function (array $fields, $value): object {
             $value = trim($value);
             // in macro world this reference to Builder class not QueryBuilderMacro (this) class so ignore $this error
             foreach ($fields as $index => $field) {
-                $this->{$index === 0 ? 'where' : 'orWhere'}($field, 'LIKE', "%$value%");
+                $this->{0 === $index ? 'where' : 'orWhere'}($field, 'LIKE', sprintf('%%%s%%', $value));
             }
 
             return $this;
         });
     }
 
-    public static function registerIsPatient()
+    public static function registerIsPatient(): void
     {
-        Builder::macro('isPatient', function () {
+        Builder::macro('isPatient', function (): object {
             $this->where('users.role', Patient::class);
+
             return $this;
         });
     }
 
-    public static function registerSameOrganization()
+    public static function registerSameOrganization(): void
     {
-        Builder::macro('sameOrganization', function () {
-            $this->where($this->from . '.organization_id', Auth::user()->organization_id);
+        Builder::macro('sameOrganization', function (): object {
+            $this->where($this->from.'.organization_id', Auth::user()->organization_id);
+
             return $this;
         });
     }
 
-    public static function registerNotDeleted()
+    public static function registerNotDeleted(): void
     {
-        Builder::macro('notDeleted', function ($isDeleted = true) {
+        Builder::macro('notDeleted', function ($isDeleted = true): object {
             ($isDeleted)
-                ? $this->where($this->from . '.deleted_at', null)
-                : $this->where($this->from . '.deleted_at', '!=', null);
+                ? $this->where($this->from.'.deleted_at', null)
+                : $this->where($this->from.'.deleted_at', '!=', null);
 
             return $this;
         });
     }
 
-    public static function registerLikeUserFullName()
+    public static function registerLikeUserFullName(): void
     {
-        Builder::macro('likeUserFullName', function ($value) {
+        Builder::macro('likeUserFullName', function ($value): object {
             $value = trim($value);
             $value = explode(' ', $value, 2);
-            if (count($value) == 2) {
-                $this->where('users.first_name', 'LIKE', "%$value[0]%")
-                    ->orWhere('users.last_name', 'LIKE', "%$value[1]%");
+            if (2 == count($value)) {
+                $this->where('users.first_name', 'LIKE', sprintf('%%%s%%', $value[0]))
+                    ->orWhere('users.last_name', 'LIKE', sprintf('%%%s%%', $value[1]));
             } else {
-                $this->where('users.first_name', 'LIKE', "%$value[0]%");
+                $this->where('users.first_name', 'LIKE', sprintf('%%%s%%', $value[0]));
             }
 
             return $this;

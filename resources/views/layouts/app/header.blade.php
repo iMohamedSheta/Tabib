@@ -33,6 +33,12 @@
             </li>
         </div>
         <ul class="hidden md:flex items-center flex-shrink-0">
+            <a class="mx-2" href="{{ url()->current() }}" wire:navigate>
+                <i class="fas fa-arrows-rotate text-white dark:text-purple-300"></i>
+            </a>
+            <a class="mx-2" href="{{ url()->previous() }}" wire:navigate>
+                <i class="fas fa-arrow-left text-white dark:text-purple-300"></i>
+            </a>
             <li class="relative mx-4 flex justify-center items-center">
                 <span class="text-white  dark:bg-gray-800 bg-purple-600 p-3 rounded-full shadow-lg">
                     كود التحصيل :

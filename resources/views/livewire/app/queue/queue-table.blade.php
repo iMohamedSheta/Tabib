@@ -2,7 +2,7 @@
     use Carbon\Carbon;
 @endphp
 
-<div class="md:container py-6 mx-auto grid my-6 text-gray-700 dark:text-gray-200">
+<div class="py-6 md:mx-4 grid  text-gray-700 dark:text-gray-200">
     <x-main.head wire:ignore>
         <x-slot name="title">
             طوابير الكشوفات - Queue
@@ -15,7 +15,7 @@
     </x-main.head>
 
     <div
-        class="relative bg-purple-200 text-gray-700 dark:bg-c-gray-800 dark:text-white font-bold p-6 rounded-lg shadow-xl">
+        class="relative bg-purple-200 text-gray-700 dark:bg-c-gray-800 dark:text-white font-bold p-6 rounded-lg shadow-xl overflow-x-auto">
         <x-datatable.table :total="$queues?->total() ?? 0">
             <x-slot name="thead">
                 <div class="flex justify-between mb-4" x-data="addModal" x-on:added="show = false">

@@ -21,7 +21,7 @@
         "barryvdh/laravel-debugbar": "^3.14",
         "fakerphp/faker": "^1.23",
         "larastan/larastan": "^3.0",
-        "laravel/pint": "^1.13",
+        "laravel/pint": "^1.19",
         "laravel/sail": "^1.26",
         "laravel/telescope": "^5.2",
         "mockery/mockery": "^1.6",
@@ -29,6 +29,7 @@
         "nunomaduro/larastan": "^3.0",
         "pestphp/pest": "^3.2",
         "pestphp/pest-plugin-laravel": "^3.0",
+        "rector/rector": "^2.0",
         "tightenco/duster": "^3.0"
     },
     "autoload": {

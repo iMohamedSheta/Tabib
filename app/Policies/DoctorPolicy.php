@@ -2,10 +2,8 @@
 
 namespace App\Policies;
 
-use App\Models\ClinicAdmin;
 use App\Models\Doctor;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 
 class DoctorPolicy
 {
@@ -22,7 +20,11 @@ class DoctorPolicy
      */
     public function create(User $user): bool
     {
-        return $user->isClinicAdmin() || $user->isReceptionist();
+        if ($user->isClinicAdmin()) {
+            return true;
+        }
+
+        return $user->isReceptionist();
     }
 
     /**
@@ -30,7 +32,11 @@ class DoctorPolicy
      */
     public function update(User $user, Doctor $doctor): bool
     {
-        return $user->organization_id == $doctor->organization_id && $user->isClinicAdmin() || $user->isReceptionist();
+        if ($user->organization_id == $doctor->organization_id && $user->isClinicAdmin()) {
+            return true;
+        }
+
+        return $user->isReceptionist();
     }
 
     /**
@@ -38,7 +44,11 @@ class DoctorPolicy
      */
     public function delete(User $user, Doctor $doctor): bool
     {
-        return $user->organization_id == $doctor->organization_id && $user->isClinicAdmin() || $user->isReceptionist();
+        if ($user->organization_id == $doctor->organization_id && $user->isClinicAdmin()) {
+            return true;
+        }
+
+        return $user->isReceptionist();
     }
 
     /**
@@ -46,7 +56,11 @@ class DoctorPolicy
      */
     public function restore(User $user, Doctor $doctor): bool
     {
-        return $user->organization_id == $doctor->organization_id && $user->isClinicAdmin() || $user->isReceptionist();
+        if ($user->organization_id == $doctor->organization_id && $user->isClinicAdmin()) {
+            return true;
+        }
+
+        return $user->isReceptionist();
     }
 
     /**

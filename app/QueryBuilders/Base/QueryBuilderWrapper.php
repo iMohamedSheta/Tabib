@@ -24,11 +24,12 @@ abstract class QueryBuilderWrapper
     public function __call($method, $parameters)
     {
         if (!method_exists($this->query, $method)) {
-            throw new \BadMethodCallException("Method {$method} does not exist on the query builder.");
+            throw new \BadMethodCallException(sprintf('Method %s does not exist on the query builder.', $method));
         }
 
         // if the method doesn't exists in the class then it's builder method and will modify the query
         $result = $this->query->$method(...$parameters);
+
         // return $this object if the return is builder object else return result
         return $result === $this->query ? $this : $result;
     }

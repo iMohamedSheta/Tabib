@@ -4,23 +4,21 @@ namespace App\Livewire\Auth\Register\Steps;
 
 use App\Actions\Clinic\CreateClinicAction;
 use App\DTOs\Auth\RegisterUserDTO;
-use App\Enums\Clinic\ClinicTypeEnum;
 use App\Http\Requests\Clinic\CreateClinicRequest;
-use App\Models\Clinic;
-use App\Models\ClinicAdmin;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class OAuthCallback extends Component
 {
     public $userData;
+
     public $name;
+
     public $type;
+
     public $policy = true;
 
-    public function mount(array $userData)
+    public function mount(array $userData): void
     {
         $this->userData = $userData;
     }
@@ -35,29 +33,23 @@ class OAuthCallback extends Component
         return view('livewire.auth.register.steps.o-auth-callback');
     }
 
-    public function createClinicAction()
+    public function createClinicAction(): void
     {
         $this->validate();
 
-        try
-        {
+        try {
             $clinicData = [
                 'name' => $this->name,
-                'type' => $this->type
+                'type' => $this->type,
             ];
 
-            $userDTO = new RegisterUserDTO(...$this->userData);
+            $registerUserDTO = new RegisterUserDTO(...$this->userData);
 
-            (new CreateClinicAction())->handle($userDTO, $clinicData);
-
-        } catch (\Exception $e) {
+            (new CreateClinicAction())->handle($registerUserDTO, $clinicData);
+        } catch (\Exception $exception) {
             DB::rollBack();
 
-            dd($e);
+            dd($exception);
         }
     }
-
-
-
-
 }

@@ -2,9 +2,7 @@
 
 namespace App\Attributes;
 
-use Attribute;
-
-#[Attribute(Attribute::TARGET_METHOD)]
+#[\Attribute(\Attribute::TARGET_METHOD)]
 class UsedIn
 {
     public array $places;

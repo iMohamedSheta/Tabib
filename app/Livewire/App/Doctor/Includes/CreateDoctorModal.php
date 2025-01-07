@@ -20,27 +20,44 @@ class CreateDoctorModal extends Component
 
     #[Locked]
     public $clinics;
+
     public $days;
 
     public $username;
+
     public $password;
+
     public $first_name;
+
     public $last_name;
+
     public $specialization;
+
     public $clinic_ids;
+
     public $phone;
+
     public $other_phone;
+
     public $photo;
+
     public $selected_days;
+
     public $license_number;
+
     public $qualifications;
+
     public $available_days;
+
     public $start_time;
+
     public $end_time;
+
     public $telehealth_phone;
+
     public $notes;
 
-    public function mount(array $clinics)
+    public function mount(array $clinics): void
     {
         $this->days = DaysEnum::getDaysLabels();
         $this->maxSteps = 4;
@@ -49,26 +66,27 @@ class CreateDoctorModal extends Component
 
     protected function rules(): array
     {
-        return (new CreateDoctorRequest)->rules();
+        return (new CreateDoctorRequest())->rules();
     }
 
-
-    public function addDoctorAction()
+    public function addDoctorAction(): void
     {
         $validatedData = $this->validate();
         try {
             $actionResponse = (new CreateDoctorAction())->handle(
-                new CreateDoctorDTO(...$validatedData)
+                new CreateDoctorDTO(...$validatedData),
             );
 
             flash()->{$actionResponse->success ? 'success' : 'error'}($this->matchStatus($actionResponse->status));
 
-            if (!$actionResponse->success) return;
+            if (!$actionResponse->success) {
+                return;
+            }
 
             $this->resetForm();
             $this->dispatch('added');
-        } catch (\Exception $e) {
-            Helper::log($e);
+        } catch (\Exception $exception) {
+            Helper::log($exception);
         }
     }
 
@@ -77,13 +95,20 @@ class CreateDoctorModal extends Component
         return match ($actionResponseStatus) {
             ActionResponseStatusEnum::AUTHORIZE_ERROR => 'غير مسموح لك باضافة طبيب!!',
             ActionResponseStatusEnum::SUCCESS => 'تم انشاء الطبيب بنجاح',
-            default => 'حدث خطاء في عملية انشاء الطبيب الرجاء المحاولة لاحقاً'
+            default => 'حدث خطاء في عملية انشاء الطبيب الرجاء المحاولة لاحقاً',
         };
     }
 
-    private function resetForm()
+    private function resetForm(): void
     {
-        $this->username = $this->password = $this->first_name = $this->last_name = $this->specialization = $this->phone = $this->photo = $this->other_phone = null;
+        $this->username = null;
+        $this->password = null;
+        $this->first_name = null;
+        $this->last_name = null;
+        $this->specialization = null;
+        $this->phone = null;
+        $this->photo = null;
+        $this->other_phone = null;
     }
 
     public function render()

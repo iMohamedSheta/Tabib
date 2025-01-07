@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Console\Commands\Helpers;
+namespace App\Console\Commands\Generators;
 
 use Illuminate\Console\GeneratorCommand;
 
-class MakeDtoCommand extends GeneratorCommand
+class MakeActionCommand extends GeneratorCommand
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'make:dto {name}';
+    protected $signature = 'make:action {name}';
 
     /**
      * The console command description.
@@ -22,23 +22,19 @@ class MakeDtoCommand extends GeneratorCommand
 
     /**
      * Get the stub file for the generator.
-     *
-     * @return string
      */
     protected function getStub(): string
     {
-        return resource_path('stubs/dto.stub');
+        return resource_path('stubs/action.stub');
     }
-
 
     /**
      * Get the default namespace for the class.
      *
-     * @param  string  $rootNamespace
+     * @param string $rootNamespace
      */
     protected function getDefaultNamespace($rootNamespace): string
     {
-        return $rootNamespace.'\DTOs';
+        return $rootNamespace.'\Actions';
     }
-
 }

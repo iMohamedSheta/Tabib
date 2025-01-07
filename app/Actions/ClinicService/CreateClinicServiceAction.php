@@ -23,11 +23,12 @@ class CreateClinicServiceAction
 
             return $this->success(
                 message: 'تم انشاء الخدمة الطبية بنجاح',
-                data: ['clinic_service' => $clinicService]
+                data: ['clinic_service' => $clinicService],
             );
-        } catch (\Exception $e) {
-            log_error($e);
-            return $this->error("حدث خطأ في عملية أنشاء الخدمة الطبية الرجاء المحاولة لاحقاً");
+        } catch (\Exception $exception) {
+            log_error($exception);
+
+            return $this->error('حدث خطأ في عملية أنشاء الخدمة الطبية الرجاء المحاولة لاحقاً');
         }
     }
 

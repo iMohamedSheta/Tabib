@@ -13,7 +13,7 @@ class DoctorQueryBuilder extends QueryBuilderWrapper
         return DB::table('doctors');
     }
 
-    public function getOrganizationDoctors()
+    public function getOrganizationDoctors(): static
     {
         $this->query
             ->select([

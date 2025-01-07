@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Auth\Socialite;
 
-use App\DTOs\Auth\RegisterUserDTO;
 use App\Enums\User\Auth\OAuthProviderEnum;
 use App\Enums\User\UserRoleEnum;
 use App\Http\Controllers\Controller;
@@ -10,15 +9,12 @@ use App\Models\ClinicAdmin;
 use App\Models\User;
 use App\Services\Register\StoreProfileImageService;
 use App\Traits\Socialite\SocialiteResponseTrait;
-use Illuminate\Contracts\Cache\Store;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use Laravel\Socialite\Facades\Socialite;
 
 class FacebookSocialiteController extends Controller
 {
-
     use SocialiteResponseTrait;
 
     public function redirect()
@@ -31,14 +27,14 @@ class FacebookSocialiteController extends Controller
         $socialite = Socialite::driver('facebook')->stateless()->user();
 
         // Search for existing user either by OAuth ID or email
-        $user = User::where(function ($query) use ($socialite) {
+        $user = User::where(function ($query) use ($socialite): void {
             $query->where('oauth_id', $socialite->id)
                 ->where('oauth_provider', OAuthProviderEnum::META);
         })->orWhere('email', $socialite->email)->first();
 
         if (!$user) {
             // Parse user data
-            $fullname = explode(" ", $socialite->name ?? '', 2);
+            $fullname = explode(' ', $socialite->name ?? '', 2);
 
             $userData = [
                 'first_name' => $fullname[0] ?? '',
@@ -56,7 +52,7 @@ class FacebookSocialiteController extends Controller
 
             // Download and save profile image
             if ($socialite->avatar) {
-                $imageURL = "{$socialite->avatar}?type=large&access_token={$socialite->token}";
+                $imageURL = sprintf('%s?type=large&access_token=%s', $socialite->avatar, $socialite->token);
                 $userData['profile_photo_path'] = StoreProfileImageService::handleFacebookImage($imageURL, $socialite->id);
             }
 

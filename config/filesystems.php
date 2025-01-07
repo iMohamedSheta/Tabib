@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Default Filesystem Disk
@@ -29,7 +28,6 @@ return [
     */
 
     'disks' => [
-
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app/private'),
@@ -40,7 +38,7 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL') . '/storage',
+            'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
             'throw' => false,
         ],
@@ -59,7 +57,7 @@ return [
         'profile_images' => [
             'driver' => 'local',
             'root' => storage_path('app/public/profile_images'),
-            'url' => env('APP_URL') . '/storage/profile_images',
+            'url' => env('APP_URL').'/storage/profile_images',
             'visibility' => 'public',
         ],
         'livewire_tmp' => [
@@ -84,5 +82,4 @@ return [
     'links' => [
         public_path('storage') => storage_path('app/public'),
     ],
-
 ];

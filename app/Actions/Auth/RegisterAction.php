@@ -11,11 +11,9 @@ use Illuminate\Support\Facades\DB;
 
 class RegisterAction
 {
-
-    public function handle(User $user,array $clinicData)
+    public function handle(User $user, array $clinicData): void
     {
-        try
-        {
+        try {
             DB::beginTransaction();
 
             $clinic = $this->createClinic($clinicData);
@@ -27,11 +25,10 @@ class RegisterAction
             Auth::login($user);
 
             redirect(UserRoleEnum::authRedirectRouteBasedOnType());
-
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             DB::rollBack();
 
-            dd($e);
+            dd($exception);
         }
     }
 
@@ -48,7 +45,7 @@ class RegisterAction
     {
         return Clinic::create([
             'billing_code' => $this->generateBillingCode(),
-            'name'=> $clinicData['name'],
+            'name' => $clinicData['name'],
             'type' => $clinicData['type'],
             'plan_id' => 1,
             'lease_expired_at' => now()->addMonth(),
@@ -56,7 +53,7 @@ class RegisterAction
         ]);
     }
 
-    private function generateBillingCode()
+    private function generateBillingCode(): int
     {
         return random_int(100000, 999999);
     }

@@ -7,5 +7,4 @@ return [
         'message' => 'This is a test exception',
         'description' => 'This is a test exception',
     ],
-
 ];

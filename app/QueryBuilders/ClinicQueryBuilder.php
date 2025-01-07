@@ -13,7 +13,7 @@ class ClinicQueryBuilder extends QueryBuilderWrapper
         return DB::table('clinics');
     }
 
-    public function getOrganizationClinics()
+    public function getOrganizationClinics(): static
     {
         $this->query
             ->sameOrganization()
@@ -23,7 +23,7 @@ class ClinicQueryBuilder extends QueryBuilderWrapper
         return $this;
     }
 
-    public function withPlans()
+    public function withPlans(): static
     {
         $this->query
             ->addSelect(['plans.id as plan_id', 'plans.name as plan_name'])

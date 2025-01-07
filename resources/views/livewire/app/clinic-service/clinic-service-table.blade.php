@@ -4,7 +4,7 @@
 @endphp
 
 <div>
-    <div class="md:container py-6 mx-auto grid my-6 text-gray-700 dark:text-gray-200 ">
+    <div class="py-6 md:mx-4 grid  text-gray-700 dark:text-gray-200">
         <x-main.head wire:ignore :icon="asset('images/clinic_services/icon.png')">
             <x-slot name="title">
                 الخدمات الطبية
@@ -19,7 +19,7 @@
         </x-main.head>
 
         <div
-            class="relative bg-purple-200 text-gray-700 dark:bg-c-gray-800 dark:text-white font-bold p-6 rounded-lg shadow-xl min-h-[50vh]">
+            class="relative bg-purple-200 text-gray-700 dark:bg-c-gray-800 dark:text-white font-bold p-6 rounded-lg shadow-xl min-h-[50vh] overflow-x-auto">
             <x-datatable.table :total="$clinicServices->total()">
                 <x-slot name="thead">
                     <div class="flex justify-between mb-4" x-data="addModal" x-on:added="show = false">

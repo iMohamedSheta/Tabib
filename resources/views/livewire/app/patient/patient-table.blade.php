@@ -22,7 +22,7 @@
                         :clinics="$clinics"></livewire:app.patient.includes.create-patient-modal>
                     <div class="w-1/2 flex justify-end">
                         <x-input wire:model.live.debounce.500ms="search" placeholder="بحث"
-                            class="py-1 text-xs mt-2 w-1/3 text-gray-600 bg-purple-200" />
+                            class="py-1 text-xs mt-2 w-1/3 text-gray-600 min-w-[200px] bg-purple-200" />
                     </div>
                 </div>
                 <x-datatable.thead :headers="__('datatable.patient_table')" :iterator="true" :sorting="true"></x-datatable.thead>
@@ -46,7 +46,9 @@
                             </div> --}}
                             </div>
                             <div x-data="infoModal" x-on:updated="show = false">
-                                <x-datatable.tdata.link href="#" @click="show = true">
+                                <x-datatable.tdata.link wire:navigate.hover
+                                    href="{{ route('app.admin.patient.show', ['patient' => $patient->patient_id]) }}"
+                                    @click="show = true">
                                     <i class="fa-solid fa-database fa-lg px-2"></i>
                                     تفاصيل
                                 </x-datatable.tdata.link>

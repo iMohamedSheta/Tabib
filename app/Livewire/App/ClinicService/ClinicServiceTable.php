@@ -16,29 +16,32 @@ class ClinicServiceTable extends Component
 {
     use WithCustomPagination;
 
-    protected function getClinicServices()
+    protected function getClinicServices(): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
         return ClinicServiceQueryBuilderProxy::getClinicServicesForTable($this->perPage, $this->page);
     }
-    public function getClinics()
+
+    public function getClinics(): array
     {
         return Clinic::list();
     }
 
-    public function deleteClinicServiceAction($id)
+    public function deleteClinicServiceAction($id): void
     {
         try {
             $actionResponse = (new DeleteClinicServiceAction())->handle(
-                ClinicService::find($id)
+                ClinicService::find($id),
             );
 
             flash()->{$actionResponse->success ? 'success' : 'error'}($this->matchStatus($actionResponse->status));
 
-            if (!$actionResponse->success) return;
+            if (!$actionResponse->success) {
+                return;
+            }
 
             $this->dispatch('deleted');
-        } catch (\Exception $e) {
-            log_error($e);
+        } catch (\Exception $exception) {
+            log_error($exception);
             flash()->error($this->matchStatus());
         }
     }
@@ -48,7 +51,7 @@ class ClinicServiceTable extends Component
         return match ($actionResponseStatus) {
             ActionResponseStatusEnum::AUTHORIZE_ERROR => 'غير مسموح لك بحذف الخدمة طبية!!',
             ActionResponseStatusEnum::SUCCESS => 'تم حذف الخدمة الطبية بنجاح',
-            default => 'حدث خطاء في عملية حذف الخدمة الطبية الرجاء المحاولة لاحقاً'
+            default => 'حدث خطاء في عملية حذف الخدمة الطبية الرجاء المحاولة لاحقاً',
         };
     }
 
@@ -56,7 +59,7 @@ class ClinicServiceTable extends Component
     {
         return view('livewire.app.clinic-service.clinic-service-table', [
             'clinicServices' => $this->getClinicServices(),
-            'clinics' => $this->getClinics()
+            'clinics' => $this->getClinics(),
         ]);
     }
 }

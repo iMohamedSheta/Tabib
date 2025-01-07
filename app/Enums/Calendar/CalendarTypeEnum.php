@@ -9,7 +9,7 @@ enum CalendarTypeEnum: int
     case MEETING = 3;
     case PATIENT_APPOINTMENT = 4;
 
-    const DEFAULT = self::EVENT->value;
+    public const DEFAULT = self::EVENT->value;
 
     public function label(): string
     {
@@ -17,7 +17,7 @@ enum CalendarTypeEnum: int
             self::EVENT => 'Event',
             self::APPOINTMENT => 'Appointment',
             self::MEETING => 'Meeting',
+            self::PATIENT_APPOINTMENT => 'Patient Appointment'
         };
-
     }
 }

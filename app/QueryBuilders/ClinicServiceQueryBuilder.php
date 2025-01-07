@@ -13,28 +13,28 @@ class ClinicServiceQueryBuilder extends QueryBuilderWrapper
         return DB::table('clinic_services');
     }
 
-    public function getOrganizationClinicServices()
+    public function getOrganizationClinicServices(): static
     {
         $this->query
             ->sameOrganization()
             ->select([
-                'clinic_services.*'
+                'clinic_services.*',
             ]);
 
         return $this;
     }
 
-    public function withPatientsCount()
+    public function withPatientsCount(): static
     {
-        $patientCountQuery = DB::table('calendars')
+        $builder = DB::table('calendars')
             ->select('clinic_service_id', DB::raw('COUNT(id) as patients_count'))
             ->groupBy('clinic_service_id');
 
         $this->query
             ->addSelect([
-                'calendars_temp.patients_count'
+                'calendars_temp.patients_count',
             ])
-            ->leftJoinSub($patientCountQuery, 'calendars_temp', function ($join) {
+            ->leftJoinSub($builder, 'calendars_temp', function ($join): void {
                 $join->on('clinic_services.id', '=', 'calendars_temp.clinic_service_id');
             });
 

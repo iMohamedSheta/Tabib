@@ -2,12 +2,11 @@
 
 namespace App\Actions\Doctor;
 
-use App\Helpers\Helper;
 use App\Models\Doctor;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
 use App\Responses\ActionResponse;
 use App\Traits\ActionTraits\ActionResponseTrait;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class DeleteDoctorAction
 {
@@ -15,8 +14,7 @@ class DeleteDoctorAction
 
     public function handle(Doctor $doctor): ActionResponse
     {
-        try
-        {
+        try {
             if ($this->isNotAuthorized($doctor)) {
                 return $this->authorizeError('غير مسموح لك بحذف الطبيب!!');
             }
@@ -29,16 +27,17 @@ class DeleteDoctorAction
 
             return $this->success(
                 message: 'تم حذف الطبيب بنجاح',
-                data: []
+                data: [],
             );
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             DB::rollBack();
-            log_error($e);
-            return $this->error("حدث خطأ في عملية حذف الطبيب الرجاء المحاولة لاحقاً");
+            log_error($exception);
+
+            return $this->error('حدث خطأ في عملية حذف الطبيب الرجاء المحاولة لاحقاً');
         }
     }
 
-    private function isNotAuthorized($doctor): bool
+    private function isNotAuthorized(Doctor $doctor): bool
     {
         return !Gate::allows('delete', $doctor);
     }

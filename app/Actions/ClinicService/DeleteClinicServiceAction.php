@@ -2,11 +2,9 @@
 
 namespace App\Actions\ClinicService;
 
-use App\Models\Clinic;
 use App\Models\ClinicService;
 use App\Responses\ActionResponse;
 use App\Traits\ActionTraits\ActionResponseTrait;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 
 class DeleteClinicServiceAction
@@ -24,15 +22,16 @@ class DeleteClinicServiceAction
 
             return $this->success(
                 message: 'تم حذف الخدمة الطبية بنجاح',
-                data: []
+                data: [],
             );
-        } catch (\Exception $e) {
-            log_error($e);
-            return $this->error("حدث خطأ في عملية حذف الخدمة الطبية الرجاء المحاولة لاحقاً");
+        } catch (\Exception $exception) {
+            log_error($exception);
+
+            return $this->error('حدث خطأ في عملية حذف الخدمة الطبية الرجاء المحاولة لاحقاً');
         }
     }
 
-    private function isNotAuthorized($clinicService): bool
+    private function isNotAuthorized(ClinicService $clinicService): bool
     {
         return !Gate::allows('delete', $clinicService);
     }

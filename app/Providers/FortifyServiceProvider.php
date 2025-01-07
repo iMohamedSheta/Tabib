@@ -22,7 +22,6 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
     }
 
     /**
@@ -40,8 +39,8 @@ class FortifyServiceProvider extends ServiceProvider
                 ->orWhere('username', $request->username)
                 ->first();
 
-            if ($user &&
-                Hash::check($request->password, $user->password)) {
+            if ($user
+                && Hash::check($request->password, $user->password)) {
                 return $user;
             }
         });
@@ -52,8 +51,6 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(5)->by($throttleKey);
         });
 
-        RateLimiter::for('two-factor', function (Request $request) {
-            return Limit::perMinute(5)->by($request->session()->get('login.id'));
-        });
+        RateLimiter::for('two-factor', fn (Request $request) => Limit::perMinute(5)->by($request->session()->get('login.id')));
     }
 }

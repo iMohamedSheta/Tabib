@@ -4,7 +4,8 @@ namespace App\Traits\Socialite;
 
 trait SocialiteResponseTrait
 {
-    public function socialiteLoginSuccess() {
+    public function socialiteLoginSuccess()
+    {
         $app_url = config('app.url');
 
         $script = <<<SCRIPT

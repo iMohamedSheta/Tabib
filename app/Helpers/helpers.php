@@ -7,9 +7,10 @@ if (!function_exists('speedTest')) {
     /**
      * Measure the execution time of a given code block executed multiple times.
      *
-     * @param callable $callback The code block to measure.
-     * @param int $repeats The number of times to execute the callback.
-     * @return array The execution time in milliseconds and the result of the last execution.
+     * @param callable $callback the code block to measure
+     * @param int      $repeats  the number of times to execute the callback
+     *
+     * @return array the execution time in milliseconds and the result of the last execution
      */
     function speedTest(callable $callback, int $repeats = 1): array
     {
@@ -17,7 +18,7 @@ if (!function_exists('speedTest')) {
         $totalExecutionTime = 0;
         $lastRepeat = $repeats - 1;
 
-        for ($i = 0; $i < $repeats; $i++) {
+        for ($i = 0; $i < $repeats; ++$i) {
             $startTime = microtime(true);
 
             // Execute the callback and capture the result
@@ -33,24 +34,25 @@ if (!function_exists('speedTest')) {
         }
 
         // Average execution time
-        $averageExecutionTime = number_format($totalExecutionTime / $repeats, 2) . " ms";
-        $totalExecutionTimeInSeconds = number_format($totalExecutionTime / 1000, 2) . " seconds";
+        $averageExecutionTime = number_format($totalExecutionTime / $repeats, 2) . ' ms';
+        $totalExecutionTimeInSeconds = number_format($totalExecutionTime / 1000, 2) . ' seconds';
+
         // Return both the result of the last execution and the average execution time
         return [
             'result' => $lastResult,
             'average_execution_time' => $averageExecutionTime,
-            'total_execution_time' => $totalExecutionTimeInSeconds
+            'total_execution_time' => $totalExecutionTimeInSeconds,
         ];
     }
 }
 
 if (!function_exists('log_error')) {
-    function log_error(\Exception $e)
+    function log_error(Exception $exception): void
     {
         Log::error('Exception Occurred: ', [
-            'message' => $e->getMessage(),
-            'file' => $e->getFile(),
-            'line' => $e->getLine(),
+            'message' => $exception->getMessage(),
+            'file' => $exception->getFile(),
+            'line' => $exception->getLine(),
             'timestamp' => now()->toDateTimeString(),
         ]);
     }
@@ -76,7 +78,7 @@ if (!function_exists('js')) {
             return asset('assets/js/' . $filename . '?' . cache()->get('js_version'));
         }
 
-        return asset("assets/js/{$filename}.js?" . cache()->get('js_version'));
+        return asset(sprintf('assets/js/%s.js?', $filename) . cache()->get('js_version'));
     }
 }
 
@@ -93,7 +95,7 @@ if (!function_exists('css')) {
             return asset('assets/css/' . $filename . '?' . $version);
         }
 
-        return asset("assets/css/{$filename}.css?" . $version);
+        return asset(sprintf('assets/css/%s.css?', $filename) . $version);
     }
 }
 
@@ -109,9 +111,10 @@ if (!function_exists('array_only')) {
      * HELPER FUNCTION
      * Get a subset of the items from the given array based on the specified keys.
      *
-     * @param array $array The array to extract items from.
-     * @param array $keys The keys to extract from the array.
-     * @return array An array containing only the items with the specified keys.
+     * @param array $array the array to extract items from
+     * @param array $keys  the keys to extract from the array
+     *
+     * @return array an array containing only the items with the specified keys
      */
     function array_only(array $array, array $keys): array
     {
@@ -120,7 +123,7 @@ if (!function_exists('array_only')) {
 }
 
 if (!function_exists('log_dev')) {
-    function log_dev($e)
+    function log_dev($e): void
     {
         Log::channel('dev')->error($e);
     }

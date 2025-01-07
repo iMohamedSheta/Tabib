@@ -5,5 +5,5 @@ return [
     App\Providers\BladeServiceProvider::class,
     App\Providers\FortifyServiceProvider::class,
     App\Providers\JetstreamServiceProvider::class,
-    App\Providers\MacroServiceProvider::class
+    App\Providers\MacroServiceProvider::class,
 ];

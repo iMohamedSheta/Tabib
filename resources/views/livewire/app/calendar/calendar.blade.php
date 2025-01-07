@@ -1,4 +1,4 @@
-<div class="md:container py-6 mx-auto grid my-6 text-gray-700  dark:text-gray-200 ">
+<div class="py-6 md:mx-4 grid  text-gray-700 dark:text-gray-200">
     <x-main.head :icon="asset('images/clinics/icon.png')">
         <x-slot name="title">
             المواعيد والحجوزات

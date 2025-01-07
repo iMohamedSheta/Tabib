@@ -15,11 +15,10 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends Authenticatable
 {
     use HasApiTokens;
-    use HasFactory;
-    use HasProfilePhoto, HasCustomDefaultProfilePhoto {
-        // HasCustomDefaultProfilePhoto::defaultProfilePhotoUrl insteadof HasProfilePhoto;
+    use HasCustomDefaultProfilePhoto, HasProfilePhoto {
         HasCustomDefaultProfilePhoto::profilePhotoUrl insteadof HasProfilePhoto;
     }
+    use HasFactory;
     use Notifiable;
     use TwoFactorAuthenticatable;
 
@@ -60,34 +59,34 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed'
+            'password' => 'hashed',
         ];
     }
 
     public function isClinicAdmin(): bool
     {
-        return $this->role == ClinicAdmin::class;
+        return ClinicAdmin::class == $this->role;
     }
 
     public function isDoctor(): bool
     {
-        return $this->role == Doctor::class;
+        return Doctor::class == $this->role;
     }
 
     public function isPatient(): bool
     {
-        return $this->role == Patient::class;
+        return Patient::class == $this->role;
     }
 
     public function isReceptionist(): bool
     {
-        return $this->role == Receptionist::class;
+        return Receptionist::class == $this->role;
     }
 
     public function isManager(): bool
     {
         // return $this->email == 'icrush15@yahoo.com';
-        return $this->role == Manager::class;
+        return Manager::class == $this->role;
     }
 
     public function organization()
@@ -104,8 +103,9 @@ class User extends Authenticatable
                 return $this->doctor();
             default:
                 return $this;
-        };
+        }
     }
+
     public function clinicAdmin()
     {
         return $this->hasOne(ClinicAdmin::class, 'user_id', 'id');
@@ -133,10 +133,10 @@ class User extends Authenticatable
 
     public function scopeLikeIn($query, array $fields, $value)
     {
-        $value = trim($value);
+        $value = trim((string) $value);
 
         foreach ($fields as $index => $field) {
-            $query->{$index === 0 ? 'where' : 'orWhere'}($field, 'LIKE', "%$value%");
+            $query->{0 === $index ? 'where' : 'orWhere'}($field, 'LIKE', sprintf('%%%s%%', $value));
         }
 
         return $query;

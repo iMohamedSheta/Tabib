@@ -8,10 +8,9 @@ use Illuminate\Support\Facades\Route;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
-        commands: __DIR__.'/../routes/console.php',
+        commands: __DIR__ . '/../routes/console.php',
         health: '/up',
-        using: function ()
-        {
+        using: function (): void {
             Route::middleware('api')
                 ->prefix('api/v1')
                 ->group(base_path('routes/api/v1/api.php'));
@@ -26,22 +25,9 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->prefix('admin')
                 ->name('app.admin.')
                 ->group(base_path('routes/app/clinic_admin.php'));
-        }
+        },
     )
-    ->withMiddleware(function (Middleware $middleware) {
+    ->withMiddleware(function (Middleware $middleware): void {})
+    ->withExceptions(function (Exceptions $exceptions): void {
         //
-    })
-    ->withExceptions(function (Exceptions $exceptions) {
-
-        $exceptions->renderable(function (InternalException $e) {
-            $code = $e->getInternalCode();
-            return response()->json([
-                'status' => $e->getCode(),
-                'error_code' => $code->value,
-                'message' => $e->getMessage(),
-                'description' => $e->getDescription(),
-                'link' => $code->getLink(),
-            ], $e->getCode());
-        });
-
     })->create();

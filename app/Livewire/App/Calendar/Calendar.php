@@ -9,7 +9,9 @@ use Livewire\Component;
 class Calendar extends Component
 {
     public $events;
+
     public $config;
+
     public $clinics;
 
     public function render()
@@ -20,12 +22,13 @@ class Calendar extends Component
         ]);
 
         $this->clinics = $this->getClinics();
-        $this->events = CalendarModel::all()->map(function ($event) {
+        $this->events = CalendarModel::all()->map(function ($event): array {
             $event->data = json_decode($event->data);
+
             // $date = $event->created_at->format('Y-m-d H:i');
             return [
                 'id' => $event->id,
-                'title' =>  $event->data->title,
+                'title' => $event->data->title,
                 'start' => $event->data->start,
                 'end' => $event->data->end ?? null,
                 'allDay' => $event->data->allDay ?? false,
@@ -44,12 +47,12 @@ class Calendar extends Component
         return view('livewire.app.calendar.calendar');
     }
 
-    public function getClinics()
+    public function getClinics(): array
     {
         return Clinic::list();
     }
 
-    public function deleteEventAction($eventId)
+    public function deleteEventAction($eventId): void
     {
         CalendarModel::find($eventId)->delete();
 

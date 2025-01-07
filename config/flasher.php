@@ -24,9 +24,9 @@ return [
             ],
             'options' => [
                 // Optional: Add global options here
-                'position' => 'top-right'
+                'position' => 'top-right',
             ],
-            'dark' => true
+            'dark' => true,
         ],
     ],
 ];

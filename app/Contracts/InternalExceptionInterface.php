@@ -2,6 +2,7 @@
 
 namespace App\Contracts;
 
-interface InternalExceptionInterface {
+interface InternalExceptionInterface
+{
     public static function exception();
 }

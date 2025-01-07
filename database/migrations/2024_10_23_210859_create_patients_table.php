@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -29,7 +28,7 @@ return new class extends Migration
             $table->string('national_card_id')->nullable();
             $table->string('blood_type')->nullable();
             $table->unsignedTinyInteger('height')->nullable(); // BMI metrics
-            // $table->unsignedSmallInteger('weight')->nullable(); // should be taken in the Evaluations it changes a lot. 
+            // $table->unsignedSmallInteger('weight')->nullable(); // should be taken in the Evaluations it changes a lot.
             $table->string('marital_status')->nullable();
             $table->string('occupation')->nullable();
             $table->string('insurance_number')->nullable();

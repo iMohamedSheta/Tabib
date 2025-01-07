@@ -13,7 +13,7 @@ class PatientQueryBuilder extends QueryBuilderWrapper
         return DB::table('patients');
     }
 
-    public function getOrganizationPatients()
+    public function getOrganizationPatients(): static
     {
         $this->query
             ->sameOrganization()
@@ -34,7 +34,7 @@ class PatientQueryBuilder extends QueryBuilderWrapper
                 'patients.address',
                 'patients.gender',
                 'clinics.name as clinic_name',
-                'clinics.id as clinic_id'
+                'clinics.id as clinic_id',
             )
             ->join('users', 'users.id', '=', 'patients.user_id')
             ->join('clinics', 'patients.clinic_id', '=', 'clinics.id');
@@ -42,10 +42,10 @@ class PatientQueryBuilder extends QueryBuilderWrapper
         return $this;
     }
 
-    public function searchPatients($search)
+    public function searchPatients($search): static
     {
-        $this->query->when($search, function ($query) use ($search) {
-            $query->where(function ($query) use ($search) {
+        $this->query->when($search, function ($query) use ($search): void {
+            $query->where(function ($query) use ($search): void {
                 $query->likeIn(['users.first_name', 'users.last_name', 'users.phone', 'users.other_phone'], $search)
                     ->likeUserFullName($search);
             });

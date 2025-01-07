@@ -13,5 +13,5 @@ return [
         'wednesday' => 'الأربعاء',
         'thursday' => 'الخميس',
         'friday' => 'الجمعة',
-    ]
+    ],
 ];

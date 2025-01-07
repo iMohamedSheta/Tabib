@@ -3,12 +3,12 @@
 namespace App\Providers;
 
 use App\Models\User;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -17,7 +17,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
     }
 
     /**
@@ -33,17 +32,21 @@ class AppServiceProvider extends ServiceProvider
         $this->configureURLs();
     }
 
-    private function configureVite()
+    private function configureVite(): void
     {
         Vite::usePrefetchStrategy('aggressive');
         // Vite::prefetch(3); // After the page is loaded for the first time,
         // lazily load all the chunks of our website to the user.
     }
 
-    private function configurePulse()
+    private function configurePulse(): void
     {
-        Gate::define('viewPulse', function (User $user) {
-            return $this->app->environment('local') || $user->isManager();
+        Gate::define('viewPulse', function (User $user): bool {
+            if ($this->app->environment('local')) {
+                return true;
+            }
+
+            return $user->isManager();
         });
     }
 

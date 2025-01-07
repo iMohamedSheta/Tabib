@@ -20,20 +20,21 @@ class UpdateClinicServiceAction
             }
 
             $clinicService->update(
-                $updateClinicServiceDTO->clinicServiceData()
+                $updateClinicServiceDTO->clinicServiceData(),
             );
 
             return $this->success(
                 message: 'تم تعديل الخدمة الطبية بنجاح',
-                data: []
+                data: [],
             );
-        } catch (\Exception $e) {
-            log_error($e);
-            return $this->error("حدث خطأ في عملية تعديل الخدمة الطبية الرجاء المحاولة لاحقاً");
+        } catch (\Exception $exception) {
+            log_error($exception);
+
+            return $this->error('حدث خطأ في عملية تعديل الخدمة الطبية الرجاء المحاولة لاحقاً');
         }
     }
 
-    private function isNotAuthorized($clinicService): bool
+    private function isNotAuthorized(ClinicService $clinicService): bool
     {
         return !Gate::allows('update', $clinicService);
     }

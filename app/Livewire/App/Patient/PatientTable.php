@@ -3,7 +3,6 @@
 namespace App\Livewire\App\Patient;
 
 use App\Models\Clinic;
-use App\Models\Patient;
 use App\Proxy\QueryBuilders\PatientQueryBuilderProxy;
 use App\Traits\Pagination\WithCustomPagination;
 use Livewire\Attributes\On;
@@ -14,15 +13,14 @@ class PatientTable extends Component
 {
     use WithCustomPagination;
 
-    public $search = null;
+    public $search;
 
-    public function getPatients()
+    public function getPatients(): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
-
         return PatientQueryBuilderProxy::getPatientsForTable($this->perPage, $this->page, $this->search);
     }
 
-    public function getClinics()
+    public function getClinics(): array
     {
         return Clinic::list();
     }
@@ -31,7 +29,7 @@ class PatientTable extends Component
     {
         return view('livewire.app.patient.patient-table', [
             'patients' => $this->getPatients(),
-            'clinics' => $this->getClinics()
+            'clinics' => $this->getClinics(),
         ]);
     }
 }
