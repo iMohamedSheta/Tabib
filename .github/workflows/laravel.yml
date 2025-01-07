@@ -28,15 +28,15 @@ jobs:
           mkdir -p database
           touch database/database.sqlite
       - name: run test pint for testing linting
-        run: ./vendor/bin/pint.bat --test
+        run: ./vendor/bin/pint --test
       - name: run pint for linting
-        run: ./vendor/bin/pint.bat --repair
+        run: ./vendor/bin/pint --repair
       - name: Run rector for code quality
-        run: ./vendor/bin/rector.bat process --dry-run
+        run: ./vendor/bin/rector process --dry-run
       - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
         run: php artisan test
       - name: Run Static Analysis
-        run: .\vendor\bin\phpstan analyse --error-format=github
+        run: ./vendor/bin/phpstan analyse --error-format=github
