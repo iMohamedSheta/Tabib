@@ -69,6 +69,11 @@ jobs:
           DB_PASSWORD: password
         run: |
           php artisan migrate --force || echo "migrations_failed=true" >> $GITHUB_ENV
+        continue-on-error: true
+
+      - name: Set output for migrations
+        if: failure()
+        run: echo "::set-output name=migrations_failed::true"
 
   tests:
     runs-on: ubuntu-latest
@@ -94,6 +99,11 @@ jobs:
           DB_PASSWORD: password
         run: |
           php artisan test || echo "tests_failed=true" >> $GITHUB_ENV
+        continue-on-error: true
+
+      - name: Set output for tests
+        if: failure()
+        run: echo "::set-output name=tests_failed::true"
 
   code_style:
     runs-on: ubuntu-latest
@@ -112,6 +122,11 @@ jobs:
         id: run_pint
         run: |
           vendor/bin/pint --test || echo "pint_failed=true" >> $GITHUB_ENV
+        continue-on-error: true
+
+      - name: Set output for Pint
+        if: failure()
+        run: echo "::set-output name=pint_failed::true"
 
   static_analysis:
     runs-on: ubuntu-latest
@@ -130,6 +145,11 @@ jobs:
         id: run_phpstan
         run: |
           vendor/bin/phpstan analyse || echo "phpstan_failed=true" >> $GITHUB_ENV
+        continue-on-error: true
+
+      - name: Set output for PHPStan
+        if: failure()
+        run: echo "::set-output name=phpstan_failed::true"
 
   refactoring:
     runs-on: ubuntu-latest
@@ -148,6 +168,11 @@ jobs:
         id: run_rector
         run: |
           vendor/bin/rector process --dry-run || echo "rector_failed=true" >> $GITHUB_ENV
+        continue-on-error: true
+
+      - name: Set output for Rector
+        if: failure()
+        run: echo "::set-output name=rector_failed::true"
 
   fail_job_if_any_step_failed:
     runs-on: ubuntu-latest
@@ -156,10 +181,10 @@ jobs:
     steps:
       - name: Check for failures and fail job if any step failed
         run: |
-          if [[ "${{ env.migrations_failed }}" == "true" ]] || \
-             [[ "${{ env.tests_failed }}" == "true" ]] || \
-             [[ "${{ env.pint_failed }}" == "true" ]] || \
-             [[ "${{ env.phpstan_failed }}" == "true" ]] || \
-             [[ "${{ env.rector_failed }}" == "true" ]]; then
+          if [[ "${{ needs.migrations.outputs.migrations_failed }}" == "true" ]] || \
+             [[ "${{ needs.tests.outputs.tests_failed }}" == "true" ]] || \
+             [[ "${{ needs.code_style.outputs.pint_failed }}" == "true" ]] || \
+             [[ "${{ needs.static_analysis.outputs.phpstan_failed }}" == "true" ]] || \
+             [[ "${{ needs.refactoring.outputs.rector_failed }}" == "true" ]]; then
             exit 1
           fi
