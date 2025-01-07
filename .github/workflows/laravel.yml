@@ -67,13 +67,13 @@ jobs:
           DB_DATABASE: test_db
           DB_USERNAME: root
           DB_PASSWORD: password
-        run: |
-          php artisan migrate --force || echo "migrations_failed=true" >> $GITHUB_ENV
+        run: php artisan migrate --force
         continue-on-error: true
 
       - name: Set output for migrations
         if: failure()
-        run: echo "::set-output name=migrations_failed::true"
+        run: echo "migrations_failed=true" >> $GITHUB_ENV
+        shell: bash
 
   tests:
     runs-on: ubuntu-latest
@@ -97,13 +97,13 @@ jobs:
           DB_DATABASE: test_db
           DB_USERNAME: root
           DB_PASSWORD: password
-        run: |
-          php artisan test || echo "tests_failed=true" >> $GITHUB_ENV
+        run: php artisan test
         continue-on-error: true
 
       - name: Set output for tests
         if: failure()
-        run: echo "::set-output name=tests_failed::true"
+        run: echo "tests_failed=true" >> $GITHUB_ENV
+        shell: bash
 
   code_style:
     runs-on: ubuntu-latest
@@ -120,13 +120,13 @@ jobs:
 
       - name: Run Pint (Code Style)
         id: run_pint
-        run: |
-          vendor/bin/pint --test || echo "pint_failed=true" >> $GITHUB_ENV
+        run: vendor/bin/pint --test
         continue-on-error: true
 
       - name: Set output for Pint
         if: failure()
-        run: echo "::set-output name=pint_failed::true"
+        run: echo "pint_failed=true" >> $GITHUB_ENV
+        shell: bash
 
   static_analysis:
     runs-on: ubuntu-latest
@@ -143,13 +143,13 @@ jobs:
 
       - name: Run PHPStan (Static Analysis)
         id: run_phpstan
-        run: |
-          vendor/bin/phpstan analyse || echo "phpstan_failed=true" >> $GITHUB_ENV
+        run: vendor/bin/phpstan analyse
         continue-on-error: true
 
       - name: Set output for PHPStan
         if: failure()
-        run: echo "::set-output name=phpstan_failed::true"
+        run: echo "phpstan_failed=true" >> $GITHUB_ENV
+        shell: bash
 
   refactoring:
     runs-on: ubuntu-latest
@@ -166,13 +166,13 @@ jobs:
 
       - name: Run Rector (Automated Refactoring)
         id: run_rector
-        run: |
-          vendor/bin/rector process --dry-run || echo "rector_failed=true" >> $GITHUB_ENV
+        run: vendor/bin/rector process --dry-run
         continue-on-error: true
 
       - name: Set output for Rector
         if: failure()
-        run: echo "::set-output name=rector_failed::true"
+        run: echo "rector_failed=true" >> $GITHUB_ENV
+        shell: bash
 
   fail_job_if_any_step_failed:
     runs-on: ubuntu-latest
