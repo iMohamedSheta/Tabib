@@ -23,23 +23,6 @@ class ClinicAdminFactory extends Factory
     {
         return
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             [
                 'user_id' => User::factory()->create()->id,
                 'type' => ClinicAdmin::TYPE_SUPER_ADMIN,
