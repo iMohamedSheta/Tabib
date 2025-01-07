@@ -23,7 +23,7 @@ jobs:
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
       - name: Copy .env
-        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+        run: php -r "file_exists('.env') || copy('.env.testing', '.env');"
 
       - name: Generate key
         run: php artisan key:generate
@@ -62,7 +62,7 @@ jobs:
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
       - name: Copy .env
-        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+        run: php -r "file_exists('.env') || copy('.env.testing', '.env');"
 
       - name: Generate key
         run: php artisan key:generate
@@ -127,7 +127,7 @@ jobs:
         run: echo "tests_failed=true" >> $GITHUB_ENV
         shell: bash
 
-  code_style:
+  code_style [Pint]:
     runs-on: ubuntu-latest
     needs: setup
 
@@ -144,7 +144,7 @@ jobs:
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
       - name: Copy .env
-        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+        run: php -r "file_exists('.env') || copy('.env.testing', '.env');"
 
       - name: Generate key
         run: php artisan key:generate
@@ -155,13 +155,19 @@ jobs:
       - name: Run Pint (Code Style)
         id: run_pint
         run: vendor/bin/pint --test
+        continue-on-error: true
 
       - name: Set output for Pint
         if: failure()
-        run: vendor/bin/pint --repair
+        run: |
+          vendor/bin/pint --repair
+          git add . 
+          git commit -m "linting fixes"
+          git push origin main
+
         shell: bash
 
-  static_analysis:
+  static_analysis [phpStan]:
     runs-on: ubuntu-latest
     needs: setup
 
@@ -178,7 +184,7 @@ jobs:
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
       - name: Copy .env
-        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+        run: php -r "file_exists('.env') || copy('.env.testing', '.env');"
 
       - name: Generate key
         run: php artisan key:generate
@@ -195,7 +201,7 @@ jobs:
         run: echo "phpstan_failed=true" >> $GITHUB_ENV
         shell: bash
 
-  refactoring:
+  refactoring [Rector]:
     runs-on: ubuntu-latest
     needs: setup
 
@@ -212,7 +218,7 @@ jobs:
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
       - name: Copy .env
-        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+        run: php -r "file_exists('.env') || copy('.env.testing', '.env');"
 
       - name: Generate key
         run: php artisan key:generate
