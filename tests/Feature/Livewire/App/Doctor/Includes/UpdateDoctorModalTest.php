@@ -25,7 +25,7 @@ beforeEach(function (): void {
     // Create a Doctor model linked to the created user
     $this->doctor = Doctor::factory()->create([
         'organization_id' => $this->organization->id,
-        'user_id' => $this->user->id
+        'user_id' => $this->user->id,
     ]);
 
     $this->clinics = [$this->clinic->id => $this->clinic->name];

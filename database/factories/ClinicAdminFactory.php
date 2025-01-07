@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Clinic;
 use App\Models\ClinicAdmin;
 use App\Models\Organization;
 use App\Models\User;
@@ -22,10 +21,29 @@ class ClinicAdminFactory extends Factory
      */
     public function definition(): array
     {
-        return [
-            'user_id' => User::factory()->create()->id,
-            'type' => ClinicAdmin::TYPE_SUPER_ADMIN,
-            'organization_id' => Organization::factory()->create()->id,
-        ];
+        return
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            [
+                'user_id' => User::factory()->create()->id,
+                'type' => ClinicAdmin::TYPE_SUPER_ADMIN,
+                'organization_id' => Organization::factory()->create()->id,
+            ];
     }
 }

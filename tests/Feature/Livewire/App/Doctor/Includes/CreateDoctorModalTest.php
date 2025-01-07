@@ -36,7 +36,6 @@ beforeEach(function (): void {
     $this->actingAs($this->user);
 });
 
-
 it('renders successfully with localized content', function (): void {
     Livewire::test(CreateDoctorModal::class, $this->mountingData)
         ->assertSee('اضافة طبيب');

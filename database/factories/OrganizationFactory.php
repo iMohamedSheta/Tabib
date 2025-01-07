@@ -19,7 +19,7 @@ class OrganizationFactory extends Factory
     {
         return [
             'name' => fake()->title(),
-            'billing_code' => OrganizationBillingCodeGenerator::generate()
+            'billing_code' => OrganizationBillingCodeGenerator::generate(),
         ];
     }
 }
