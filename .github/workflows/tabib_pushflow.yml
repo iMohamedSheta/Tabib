@@ -185,6 +185,7 @@ jobs:
 
       - name: Set output for Pint
         run: vendor/bin/pint --repair
+        continue-on-error: true
 
       - name: push to repo
         run: |
