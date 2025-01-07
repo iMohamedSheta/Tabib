@@ -4,29 +4,42 @@ use App\Livewire\App\Doctor\Includes\CreateDoctorModal;
 use App\Models\Clinic;
 use App\Models\ClinicAdmin;
 use App\Models\Doctor;
+use App\Models\Organization;
 use App\Models\User;
 use Livewire\Livewire;
 
 beforeEach(function (): void {
-    $this->user = User::factory()->create(['role' => ClinicAdmin::class]);
+    $this->organization = Organization::factory()->create();
 
-    $clinic = Clinic::factory()->create();
+    // Create a ClinicAdmin user for the organization
+    $this->user = User::factory()->create([
+        'organization_id' => $this->organization->id,
+        'role' => ClinicAdmin::class,
+    ]);
+
+    // Create a clinic for the organization
+    $clinic = Clinic::factory()->create([
+        'organization_id' => $this->organization->id,
+    ]);
+
     $this->clinics = [$clinic->id => $clinic->name];
     $this->mountingData = ['clinics' => $this->clinics];
+
     $this->clinicId = $clinic->id;
-    $this->clinicAdmin = ClinicAdmin::factory()->create(['clinic_id' => $this->clinicId, 'user_id' => $this->user->id]);
-    $this->actingAs($this->clinicAdmin->user);
+
+    // Create a ClinicAdmin model linked to the created user
+    $this->clinicAdmin = ClinicAdmin::factory()->create([
+        'organization_id' => $this->organization->id,
+        'user_id' => $this->user->id,
+    ]);
+
+    $this->actingAs($this->user);
 });
 
-it('mounts with the first clinic selected', function (): void {
-    Livewire::test(CreateDoctorModal::class, $this->mountingData)
-        ->assertSet('clinic_id', $this->clinicId);
-});
 
 it('renders successfully with localized content', function (): void {
     Livewire::test(CreateDoctorModal::class, $this->mountingData)
-        ->assertSee('اضافة طبيب')
-        ->assertSet('clinic_id', $this->clinicId);
+        ->assertSee('اضافة طبيب');
 });
 
 it('validates the input correctly', function (): void {
@@ -37,9 +50,9 @@ it('validates the input correctly', function (): void {
         ->set('last_name', '')
         ->set('specialization', '')
         ->set('phone', '')
-        ->set('clinic_id', '')
+        ->set('clinic_ids', '')
         ->call('addDoctorAction')
-        ->assertHasErrors(['username', 'password', 'first_name', 'last_name', 'specialization', 'phone', 'clinic_id']);
+        ->assertHasErrors(['username', 'password', 'first_name', 'last_name', 'specialization', 'phone']);
 });
 
 it('adds a doctor successfully', function (): void {
@@ -47,7 +60,7 @@ it('adds a doctor successfully', function (): void {
         ->set('username', 'johndoe')
         ->set('password', 'password123')
         ->set('specialization', 'Cardiology')
-        ->set('clinic_id', $this->clinicId)
+        ->set('clinic_ids', [$this->clinicId])
         ->set('first_name', 'John')
         ->set('last_name', 'Doe')
         ->set('phone', '01092322465')
@@ -69,5 +82,5 @@ it('adds a doctor successfully', function (): void {
     $doctor = Doctor::where('user_id', $user->id)->first();
     $this->assertNotNull($doctor, 'Doctor should exist in the database.');
 
-    $this->assertEquals($this->clinicId, $doctor->clinic_id);
+    $this->assertEquals($this->organization->id, $doctor->organization_id);
 });

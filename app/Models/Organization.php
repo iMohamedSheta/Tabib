@@ -22,6 +22,16 @@ class Organization extends Model
         return $this->hasMany(ClinicService::class, 'organization_id', 'id');
     }
 
+    public function clinicAdmins()
+    {
+        return $this->hasMany(ClinicAdmin::class, 'organization_id', 'id');
+    }
+
+    public function users()
+    {
+        return $this->hasMany(User::class, 'organization_id', 'id');
+    }
+
     /**
      * Perform any actions required after the model boots.
      *

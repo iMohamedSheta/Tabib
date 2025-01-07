@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Clinic;
 use App\Models\ClinicAdmin;
+use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -23,8 +24,8 @@ class ClinicAdminFactory extends Factory
     {
         return [
             'user_id' => User::factory()->create()->id,
-            'clinic_id' => Clinic::factory()->create()->id,
             'type' => ClinicAdmin::TYPE_SUPER_ADMIN,
+            'organization_id' => Organization::factory()->create()->id,
         ];
     }
 }

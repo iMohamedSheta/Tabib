@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Clinic;
+use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -20,7 +21,7 @@ class DoctorFactory extends Factory
     {
         return [
             'user_id' => User::factory()->create()->id,
-            'clinic_id' => Clinic::factory()->create()->id,
+            'organization_id' => Organization::factory()->create()->id,
             'specialization' => fake()->jobTitle(),
         ];
     }

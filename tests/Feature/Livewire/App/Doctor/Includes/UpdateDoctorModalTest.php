@@ -4,23 +4,37 @@ use App\Livewire\App\Doctor\Includes\UpdateDoctorModal;
 use App\Models\Clinic;
 use App\Models\ClinicAdmin;
 use App\Models\Doctor;
+use App\Models\Organization;
+use App\Models\User;
 use Livewire\Livewire;
 
 beforeEach(function (): void {
-    $clinic = Clinic::factory()->create();
+    $this->organization = Organization::factory()->create();
 
-    $clinics = [$clinic->id => $clinic->name];
-
-    $doctor = Doctor::factory()->create([
-        'clinic_id' => $clinic->id,
+    // Create a ClinicAdmin user for the organization
+    $this->user = User::factory()->create([
+        'organization_id' => $this->organization->id,
+        'role' => ClinicAdmin::class,
     ]);
 
-    $this->clinicId = $clinic->id;
+    // Create a clinic for the organization
+    $this->clinic = Clinic::factory()->create([
+        'organization_id' => $this->organization->id,
+    ]);
 
-    $this->clinicAdmin = ClinicAdmin::factory()->create(['clinic_id' => $this->clinicId]);
-    $this->mountingData = ['clinics' => $clinics, 'doctor' => $doctor];
+    // Create a Doctor model linked to the created user
+    $this->doctor = Doctor::factory()->create([
+        'organization_id' => $this->organization->id,
+        'user_id' => $this->user->id
+    ]);
 
-    $this->actingAs($this->clinicAdmin->user);
+    $this->clinics = [$this->clinic->id => $this->clinic->name];
+
+    $this->clinicId = $this->clinic->id;
+
+    $this->mountingData = ['doctor' => $this->doctor, 'clinics' => $this->clinics];
+
+    $this->actingAs($this->user);
 });
 
 it('renders successfully', function (): void {
