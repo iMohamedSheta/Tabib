@@ -127,7 +127,7 @@ jobs:
         run: echo "tests_failed=true" >> $GITHUB_ENV
         shell: bash
 
-  code_style [Pint]:
+  code_style:
     runs-on: ubuntu-latest
     needs: setup
 
@@ -167,7 +167,7 @@ jobs:
 
         shell: bash
 
-  static_analysis [phpStan]:
+  static_analysis:
     runs-on: ubuntu-latest
     needs: setup
 
@@ -201,7 +201,7 @@ jobs:
         run: echo "phpstan_failed=true" >> $GITHUB_ENV
         shell: bash
 
-  refactoring [Rector]:
+  refactoring:
     runs-on: ubuntu-latest
     needs: setup
 
