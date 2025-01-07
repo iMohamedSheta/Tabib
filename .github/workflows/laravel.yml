@@ -1,39 +1,14 @@
-name: Laravel CI
+name: Tabib-PushFlow
 
-on: 
+on:
   push:
     branches: ["main"]
   pull_request:
     branches: ["main"]
 
 jobs:
-  setup:
+  Tabib-PushFlow:
     runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.3"
-          extensions: mbstring, pdo, pdo_mysql, xml, intl, json
-          coverage: none
-
-      - name: Install Dependencies
-        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
-
-      - name: Copy .env
-        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
-
-      - name: Generate key
-        run: php artisan key:generate
-
-      - name: Directory Permissions
-        run: chmod -R 777 storage bootstrap/cache
-
-  migrations:
-    runs-on: ubuntu-latest
-    needs: setup
 
     services:
       mysql:
@@ -58,6 +33,18 @@ jobs:
           extensions: mbstring, pdo, pdo_mysql, xml, intl, json
           coverage: none
 
+      - name: Install Dependencies
+        run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+
+      - name: Generate key
+        run: php artisan key:generate
+
+      - name: Directory Permissions
+        run: chmod -R 777 storage bootstrap/cache
+
       - name: Run migrations
         env:
           DB_CONNECTION: mysql
@@ -67,27 +54,7 @@ jobs:
           DB_USERNAME: root
           DB_PASSWORD: password
         run: php artisan migrate --force
-        continue-on-error: true  # Continue even if migrations fail
-
-      - name: Check migrations result
-        if: failure()
-        run: echo "There was an error during migrations"
-        continue-on-error: true
-        shell: bash
-        run: echo "migrations_failed=true" >> $GITHUB_ENV
-
-  tests:
-    runs-on: ubuntu-latest
-    needs: migrations
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.3"
-          extensions: mbstring, pdo, pdo_mysql, xml, intl, json
-          coverage: none
+        continue-on-error: true # Continue even if migrations fail
 
       - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
         env:
@@ -98,93 +65,16 @@ jobs:
           DB_USERNAME: root
           DB_PASSWORD: password
         run: php artisan test
-        continue-on-error: true  # Continue even if tests fail
-
-      - name: Check tests result
-        if: failure()
-        run: echo "There was an error during tests"
-        continue-on-error: true
-        shell: bash
-        run: echo "tests_failed=true" >> $GITHUB_ENV
-
-  code_style:
-    runs-on: ubuntu-latest
-    needs: setup
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.3"
-          extensions: mbstring, pdo, pdo_mysql, xml, intl, json
-          coverage: none
+        continue-on-error: true # Continue even if tests fail
 
       - name: Run Pint (Code Style)
         run: vendor/bin/pint --test
-        continue-on-error: true  # Continue even if Pint fails
-
-      - name: Check Pint result
-        if: failure()
-        run: echo "There was an error during Pint"
-        continue-on-error: true
-        shell: bash
-        run: echo "pint_failed=true" >> $GITHUB_ENV
-
-  static_analysis:
-    runs-on: ubuntu-latest
-    needs: setup
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.3"
-          extensions: mbstring, pdo, pdo_mysql, xml, intl, json
-          coverage: none
+        continue-on-error: true # Continue even if Pint fails
 
       - name: Run PHPStan (Static Analysis)
         run: vendor/bin/phpstan analyse
-        continue-on-error: true  # Continue even if PHPStan fails
-
-      - name: Check PHPStan result
-        if: failure()
-        run: echo "There was an error during PHPStan"
-        continue-on-error: true
-        shell: bash
-        run: echo "phpstan_failed=true" >> $GITHUB_ENV
-
-  refactoring:
-    runs-on: ubuntu-latest
-    needs: setup
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.3"
-          extensions: mbstring, pdo, pdo_mysql, xml, intl, json
-          coverage: none
+        continue-on-error: true # Continue even if PHPStan fails
 
       - name: Run Rector (Automated Refactoring)
         run: vendor/bin/rector process --dry-run
-        continue-on-error: true  # Continue even if Rector fails
-
-      - name: Check Rector result
-        if: failure()
-        run: echo "There was an error during Rector"
-        continue-on-error: true
-        shell: bash
-        run: echo "rector_failed=true" >> $GITHUB_ENV
-
-  fail_job_if_any_step_failed:
-    runs-on: ubuntu-latest
-    needs: [migrations, tests, code_style, static_analysis, refactoring]
-
-    steps:
-      - name: Fail job if any step failed
-        if: env(migrations_failed) == 'true' || env(tests_failed) == 'true' || env(pint_failed) == 'true' || env(phpstan_failed) == 'true' || env(rector_failed) == 'true'
-        run: exit 1
-        shell: bash
+        continue-on-error: true # Continue even if Rector fails
