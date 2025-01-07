@@ -73,7 +73,7 @@ jobs:
       - name: Run migrations
         id: run_migrations
         env:
-          DB_CONNECTION: mysql_test
+          DB_CONNECTION: mysql
           DB_HOST: 127.0.0.1
           DB_PORT: 3306
           DB_DATABASE: app_test
@@ -114,7 +114,7 @@ jobs:
       - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
         id: run_tests
         env:
-          DB_CONNECTION: mysql_test
+          DB_CONNECTION: mysql
           DB_HOST: 127.0.0.1
           DB_PORT: 3306
           DB_DATABASE: app_test
