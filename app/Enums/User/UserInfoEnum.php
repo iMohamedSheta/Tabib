@@ -12,7 +12,7 @@ enum UserInfoEnum: String
         return match ($value) {
             self::MALE->value => 'ذكر',
             self::FEMALE->value => 'انثى',
-            default => 'ذكر'
+            default => 'ذكر',
         };
     }
 
