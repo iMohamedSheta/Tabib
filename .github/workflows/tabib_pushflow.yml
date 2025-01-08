@@ -120,7 +120,7 @@ jobs:
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
       - name: Copy .env.testing file
-        run: php -r "file_exists('.env') || copy('.env.testing.production', '.env');file_exists('.env.testing') || copy('.env.testing.production', '.env.testing');"
+        run: php -r "file_exists('.env') || copy('.env.testing.production', '.env');copy('.env.testing.production', '.env.testing');"
 
       - name: Generate key
         run: php artisan key:generate
@@ -189,7 +189,7 @@ jobs:
         run: |
           git config --global user.name 'imohamedsheta'
           git config --global user.email 'imohamedsheta@users.noreply.github.com'
-          git commit -am "Automated Linting"
+          git commit -am "Automated Linting (Pint)"
           git push
         continue-on-error: true
         shell: bash
@@ -249,7 +249,21 @@ jobs:
       - name: Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
 
-      - name: Run Rector (Automated Refactoring)
+      - name: Run Rector tests (Refactoring Test)
         id: run_rector
         run: vendor/bin/rector process --dry-run
         continue-on-error: true
+
+      - name: Run Rector fixes (Automated Refactoring)
+        id: run_rector
+        run: vendor/bin/rector process
+        continue-on-error: true
+
+      - name: push to repo
+        run: |
+          git config --global user.name 'imohamedsheta'
+          git config --global user.email 'imohamedsheta@users.noreply.github.com'
+          git commit -am "Automated Refactoring (Rector)"
+          git push
+        continue-on-error: true
+        shell: bash
