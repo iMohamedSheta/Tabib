@@ -13,9 +13,7 @@ class PUIDGenerator extends Generator
      * @param int $length      number of digits in the PUID
      * @param int $batchSize   number of codes to generate in each batch
      * @param int $maxAttempts maximum batch attempts
-     * @param ?string $prefix
-     * @param ?string $suffix
-     * 
+     *
      * @return string unique PUID
      *
      * @throws \RuntimeException if unable to generate a unique code

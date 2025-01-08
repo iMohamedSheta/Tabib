@@ -46,7 +46,6 @@ class Calendar extends Component
                 // 'color' => $event->data?->color ?? 'inherit',
             ];
             // $date = $event->created_at->format('Y-m-d H:i');
-
         })->filter();
 
         return view('livewire.app.calendar.calendar');
