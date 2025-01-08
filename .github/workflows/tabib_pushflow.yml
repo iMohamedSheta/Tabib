@@ -119,8 +119,8 @@ jobs:
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
-      - name: Copy .env
-        run: php -r "file_exists('.env') || copy('.env.testing.production', '.env');"
+      - name: Copy .env.testing file
+        run: php -r "file_exists('.env') || copy('.env.testing.production', '.env.testing');"
 
       - name: Generate key
         run: php artisan key:generate
@@ -216,7 +216,7 @@ jobs:
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
       - name: Copy .env.testing file
-        run: php -r "file_exists('.env') || copy('.env.testing.production', '.env.testing');"
+        run: php -r "file_exists('.env') || copy('.env.testing.production', '.env');"
 
       - name: Generate key
         run: php artisan key:generate
