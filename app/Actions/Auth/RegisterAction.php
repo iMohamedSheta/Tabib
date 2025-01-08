@@ -25,7 +25,7 @@ class RegisterAction
             Auth::login($user);
 
             redirect(UserRoleEnum::authRedirectRouteBasedOnType());
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             DB::rollBack();
         }
     }
