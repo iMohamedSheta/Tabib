@@ -13,8 +13,10 @@ class OrganizationBillingCodeGenerator extends Generator
      * @param int $length      number of digits in the billing code
      * @param int $batchSize   number of codes to generate in each batch
      * @param int $maxAttempts maximum batch attempts
-     *
-     * @return int unique billing code
+     * @param ?string $prefix
+     * @param ?string $suffix
+     * 
+     * @return string unique billing code
      *
      * @throws \RuntimeException if unable to generate a unique code
      */

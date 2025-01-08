@@ -13,8 +13,10 @@ class ClinicCodeGenerator extends Generator
      * @param int $length      number of digits in the clinic code
      * @param int $batchSize   number of codes to generate in each batch
      * @param int $maxAttempts maximum batch attempts
-     *
-     * @return int unique clinic code
+     * @param ?string $prefix
+     * @param ?string $suffix
+     * 
+     * @return string unique clinic code
      *
      * @throws \RuntimeException if unable to generate a unique code
      */

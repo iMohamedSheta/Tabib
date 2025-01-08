@@ -37,7 +37,7 @@ class FacebookSocialiteController extends Controller
             $fullname = explode(' ', $socialite->name ?? '', 2);
 
             $userData = [
-                'first_name' => $fullname[0] ?? '',
+                'first_name' => $fullname[0],
                 'last_name' => $fullname[1] ?? 'Unknown',
                 'email' => $socialite->email,
                 'profile_photo_path' => null,

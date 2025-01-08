@@ -18,4 +18,13 @@ class Calendar extends Model
     {
         return $this->belongsTo(ClinicService::class, 'clinic_service_id', 'id');
     }
+
+    // In CalendarModel.php
+    public function getDecodedDataAttribute(): ?object
+    {
+        $decoded = json_decode($this->data, false);
+
+        // Ensure the decoded data is an object
+        return is_object($decoded) ? $decoded : null;
+    }
 }

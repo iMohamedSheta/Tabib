@@ -3,16 +3,68 @@ includes:
     - vendor/nesbot/carbon/extension.neon
 
 parameters:
+    ignoreErrors:
+
+        # the user relation exists
+        - message: '#^Relation ''user'' is not found in App\\Models\\Patient model\.$#'
+          identifier: larastan.relationExistence
+          count: 1
+          path: app/Livewire/App/Calendar/Includes/AddEventModal.php
+
+        # the property profile_photo_url is appends to the model in jetstream way
+        - message: '#^Property ''profile_photo_url'' does not exist in model\.$#'
+          identifier: rules.modelAppends
+          count: 1
+          path: app/Models/User.php
+
+        # normal call it's vendor class
+        - message: '#^Call to static method factory\(\) on an unknown class App\\Models\\Team\.$#'
+          identifier: class.notFound
+          count: 1
+          path: database/factories/UserFactory.php
+
+        # it's normal laravel magic
+        - message: '#^Undefined variable\: \$this$#'
+          identifier: variable.undefined
+          count: 1
+          path: routes/console.php
+
+        # it does exists but it may not exists if some dumb didn't put the size as key in pwa config
+        - message: '#^Variable \$size might not be defined\.$#'
+          identifier: variable.undefined
+          count: 1
+          path: app/Services/PWA/ManifestService.php
+
+        - message: '#^Match expression does not handle remaining value\: string$#'
+          identifier: match.unhandled
+          count: 3
+          path: database/migrations/2024_11_26_053203_create_pulse_tables.php
+
+        -'#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tokens\.$#'
+        -'#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:deleteProfilePhoto\(\)\.$#'
+        -'#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:updateProfilePhoto\(\)\.$#'
+        -'#^Call to an undefined method Laravel\\Socialite\\Contracts\\Provider\:\:stateless\(\)\.$#'
+        -'#^Access to an undefined property Laravel\\Socialite\\Contracts\\User\:\:\$approvedScopes\.$#'
+        -'#^Access to an undefined property Laravel\\Socialite\\Contracts\\User\:\:\$expiresIn\.$#'
+        -'#^Access to an undefined property Laravel\\Socialite\\Contracts\\User\:\:\$token\.$#'
+        -'#^Access to an undefined property Laravel\\Socialite\\Contracts\\User\:\:\$user\.$#'
+        -'#^Access to an undefined property App\\Models\\Patient\|Illuminate\\Database\\Eloquent\\Collection\<int, App\\Models\\Patient\>\:\:\$user\.$#'
+        -'#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$password\.$#'
+        -'#^Call to an undefined method App\\QueryBuilders\\ClinicQueryBuilder\:\:paginate\(\)\.$#'
+        -'#^Call to an undefined method App\\QueryBuilders\\ClinicServiceQueryBuilder\:\:paginate\(\)\.$#'
+        -'#^Call to an undefined method App\\QueryBuilders\\DoctorQueryBuilder\:\:paginate\(\)\.$#'
+        -'#^Call to an undefined method App\\QueryBuilders\\PatientQueryBuilder\:\:paginate\(\)\.$#'
+        -'#^Call to an undefined method App\\QueryBuilders\\PatientQueryBuilder\:\:take\(\)\.$#'
+        -'#^PHPDoc type array\<int, string\> of property App\\Models\\User\:\:\$appends is not covariant with PHPDoc type list\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$appends\.$#'
+        -'#^PHPDoc type array\<int, string\> of property App\\Models\\User\:\:\$hidden is not covariant with PHPDoc type list\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$hidden\.$#'
+
+        # ignore this error 
+        - '#^Unsafe usage of new static\(\)\.$#'
 
     paths:
-        - app/
+        - app
+        - config
+        - database
+        - routes
 
-    # Level 10 is the highest level
-    level: 5
-
-    ignoreErrors:
-        - '#Unsafe usage of new static\(\)#'
-
-#
-#    excludePaths:
-#        - ./*/*/FileToBeExcluded.php
+    level: 6

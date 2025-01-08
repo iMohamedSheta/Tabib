@@ -27,12 +27,10 @@ class RegisterAction
             redirect(UserRoleEnum::authRedirectRouteBasedOnType());
         } catch (\Exception $exception) {
             DB::rollBack();
-
-            dd($exception);
         }
     }
 
-    private function createClinicAdmin($clinic, $userId)
+    private function createClinicAdmin(Clinic $clinic, int $userId): ClinicAdmin
     {
         return ClinicAdmin::create([
             'user_id' => $userId,
@@ -41,7 +39,7 @@ class RegisterAction
         ]);
     }
 
-    private function createClinic(array $clinicData)
+    private function createClinic(array $clinicData): Clinic
     {
         return Clinic::create([
             'billing_code' => $this->generateBillingCode(),

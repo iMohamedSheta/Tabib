@@ -84,7 +84,7 @@ class UpdateDoctorModal extends Component
             $this->dispatch('updated');
         } catch (\Exception $exception) {
             log_error($exception);
-            flash()->error();
+            flash()->error(__('alerts.error'));
         }
     }
 

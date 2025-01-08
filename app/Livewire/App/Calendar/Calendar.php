@@ -23,26 +23,31 @@ class Calendar extends Component
 
         $this->clinics = $this->getClinics();
         $this->events = CalendarModel::all()->map(function ($event): array {
-            $event->data = json_decode($event->data);
+            $data = $event->decoded_data; // Use the accessor
 
-            // $date = $event->created_at->format('Y-m-d H:i');
+            if (!$data) {
+                return []; // Skip invalid data (optional)
+            }
+
             return [
                 'id' => $event->id,
-                'title' => $event->data->title,
-                'start' => $event->data->start,
-                'end' => $event->data->end ?? null,
-                'allDay' => $event->data->allDay ?? false,
+                'title' => $data->title ?? '',
+                'start' => $data->start ?? null,
+                'end' => $data->end ?? null,
+                'allDay' => $data->allDay ?? false,
                 'editable' => true,
-                // 'borderColor' => $event->data?->borderColor ?? 'inherit',
-                'backgroundColor' => $event->data->backgroundColor ?? sprintf('#%06X', mt_rand(0, 0xFFFFFF)),
-                // 'color' => $event->data?->color ?? 'inherit',
+                'backgroundColor' => $data->backgroundColor ?? sprintf('#%06X', mt_rand(0, 0xFFFFFF)),
                 'textColor' => '#FFFFFF',
                 'className' => 'event',
-                'overlap' => $event->data->overlap ?? true,
+                'overlap' => $data->overlap ?? true,
+                // 'borderColor' => $event->data?->borderColor ?? 'inherit',
                 // 'display' => $event->data?->display ?? 'block',
                 // 'allow' => $event->data?->allow ?? null,
+                // 'color' => $event->data?->color ?? 'inherit',
             ];
-        });
+            // $date = $event->created_at->format('Y-m-d H:i');
+
+        })->filter();
 
         return view('livewire.app.calendar.calendar');
     }
