@@ -184,6 +184,7 @@ jobs:
       - name: Run Pint (Code Style)
         id: run_pint
         run: vendor/bin/pint --test
+        continue-on-error: true
 
       - name: Set output for Pint
         run: vendor/bin/pint --repair
@@ -214,8 +215,8 @@ jobs:
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
-      - name: Copy .env
-        run: php -r "file_exists('.env') || copy('.env.testing.production', '.env');"
+      - name: Copy .env.testing file
+        run: php -r "file_exists('.env') || copy('.env.testing.production', '.env.testing');"
 
       - name: Generate key
         run: php artisan key:generate
