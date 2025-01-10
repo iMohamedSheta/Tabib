@@ -259,6 +259,11 @@ jobs:
         run: vendor/bin/rector process
         continue-on-error: true
 
+      - name: Run Php cs fixer fixes (Automated Refactoring)
+        id: run_php_cs_fixer
+        run: vendor/bin/php-cs-fixer fix
+        continue-on-error: true
+
       - name: push to repo
         run: |
           git config --global user.name 'imohamedsheta'
