@@ -25,7 +25,7 @@ class Calendar extends Component
         $this->events = CalendarModel::all()->map(function ($event): array {
             $data = $event->decoded_data; // Use the accessor
 
-            if (!$data) {
+            if (! $data) {
                 return []; // Skip invalid data (optional)
             }
 

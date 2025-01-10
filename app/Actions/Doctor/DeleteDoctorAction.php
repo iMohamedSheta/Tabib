@@ -39,6 +39,6 @@ class DeleteDoctorAction
 
     private function isNotAuthorized(Doctor $doctor): bool
     {
-        return !Gate::allows('delete', $doctor);
+        return ! Gate::allows('delete', $doctor);
     }
 }

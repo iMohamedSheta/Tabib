@@ -36,6 +36,6 @@ class UpdateClinicServiceAction
 
     private function isNotAuthorized(ClinicService $clinicService): bool
     {
-        return !Gate::allows('update', $clinicService);
+        return ! Gate::allows('update', $clinicService);
     }
 }

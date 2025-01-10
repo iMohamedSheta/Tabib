@@ -33,6 +33,6 @@ class DeleteClinicServiceAction
 
     private function isNotAuthorized(ClinicService $clinicService): bool
     {
-        return !Gate::allows('delete', $clinicService);
+        return ! Gate::allows('delete', $clinicService);
     }
 }

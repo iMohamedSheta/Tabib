@@ -10,17 +10,16 @@ class OrganizationBillingCodeGenerator extends Generator
     /**
      * Generate a unique billing code.
      *
-     * @param int $length      number of digits in the billing code
-     * @param int $batchSize   number of codes to generate in each batch
-     * @param int $maxAttempts maximum batch attempts
-     *
+     * @param  int  $length  number of digits in the billing code
+     * @param  int  $batchSize  number of codes to generate in each batch
+     * @param  int  $maxAttempts  maximum batch attempts
      * @return string unique billing code
      *
      * @throws \RuntimeException if unable to generate a unique code
      */
     public static function generate(int $length = 6, int $batchSize = 5, int $maxAttempts = 10, ?string $prefix = '', ?string $suffix = ''): string
     {
-        $static = new static();
+        $static = new static;
 
         return $static->generateUniqueCode($length, $batchSize, $maxAttempts, $prefix, $suffix);
     }

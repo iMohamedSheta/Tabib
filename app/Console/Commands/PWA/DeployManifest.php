@@ -37,7 +37,7 @@ class DeployManifest extends Command
      */
     public function handle(): void
     {
-        $output = (new ManifestService())->generate();
+        $output = (new ManifestService)->generate();
         File::put(public_path('manifest.json'), json_encode($output, JSON_PRETTY_PRINT));
 
         $this->info('manifest.json file has been created.');

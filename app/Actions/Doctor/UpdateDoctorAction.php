@@ -46,6 +46,6 @@ class UpdateDoctorAction
 
     private function isNotAuthorized(Doctor $doctor): bool
     {
-        return !Gate::allows('update', $doctor);
+        return ! Gate::allows('update', $doctor);
     }
 }

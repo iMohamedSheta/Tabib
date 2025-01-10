@@ -25,7 +25,7 @@ class ReceptionGlobalSearchModal extends Component
 
     public function getSearchResults(): \Illuminate\Support\Collection|array
     {
-        if (!blank($this->search)) {
+        if (! blank($this->search)) {
             return PatientQueryBuilderProxy::searchPatients($this->search);
         }
 

@@ -6,9 +6,7 @@ use Illuminate\Contracts\Validation\ValidationRule;
 
 class StartDateBeforeEndDate implements ValidationRule
 {
-    public function __construct(public $endDateAttribute)
-    {
-    }
+    public function __construct(public $endDateAttribute) {}
 
     public function validate(string $attribute, mixed $value, \Closure $fail): void
     {

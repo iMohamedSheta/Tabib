@@ -47,6 +47,6 @@ class CreatePatientAction
 
     private function isNotAuthorized(): bool
     {
-        return !Gate::allows('create', Patient::class);
+        return ! Gate::allows('create', Patient::class);
     }
 }

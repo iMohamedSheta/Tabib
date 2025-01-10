@@ -11,8 +11,7 @@ class CalendarDatepickerAdapter
      * in format ('Y/m/d h:iK (D)') e.g. [2024/11/05 12:00ص (ثلاثاء)]
      * and converts it to [2024-11-04 00:00:00].
      *
-     * @param string $date datepicker value
-     *
+     * @param  string  $date  datepicker value
      * @return string Carbon date format
      */
     public static function handle($date): ?string

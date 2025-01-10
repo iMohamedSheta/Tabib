@@ -15,7 +15,7 @@ abstract class QueryBuilderWrapper
 
     public static function Instance(): static
     {
-        return new static();
+        return new static;
     }
 
     // Abstract method that forces the subclass to define how the query should be initialized
@@ -23,7 +23,7 @@ abstract class QueryBuilderWrapper
 
     public function __call($method, $parameters)
     {
-        if (!method_exists($this->query, $method)) {
+        if (! method_exists($this->query, $method)) {
             throw new \BadMethodCallException(sprintf('Method %s does not exist on the query builder.', $method));
         }
 

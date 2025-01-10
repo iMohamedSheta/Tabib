@@ -28,11 +28,11 @@ abstract class Generator
             // Find a code that doesn't exist
             $uniqueCodes = array_diff($codes, $existingCodes);
 
-            if ([] !== $uniqueCodes) {
+            if ($uniqueCodes !== []) {
                 return reset($uniqueCodes); // Return the first unique code
             }
 
-            ++$attempts;
+            $attempts++;
         }
 
         throw new \RuntimeException(sprintf('Failed to generate a unique billing code after %d attempts.', $maxAttempts));

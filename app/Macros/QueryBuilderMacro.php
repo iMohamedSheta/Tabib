@@ -18,9 +18,7 @@ class QueryBuilderMacro implements MacroInterface
         self::registerLikeUserFullName();
     }
 
-    public static function register(): void
-    {
-    }
+    public static function register(): void {}
 
     public static function registerLikeIn(): void
     {
@@ -28,7 +26,7 @@ class QueryBuilderMacro implements MacroInterface
             $value = trim($value);
             // in macro world this reference to Builder class not QueryBuilderMacro (this) class so ignore $this error
             foreach ($fields as $index => $field) {
-                $this->{0 === $index ? 'where' : 'orWhere'}($field, 'LIKE', sprintf('%%%s%%', $value));
+                $this->{$index === 0 ? 'where' : 'orWhere'}($field, 'LIKE', sprintf('%%%s%%', $value));
             }
 
             return $this;
@@ -69,7 +67,7 @@ class QueryBuilderMacro implements MacroInterface
         Builder::macro('likeUserFullName', function ($value): object {
             $value = trim($value);
             $value = explode(' ', $value, 2);
-            if (2 == count($value)) {
+            if (count($value) == 2) {
                 $this->where('users.first_name', 'LIKE', sprintf('%%%s%%', $value[0]))
                     ->orWhere('users.last_name', 'LIKE', sprintf('%%%s%%', $value[1]));
             } else {

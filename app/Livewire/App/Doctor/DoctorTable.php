@@ -36,13 +36,13 @@ class DoctorTable extends Component
     public function deleteDoctorAction($id): void
     {
         try {
-            $actionResponse = (new DeleteDoctorAction())->handle(
+            $actionResponse = (new DeleteDoctorAction)->handle(
                 Doctor::find($id),
             );
 
             flash()->{$actionResponse->success ? 'success' : 'error'}($this->matchStatus($actionResponse->status));
 
-            if (!$actionResponse->success) {
+            if (! $actionResponse->success) {
                 return;
             }
 

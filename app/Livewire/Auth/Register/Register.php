@@ -41,17 +41,17 @@ class Register extends Component
 
     protected function stepOneRules(): array
     {
-        return (new CreateClinicRequest())->stepOneRules();
+        return (new CreateClinicRequest)->stepOneRules();
     }
 
     protected function stepTwoRules(): array
     {
-        return (new CreateClinicRequest())->stepTwoRules();
+        return (new CreateClinicRequest)->stepTwoRules();
     }
 
     protected function stepThreeRules(): array
     {
-        return (new CreateClinicRequest())->stepThreeRules();
+        return (new CreateClinicRequest)->stepThreeRules();
     }
 
     public function submitStepOne(): void
@@ -86,7 +86,7 @@ class Register extends Component
                 role: ClinicAdmin::class,
             );
 
-            (new CreateClinicAction())->handle($registerUserDTO, $clinicData);
+            (new CreateClinicAction)->handle($registerUserDTO, $clinicData);
         } catch (\Exception) {
             DB::rollBack();
         }

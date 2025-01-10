@@ -17,14 +17,13 @@ class UpdateDoctorDTO
         public ?string $password,
         public ?string $password_confirmation,
         public $photo,
-    ) {
-    }
+    ) {}
 
     public function userData(): array
     {
         return [
             'username' => $this->username,
-            'password' => null !== $this->password && '' !== $this->password && '0' !== $this->password ? Hash::make($this->password) : $this->old_password,
+            'password' => $this->password !== null && $this->password !== '' && $this->password !== '0' ? Hash::make($this->password) : $this->old_password,
             'first_name' => $this->first_name,
             'last_name' => $this->last_name,
             'phone' => $this->phone,

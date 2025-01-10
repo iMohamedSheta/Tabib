@@ -151,7 +151,7 @@ class AddEventModal extends Component
                 'gender',
                 'clinic_id',
             ]);
-            $actionResponse = (new CreatePatientAction())->handle(
+            $actionResponse = (new CreatePatientAction)->handle(
                 new CreatePatientDTO(...$createPatientDTO),
             );
 
@@ -174,7 +174,7 @@ class AddEventModal extends Component
 
             flash()->{$actionResponse->success ? 'success' : 'error'}($this->matchStatus($actionResponse->status));
 
-            if (!$actionResponse->success) {
+            if (! $actionResponse->success) {
                 return;
             }
 
