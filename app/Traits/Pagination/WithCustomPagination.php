@@ -28,12 +28,12 @@ trait WithCustomPagination
 
     public function nextPage(): void
     {
-        $this->page++;
+        ++$this->page;
     }
 
     public function previousPage(): void
     {
-        $this->page--;
+        --$this->page;
     }
 
     protected function getPage(): int
