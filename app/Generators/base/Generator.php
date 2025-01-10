@@ -19,7 +19,7 @@ abstract class Generator
             // Generate a batch of unique random codes
             $codes = [];
             while (count($codes) < $batchSize) {
-                $codes[] = $prefix.random_int($min, $max).$suffix;
+                $codes[] = $prefix . random_int($min, $max) . $suffix;
             }
 
             // Check against the database
@@ -32,7 +32,7 @@ abstract class Generator
                 return reset($uniqueCodes); // Return the first unique code
             }
 
-            ++$attempts;
+            $attempts++;
         }
 
         throw new \RuntimeException(sprintf('Failed to generate a unique billing code after %d attempts.', $maxAttempts));
