@@ -35,13 +35,13 @@ class CreateClinicServiceModal extends Component
     {
         $validatedData = $this->validate();
         try {
-            $actionResponse = (new CreateClinicServiceAction)->handle(
+            $actionResponse = (new CreateClinicServiceAction())->handle(
                 new CreateClinicServiceDTO(...$validatedData),
             );
 
             flash()->{$actionResponse->success ? 'success' : 'error'}($this->matchStatus($actionResponse->status));
 
-            if (! $actionResponse->success) {
+            if (!$actionResponse->success) {
                 return;
             }
 

@@ -14,7 +14,7 @@ test('email verification screen can be rendered', function (): void {
     $response = $this->actingAs($user)->get('/email/verify');
 
     $response->assertStatus(200);
-})->skip(fn (): bool => ! Features::enabled(Features::emailVerification()), 'Email verification not enabled.');
+})->skip(fn (): bool => !Features::enabled(Features::emailVerification()), 'Email verification not enabled.');
 
 test('email can be verified', function (): void {
     Event::fake();
@@ -34,13 +34,8 @@ test('email can be verified', function (): void {
     Event::assertDispatched(Verified::class);
 
     expect($user->fresh()->hasVerifiedEmail())->toBeTrue();
-<<<<<<< HEAD
-    $response->assertRedirect(route('dashboard', absolute: false).'?verified=1');
-})->skip(fn (): bool => ! Features::enabled(Features::emailVerification()), 'Email verification not enabled.');
-=======
     $response->assertRedirect(route('dashboard', absolute: false) . '?verified=1');
 })->skip(fn (): bool => !Features::enabled(Features::emailVerification()), 'Email verification not enabled.');
->>>>>>> 691bc9547d844dff74e6023b9a3b9609e63e6a13
 
 test('email can not verified with invalid hash', function (): void {
     $user = User::factory()->create([
@@ -56,4 +51,4 @@ test('email can not verified with invalid hash', function (): void {
     $this->actingAs($user)->get($verificationUrl);
 
     expect($user->fresh()->hasVerifiedEmail())->toBeFalse();
-})->skip(fn (): bool => ! Features::enabled(Features::emailVerification()), 'Email verification not enabled.');
+})->skip(fn (): bool => !Features::enabled(Features::emailVerification()), 'Email verification not enabled.');

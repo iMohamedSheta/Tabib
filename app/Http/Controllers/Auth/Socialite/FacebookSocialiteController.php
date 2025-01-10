@@ -32,7 +32,7 @@ class FacebookSocialiteController extends Controller
                 ->where('oauth_provider', OAuthProviderEnum::META);
         })->orWhere('email', $socialite->email)->first();
 
-        if (! $user) {
+        if (!$user) {
             // Parse user data
             $fullname = explode(' ', $socialite->name ?? '', 2);
 

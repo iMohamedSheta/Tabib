@@ -10,7 +10,8 @@ class UpdateClinicServiceDTO
         protected ?int $clinic_id = null,
         protected ?string $description = null,
         protected ?string $color = null,
-    ) {}
+    ) {
+    }
 
     public function clinicServiceData(): array
     {

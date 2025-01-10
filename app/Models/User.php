@@ -65,28 +65,28 @@ class User extends Authenticatable
 
     public function isClinicAdmin(): bool
     {
-        return $this->role == ClinicAdmin::class;
+        return ClinicAdmin::class == $this->role;
     }
 
     public function isDoctor(): bool
     {
-        return $this->role == Doctor::class;
+        return Doctor::class == $this->role;
     }
 
     public function isPatient(): bool
     {
-        return $this->role == Patient::class;
+        return Patient::class == $this->role;
     }
 
     public function isReceptionist(): bool
     {
-        return $this->role == Receptionist::class;
+        return Receptionist::class == $this->role;
     }
 
     public function isManager(): bool
     {
         // return $this->email == 'icrush15@yahoo.com';
-        return $this->role == Manager::class;
+        return Manager::class == $this->role;
     }
 
     public function organization()
@@ -136,7 +136,7 @@ class User extends Authenticatable
         $value = trim((string) $value);
 
         foreach ($fields as $index => $field) {
-            $query->{$index === 0 ? 'where' : 'orWhere'}($field, 'LIKE', sprintf('%%%s%%', $value));
+            $query->{0 === $index ? 'where' : 'orWhere'}($field, 'LIKE', sprintf('%%%s%%', $value));
         }
 
         return $query;

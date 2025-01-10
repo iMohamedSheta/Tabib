@@ -70,14 +70,14 @@ class UpdateDoctorModal extends Component
 
             $validatedData['old_password'] = $doctor->user->password;
 
-            $actionResponse = (new UpdateDoctorAction)->handle(
+            $actionResponse = (new UpdateDoctorAction())->handle(
                 $doctor,
                 new UpdateDoctorDTO(...$validatedData),
             );
 
             flash()->{$actionResponse->success ? 'success' : 'error'}($this->matchStatus($actionResponse->status));
 
-            if (! $actionResponse->success) {
+            if (!$actionResponse->success) {
                 return;
             }
 

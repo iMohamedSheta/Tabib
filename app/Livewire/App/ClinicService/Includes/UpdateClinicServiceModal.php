@@ -63,14 +63,14 @@ class UpdateClinicServiceModal extends Component
     {
         $validatedData = $this->validate();
         try {
-            $actionResponse = (new UpdateClinicServiceAction)->handle(
+            $actionResponse = (new UpdateClinicServiceAction())->handle(
                 ClinicService::find($this->clinicServiceId),
                 new UpdateClinicServiceDTO(...$validatedData),
             );
 
             flash()->{$actionResponse->success ? 'success' : 'error'}($this->matchStatus($actionResponse->status));
 
-            if (! $actionResponse->success) {
+            if (!$actionResponse->success) {
                 return;
             }
 

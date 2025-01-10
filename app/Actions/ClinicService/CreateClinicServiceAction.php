@@ -34,6 +34,6 @@ class CreateClinicServiceAction
 
     private function isNotAuthorized(): bool
     {
-        return ! Gate::allows('create', ClinicService::class);
+        return !Gate::allows('create', ClinicService::class);
     }
 }

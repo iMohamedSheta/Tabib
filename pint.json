@@ -1,3 +1,11 @@
 {
-    "preset": "laravel"
+    "preset": "symfony",
+    "rules": {
+        "increment_style": {
+            "style": "post"
+        },
+        "concat_space": {
+            "spacing": "one"
+        }
+    }
 }

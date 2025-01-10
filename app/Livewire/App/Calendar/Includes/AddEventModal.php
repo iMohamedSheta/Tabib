@@ -121,7 +121,7 @@ class AddEventModal extends Component
         return [
             'start' => ['required', new StartDateBeforeEndDate($this->end)],
             'end' => ['nullable', 'after_or_equal:start'],
-            'service_id' => ['required', 'in:'.implode(',', array_keys($this->getClinicServices()))],
+            'service_id' => ['required', 'in:' . implode(',', array_keys($this->getClinicServices()))],
         ];
     }
 
@@ -130,7 +130,7 @@ class AddEventModal extends Component
         return array_merge(
             $this->addedRules(),
             [
-                'patient_id' => ['required', 'exists:patients,id,organization_id,'.auth()->user()->organization_id],
+                'patient_id' => ['required', 'exists:patients,id,organization_id,' . auth()->user()->organization_id],
             ],
         );
     }
@@ -151,7 +151,7 @@ class AddEventModal extends Component
                 'gender',
                 'clinic_id',
             ]);
-            $actionResponse = (new CreatePatientAction)->handle(
+            $actionResponse = (new CreatePatientAction())->handle(
                 new CreatePatientDTO(...$createPatientDTO),
             );
 
@@ -174,7 +174,7 @@ class AddEventModal extends Component
 
             flash()->{$actionResponse->success ? 'success' : 'error'}($this->matchStatus($actionResponse->status));
 
-            if (! $actionResponse->success) {
+            if (!$actionResponse->success) {
                 return;
             }
 

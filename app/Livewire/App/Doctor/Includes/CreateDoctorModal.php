@@ -66,20 +66,20 @@ class CreateDoctorModal extends Component
 
     protected function rules(): array
     {
-        return (new CreateDoctorRequest)->rules();
+        return (new CreateDoctorRequest())->rules();
     }
 
     public function addDoctorAction(): void
     {
         $validatedData = $this->validate();
         try {
-            $actionResponse = (new CreateDoctorAction)->handle(
+            $actionResponse = (new CreateDoctorAction())->handle(
                 new CreateDoctorDTO(...$validatedData),
             );
 
             flash()->{$actionResponse->success ? 'success' : 'error'}($this->matchStatus($actionResponse->status));
 
-            if (! $actionResponse->success) {
+            if (!$actionResponse->success) {
                 return;
             }
 

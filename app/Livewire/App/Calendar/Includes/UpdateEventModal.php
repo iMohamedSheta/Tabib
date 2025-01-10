@@ -58,7 +58,7 @@ class UpdateEventModal extends Component
         $existingData = json_decode($calendarEvent->data, true) ?? [];
 
         foreach ($event as $key => $value) {
-            if (! blank($value) && (array_key_exists($key, $existingData) && $value != $existingData[$key] || ! array_key_exists($key, $existingData) && $key != 'id')) {
+            if (!blank($value) && (array_key_exists($key, $existingData) && $value != $existingData[$key] || !array_key_exists($key, $existingData) && 'id' != $key)) {
                 $existingData[$key] = in_array($key, ['start', 'end']) ? Carbon::parse($value)->toIso8601String() : $value;
             }
         }

@@ -19,7 +19,7 @@ abstract class Generator
             // Generate a batch of unique random codes
             $codes = [];
             while (count($codes) < $batchSize) {
-                $codes[] = $prefix.random_int($min, $max).$suffix;
+                $codes[] = $prefix . random_int($min, $max) . $suffix;
             }
 
             // Check against the database
@@ -28,7 +28,7 @@ abstract class Generator
             // Find a code that doesn't exist
             $uniqueCodes = array_diff($codes, $existingCodes);
 
-            if ($uniqueCodes !== []) {
+            if ([] !== $uniqueCodes) {
                 return reset($uniqueCodes); // Return the first unique code
             }
 

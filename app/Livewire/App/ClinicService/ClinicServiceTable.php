@@ -29,13 +29,13 @@ class ClinicServiceTable extends Component
     public function deleteClinicServiceAction($id): void
     {
         try {
-            $actionResponse = (new DeleteClinicServiceAction)->handle(
+            $actionResponse = (new DeleteClinicServiceAction())->handle(
                 ClinicService::find($id),
             );
 
             flash()->{$actionResponse->success ? 'success' : 'error'}($this->matchStatus($actionResponse->status));
 
-            if (! $actionResponse->success) {
+            if (!$actionResponse->success) {
                 return;
             }
 

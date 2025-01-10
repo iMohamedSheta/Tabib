@@ -25,7 +25,7 @@ class OAuthCallback extends Component
 
     protected function rules(): array
     {
-        return (new CreateClinicRequest)->stepOneRules();
+        return (new CreateClinicRequest())->stepOneRules();
     }
 
     public function render()
@@ -45,7 +45,7 @@ class OAuthCallback extends Component
 
             $registerUserDTO = new RegisterUserDTO(...$this->userData);
 
-            (new CreateClinicAction)->handle($registerUserDTO, $clinicData);
+            (new CreateClinicAction())->handle($registerUserDTO, $clinicData);
         } catch (\Exception $exception) {
             DB::rollBack();
 

@@ -34,6 +34,6 @@ trait WithSteps
 
     public function isFirstStep(): bool
     {
-        return $this->step === 1;
+        return 1 === $this->step;
     }
 }

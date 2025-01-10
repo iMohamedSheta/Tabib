@@ -6,7 +6,11 @@ use App\Contracts\MacroInterface;
 
 class ResponseMacro implements MacroInterface
 {
-    public static function boot(): void {}
+    public static function boot(): void
+    {
+    }
 
-    public static function register(): void {}
+    public static function register(): void
+    {
+    }
 }

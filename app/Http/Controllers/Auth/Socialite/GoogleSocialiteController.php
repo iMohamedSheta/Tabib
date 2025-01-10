@@ -28,7 +28,7 @@ class GoogleSocialiteController extends Controller
         })->orWhere('email', $userData['email'])->first();
 
         // If the user doesn't exist, create a new one
-        if (! $user) {
+        if (!$user) {
             $user = User::create([
                 'first_name' => $userData['given_name'],
                 'last_name' => $userData['family_name'],
@@ -46,7 +46,7 @@ class GoogleSocialiteController extends Controller
 
         $clinicAdmin = ClinicAdmin::where('user_id', $user->id)->first();
 
-        if (! $clinicAdmin) {
+        if (!$clinicAdmin) {
             return view(
                 'auth.register-steps.oauth-callback',
                 [

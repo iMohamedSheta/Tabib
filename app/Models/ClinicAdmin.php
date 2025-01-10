@@ -28,7 +28,7 @@ class ClinicAdmin extends Model implements UserRoleModelInterface
     {
         self::deleting(function ($clinicAdmin): void {
             // Check when deleting main admin if he have clinic and delete it with all the other info
-            if ($clinicAdmin->type == self::TYPE_SUPER_ADMIN && $clinicAdmin->clinic) {
+            if (self::TYPE_SUPER_ADMIN == $clinicAdmin->type && $clinicAdmin->clinic) {
                 $clinicAdmin->clinic->delete();
             }
         });

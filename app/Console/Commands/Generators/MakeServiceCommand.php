@@ -23,11 +23,11 @@ class MakeServiceCommand extends GeneratorCommand
     /**
      * Get the default namespace for the class.
      *
-     * @param  string  $rootNamespace
+     * @param string $rootNamespace
      */
     protected function getDefaultNamespace($rootNamespace): string
     {
-        return $rootNamespace.'\Services';
+        return $rootNamespace . '\Services';
     }
 
     /**
@@ -43,7 +43,8 @@ class MakeServiceCommand extends GeneratorCommand
      *
      * Remove the base controller import if we are already in the base namespace.
      *
-     * @param  string  $name
+     * @param string $name
+     *
      * @return string
      */
     protected function buildClass($name)
