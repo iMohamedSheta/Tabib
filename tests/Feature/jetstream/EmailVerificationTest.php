@@ -34,8 +34,13 @@ test('email can be verified', function (): void {
     Event::assertDispatched(Verified::class);
 
     expect($user->fresh()->hasVerifiedEmail())->toBeTrue();
+<<<<<<< HEAD
     $response->assertRedirect(route('dashboard', absolute: false).'?verified=1');
 })->skip(fn (): bool => ! Features::enabled(Features::emailVerification()), 'Email verification not enabled.');
+=======
+    $response->assertRedirect(route('dashboard', absolute: false) . '?verified=1');
+})->skip(fn (): bool => !Features::enabled(Features::emailVerification()), 'Email verification not enabled.');
+>>>>>>> 691bc9547d844dff74e6023b9a3b9609e63e6a13
 
 test('email can not verified with invalid hash', function (): void {
     $user = User::factory()->create([
