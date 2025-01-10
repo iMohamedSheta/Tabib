@@ -35,6 +35,6 @@ class MakeQueryBuilderCommand extends GeneratorCommand
      */
     protected function getDefaultNamespace($rootNamespace): string
     {
-        return $rootNamespace . '\QueryBuilders';
+        return $rootNamespace.'\QueryBuilders';
     }
 }

@@ -16,7 +16,7 @@ class UpdateClinicServiceRequest extends FormRequest
         return [
             'name' => ['required', 'string'],
             'price' => ['required', 'numeric'],
-            'clinic_id' => ['nullable', 'in:' . implode(',', $this->clinicsIds)],
+            'clinic_id' => ['nullable', 'in:'.implode(',', $this->clinicsIds)],
             'description' => ['nullable', 'string'],
             'color' => ['nullable', 'string'],
         ];

@@ -15,7 +15,7 @@ class UpdateDoctorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => ['required', 'string', 'regex:/^[a-z0-9_-]{3,15}$/', 'unique:users,username,' . $this->doctor->user_id],
+            'username' => ['required', 'string', 'regex:/^[a-z0-9_-]{3,15}$/', 'unique:users,username,'.$this->doctor->user_id],
             'specialization' => ['required', 'string'],
             // 'clinic_id' => ['required', 'in:'. implode(',', $this->clinics)],
             'first_name' => ['required', 'string'],

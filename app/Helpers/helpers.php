@@ -33,8 +33,8 @@ if (! function_exists('speedTest')) {
         }
 
         // Average execution time
-        $averageExecutionTime = number_format($totalExecutionTime / $repeats, 2) . ' ms';
-        $totalExecutionTimeInSeconds = number_format($totalExecutionTime / 1000, 2) . ' seconds';
+        $averageExecutionTime = number_format($totalExecutionTime / $repeats, 2).' ms';
+        $totalExecutionTimeInSeconds = number_format($totalExecutionTime / 1000, 2).' seconds';
 
         // Return both the result of the last execution and the average execution time
         return [
@@ -70,14 +70,14 @@ if (! function_exists('js')) {
         $version = cache()->get('js_version') ?? null;
 
         if (is_null($version)) {
-            $version = cache()->forever('js_version', config('app.versions.app') . config('app.versions.js'));
+            $version = cache()->forever('js_version', config('app.versions.app').config('app.versions.js'));
         }
 
         if (str_ends_with($filename, '.js')) {
-            return asset('assets/js/' . $filename . '?' . cache()->get('js_version'));
+            return asset('assets/js/'.$filename.'?'.cache()->get('js_version'));
         }
 
-        return asset(sprintf('assets/js/%s.js?', $filename) . cache()->get('js_version'));
+        return asset(sprintf('assets/js/%s.js?', $filename).cache()->get('js_version'));
     }
 }
 
@@ -87,14 +87,14 @@ if (! function_exists('css')) {
         $version = cache()->get('css_version') ?? null;
 
         if (is_null($version)) {
-            $version = cache()->forever('css_version', config('app.versions.app') . config('app.versions.css'));
+            $version = cache()->forever('css_version', config('app.versions.app').config('app.versions.css'));
         }
 
         if (str_ends_with($filename, '.css')) {
-            return asset('assets/css/' . $filename . '?' . $version);
+            return asset('assets/css/'.$filename.'?'.$version);
         }
 
-        return asset(sprintf('assets/css/%s.css?', $filename) . $version);
+        return asset(sprintf('assets/css/%s.css?', $filename).$version);
     }
 }
 
