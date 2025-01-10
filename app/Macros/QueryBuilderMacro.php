@@ -47,7 +47,7 @@ class QueryBuilderMacro implements MacroInterface
     public static function registerSameOrganization(): void
     {
         Builder::macro('sameOrganization', function (): object {
-            $this->where($this->from.'.organization_id', Auth::user()->organization_id);
+            $this->where($this->from . '.organization_id', Auth::user()->organization_id);
 
             return $this;
         });
@@ -57,8 +57,8 @@ class QueryBuilderMacro implements MacroInterface
     {
         Builder::macro('notDeleted', function ($isDeleted = true): object {
             ($isDeleted)
-                ? $this->where($this->from.'.deleted_at', null)
-                : $this->where($this->from.'.deleted_at', '!=', null);
+                ? $this->where($this->from . '.deleted_at', null)
+                : $this->where($this->from . '.deleted_at', '!=', null);
 
             return $this;
         });

@@ -17,7 +17,7 @@ class CreatePatientRequest extends FormRequest
             'first_name' => ['required', 'string'],
             'last_name' => ['required', 'string'],
             'age' => ['required', 'integer'],
-            'clinic_id' => ['required', 'in:'.implode(',', $this->clinicsIds)],
+            'clinic_id' => ['required', 'in:' . implode(',', $this->clinicsIds)],
             'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
             'phone' => [
                 'required',
