@@ -11,14 +11,14 @@ trait WithSteps
     public function backStep(): void
     {
         if ($this->step > 1) {
-            $this->step--;
+            --$this->step;
         }
     }
 
     public function nextStep(): void
     {
         if ($this->step < $this->maxSteps) {
-            $this->step++;
+            ++$this->step;
         }
     }
 

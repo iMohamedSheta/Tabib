@@ -22,7 +22,7 @@ class ManifestService
             $fileInfo = pathinfo((string) $file['path']);
             $basicManifest['icons'][] = [
                 'src' => $file['path'],
-                'type' => 'image/' . $fileInfo['extension'],
+                'type' => 'image/'.$fileInfo['extension'],
                 'sizes' => $file['sizes'] ?? $size,
                 'purpose' => $file['purpose'],
             ];
@@ -34,7 +34,7 @@ class ManifestService
                     $fileInfo = pathinfo((string) $shortcut['icons']['src']);
                     $icon = [
                         'src' => $shortcut['icons']['src'],
-                        'type' => 'image/' . $fileInfo['extension'],
+                        'type' => 'image/'.$fileInfo['extension'],
                         'sizes' => $file['sizes'] ?? $size,
                         'purpose' => $shortcut['icons']['purpose'],
                     ];
