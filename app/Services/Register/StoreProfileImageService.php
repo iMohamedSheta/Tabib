@@ -12,7 +12,7 @@ class StoreProfileImageService
             $imageContents = file_get_contents($imageURL);
 
             if ($imageContents) {
-                $filename = 'facebook/' . $userId . '/' . $userId . '_' . time() . '.jpg';
+                $filename = 'facebook/'.$userId.'/'.$userId.'_'.time().'.jpg';
                 $saved = Storage::disk(config('jetstream.profile_photo_disk', 'public'))->put($filename, $imageContents);
                 if ($saved) {
                     return $filename;

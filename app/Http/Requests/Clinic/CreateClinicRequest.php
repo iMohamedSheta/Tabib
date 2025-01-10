@@ -16,8 +16,8 @@ class CreateClinicRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'type' => ['required', 'in:' . implode(',', $this->getClinicTypesArray())],
-            'policy' => ['required', 'boolean', 'in:' . true],
+            'type' => ['required', 'in:'.implode(',', $this->getClinicTypesArray())],
+            'policy' => ['required', 'boolean', 'in:'.true],
         ];
     }
 
