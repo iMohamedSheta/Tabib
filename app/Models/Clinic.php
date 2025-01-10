@@ -16,12 +16,12 @@ class Clinic extends Model
 
     public function subClinics()
     {
-        return $this->hasMany(Clinic::class, 'parent_clinic_id', 'id');
+        return $this->hasMany(self::class, 'parent_clinic_id', 'id');
     }
 
     public function parentClinic()
     {
-        return $this->belongsTo(Clinic::class, 'parent_clinic_id', 'id');
+        return $this->belongsTo(self::class, 'parent_clinic_id', 'id');
     }
 
     public function organization()

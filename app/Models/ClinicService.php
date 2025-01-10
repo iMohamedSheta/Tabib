@@ -16,6 +16,6 @@ class ClinicService extends Model
 
     public static function list()
     {
-        return ClinicService::pluck('name', 'id')->toArray();
+        return self::pluck('name', 'id')->toArray();
     }
 }
