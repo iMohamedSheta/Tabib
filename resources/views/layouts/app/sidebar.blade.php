@@ -66,7 +66,8 @@
                     الاطباء
                 </span>
             </x-theme.sidebar-link>
-            <x-theme.sidebar-link href="{{ route('app.admin.patient.index') }}" activeRoute="app.admin.patient.index">
+            <x-theme.sidebar-link href="{{ route('app.admin.patient.index') }}"
+                activeRoute="app.admin.patient.index, app.admin.patient.show">
                 <x-slot:icon>
                     <i class="fa-solid fa-bed-pulse fa-xl px-1"></i>
                 </x-slot:icon>
