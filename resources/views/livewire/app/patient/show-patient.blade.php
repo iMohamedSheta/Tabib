@@ -1,5 +1,6 @@
 @php
     use App\Enums\Helpers\HelperEnum;
+    use Carbon\Carbon;
 @endphp
 <div class="py-6 md:mx-4 grid  text-gray-700 dark:text-gray-200">
     <x-main.head wire:ignore icon="{{ $patient->user->profile_photo_url }}">
@@ -28,213 +29,144 @@
     </x-main.head>
     <div
         class="relative bg-purple-200 text-gray-700 dark:bg-c-gray-800 dark:text-white font-bold p-6 rounded-lg shadow-xl">
+        <x-tabs.tab-list selected-tab="medical_records">
+            <x-slot name="tabs">
+                <!-- Tab Heads -->
+                <x-tabs.tab-head name="medical_records">
+                    <i class="fa fa-file-medical"></i>
+                    السجل الطبي
+                </x-tabs.tab-head>
+                <x-tabs.tab-head name="exams">
+                    <i class="fa fa-stethoscope"></i>
+                    الفحوصات
+                </x-tabs.tab-head>
+                <x-tabs.tab-head name="radiology">
+                    <i class="fa fa-users"></i>
+                    الاشعة
+                </x-tabs.tab-head>
+                <x-tabs.tab-head name="attached_files">
+                    <i class="fa fa-folder"></i>
+                    الملفات الملحقة
+                </x-tabs.tab-head>
+                <x-tabs.tab-head name="surgeries">
+                    <i class="fa fa-user-md"></i>
+                    العمليات
+                </x-tabs.tab-head>
+                <x-tabs.tab-head name="bills">
+                    <i class="fa fa-file-invoice-dollar"></i>
+                    الفواتير
+                </x-tabs.tab-head>
+                <x-tabs.tab-head name="appointments">
+                    <i class="fa fa-calendar-check"></i>
+                    الحجوزات
+                </x-tabs.tab-head>
+            </x-slot>
 
-        <div x-data="{ selectedTab: 'groups' }" class="w-full">
-            <div @keydown.right.prevent="$focus.wrap().next()" @keydown.left.prevent="$focus.wrap().previous()"
-                class="flex gap-2 overflow-x-auto border-b border-neutral-300 dark:border-neutral-700" role="tablist"
-                aria-label="tab options">
-                <button @click="selectedTab = 'groups'" :aria-selected="selectedTab === 'groups'"
-                    :tabindex="selectedTab === 'groups' ? '0' : '-1'"
-                    :class="selectedTab === 'groups' ?
-                        'font-bold text-black border-b-2 border-black dark:border-white' :
-                        'text-neutral-600 font-medium  dark:hover:border-b-neutral-300  hover:border-b-2 hover:border-b-neutral-800 hover:text-neutral-900'"
-                    class="flex h-min items-center gap-2 px-4 py-2 text-sm" type="button" role="tab"
-                    aria-controls="tabpanelGroups">
-                    <i class="fa fa-address-card"></i>
-                    البيانات الشخصية
-                    @if ($errors->any())
-                        <i class="fa fa-triangle-exclamation fa-xl text-red-500 "></i>
-                    @endif
-                </button>
-                <button @click="selectedTab = 'work'" :aria-selected="selectedTab === 'work'"
-                    :tabindex="selectedTab === 'work' ? '0' : '-1'"
-                    :class="selectedTab === 'work' ?
-                        'font-bold text-black border-b-2 border-black dark:border-white' :
-                        'text-neutral-600 font-medium  dark:hover:border-b-neutral-300  hover:border-b-2 hover:border-b-neutral-800 hover:text-neutral-900'"
-                    class="flex h-min items-center gap-2 px-4 py-2 text-sm" type="button" role="tab"
-                    aria-controls="tabpanelWork">
-                    <i class="fa fa-address-book"></i>
-                    البيانات الاضافية
-                </button>
-            </div>
-            {{--
-        <h3 class="pb-2">
-            من فضلك ادخل بيانات الطبيب
-        </h3> --}}
-            <div x-show="selectedTab === 'groups'" id="tabpanelGroups" role="tabpanel" aria-label="groups">
-                <div class="flex flex-wrap p-4">
-                    <div class="w-full  px-2 mt-4 md:w-1/2">
-                        <label>
-                            اسم المستخدم
-                            <span class="text-red-600">*</span>
-                        </label>
-                        <x-input type="text" id="username" wire:model="username" withError="username"
-                            class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 w-full break-all"
-                            autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
-                    </div>
-                    <div class="w-full px-2 mt-4 md:w-1/2">
-                        <label>
-                            الرقم السري
-                            <span class="text-red-600">*</span>
-                        </label>
-                        {{-- <x-input type="password" id="password" wire:model="password" withError="password"
-                            class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 w-full break-all"
-                            autofocus autocomplete="off" autocorrect="off" autocapitalize="off"
-                            spellcheck="false" /> --}}
-                        <x-form.input-password type="password" id="password" wire:model="password" withError="password"
-                            class=" bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 w-full break-all"
-                            autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
-                            label="الرقم السري"></x-form.input-password>
-
-                    </div>
-                    <div class="mt-4 w-full px-2">
-                        <label>
-                            التخصص
-                            <span class="text-red-600">*</span>
-                        </label>
-                        <x-input type="text" id="specialization" wire:model="specialization"
-                            withError="specialization"
-                            class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 w-full break-all"
-                            autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
-                    </div>
-                    {{-- <div class="mt-6 w-full md:w-1/2 px-2">
-                        <label>
-                            العيادة
-                            <span class="text-red-600">*</span>
-                        </label>
-                        <x-select.select label="اختيار العيادة" withError="clinic_id"
-                        :items="$clinics" wire:model="clinic_id"
-                        class="mt-2 bg-gray-100 px-4 py-2 rounded text-sm text-gray-500 w-full break-all">
-                        </x-select.select>
-                    </div> --}}
-                    <div class="mt-4 w-full md:w-1/2 px-2">
-                        <label>
-                            الاسم الاول
-                            <span class="text-red-600">*</span>
-                        </label>
-                        <x-input type="text" id="first_name" wire:model="first_name" withError="first_name"
-                            class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 w-full break-all"
-                            autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
-                    </div>
-                    <div class="mt-4 w-full md:w-1/2 px-2">
-                        <label>
-                            اسم العائلة
-                            <span class="text-red-600">*</span>
-                        </label>
-                        <x-input type="text" id="last_name" wire:model="last_name" withError="last_name"
-                            class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 w-full break-all"
-                            autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
-                    </div>
-                    <div class="mt-4 w-full md:w-1/2 px-2">
-                        <label>
-                            رقم الهاتف
-                            <span class="text-red-600">*</span>
-                        </label>
-                        <x-input type="text" id="phone" wire:model="phone" withError="phone"
-                            class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 w-full break-all"
-                            autofocus autocomplete="off" autocorrect="off" autocapitalize="off"
-                            spellcheck="false" />
-                    </div>
-                    <div class="mt-4 w-full md:w-1/2 px-2">
-                        <label>
-                            رقم الهاتف الاضافي
-                        </label>
-                        <x-input type="text" id="other_phone" wire:model="other_phone" withError="other_phone"
-                            class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 w-full break-all"
-                            autofocus autocomplete="off" autocorrect="off" autocapitalize="off"
-                            spellcheck="false" />
-                    </div>
-
-                    <x-fileupload.profile-picture x-on:added.window="imagePreview = null" withError="photo"
-                        wire:model="photo"></x-fileupload.profile-picture>
+            <!-- Tab Content -->
+            <x-tabs.tab name="medical_records">
+                <p class="px-4 py-8">
+                    السجل الطبي للمريض يمكن من خلاله رؤية سجلات المريض الشخصية
+                </p>
+                <div class="flex flex-wrap">
+                    <x-cells.cell label="الاسم" :border="false">
+                        {{ $patient->user->first_name . ' ' . $patient->user->last_name }}
+                    </x-cells.cell>
+                    <x-cells.cell label="العنوان" :border="false">
+                        {{ $patient->address }}
+                    </x-cells.cell>
+                    <x-cells.cell label="رقم التليفون">
+                        {{ $patient->user->phone }}
+                    </x-cells.cell>
+                    <x-cells.cell label="رقم التليفون الاضافي">
+                        {{ $patient->user->other_phone }}
+                    </x-cells.cell>
+                    <x-cells.cell label="اسم المستخدم">
+                        {{ $patient->user->username }}
+                    </x-cells.cell>
+                    <x-cells.cell label="البريد الالكتروني">
+                        {{ $patient->user->email }}
+                    </x-cells.cell>
+                    <x-cells.cell label="الرقم التعريفي للمريض">
+                        <x-copy-clipboard>
+                            {{ $patient->puid }}
+                        </x-copy-clipboard>
+                    </x-cells.cell>
+                    <x-cells.cell label="العيادة المسجل فيها">
+                        {{ $patient->clinic->name }}
+                    </x-cells.cell>
+                    <x-cells.cell label="العمر">
+                        {{ $patient->age }}
+                    </x-cells.cell>
+                    <x-cells.cell label="تاريخ الميلاد">
+                        {{ $patient->birth_date }}
+                    </x-cells.cell>
+                    <x-cells.cell label="الجنس">
+                        {{ $patient->gender === 'female' ? 'انثي' : 'ذكر' }}
+                    </x-cells.cell>
+                    <x-cells.cell label="الجنسية">
+                        {{ $patient->nationality }}
+                    </x-cells.cell>
+                    <x-cells.cell label="فصيلة الدم">
+                        {{ $patient->blood_type }}
+                    </x-cells.cell>
+                    <x-cells.cell label="الرقم القومي">
+                        {{ $patient->national_card_id }}
+                    </x-cells.cell>
+                    <x-cells.cell label="اخر اتصال">
+                        <span class="text-green-900 flex items-center">
+                            <i class="fa fa-circle text-[8px] text-green-700 px-2"></i>
+                            {{ Carbon::parse($patient->user->last_connect)->diffForHumans() }}
+                        </span>
+                    </x-cells.cell>
+                    <x-cells.cell label="الطول">
+                        {{ $patient->height }}
+                    </x-cells.cell>
+                    <x-cells.cell label="الحالة الاجتماعية">
+                        {{ $patient->marital_status }}
+                    </x-cells.cell>
+                    <x-cells.cell label="العمل">
+                        {{ $patient->height }}
+                    </x-cells.cell>
+                    <x-cells.cell label="مزود التأمين">
+                        {{ $patient->marital_status }}
+                    </x-cells.cell>
+                    <x-cells.cell label="الرقم التأميني">
+                        {{ $patient->marital_status }}
+                    </x-cells.cell>
                 </div>
-            </div>
-            <div x-show="selectedTab === 'work'" id="tabpanelWork" role="tabpanel" aria-label="work_inforamtion">
-                <div class="flex flex-wrap p-4">
-                    <div class="w-full  px-2 mt-4 md:w-1/2">
-                        <label>
-                            رقم الترخيص
-                        </label>
-                        <x-input type="text" id="license_number" wire:model="license_number"
-                            withError="license_number"
-                            class="mt-4 bg-gray-100 px-4 py-2 rounded  text-sm text-gray-500 w-full break-all"
-                            autofocus autocomplete="off" autocorrect="off" autocapitalize="off"
-                            spellcheck="false" />
-                    </div>
-                    <div class="mt-4 w-full px-2 md:w-1/2">
-                        <label>
-                            رقم الهاتف للاستشارات الطبية
-                        </label>
-                        <x-input type="text" id="telehealth_phone" wire:model="telehealth_phone"
-                            withError="telehealth_phone"
-                            class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 w-full break-all"
-                            autofocus autocomplete="off" autocorrect="off" autocapitalize="off"
-                            spellcheck="false" />
-                    </div>
-                    <div class="mt-6 w-full md:w-1/2 px-2">
-                        <label>
-                            العيادات
-                        </label>
-                        <x-select.multiselect :items="$clinics" label="اختيار العيادات" withError="clinic_ids"
-                            class="mt-2 bg-gray-100 px-4 py-2 rounded text-sm text-gray-500 w-full break-all">
+            </x-tabs.tab>
+            <x-tabs.tab name="exams">
+                <p class="p-4">
+                    هذه هي الفحوصات
+                </p>
+            </x-tabs.tab>
+            <x-tabs.tab name="radiology">
+                <p class="p-4">
+                    هذه هي الأشعة
+                </p>
+            </x-tabs.tab>
+            <x-tabs.tab name="attached_files">
+                <p class="p-4">
+                    هذه هي الملفات الملحقة
+                </p>
+            </x-tabs.tab>
+            <x-tabs.tab name="surgeries">
+                <p class="p-4">
+                    هذه هي العمليات
+                </p>
+            </x-tabs.tab>
+            <x-tabs.tab name="bills">
+                <p class="p-4">
+                    هذه هي الفواتير
+                </p>
+            </x-tabs.tab>
+            <x-tabs.tab name="appointments">
+                <p class="p-4">
+                    هذه هي الحجوزات
+                </p>
+            </x-tabs.tab>
+        </x-tabs.tab-list>
 
-                        </x-select.multiselect>
-                    </div>
-                    <div class="mt-6 w-full md:w-1/2 px-2">
-                        <label>
-                            ايام العمل
-                        </label>
-                        <x-select.multiselect :items="$days" label="اختيار ايام العمل" withError="selected_days"
-                            class="mt-2 bg-gray-100 px-4 py-2 rounded text-sm text-gray-500 w-full break-all">
-
-                        </x-select.multiselect>
-                    </div>
-                    <div class="w-full  px-2 mt-4 md:w-1/2">
-                        <label>
-                            توقيت العمل بداية من
-                        </label>
-                        <x-input type="date" id="start-time-datepicker" wire:ignore x-model="start_time"
-                            withError="start_time" wire:model="start_time"
-                            class='border-gray-300  focus:border-indigo-500 mt-4 bg-gray-100 px-4 py-2  text-sm text-gray-500 w-full break-all focus:ring-indigo-500 rounded shadow-sm' />
-                    </div>
-                    <div class="w-full  px-2 mt-4 md:w-1/2">
-                        <label>
-                            توقيت العمل نهاية في
-                        </label>
-                        <x-input type="date" id="end-time-datepicker" wire:ignore x-model="end_time"
-                            withError="end_time" wire:model="end_time"
-                            class='border-gray-300  focus:border-indigo-500 mt-4 bg-gray-100 px-4 py-2  text-sm text-gray-500 w-full break-all focus:ring-indigo-500 rounded shadow-sm' />
-                    </div>
-                    <div class="w-full  px-2 mt-4">
-                        <label>
-                            المؤهلات
-                        </label>
-                        <textarea id="qualifications" placeholder="اكتب المؤهلات الخاصة بالطبيب..." wire:model="qualifications"
-                            rows="3" withError="qualifications"
-                            class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500
-                        shadow-sm bg-gray-100 resize-y mt-4 px-4 py-2 rounded  text-sm text-gray-500 w-full break-all"
-                            autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
-
-                        {{-- <x-input type="text" id="qualifications" wire:model="qualifications"
-                            withError="qualifications"
-                            class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 w-full break-all"
-                            autofocus autocomplete="off" autocorrect="off" autocapitalize="off"
-                            spellcheck="false" /> --}}
-                    </div>
-                    <div class="w-full px-2 mt-4 ">
-                        <label>
-                            مذكرة الدكتور (notes)
-                        </label>
-                        <textarea id="notes" placeholder="اكتب هنا المعلومات الاضافية الخاصة بالمريض ..." wire:model="notes"
-                            rows="6" withError="notes"
-                            class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500
-                            shadow-sm bg-gray-100 resize-y mt-4 px-4 py-2 rounded  text-sm text-gray-500 w-full break-all"
-                            autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
-                    </div>
-
-                </div>
-            </div>
-        </div>
     </div>
 
 </div>

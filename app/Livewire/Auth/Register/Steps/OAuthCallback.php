@@ -5,6 +5,7 @@ namespace App\Livewire\Auth\Register\Steps;
 use App\Actions\Clinic\CreateClinicAction;
 use App\DTOs\Auth\RegisterUserDTO;
 use App\Http\Requests\Clinic\CreateClinicRequest;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
@@ -28,7 +29,7 @@ class OAuthCallback extends Component
         return (new CreateClinicRequest())->stepOneRules();
     }
 
-    public function render()
+    public function render(): View
     {
         return view('livewire.auth.register.steps.o-auth-callback');
     }
@@ -47,9 +48,7 @@ class OAuthCallback extends Component
 
             (new CreateClinicAction())->handle($registerUserDTO, $clinicData);
         } catch (\Exception $exception) {
-            DB::rollBack();
-
-            dd($exception);
+            log_error($exception);
         }
     }
 }

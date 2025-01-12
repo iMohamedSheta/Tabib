@@ -34,9 +34,15 @@ class CreatePatientRequest extends FormRequest
             'address' => ['nullable', 'string'],
             'allergies' => ['nullable', 'string'],
             'height' => ['nullable', 'integer'],
-            'weight' => ['nullable', 'integer'],
             'national_card_id' => ['nullable', 'string'],
             'notes' => ['nullable', 'string'],
+            'chronic_diseases' => ['nullable'],
+            'family_medical_history' => ['nullable', 'string'],
+            'blood_type' => ['nullable', 'string'],
+            'marital_status' => ['nullable', 'string'],
+            'insurance_provider' => ['nullable', 'string'],
+            'insurance_number' => ['nullable', 'string'],
+            'occupation' => ['nullable', 'string'],
         ];
     }
 }

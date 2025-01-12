@@ -14,40 +14,32 @@ class CreatePatientModal extends Component
     use WithFileUploads;
 
     public $withButton = true;
-
     public $showName = 'show';
 
     public $clinics;
 
     public $first_name;
-
     public $last_name;
-
     public $age;
-
     public $clinic_id;
-
     public $phone;
-
     public $other_phone;
-
     public $gender;
-
     public $address;
-
     public $allergies;
-
     public $height;
-
     public $weight;
-
     public $national_card_id;
-
     public $nationality;
-
     public $notes;
-
     public $photo;
+    public $chronic_diseases;
+    public $family_medical_history;
+    public $blood_type;
+    public $marital_status;
+    public $insurance_number;
+    public $insurance_provider;
+    public $occupation;
 
     public function mount(array $clinics): void
     {

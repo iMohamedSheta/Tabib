@@ -16,22 +16,13 @@ class Register extends Component
     use WithSteps;
 
     public $name;
-
     public $type;
-
     public $first_name;
-
     public $last_name;
-
     public $phone;
-
     public $username;
-
     public $password;
-
     public $password_confirmation;
-
-    // User
     public $policy = true;
 
     public function mount(): void

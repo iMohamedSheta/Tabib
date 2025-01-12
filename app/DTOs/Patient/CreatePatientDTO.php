@@ -2,6 +2,7 @@
 
 namespace App\DTOs\Patient;
 
+use App\Generators\PUIDGenerator;
 use App\Models\Patient;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -24,8 +25,14 @@ class CreatePatientDTO
         public $notes = null,
         public $national_card_id = null,
         public $height = null,
-        public $weight = null,
+        public $family_medical_history = null,
+        public $chronic_diseases = null,
         public $photo = null,
+        public $blood_type = null,
+        public $marital_status = null,
+        public $occupation = null,
+        public $insurance_number = null,
+        public $insurance_provider = null,
     ) {
         $this->organization_id = Auth::user()->organization_id;
     }
@@ -33,6 +40,7 @@ class CreatePatientDTO
     public function patientData(): array
     {
         return [
+            'puid' => PUIDGenerator::generate(),
             'clinic_id' => $this->clinic_id,
             'age' => $this->age,
             'birth_date' => Carbon::now()->subYears($this->age)->toDateString(),
@@ -43,7 +51,13 @@ class CreatePatientDTO
             'notes' => $this->notes,
             'national_card_id' => $this->national_card_id,
             'height' => $this->height,
-            'weight' => $this->weight,
+            'family_medical_history' => $this->family_medical_history,
+            'chronic_diseases' => $this->chronic_diseases,
+            'blood_type' => $this->blood_type,
+            'marital_status' => $this->marital_status,
+            'occupation' => $this->occupation,
+            'insurance_number' => $this->insurance_number,
+            'insurance_provider' => $this->insurance_provider,
             'organization_id' => $this->organization_id,
         ];
     }

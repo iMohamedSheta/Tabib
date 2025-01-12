@@ -33,6 +33,7 @@ class PatientQueryBuilder extends QueryBuilderWrapper
                 'patients.age',
                 'patients.address',
                 'patients.gender',
+                'patients.puid',
                 'clinics.name as clinic_name',
                 'clinics.id as clinic_id',
             )
@@ -46,8 +47,8 @@ class PatientQueryBuilder extends QueryBuilderWrapper
     {
         $this->query->when($search, function ($query) use ($search): void {
             $query->where(function ($query) use ($search): void {
-                $query->likeIn(['users.first_name', 'users.last_name', 'users.phone', 'users.other_phone'], $search)
-                    ->likeUserFullName($search);
+                $query->likeIn(['users.first_name', 'users.last_name', 'users.phone', 'users.other_phone', 'patients.puid'], $search)
+                    ->orLikeUserFullName($search);
             });
         });
 

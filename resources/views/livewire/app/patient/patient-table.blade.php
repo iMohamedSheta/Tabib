@@ -69,6 +69,13 @@
                             </div>
                         </x-datatable.tdata.actions>
                         <td class="px-4 py-3">
+                            <div class="flex justify-center">
+                                <x-copy-clipboard>
+                                    {{ $patient->puid }}
+                                </x-copy-clipboard>
+                            </div>
+                        </td>
+                        <td class="px-4 py-3">
                             {{ $patient->clinic_name }}
                         </td>
                         <td class="px-4 py-3">

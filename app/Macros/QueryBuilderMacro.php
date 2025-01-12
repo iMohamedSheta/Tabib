@@ -15,12 +15,10 @@ class QueryBuilderMacro implements MacroInterface
         self::registerIsPatient();
         self::registerSameOrganization();
         self::registerNotDeleted();
-        self::registerLikeUserFullName();
+        self::registerOrLikeUserFullName();
     }
 
-    public static function register(): void
-    {
-    }
+    public static function register(): void {}
 
     public static function registerLikeIn(): void
     {
@@ -64,16 +62,16 @@ class QueryBuilderMacro implements MacroInterface
         });
     }
 
-    public static function registerLikeUserFullName(): void
+    public static function registerOrLikeUserFullName(): void
     {
-        Builder::macro('likeUserFullName', function ($value): object {
+        Builder::macro('orLikeUserFullName', function ($value): object {
             $value = trim($value);
             $value = explode(' ', $value, 2);
             if (2 == count($value)) {
-                $this->where('users.first_name', 'LIKE', sprintf('%%%s%%', $value[0]))
+                $this->orWhere('users.first_name', 'LIKE', sprintf('%%%s%%', $value[0]))
                     ->orWhere('users.last_name', 'LIKE', sprintf('%%%s%%', $value[1]));
             } else {
-                $this->where('users.first_name', 'LIKE', sprintf('%%%s%%', $value[0]));
+                $this->orWhere('users.first_name', 'LIKE', sprintf('%%%s%%', $value[0]));
             }
 
             return $this;
