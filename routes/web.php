@@ -35,10 +35,7 @@ Route::get('/', function () {
 // PWA
 Route::group(['as' => 'laravelpwa.'], function (): void {
     // Instead of using the file generate file every time with the updated version from the laravelpwa config
-    Route::get('/manifest.json', [
-        LaravelPWAController::class,
-        'manifestJson'
-    ])->name('manifest');
+    Route::get('/manifest.json', [LaravelPWAController::class, 'manifestJson'])->name('manifest');
     Route::get('offline', [LaravelPWAController::class, 'offline']);
 });
 

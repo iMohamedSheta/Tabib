@@ -222,7 +222,6 @@ jobs:
       - name: Run PHPStan (Static Analysis)
         id: run_phpstan
         run: vendor/bin/phpstan analyse
-        continue-on-error: true
 
   refactoring:
     runs-on: ubuntu-latest
