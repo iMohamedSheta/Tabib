@@ -18,7 +18,9 @@ class QueryBuilderMacro implements MacroInterface
         self::registerOrLikeUserFullName();
     }
 
-    public static function register(): void {}
+    public static function register(): void
+    {
+    }
 
     public static function registerLikeIn(): void
     {

@@ -6,7 +6,6 @@ use App\Actions\Clinic\CreateClinicAction;
 use App\DTOs\Auth\RegisterUserDTO;
 use App\Http\Requests\Clinic\CreateClinicRequest;
 use App\Models\ClinicAdmin;
-use App\Models\User;
 use App\Traits\LivewireTraits\WithSteps;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;

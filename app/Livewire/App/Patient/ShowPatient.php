@@ -18,6 +18,7 @@ class ShowPatient extends Component
     {
         $clinics = Clinic::list();
         $days = DaysEnum::getDaysLabels();
+
         return view('livewire.app.patient.show-patient', [
             'clinics' => $clinics,
             'days' => $days,

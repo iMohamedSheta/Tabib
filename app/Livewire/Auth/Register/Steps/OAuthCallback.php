@@ -6,7 +6,6 @@ use App\Actions\Clinic\CreateClinicAction;
 use App\DTOs\Auth\RegisterUserDTO;
 use App\Http\Requests\Clinic\CreateClinicRequest;
 use Illuminate\Contracts\View\View;
-use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class OAuthCallback extends Component
