@@ -10,7 +10,7 @@ use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Storage;
 use League\Flysystem\FileAttributes;
 
-class CheckIfBackupsAreTaken implements ShouldQueue
+class VerifyBackupsAreRecentJob implements ShouldQueue
 {
     use Queueable;
 

@@ -198,7 +198,7 @@ class GoogleDriveAdapter implements FilesystemAdapter
     /**
      * Root path
      *
-     * @var string
+     * @var ?string
      */
     protected $root;
 
