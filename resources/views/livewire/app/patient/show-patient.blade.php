@@ -1,15 +1,17 @@
 @php
     use App\Enums\Helpers\HelperEnum;
-    use Carbon\Carbon;
+    use App\Formatters\DateFormatter;
+    use App\Formatters\AgeFormatter;
 @endphp
 <div class="py-6 md:mx-4 grid  text-gray-700 dark:text-gray-200">
     <x-main.head wire:ignore icon="{{ $patient->user->profile_photo_url }}">
         <x-slot name="title">
             المريض :
             {{ $patient->user->first_name . ' ' . $patient->user->last_name }}
+
         </x-slot>
         <x-slot name="body">
-            <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <div class="text-gray-300 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                 <dt class="text-sm/6 font-medium ">
                     رقم الهاتف :
                 </dt>
@@ -17,7 +19,7 @@
                     {{ $patient->user->phone }}
                 </dd>
             </div>
-            <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <div class="text-gray-300 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                 <dt class="text-sm/6 font-medium ">
                     رقم الهاتف الاضافي :
                 </dt>
@@ -60,6 +62,10 @@
                     <i class="fa fa-calendar-check"></i>
                     الحجوزات
                 </x-tabs.tab-head>
+                <x-tabs.tab-head name="patient_note">
+                    <i class="fa-solid fa-note-sticky"></i>
+                    مذكرة المريض
+                </x-tabs.tab-head>
             </x-slot>
 
             <!-- Tab Content -->
@@ -95,7 +101,7 @@
                         {{ $patient->clinic->name }}
                     </x-cells.cell>
                     <x-cells.cell label="العمر">
-                        {{ $patient->age }}
+                        {{ AgeFormatter::ageView($patient->age) }}
                     </x-cells.cell>
                     <x-cells.cell label="تاريخ الميلاد">
                         {{ $patient->birth_date }}
@@ -115,7 +121,7 @@
                     <x-cells.cell label="اخر اتصال">
                         <span class="text-green-900 flex items-center">
                             <i class="fa fa-circle text-[8px] text-green-700 px-2"></i>
-                            {{ Carbon::parse($patient->user->last_connect)->diffForHumans() }}
+                            {{ DateFormatter::human($patient->user->last_connect) }}
                         </span>
                     </x-cells.cell>
                     <x-cells.cell label="الطول">
@@ -133,6 +139,21 @@
                     <x-cells.cell label="الرقم التأميني">
                         {{ $patient->marital_status }}
                     </x-cells.cell>
+                    <x-cells.cell label="تاريخ الانشاء">
+                        {{ DateFormatter::detailed($patient->created_at) }}
+                    </x-cells.cell>
+                    <x-cells.cell label="تاريخ اخر تعديل">
+                        {{ DateFormatter::detailed($patient->updated_at) }}
+                    </x-cells.cell>
+                    <x-cells.cell label="الحساسية" :isText="true">
+                        {{ $patient->allergies }}
+                    </x-cells.cell>
+                    <x-cells.cell label="امراض وراثية" :isText="true">
+                        {{ $patient->family_medical_history }}
+                    </x-cells.cell>
+                    <x-cells.cell label="الامراض المزمنة" :isText="true">
+                        {{ $patient->chronic_diseases }}
+                    </x-cells.cell>
                 </div>
             </x-tabs.tab>
             <x-tabs.tab name="exams">
@@ -147,7 +168,20 @@
             </x-tabs.tab>
             <x-tabs.tab name="attached_files">
                 <p class="p-4">
-                    هذه هي الملفات الملحقة
+                    {{-- @if ($patient->attached_files->isEmpty())
+                        <p>لا توجد ملفات ملحقة.</p>
+                    @else
+                        <ul>
+                            @foreach ($patient->attached_files as $file)
+                                <li>
+                                    <a href="{{ route('files.download', $file->id) }}"
+                                        class="text-blue-500 hover:underline">
+                                        {{ $file->name }}
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endif --}}
                 </p>
             </x-tabs.tab>
             <x-tabs.tab name="surgeries">
@@ -161,9 +195,37 @@
                 </p>
             </x-tabs.tab>
             <x-tabs.tab name="appointments">
-                <p class="p-4">
-                    هذه هي الحجوزات
+                <p class="px-4 py-8">
+                    الحجوزات هي مكان يمكن فيه رؤية جميع المواعيد التي تم حجزها للمريض، سواء كانت مواعيد سابقة أو
+                    مستقبلية، مع تفاصيل مثل تاريخ ووقت الحجز، اسم الطبيب، والعيادة.
+                <div class="flex flex-wrap">
+                    {{-- @foreach ($patient->appointments as $appointment)
+                        <x-cells.cell label="تاريخ الحجز">
+                            {{ DateFormatter::detailed($appointment->date) }}
+                        </x-cells.cell>
+                        <x-cells.cell label="وقت الحجز">
+                            {{ $appointment->time }}
+                        </x-cells.cell>
+                        <x-cells.cell label="اسم الطبيب">
+                            {{ $appointment->doctor->name }}
+                        </x-cells.cell>
+                        <x-cells.cell label="العيادة">
+                            {{ $appointment->clinic->name }}
+                        </x-cells.cell>
+                    @endforeach --}}
+                </div>
                 </p>
+            </x-tabs.tab>
+            <x-tabs.tab name="patient_note">
+                <p class="px-4 py-8">
+                    مذكرة المريض هي مكان يمكن فيه للطبيب أو المريض كتابة ملاحظات هامة تتعلق بالحالة الصحية للمريض، مثل
+                    الأعراض، التشخيصات، التعليمات الطبية، أو أي معلومات أخرى قد تكون مفيدة لمتابعة العلاج.
+                </p>
+                <div class="flex flex-wrap">
+                    <x-cells.cell label="مذكرة المريض" :isText="true" :border="false" minHeight="200px">
+                        {{ $patient->notes }}
+                    </x-cells.cell>
+                </div>
             </x-tabs.tab>
         </x-tabs.tab-list>
 

@@ -14,4 +14,9 @@ return [
         'thursday' => 'الخميس',
         'friday' => 'الجمعة',
     ],
+    'age' => [
+        'years' => 'سنين',
+        'year' => 'سنة',
+        'two_years' => 'سنتين',
+    ]
 ];

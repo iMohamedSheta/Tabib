@@ -16,7 +16,7 @@
         @click="togglePagesMenu" aria-haspopup="true">
         <span class="inline-flex items-center">
             @if ($icon)
-                <span class="transition-[font-size] duration-500" :class="{ 'my-2 fa-lg': isAppSidebarClosed }">
+                <span class="transition-[font-size] duration-500">
                     {{ $icon }}
                 </span>
             @endif
@@ -24,15 +24,15 @@
                 {{ $title }}
             </span>
         </span>
-        <svg class="w-4 h-4 transation duration-150" :class="isPagesMenuOpen && 'rotate-180'" aria-hidden="true"
+        <svg class="w-4 h-4 transation duration-150" x-cloak :class="isPagesMenuOpen && 'rotate-180'" aria-hidden="true"
             fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd"
                 d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                 clip-rule="evenodd"></path>
         </svg>
     </button>
-    <div x-show="isPagesMenuOpen" style="display: none" class="mr-8 ml-4"
-        x-transition:enter="transition-all ease-in-out duration-300"
+    <div x-show="isPagesMenuOpen" style="display: none" class="mr-4 mt-1" x-cloak
+        :class="{ 'mr-0': isAppSidebarClosed }" x-transition:enter="transition-all ease-in-out duration-300"
         x-transition:enter-start="opacity-0 transform -translate-y-2 max-h-0"
         x-transition:enter-end="opacity-100 transform translate-y-0 max-h-screen"
         x-transition:leave="transition-all ease-in-out duration-300"

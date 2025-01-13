@@ -12,6 +12,7 @@
 
 use App\Enums\Exceptions\ExceptionCodeEnum;
 use App\Enums\User\UserRoleEnum;
+use App\Exceptions\BackupExceptions\HasNoValidBackupFileException;
 use App\Generators\ClinicCodeGenerator;
 // use App\Exceptions\Test\TestException;
 use App\Generators\PUIDGenerator;
@@ -19,9 +20,12 @@ use App\Http\Controllers\Auth\Socialite\FacebookSocialiteController;
 use App\Http\Controllers\Auth\Socialite\GoogleSocialiteController;
 use App\Http\Controllers\PWA\LaravelPWAController;
 use App\Models\Patient;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+use League\Flysystem\FileAttributes;
 
 // Home
 Route::get('/', function () {
@@ -85,3 +89,45 @@ Route::get('check-2', fn(): string => ClinicCodeGenerator::generate());
 //     $fileContent = file_get_contents($yamlFile);
 //     dd($fileContent);
 // });
+
+Route::get('/test-google-drive', function () {
+    try {
+        $minimumBackupInterval = 3600; // seconds
+
+        $latestBackupFile = null;
+        $latestBackupTime = null;
+
+        $files = Storage::disk('google')->listContents('/', true);
+
+        foreach ($files as $file) {
+            if ($file->isFile()) {
+                $fileModifiedTime = Carbon::parse($file->lastModified());
+
+                // Identify the most recently modified file
+                if (!$latestBackupTime || $fileModifiedTime->greaterThan($latestBackupTime)) {
+                    $latestBackupTime = $fileModifiedTime;
+                    $latestBackupFile = $file;
+                }
+            }
+        }
+
+        // Return false if no file was found
+        if (is_null($latestBackupFile) || !($latestBackupFile instanceof FileAttributes)) {
+            return false;
+        }
+
+        // Calculate time difference from the current time
+        $lastModifiedTime = Carbon::parse($latestBackupFile->lastModified());
+        $timeSinceLastBackupInSeconds = $lastModifiedTime->diffInSeconds(Carbon::now());
+
+        // Check if the backup hasn't been taken in the specified interval
+        $backupIsStale = ($timeSinceLastBackupInSeconds > $minimumBackupInterval);
+
+        $readableBackupTime = $lastModifiedTime->diffForHumans();
+
+        dd($backupIsStale, $readableBackupTime);
+        return 'File uploaded successfully!';
+    } catch (\Exception $e) {
+        return 'Error: ' . $e->getMessage();
+    }
+});

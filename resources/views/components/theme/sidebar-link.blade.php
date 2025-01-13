@@ -13,13 +13,13 @@
     <button type="button" data-ripple-light="true" wire:navigate wire:loading.attr="disabled"
         class="inline-flex items-center px-6 py-4 dark:text-gray-400  @isRoute($activeRoute)
 bg-purple-600 dark:text-white
-@endIsRoute hover:bg-purple-500 hover:text-white  w-full hover:text-sm transition-all font-semibold  duration-200
+@endIsRoute hover:bg-purple-500 hover:text-white w-full transition-all font-semibold  duration-200
         {{ $attributes->get('class') }}"
-        {{ $attributes->except('class') }}>
+        {{ $attributes->except('class') }} :class="{ 'px-8': isAppSidebarClosed }" x-cloak>
         <span>
             {{ $icon }}
         </span>
-        <span :class="{ 'hidden': isAppSidebarClosed }">
+        <span :class="{ 'hidden': isAppSidebarClosed }" x-cloak>
             {{ $slot }}
         </span>
     </button>

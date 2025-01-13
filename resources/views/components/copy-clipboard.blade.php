@@ -1,6 +1,10 @@
-<div x-data="copyClipboardComponent">
+<div x-data="copyClipboardComponent" class="relative">
     <button @click="copyToClipboard('{{ $slot }}'); copied = true; setTimeout(() => copied = false, 2000)"
-        class="btn align-middle select-none font-sans font-bold text-center transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex items-center gap-x-3 px-4 py-2.5 lowercase"
+        class="btn align-middle select-none font-sans font-bold text-center transition-all 
+        disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs rounded-lg 
+        bg-gray-800 text-white shadow-md shadow-gray-900/10 hover:shadow-lg 
+        hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none 
+        active:opacity-[0.85] active:shadow-none flex items-center gap-x-3 px-4 py-2.5 lowercase"
         type="button" :aria-label="copied ? 'Copied!' : 'Copy to clipboard'">
         <p
             class="block pr-3 font-sans text-sm antialiased font-normal leading-normal border-r text-inherit border-gray-400/50">
@@ -10,8 +14,8 @@
         <i x-show="copied" class="fa fa-check"></i>
     </button>
     <div x-show="copied"
-        class="absolute z-50 top-[8px] right-[165px] whitespace-normal break-words rounded-lg bg-black py-1.5 px-3 font-sans text-sm font-normal text-white focus:outline-none">
-        Copied!!
+        class="absolute z-50 top-[3px] right-[140px] rounded-lg bg-gray-800 py-2 px-3 w-[75px] text-white focus:outline-none">
+        تم النسخ!
     </div>
 </div>
 @push('scripts')

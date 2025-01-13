@@ -2,6 +2,7 @@
 
 namespace App\DTOs\Patient;
 
+use App\Formatters\AgeFormatter;
 use App\Generators\PUIDGenerator;
 use App\Models\Patient;
 use Carbon\Carbon;
@@ -43,7 +44,7 @@ class CreatePatientDTO
             'puid' => PUIDGenerator::generate(),
             'clinic_id' => $this->clinic_id,
             'age' => $this->age,
-            'birth_date' => Carbon::now()->subYears($this->age)->toDateString(),
+            'birth_date' => AgeFormatter::date($this->age),
             'gender' => $this->gender,
             'nationality' => $this->nationality,
             'address' => $this->address,

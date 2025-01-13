@@ -18,7 +18,7 @@
                     class=" text-xl block text-purple-300 dark:text-purple-200 dark:[text-shadow:_0_1px_0_rgb(255_255_255_/_40%)] ">MedClinux</span> --}}
             </a>
         </div>
-        <div class="text-center bg-c-gray-800 dark:bg-purple-800  pb-2 pt-4 rounded transition-all duration-500"
+        <div class="text-center bg-c-gray-800   pb-2 pt-4 rounded transition-all duration-500"
             x-show="isAppSidebarClosed" x-cloak>
             <a class="text-2xl font-extrabold text-purple-200 dark:text-purple-200 " href="#">
                 {{-- طبيب<span class=" text-purple-300 dark:text-purple-600 ">.كلاود</span> --}}
@@ -30,13 +30,13 @@
         <ul class="mt-1 text-xs">
             <x-theme.sidebar-link href="{{ route('app.admin.dashboard') }}" activeRoute="app.admin.dashboard">
                 <x-slot:icon>
-                    <i class="fa-solid fa-archway fa-xl px-1"></i>
+                    <i class="fa-solid fa-archway fa-xl px-1 text-red-500"></i>
                 </x-slot:icon>
                 <span class="mr-4">الرئيسية</span>
             </x-theme.sidebar-link>
             <x-theme.sidebar-link href="{{ route('app.admin.clinic.index') }}">
                 <x-slot:icon>
-                    <i class="fa-solid fa-wallet fa-xl px-1"></i>
+                    <i class="fa-solid fa-wallet fa-xl px-1 text-red-500"></i>
                 </x-slot:icon>
                 <span class="mr-4 ">
                     محفظة النظام
@@ -52,7 +52,7 @@
             <x-theme.sidebar-link href="{{ route('app.admin.clinic.service.index') }}"
                 activeRoute="app.admin.clinic.service.index">
                 <x-slot:icon>
-                    <i class="fa-solid fa-kit-medical fa-xl px-1"></i>
+                    <i class="fa-solid fa-kit-medical fa-xl px-1 "></i>
                 </x-slot:icon>
                 <span class="mr-4">
                     الخدمات الطبية
@@ -85,7 +85,7 @@
             </x-theme.sidebar-link>
             <x-theme.sidebar-link href="{{ route('app.admin.queue.index') }}" activeRoute="app.admin.queue.index">
                 <x-slot:icon>
-                    <i class="fa-solid fa-microphone-lines fa-xl px-1"></i>
+                    <i class="fa-solid fa-microphone-lines fa-xl px-1 text-red-500"></i>
                 </x-slot:icon>
                 <span class="mr-4">
                     طوابير الكشوفات - Queue
@@ -93,73 +93,73 @@
             </x-theme.sidebar-link>
             <x-theme.sidebar-link href="{{ route('app.admin.clinic.index') }}">
                 <x-slot:icon>
-                    <i class="fa-solid fa-receipt fa-xl px-1"></i>
+                    <i class="fa-solid fa-receipt fa-xl px-1 text-red-500"></i>
                 </x-slot:icon>
                 <span class="mr-4">
                     الفواتير والمدفوعات
                 </span>
             </x-theme.sidebar-link>
 
-            <x-theme.sidebar-link href="{{ route('app.admin.clinic.index') }}">
+            {{-- <x-theme.sidebar-link href="{{ route('app.admin.clinic.index') }}">
                 <x-slot:icon>
                     <i class="fa-solid fa-newspaper fa-xl px-1"></i>
                 </x-slot:icon>
                 <span class="mr-4">
                     السجلات الطبية EMR
                 </span>
-            </x-theme.sidebar-link>
+            </x-theme.sidebar-link> --}}
             <x-theme.sidebar-link href="{{ route('app.admin.clinic.index') }}">
                 <x-slot:icon>
-                    <i class="fa-solid fa-chart-line fa-xl px-1"></i>
+                    <i class="fa-solid fa-chart-line fa-xl px-1 text-red-500"></i>
                 </x-slot:icon>
                 <span class="mr-4">
                     الإحصائيات والتقارير
                 </span>
             </x-theme.sidebar-link>
-            <x-theme.sidebar-link href="{{ route('app.admin.clinic.index') }}">
+            {{-- <x-theme.sidebar-link href="{{ route('app.admin.clinic.index') }}">
                 <x-slot:icon>
                     <i class="fa-solid fa-print fa-xl px-1"></i>
                 </x-slot:icon>
                 <span class="mr-4">
                     قسم الوثائق والنماذج
                 </span>
-            </x-theme.sidebar-link>
+            </x-theme.sidebar-link> --}}
             <x-theme.sidebar-link href="{{ route('app.admin.clinic.index') }}">
                 <x-slot:icon>
-                    <i class="fa-solid fa-cubes fa-xl px-1"></i>
+                    <i class="fa-solid fa-cubes fa-xl px-1 text-red-500"></i>
                 </x-slot:icon>
                 <span class="mr-4">
                     المخزون وإدارة الأدوية
                 </span>
             </x-theme.sidebar-link>
-            <x-theme.sidebar-link href="{{ route('app.admin.clinic.index') }}">
+            {{-- <x-theme.sidebar-link href="{{ route('app.admin.clinic.index') }}">
                 <x-slot:icon>
                     <i class="fa-solid fa-store fa-xl px-1"></i>
                 </x-slot:icon>
                 <span class="mr-4">
                     المتجر
                 </span>
-            </x-theme.sidebar-link>
-            <x-theme.sidebar-link href="{{ route('app.admin.clinic.index') }}">
+            </x-theme.sidebar-link> --}}
+            {{-- <x-theme.sidebar-link href="{{ route('app.admin.clinic.index') }}">
                 <x-slot:icon>
                     <i class="fa-solid fa-store fa-xl px-1"></i>
                 </x-slot:icon>
                 <span class="mr-4">
                     الادوية الطبية
-                    {{-- الادوية النشطة ومشاركة في حالة وجود بدائل ارخص للدواء تقديم معلومات عن الوصفات أو الأدوية المتدرجة، --}}
+                    <!-- الادوية النشطة ومشاركة في حالة وجود بدائل ارخص للدواء تقديم معلومات عن الوصفات أو الأدوية المتدرجة، -->
                 </span>
-            </x-theme.sidebar-link>
+            </x-theme.sidebar-link> --}}
 
-            <x-theme.sidebar-link href="{{ route('app.admin.clinic.index') }}">
+            {{-- <x-theme.sidebar-link href="{{ route('app.admin.clinic.index') }}">
                 <x-slot:icon>
                     <i class="fa-solid fa-store fa-xl px-1"></i>
                 </x-slot:icon>
                 <span class="mr-4">
                     التأمين الطبي
                 </span>
-            </x-theme.sidebar-link>
+            </x-theme.sidebar-link> --}}
 
-            <x-theme.sidebar-link href="{{ route('app.admin.clinic.index') }}">
+            {{-- <x-theme.sidebar-link href="{{ route('app.admin.clinic.index') }}">
                 <x-slot:icon>
                     <i class="fa-solid fa-store fa-xl px-1"></i>
                 </x-slot:icon>
@@ -182,26 +182,31 @@
                 <span class="mr-4">
                     الرسائل والإشعارات
                 </span>
-            </x-theme.sidebar-link>
+            </x-theme.sidebar-link> --}}
 
 
 
             <x-theme.sidebar-dropdown-link title="الاعدادات" activeRoutes="app.admin.dashboard, app.admin.clinic.index">
                 <x-slot:icon>
-                    <i class="fa-solid fa-cogs fa-xl px-1"></i>
+                    <i class="fa-solid fa-cogs fa-xl px-1 text-red-500"></i>
                 </x-slot:icon>
-                <x-theme.sidebar-link href="{{ route('app.admin.dashboard') }}" activeRoute="app.admin.dashboard">
+                <x-theme.sidebar-link href="{{ route('app.admin.clinic.service.index') }}"
+                    activeRoute="app.admin.clinic.service.index">
                     <x-slot:icon>
-                        <i class="fa-solid fa-archway fa-xl px-1"></i>
+                        <i class="fa-solid fa-kit-medical fa-xl px-1 "></i>
                     </x-slot:icon>
-                    <span class="mr-4">الرئيسية</span>
+                    <span class="mr-4">
+                        الخدمات الطبية
+                    </span>
                 </x-theme.sidebar-link>
-
-                <x-theme.sidebar-link href="{{ route('app.admin.clinic.index') }}">
+                <x-theme.sidebar-link href="{{ route('app.admin.patient.index') }}"
+                    activeRoute="app.admin.patient.index, app.admin.patient.show">
                     <x-slot:icon>
-                        <i class="fa-solid fa-house-chimney-medical fa-xl px-1"></i>
+                        <i class="fa-solid fa-bed-pulse fa-xl px-1"></i>
                     </x-slot:icon>
-                    <span class="mr-4">العيادات</span>
+                    <span class="mr-4">
+                        المرضي
+                    </span>
                 </x-theme.sidebar-link>
             </x-theme.sidebar-dropdown-link>
 

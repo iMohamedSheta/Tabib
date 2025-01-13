@@ -66,6 +66,27 @@ return [
             'serve' => true,
             'throw' => false,
         ],
+        'media' => [
+            'driver' => 'local',
+            'root'   => public_path('media'),
+            'url'    => env('APP_URL') . '/media',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
+        'backups' => [
+            'driver' => 'local',
+            'root' => storage_path('backups/') . env('APP_NAME', 'laravel-backup') . '_backups',
+            'serve' => true,
+            'throw' => false,
+        ],
+        'google' => [
+            'driver' => 'google',
+            'clientId' => env('GOOGLE_DRIVE_CLIENT_ID', ''),
+            'clientSecret' => env('GOOGLE_DRIVE_CLIENT_SECRET', ''),
+            'refreshToken' => env('GOOGLE_DRIVE_REFRESH_TOKEN', ''),
+            'folder' => env('GOOGLE_DRIVE_FOLDER', ''),
+            'sharedFolderId' => env('GOOGLE_DRIVE_SHARED_FOLDER_ID'),
+        ],
     ],
 
     /*
