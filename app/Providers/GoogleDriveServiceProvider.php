@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Adapters\Storage\GoogleDrive\GoogleDriveAdapter;
-use Exception;
 use Google\Client;
 use Google\Service\Drive;
 use Illuminate\Filesystem\FilesystemAdapter;
@@ -18,7 +17,6 @@ class GoogleDriveServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
     }
 
     public function boot(): void
@@ -51,7 +49,7 @@ class GoogleDriveServiceProvider extends ServiceProvider
 
                 return new FilesystemAdapter($driver, $adapter);
             });
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             log_error($e);
         }
     }

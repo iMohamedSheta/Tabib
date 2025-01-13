@@ -4,7 +4,6 @@ namespace App\Jobs\Backups;
 
 use App\Exceptions\BackupExceptions\HasNoValidBackupFileException;
 use Carbon\Carbon;
-use Exception;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Storage;
@@ -15,15 +14,14 @@ class CheckIfBackupsAreTaken implements ShouldQueue
     use Queueable;
 
     protected $minimumBackupInterval = 3600;
-    protected $latestBackupFile = null;
-    protected $latestBackupTime = null;
+    protected $latestBackupFile;
+    protected $latestBackupTime;
 
     /**
      * Create a new job instance.
      */
     public function __construct()
     {
-        //
     }
 
     /**
@@ -47,7 +45,7 @@ class CheckIfBackupsAreTaken implements ShouldQueue
             }
 
             // Return false if no file was found
-            throw_if($this->hasNoValidBackupFile(),  new HasNoValidBackupFileException());
+            throw_if($this->hasNoValidBackupFile(), new HasNoValidBackupFileException());
 
             // Check if the backup hasn't been taken in the specified interval
             if ($this->isBackupStale()) {
@@ -55,7 +53,7 @@ class CheckIfBackupsAreTaken implements ShouldQueue
             }
         } catch (HasNoValidBackupFileException $e) {
             log_error($e);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             log_error($e);
         }
     }
@@ -67,6 +65,6 @@ class CheckIfBackupsAreTaken implements ShouldQueue
 
     private function isBackupStale(): bool
     {
-        return ($this->latestBackupTime->diffInSeconds(Carbon::now()) > $this->minimumBackupInterval);
+        return $this->latestBackupTime->diffInSeconds(Carbon::now()) > $this->minimumBackupInterval;
     }
 }

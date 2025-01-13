@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     'backup' => [
         /*
          * The name of this application. You can use this name to monitor
@@ -16,7 +15,7 @@ return [
                  */
                 'include' => [
                     // base_path(),
-                    storage_path('app')
+                    storage_path('app'),
                 ],
 
                 /*
@@ -153,7 +152,7 @@ return [
              */
             'disks' => [
                 'backups',
-                'google'
+                'google',
             ],
         ],
 
@@ -210,7 +209,7 @@ return [
          * Here you can specify the notifiable to which the notifications should be sent. The default
          * notifiable will use the variables specified in this config file.
          */
-        'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
+        'notifiable' => Spatie\Backup\Notifications\Notifiable::class,
 
         'mail' => [
             'to' => 'your@example.com',
@@ -259,8 +258,8 @@ return [
             'name' => env('APP_NAME', 'laravel-backup'),
             'disks' => ['local'],
             'health_checks' => [
-                \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays::class => 1,
-                \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes::class => 5000,
+                Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays::class => 1,
+                Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes::class => 5000,
             ],
         ],
 
@@ -286,7 +285,7 @@ return [
          * No matter how you configure it the default strategy will never
          * delete the newest backup.
          */
-        'strategy' => \Spatie\Backup\Tasks\Cleanup\Strategies\DefaultStrategy::class,
+        'strategy' => Spatie\Backup\Tasks\Cleanup\Strategies\DefaultStrategy::class,
 
         'default_strategy' => [
             /*
@@ -339,5 +338,4 @@ return [
          */
         'retry_delay' => 0,
     ],
-
 ];

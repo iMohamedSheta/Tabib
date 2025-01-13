@@ -5,7 +5,6 @@ namespace App\DTOs\Patient;
 use App\Formatters\AgeFormatter;
 use App\Generators\PUIDGenerator;
 use App\Models\Patient;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class CreatePatientDTO

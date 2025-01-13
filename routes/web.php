@@ -12,7 +12,6 @@
 
 use App\Enums\Exceptions\ExceptionCodeEnum;
 use App\Enums\User\UserRoleEnum;
-use App\Exceptions\BackupExceptions\HasNoValidBackupFileException;
 use App\Generators\ClinicCodeGenerator;
 // use App\Exceptions\Test\TestException;
 use App\Generators\PUIDGenerator;
@@ -126,8 +125,9 @@ Route::get('/test-google-drive', function () {
         $readableBackupTime = $lastModifiedTime->diffForHumans();
 
         dd($backupIsStale, $readableBackupTime);
+
         return 'File uploaded successfully!';
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         return 'Error: ' . $e->getMessage();
     }
 });

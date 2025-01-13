@@ -2,7 +2,6 @@
 
 namespace App\Formatters;
 
-use App\Enums\Helpers\HelperEnum;
 use Carbon\Carbon;
 
 class AgeFormatter
@@ -23,8 +22,8 @@ class AgeFormatter
         }
 
         return match (true) {
-            $age === 1 => __('helpers.age.year'), // سنة
-            $age === 2 => __('helpers.age.two_years'), // سنتين
+            1 === $age => __('helpers.age.year'), // سنة
+            2 === $age => __('helpers.age.two_years'), // سنتين
             $age >= 3 && $age <= 10 => $age . ' ' . __('helpers.age.years'), // 10 سنين
             default => $age . ' ' . __('helpers.age.year'), // 11 سنة
         };
