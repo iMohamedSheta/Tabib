@@ -9,6 +9,31 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 #[ScopedBy(OrganizationScope::class)]
+/**
+ * 
+ *
+ * @property int $id
+ * @property int|null $organization_id
+ * @property int $user_id
+ * @property string $type
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Clinic|null $clinic
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Clinic> $subClinics
+ * @property-read int|null $sub_clinics_count
+ * @property-read \App\Models\User|null $user
+ * @method static \Database\Factories\ClinicAdminFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ClinicAdmin newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ClinicAdmin newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ClinicAdmin query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ClinicAdmin whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ClinicAdmin whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ClinicAdmin whereOrganizationId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ClinicAdmin whereType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ClinicAdmin whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ClinicAdmin whereUserId($value)
+ * @mixin \Eloquent
+ */
 class ClinicAdmin extends Model implements UserRoleModelInterface
 {
     use HasFactory;

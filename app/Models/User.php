@@ -14,6 +14,81 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
+/**
+ * 
+ *
+ * @property int $id
+ * @property int|null $organization_id
+ * @property string $first_name
+ * @property string $last_name
+ * @property string|null $username
+ * @property string|null $email
+ * @property string|null $password
+ * @property string|null $two_factor_secret
+ * @property string|null $two_factor_recovery_codes
+ * @property string|null $two_factor_confirmed_at
+ * @property int $is_active
+ * @property string $role
+ * @property int|null $role_id
+ * @property string $last_connect
+ * @property string|null $phone
+ * @property string|null $other_phone
+ * @property \Illuminate\Support\Carbon|null $email_verified_at
+ * @property string|null $profile_photo_path
+ * @property string|null $oauth_id
+ * @property string|null $oauth_provider
+ * @property string|null $oauth_token
+ * @property int|null $oauth_token_expires_in
+ * @property string|null $oauth_scopes
+ * @property string|null $remember_token
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\ClinicAdmin|null $clinicAdmin
+ * @property-read \App\Models\Doctor|null $doctor
+ * @property-read \App\Models\Manager|null $manager
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection<int, \Spatie\MediaLibrary\MediaCollections\Models\Media> $media
+ * @property-read int|null $media_count
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
+ * @property-read int|null $notifications_count
+ * @property-read \App\Models\Organization|null $organization
+ * @property-read \App\Models\Patient|null $patient
+ * @property-read string $profile_photo_url
+ * @property-read \App\Models\Receptionist|null $receptionist
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
+ * @property-read int|null $tokens_count
+ * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User likeIn(array $fields, $value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereEmailVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereFirstName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereIsActive($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereLastConnect($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereLastName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereOauthId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereOauthProvider($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereOauthScopes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereOauthToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereOauthTokenExpiresIn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereOrganizationId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereOtherPhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePhone($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereProfilePhotoPath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRole($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRoleId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTwoFactorConfirmedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTwoFactorRecoveryCodes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTwoFactorSecret($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUsername($value)
+ * @mixin \Eloquent
+ */
 class User extends Authenticatable implements HasMedia
 {
     use HasApiTokens;

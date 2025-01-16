@@ -6,6 +6,35 @@ use App\Services\Organization\OrganizationSetupService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * 
+ *
+ * @property int $id
+ * @property string $billing_code
+ * @property string $name
+ * @property string|null $logo
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ClinicAdmin> $clinicAdmins
+ * @property-read int|null $clinic_admins_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\ClinicService> $clinicServices
+ * @property-read int|null $clinic_services_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Clinic> $clinics
+ * @property-read int|null $clinics_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\User> $users
+ * @property-read int|null $users_count
+ * @method static \Database\Factories\OrganizationFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Organization newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Organization newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Organization query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Organization whereBillingCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Organization whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Organization whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Organization whereLogo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Organization whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Organization whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Organization extends Model
 {
     use HasFactory;

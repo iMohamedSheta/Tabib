@@ -58,6 +58,7 @@ parameters:
         -'#^PHPDoc type array\<int, string\> of property App\\Models\\User\:\:\$appends is not covariant with PHPDoc type list\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$appends\.$#'
         -'#^PHPDoc type array\<int, string\> of property App\\Models\\User\:\:\$hidden is not covariant with PHPDoc type list\<string\> of overridden property Illuminate\\Database\\Eloquent\\Model\:\:\$hidden\.$#'
         -'#^Class Spatie\\MediaLibraryPro\\Models\\TemporaryUpload not found\.$#'
+        -'#^Access to an undefined property App\\Models\\Patient\:\:\$user\.$#'
         # ignore this error 
         - '#^Unsafe usage of new static\(\)\.$#'
 
