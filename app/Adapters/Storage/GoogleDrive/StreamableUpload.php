@@ -42,7 +42,7 @@ class StreamableUpload
     public const UPLOAD_MULTIPART_TYPE = 'multipart';
     public const UPLOAD_RESUMABLE_TYPE = 'resumable';
 
-    private readonly ?\Psr\Http\Message\StreamInterface $data;
+    private readonly ?StreamInterface $data;
 
     /** @var int */
     private $chunkSize;
@@ -76,7 +76,7 @@ class StreamableUpload
      */
     public function __construct(
         private $client,
-        private \Psr\Http\Message\RequestInterface $request,
+        private RequestInterface $request,
         private $mimeType,
         $data,
         private $resumable = false,
@@ -84,7 +84,7 @@ class StreamableUpload
     ) {
         $this->data = null !== $data ? Utils::streamFor($data) : null;
         $this->chunkSize = is_bool($chunkSize) ? 0 : $chunkSize;
-        if ($this->data instanceof \Psr\Http\Message\StreamInterface) {
+        if ($this->data instanceof StreamInterface) {
             $size = $this->data->getSize();
             if (null !== $size) {
                 $this->size = $size;
@@ -296,7 +296,6 @@ class StreamableUpload
      * - resumable (UPLOAD_RESUMABLE_TYPE)
      * - media (UPLOAD_MEDIA_TYPE)
      * - multipart (UPLOAD_MULTIPART_TYPE)
-     *
      *
      * @visible for testing
      */

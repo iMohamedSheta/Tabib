@@ -103,7 +103,7 @@ Route::get('/test-google-drive', function (): false|string {
                 $fileModifiedTime = Carbon::parse($file->lastModified());
 
                 // Identify the most recently modified file
-                if (!$latestBackupTime instanceof \Carbon\Carbon || $fileModifiedTime->greaterThan($latestBackupTime)) {
+                if (!$latestBackupTime instanceof Carbon || $fileModifiedTime->greaterThan($latestBackupTime)) {
                     $latestBackupTime = $fileModifiedTime;
                     $latestBackupFile = $file;
                 }
