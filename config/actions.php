@@ -4,5 +4,5 @@ return [
     'update',
     'create',
     'read',
-    'delete'
+    'delete',
 ];

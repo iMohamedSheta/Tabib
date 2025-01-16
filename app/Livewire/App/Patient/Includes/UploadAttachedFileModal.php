@@ -21,10 +21,11 @@ class UploadAttachedFileModal extends Component
         $this->originalFileName = $uploadedFile->getClientOriginalName();
         $this->render();
     }
+
     public function render()
     {
         return view('livewire.app.patient.includes.upload-attached-file-modal', [
-            'show' => $this->show
+            'show' => $this->show,
         ]);
     }
 }
