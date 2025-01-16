@@ -3,7 +3,7 @@
     use App\Formatters\AgeFormatter;
 @endphp
 <div>
-    <p class="px-4 py-8">
+    <p class="px-4 pb-6">
         السجل الطبي للمريض يمكن من خلاله رؤية سجلات المريض الشخصية
     </p>
     <div class="flex flex-wrap">

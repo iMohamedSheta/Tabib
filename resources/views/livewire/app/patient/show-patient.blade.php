@@ -28,7 +28,8 @@
     </x-main.head>
     <div
         class="relative bg-purple-200 text-gray-700 dark:bg-c-gray-800 dark:text-white font-bold p-6 rounded-lg shadow-xl">
-        <x-tabs.tab-list selected-tab="medical_records">
+        {{-- <x-tabs.tab-list selected-tab="medical_records"> --}}
+        <x-tabs.tab-list selected-tab="attached_files">
             <x-slot name="tabs">
                 @foreach (config('patient.view.show-patient.tabs') as $tabKey => $tab)
                     <x-tabs.tab-head :name="$tabKey">
@@ -39,9 +40,11 @@
             </x-slot>
             @foreach (config('patient.view.show-patient.tabs') as $tabKey => $tab)
                 <x-tabs.tab :name="$tabKey">
-                    @if (isset($tab['file']))
-                        @include($tab['file'])
-                    @endif
+                    <div class="my-6 mx-4 p-6 border border-gray-600 border-dashed rounded-xl">
+                        @if (isset($tab['file']))
+                            @include($tab['file'])
+                        @endif
+                    </div>
                 </x-tabs.tab>
             @endforeach
         </x-tabs.tab-list>

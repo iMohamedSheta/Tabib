@@ -61,7 +61,7 @@
 
                             <div x-data="deleteData">
                                 <x-datatable.tdata.link href="#"
-                                    x-on:click="confirmedDelete('{{ $patient->first_name }}', '{{ $patient->id }}')"
+                                    x-on:click="confirmedDelete('{{ $patient->first_name }}', '{{ $patient->patient_id }}')"
                                     class="bg-red-500 hover:bg-red-600 dark:hover:bg-red-600  text-white hover:text-white">
                                     <i class="fa-solid fa-trash fa-lg px-2"></i>
                                     حذف

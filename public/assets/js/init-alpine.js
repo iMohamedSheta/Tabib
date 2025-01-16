@@ -88,7 +88,7 @@ function fileUpload() {
     return {
         imagePreview: null,
         isDragging: false,
-
+        fileName: null,
         showPreview(event) {
             const file = event.target.files[0];
             this.setImagePreview(file);
@@ -101,9 +101,14 @@ function fileUpload() {
         },
 
         setImagePreview(file) {
-            if (file && file.type.startsWith('image/')) {
-                this.imagePreview = URL.createObjectURL(file);
-            }
+            if (file) {
+              this.fileName = file.name;
+              if (file.type.startsWith('image/')) {
+                  this.imagePreview = URL.createObjectURL(file);
+              } else {
+                  this.imagePreview = null;
+              }
+          }
         }
     };
 }

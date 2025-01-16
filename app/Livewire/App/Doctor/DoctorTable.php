@@ -33,7 +33,7 @@ class DoctorTable extends Component
         return Clinic::list();
     }
 
-    public function deleteDoctorAction($id): void
+    public function deleteDoctorAction(int $id): void
     {
         try {
             $actionResponse = (new DeleteDoctorAction())->handle(

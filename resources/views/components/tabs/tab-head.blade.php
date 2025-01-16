@@ -7,7 +7,4 @@
     class="flex h-min items-center gap-2 px-4 py-4  text-sm" type="button" role="tab"
     aria-controls="tab-panel-{{ $name }}">
     {{ $slot }}
-    @if ($errors->any())
-        <i class="fa fa-triangle-exclamation fa-xl text-red-500 "></i>
-    @endif
 </button>

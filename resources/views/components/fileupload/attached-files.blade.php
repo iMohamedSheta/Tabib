@@ -1,6 +1,6 @@
 @props([
     'withError' => false,
-    'defaultImage' => 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y',
+    'defaultImage' => asset('images/patients/upload.png'),
 ])
 
 <div x-data="fileUpload()" class="mt-4 w-full px-2">
@@ -19,24 +19,30 @@
                 </template>
 
                 <h2 class="text-center text-gray-400 text-xs font-light leading-4">
-                    PNG, JPG, JPEG, اصغر من 2MB
+                    اصغر من 20MB
                 </h2>
             </div>
 
             <div class="grid gap-2">
                 <h4 class="text-center text-gray-900 text-sm font-medium leading-snug">
-                    اسحب وادرج الصورة هنا او اضغط
+                    اسحب وادرج الملف هنا او اضغط
                 </h4>
+                <div class="flex items-center justify-center" x-show="fileName != null">
+                    <h6 class="text-gray-50 py-2 px-4  bg-c-gray-700 rounded-lg">
+                        <span x-text="fileName"></span>
+                    </h6>
+                </div>
                 <div class="flex items-center justify-center">
                     <label>
                         <input type="file" {{ $attributes->except('class') }} hidden x-ref="fileInput"
                             @change="showPreview">
                         <div
-                            class="flex w-32 h-9 px-2 flex-col bg-purple-600 rounded-full shadow text-white text-xs font-semibold leading-4 items-center justify-center cursor-pointer focus:outline-none">
-                            اختيار صورة شخصية
+                            class="flex w-40 h-9 px-2 flex-col bg-purple-600 rounded-full shadow text-white text-xs font-semibold leading-4 items-center justify-center cursor-pointer focus:outline-none">
+                            رفع ملف ملحق بالمريض
                         </div>
                     </label>
                 </div>
+
                 @if ($withError)
                     @error($withError)
                         <div class="flex items-center justify-center text-center">

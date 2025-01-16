@@ -64,20 +64,39 @@ return [
 
     'temporary_file_upload' => [
         'disk' => 'livewire_tmp',        // Example: 'local', 's3'              | Default: 'default'
-        'rules' => ['required', 'file', 'max:2048', 'mimes:jpg,jpeg,png'],       // Example: ['file', 'mimes:png,jpg']  | Default: ['required', 'file', 'max:12288'] (12MB)
+        'rules' => [
+            'required',
+            'file',
+            'max:20480',
+            'mimes:pdf,doc,docx,xls,xlsx,png,jpg,jpeg,gif,bmp,svg,webp,txt,zip,rar,csv,json,xml,mp3,wav,m4a,wma,mp4,mov,avi,wmv,mpga'
+        ],       // Example: ['file', 'mimes:png,jpg']  | Default: ['required', 'file', 'max:12288'] (12MB)
         'directory' => '/',   // Example: 'tmp'                      | Default: 'livewire-tmp'
         'middleware' => null,  // Example: 'throttle:5,1'             | Default: 'throttle:60,1'
-        // 'preview_mimes' => [   // Supported file types for temporary pre-signed file URLs...
-        //     'png', 'gif', 'bmp', 'svg', 'wav', 'mp4',
-        //     'mov', 'avi', 'wmv', 'mp3', 'm4a',
-        //     'jpg', 'jpeg', 'mpga', 'webp', 'wma',
-        // ],
-        'preview_mimes' => [
+        'preview_mimes' => [   // Supported file types for temporary pre-signed file URLs...
             'png',
+            'gif',
+            'bmp',
+            'svg',
+            'wav',
+            'mp4',
+            'mov',
+            'avi',
+            'wmv',
+            'mp3',
+            'm4a',
             'jpg',
             'jpeg',
+            'mpga',
+            'webp',
+            'wma',
+            'pdf',
+            'doc',
+            'docx',
+            'xls',
+            'xlsx',
+            'txt',
         ],
-        'max_upload_time' => 1, // Max duration (in minutes) before an upload is invalidated...
+        'max_upload_time' => 5, // Max duration (in minutes) before an upload is invalidated...
         'cleanup' => true, // Should cleanup temporary uploads older than 24 hrs...
     ],
 
