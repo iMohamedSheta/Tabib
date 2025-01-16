@@ -24,10 +24,10 @@ class GoogleDriveServiceProvider extends ServiceProvider
         $this->loadGoogleStorageDriver();
     }
 
-    private function loadGoogleStorageDriver(string $driverName = 'google')
+    private function loadGoogleStorageDriver(string $driverName = 'google'): void
     {
         try {
-            Storage::extend($driverName, function ($app, $config) {
+            Storage::extend($driverName, function ($app, $config): \Illuminate\Filesystem\FilesystemAdapter {
                 $options = [];
 
                 if (!empty($config['teamDriveId'] ?? null)) {

@@ -89,7 +89,7 @@ Route::get('check-2', fn (): string => ClinicCodeGenerator::generate());
 //     dd($fileContent);
 // });
 
-Route::get('/test-google-drive', function () {
+Route::get('/test-google-drive', function (): false|string {
     try {
         $minimumBackupInterval = 3600; // seconds
 
@@ -103,7 +103,7 @@ Route::get('/test-google-drive', function () {
                 $fileModifiedTime = Carbon::parse($file->lastModified());
 
                 // Identify the most recently modified file
-                if (!$latestBackupTime || $fileModifiedTime->greaterThan($latestBackupTime)) {
+                if (!$latestBackupTime instanceof \Carbon\Carbon || $fileModifiedTime->greaterThan($latestBackupTime)) {
                     $latestBackupTime = $fileModifiedTime;
                     $latestBackupFile = $file;
                 }

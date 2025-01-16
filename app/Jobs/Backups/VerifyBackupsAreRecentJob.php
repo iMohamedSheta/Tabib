@@ -18,13 +18,6 @@ class VerifyBackupsAreRecentJob implements ShouldQueue
     protected $latestBackupTime;
 
     /**
-     * Create a new job instance.
-     */
-    public function __construct()
-    {
-    }
-
-    /**
      * Execute the job.
      */
     public function handle(): void
@@ -51,9 +44,7 @@ class VerifyBackupsAreRecentJob implements ShouldQueue
             if ($this->isBackupStale()) {
                 // TODO Dispatch Notification
             }
-        } catch (HasNoValidBackupFileException $e) {
-            log_error($e);
-        } catch (\Exception $e) {
+        } catch (HasNoValidBackupFileException|\Exception $e) {
             log_error($e);
         }
     }

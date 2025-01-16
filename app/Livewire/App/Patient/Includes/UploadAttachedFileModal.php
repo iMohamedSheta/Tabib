@@ -11,12 +11,12 @@ class UploadAttachedFileModal extends Component
 {
     use WithFileUploads;
 
-    private $show = 'showUploadAttachedFileModal';
+    private string $show = 'showUploadAttachedFileModal';
 
     public $uploadedAttachedFile;
     public $originalFileName;
 
-    public function updatedUploadedAttachedFile($uploadedFile)
+    public function updatedUploadedAttachedFile($uploadedFile): void
     {
         $this->originalFileName = $uploadedFile->getClientOriginalName();
         $this->render();
