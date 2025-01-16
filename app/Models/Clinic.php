@@ -9,29 +9,28 @@ use Illuminate\Database\Eloquent\Model;
 
 #[ScopedBy(OrganizationScope::class)]
 /**
- * 
+ * @property int                                                   $id
+ * @property int|null                                              $organization_id
+ * @property int                                                   $level
+ * @property string                                                $code
+ * @property string                                                $name
+ * @property int                                                   $type
+ * @property string                                                $status
+ * @property int                                                   $plan_id
+ * @property string|null                                           $location
+ * @property string|null                                           $lease_expired_at
+ * @property string|null                                           $lease_started_at
+ * @property int|null                                              $sub_clinic_admin_id
+ * @property int|null                                              $parent_clinic_id
+ * @property string|null                                           $deleted_at
+ * @property \Illuminate\Support\Carbon|null                       $created_at
+ * @property \Illuminate\Support\Carbon|null                       $updated_at
+ * @property Organization|null                                     $organization
+ * @property Clinic|null                                           $parentClinic
+ * @property \Illuminate\Database\Eloquent\Collection<int, Clinic> $subClinics
+ * @property int|null                                              $sub_clinics_count
  *
- * @property int $id
- * @property int|null $organization_id
- * @property int $level
- * @property string $code
- * @property string $name
- * @property int $type
- * @property string $status
- * @property int $plan_id
- * @property string|null $location
- * @property string|null $lease_expired_at
- * @property string|null $lease_started_at
- * @property int|null $sub_clinic_admin_id
- * @property int|null $parent_clinic_id
- * @property string|null $deleted_at
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Organization|null $organization
- * @property-read Clinic|null $parentClinic
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Clinic> $subClinics
- * @property-read int|null $sub_clinics_count
- * @method static \Database\Factories\ClinicFactory factory($count = null, $state = [])
+ * @method static \Database\Factories\ClinicFactory                    factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Clinic newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Clinic newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Clinic query()
@@ -51,6 +50,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Clinic whereSubClinicAdminId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Clinic whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Clinic whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class Clinic extends Model

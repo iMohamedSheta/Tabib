@@ -11,25 +11,24 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 #[ScopedBy(OrganizationScope::class)]
 /**
- * 
- *
- * @property int $id
- * @property int|null $organization_id
- * @property int $user_id
- * @property string $specialization
- * @property string|null $license_number
- * @property string|null $qualifications
- * @property string|null $clinics
- * @property string|null $available_days
- * @property string|null $start_time
- * @property string|null $end_time
- * @property string|null $telehealth_phone
- * @property string|null $notes
+ * @property int                             $id
+ * @property int|null                        $organization_id
+ * @property int                             $user_id
+ * @property string                          $specialization
+ * @property string|null                     $license_number
+ * @property string|null                     $qualifications
+ * @property string|null                     $clinics
+ * @property string|null                     $available_days
+ * @property string|null                     $start_time
+ * @property string|null                     $end_time
+ * @property string|null                     $telehealth_phone
+ * @property string|null                     $notes
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Clinic|null $clinic
- * @property-read \App\Models\User|null $user
- * @method static \Database\Factories\DoctorFactory factory($count = null, $state = [])
+ * @property Clinic|null                     $clinic
+ * @property User|null                       $user
+ *
+ * @method static \Database\Factories\DoctorFactory                    factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Doctor newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Doctor newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Doctor query()
@@ -47,6 +46,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Doctor whereTelehealthPhone($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Doctor whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Doctor whereUserId($value)
+ *
  * @mixin \Eloquent
  */
 class Doctor extends Model implements UserRoleModelInterface

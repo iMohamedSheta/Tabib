@@ -9,34 +9,33 @@ use Illuminate\Database\Eloquent\Model;
 
 #[ScopedBy(OrganizationScope::class)]
 /**
- * 
- *
- * @property int $id
- * @property int|null $organization_id
- * @property string $puid
- * @property int $user_id
- * @property int $clinic_id
- * @property int $age
- * @property string $birth_date
- * @property string $gender
- * @property int|null $nationality
- * @property string|null $address
- * @property string|null $allergies
- * @property string|null $notes
- * @property string|null $family_medical_history
- * @property string|null $chronic_diseases
- * @property string|null $national_card_id
- * @property string|null $blood_type
- * @property int|null $height
- * @property string|null $marital_status
- * @property string|null $occupation
- * @property string|null $insurance_number
- * @property string|null $insurance_provider
- * @property string|null $deleted_at
+ * @property int                             $id
+ * @property int|null                        $organization_id
+ * @property string                          $puid
+ * @property int                             $user_id
+ * @property int                             $clinic_id
+ * @property int                             $age
+ * @property string                          $birth_date
+ * @property string                          $gender
+ * @property int|null                        $nationality
+ * @property string|null                     $address
+ * @property string|null                     $allergies
+ * @property string|null                     $notes
+ * @property string|null                     $family_medical_history
+ * @property string|null                     $chronic_diseases
+ * @property string|null                     $national_card_id
+ * @property string|null                     $blood_type
+ * @property int|null                        $height
+ * @property string|null                     $marital_status
+ * @property string|null                     $occupation
+ * @property string|null                     $insurance_number
+ * @property string|null                     $insurance_provider
+ * @property string|null                     $deleted_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Clinic|null $clinic
- * @property-read \App\Models\User|null $user
+ * @property Clinic|null                     $clinic
+ * @property User|null                       $user
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Patient newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Patient newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Patient query()
@@ -64,6 +63,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Patient wherePuid($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Patient whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Patient whereUserId($value)
+ *
  * @mixin \Eloquent
  */
 class Patient extends Model

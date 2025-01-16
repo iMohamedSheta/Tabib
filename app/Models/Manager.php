@@ -7,14 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 
- *
- * @property int $id
- * @property int|null $organization_id
- * @property string $type
+ * @property int                             $id
+ * @property int|null                        $organization_id
+ * @property string                          $type
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\User|null $user
+ * @property User|null                       $user
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Manager newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Manager newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Manager query()
@@ -23,6 +22,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Manager whereOrganizationId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Manager whereType($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Manager whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class Manager extends Model implements UserRoleModelInterface

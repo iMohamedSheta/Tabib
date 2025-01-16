@@ -9,17 +9,16 @@ use Illuminate\Database\Eloquent\Model;
 
 #[ScopedBy(OrganizationScope::class)]
 /**
- * 
- *
- * @property int $id
- * @property int $organization_id
- * @property int|null $clinic_id
- * @property string $name
- * @property string $price
- * @property string|null $description
- * @property string|null $color
+ * @property int                             $id
+ * @property int                             $organization_id
+ * @property int|null                        $clinic_id
+ * @property string                          $name
+ * @property string                          $price
+ * @property string|null                     $description
+ * @property string|null                     $color
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ClinicService newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ClinicService newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ClinicService query()
@@ -32,6 +31,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ClinicService whereOrganizationId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ClinicService wherePrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ClinicService whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class ClinicService extends Model
