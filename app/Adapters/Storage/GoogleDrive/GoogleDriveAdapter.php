@@ -202,10 +202,8 @@ class GoogleDriveAdapter implements FilesystemAdapter
 
     /**
      * Cache of file objects.
-     *
-     * @var array
      */
-    private $cacheFileObjects = [];
+    private array $cacheFileObjects = [];
 
     /**
      * Cache of hasDir.
@@ -769,7 +767,7 @@ class GoogleDriveAdapter implements FilesystemAdapter
         }
 
         $folder = $this->createDir($name, '' !== $pdir ? basename((string) $pdir) : $pdir);
-        if (null !== $folder) {
+        if ($folder instanceof DriveFile) {
             $itemId = $folder->getId();
             $this->cacheFileObjects[$itemId] = $folder;
             $this->cacheHasDirs[$itemId] = false;
@@ -929,7 +927,7 @@ class GoogleDriveAdapter implements FilesystemAdapter
         $path = $this->prefixer->prefixPath($directory);
         if ($this->useDisplayPaths) {
             $time = microtime(true);
-            $vp = $this->toVirtualPath($path ?: '');
+            $vp = $this->toVirtualPath('' !== $path && '0' !== $path ? $path : '');
             $elapsed = (microtime(true) - $time) * 1000.0;
             if (!is_array($vp)) {
                 $vp = [$vp];
@@ -955,7 +953,7 @@ class GoogleDriveAdapter implements FilesystemAdapter
      *
      * @param string $path itemId path
      */
-    public function getMetadata(string $path)
+    public function getMetadata(string $path): FileAttributes|DirectoryAttributes|false|null
     {
         if ($this->useDisplayPaths) {
             $path = $this->toVirtualPath($path, true, true);
@@ -1538,7 +1536,7 @@ class GoogleDriveAdapter implements FilesystemAdapter
      *
      * @return \League\Flysystem\StorageAttributes|false item info
      */
-    protected function upload($path, $contents, Config $config, $updating = null)
+    protected function upload($path, $contents, Config $config, $updating = null): FileAttributes|DirectoryAttributes|false|null
     {
         $this->refreshToken();
         [$parentId, $fileName] = $this->splitPath($path);
@@ -1560,7 +1558,7 @@ class GoogleDriveAdapter implements FilesystemAdapter
 
         if (!$mime) {
             $mime = self::guessMimeType($fileName, is_string($contents) ? $contents : '');
-            if (empty($mime)) {
+            if ('' === $mime || '0' === $mime) {
                 $mime = 'application/octet-stream';
             }
         }
@@ -1799,7 +1797,7 @@ class GoogleDriveAdapter implements FilesystemAdapter
         if ($this->useDisplayPaths) {
             try {
                 $path_id = $this->getCachedPathId($path);
-                if (is_array($path_id) && !empty($path_id[0] ?? null)) {
+                if (!empty($path_id[0] ?? null)) {
                     $this->uncacheId($path_id[0]);
                 }
             } catch (UnableToReadFile) {
@@ -1947,7 +1945,7 @@ class GoogleDriveAdapter implements FilesystemAdapter
         $nextItemId = $parentItemId;
         for ($count = count($indices); $i < $indices; $i++) {
             $token = $this->getToken($displayPath, $i, $indices);
-            if (empty($token) && '0' !== $token) {
+            if (('' === $token || '0' === $token) && '0' !== $token) {
                 return;
             }
             $basePath = $this->getPathToIndex($displayPath, $i - 2, $indices);
@@ -2218,7 +2216,7 @@ class GoogleDriveAdapter implements FilesystemAdapter
             }
 
             $this->createDirectory($subdir, new Config());
-            if (!$this->hasDir($subdir)) {
+            if ([] === $this->hasDir($subdir)) {
                 if ($can_throw) {
                     throw $e;
                 }

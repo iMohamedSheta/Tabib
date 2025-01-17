@@ -8,7 +8,7 @@
             {{ $patient->user->first_name . ' ' . $patient->user->last_name }}
         </x-slot>
         <x-slot name="body">
-            <div class="text-gray-300 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <div class="text-purple-200 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                 <dt class="text-sm/6 font-medium ">
                     رقم الهاتف :
                 </dt>
@@ -16,20 +16,20 @@
                     {{ $patient->user->phone }}
                 </dd>
             </div>
-            <div class="text-gray-300 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            <div class="text-purple-200 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                 <dt class="text-sm/6 font-medium ">
                     رقم الهاتف الاضافي :
                 </dt>
                 <dd class=" text-sm/6 sm:col-span-2 sm:mt-0">
-                    {{ $patient->user->other_phone ?? HelperEnum::NOT_AVAILABLE->label() }}
+                    {{ $patient->user->other_phone ?: HelperEnum::NOT_AVAILABLE->label() }}
                 </dd>
             </div>
         </x-slot>
     </x-main.head>
     <div
         class="relative bg-purple-200 text-gray-700 dark:bg-c-gray-800 dark:text-white font-bold p-6 rounded-lg shadow-xl">
-        {{-- <x-tabs.tab-list selected-tab="medical_records"> --}}
-        <x-tabs.tab-list selected-tab="attached_files">
+        <x-tabs.tab-list selected-tab="medical_records">
+            {{-- <x-tabs.tab-list selected-tab="attached_files"> --}}
             <x-slot name="tabs">
                 @foreach (config('patient.view.show-patient.tabs') as $tabKey => $tab)
                     <x-tabs.tab-head :name="$tabKey">

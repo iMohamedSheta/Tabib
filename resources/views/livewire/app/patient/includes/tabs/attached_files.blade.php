@@ -28,31 +28,33 @@
                     </button>
                 </div>
                 <div class="inline-flex justify-center align-items-center">
-                    <livewire:app.patient.includes.upload-attached-file-modal></livewire:app.patient.includes.upload-attached-file-modal>
+                    <livewire:app.patient.includes.upload-attached-file-modal
+                        :patient="$patient"></livewire:app.patient.includes.upload-attached-file-modal>
                 </div>
             </div>
             <div>
                 <span>
-                    5
-                    نتائج
+                    {{ $mediaItemsTotal }}
+                    ملف ملحق بالمريض
                 </span>
             </div>
         </div>
 
-        @if (!$patient->user->media->isEmpty())
-            <p class="text-red-500 text-sm text-center">
-                لا توجد ملفات ملحقة.
-            </p>
-        @else
+        @if ($mediaItemsTotal > 0)
             <ul>
-                <div :class="isViewGrid() ? 'flex' : 'block'">
-                    @foreach ([1, 2] as $file)
+                <div :class="isViewGrid() ? 'flex flex-wrap justify-center items-center' : 'block'">
+                    @foreach ($mediaItems as $media)
                         <div class="p-4">
-                            <x-files.file></x-files.file>
+                            <x-files.file :media="$media" :src="$media->temporaryUrl"></x-files.file>
                         </div>
                     @endforeach
                 </div>
             </ul>
+            <x-datatable.pagination :paginator="$mediaItems"></x-datatable.pagination>
+        @else
+            <p class="text-red-500 text-sm text-center p-8">
+                لا توجد ملفات ملحقة.
+            </p>
         @endif
     </div>
 </div>

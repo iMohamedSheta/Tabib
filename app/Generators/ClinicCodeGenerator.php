@@ -3,10 +3,13 @@
 namespace App\Generators;
 
 use App\Generators\base\Generator;
+use App\Traits\Generators\GenerateUniqueCodeTrait;
 use Illuminate\Support\Facades\DB;
 
 class ClinicCodeGenerator extends Generator
 {
+    use GenerateUniqueCodeTrait;
+
     /**
      * Generate a unique clinic code.
      *

@@ -18,13 +18,16 @@ use App\Generators\PUIDGenerator;
 use App\Http\Controllers\Auth\Socialite\FacebookSocialiteController;
 use App\Http\Controllers\Auth\Socialite\GoogleSocialiteController;
 use App\Http\Controllers\PWA\LaravelPWAController;
+use App\Http\Controllers\Storage\PrivateStorageController;
 use App\Models\Patient;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use League\Flysystem\FileAttributes;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 // Home
 Route::get('/', function () {
@@ -49,7 +52,7 @@ Route::get('/auth/google/callback', [GoogleSocialiteController::class, 'callback
 Route::get('/auth/facebook/redirect', [FacebookSocialiteController::class, 'redirect'])->name('socialite.facebook.redirect');
 Route::get('/auth/facebook/callback', [FacebookSocialiteController::class, 'callback']);
 
-Route::get('welcome', fn () => view('welcome'));
+Route::get('welcome', fn() => view('welcome'));
 
 // Test Routes
 Route::get('test', function () {
@@ -59,7 +62,7 @@ Route::get('test', function () {
     return to_route('register');
 });
 
-Route::get('speed', fn (): array => speedTest(fn () => DB::table('users')
+Route::get('speed', fn(): array => speedTest(fn() => DB::table('users')
     ->where('role', Patient::class)
     ->where(function ($query): void {
         $query->likeIn(['first_name', 'last_name', 'phone', 'other_phone'], 'i');
@@ -80,8 +83,8 @@ Route::view('testx', 'welcome');
 //     dd($code->getLink());
 // })->name('docs.exceptions');
 
-Route::get('check', fn (): string => PUIDGenerator::generate());
-Route::get('check-2', fn (): string => ClinicCodeGenerator::generate());
+Route::get('check', fn(): string => PUIDGenerator::generate());
+Route::get('check-2', fn(): string => ClinicCodeGenerator::generate());
 
 // Route::get('test', function () {
 //     $yamlFile = base_path('.github/workflows/tabib_pushflow.yml');
@@ -130,3 +133,13 @@ Route::get('/test-google-drive', function (): false|string {
         return 'Error: ' . $e->getMessage();
     }
 });
+
+Route::name('storage.private.tmp.')
+    ->prefix('tmp/storage/private/')
+    ->middleware('signed')
+    ->group(function () {
+        Route::get('/media/{targetUser}/{media}', [PrivateStorageController::class, 'showMedia'])->name('media');
+
+
+        Route::get('profile_picture/{profilePhotoPath}', [PrivateStorageController::class, 'showProfilePicture'])->name('profile_picture');
+    });

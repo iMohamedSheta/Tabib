@@ -67,7 +67,7 @@ return [
         'rules' => [
             'required',
             'file',
-            'max:20480',
+            'max:10240',
             'mimes:pdf,doc,docx,xls,xlsx,png,jpg,jpeg,gif,bmp,svg,webp,txt,zip,rar,csv,json,xml,mp3,wav,m4a,wma,mp4,mov,avi,wmv,mpga',
         ],       // Example: ['file', 'mimes:png,jpg']  | Default: ['required', 'file', 'max:12288'] (12MB)
         'directory' => '/',   // Example: 'tmp'                      | Default: 'livewire-tmp'

@@ -54,31 +54,36 @@ return [
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
         ],
-        'profile_images' => [
+
+        'profile_images' => [ // Need to be in the private visibility and private root folder
             'driver' => 'local',
-            'root' => storage_path('app/public/profile_images'),
-            'url' => env('APP_URL') . '/storage/profile_images',
-            'visibility' => 'public',
+            'root' => storage_path('app/private/profile_images'),
+            'url' => env('APP_URL') . '/storage/private/profile_images',
+            'visibility' => 'private',
         ],
+
         'livewire_tmp' => [
             'driver' => 'local',
             'root' => storage_path('app/private/livewire_tmp'),
             'serve' => true,
             'throw' => false,
         ],
+
         'media' => [
             'driver' => 'local',
-            'root' => public_path('media'),
-            'url' => env('APP_URL') . '/media',
-            'visibility' => 'public',
+            'root' => storage_path('app/private/media'),
+            'url' => env('APP_URL') . '/storage/private/media',
+            'visibility' => 'private',
             'throw' => false,
         ],
+
         'backups' => [
             'driver' => 'local',
             'root' => storage_path('backups/') . env('APP_NAME', 'laravel-backup') . '_backups',
             'serve' => true,
             'throw' => false,
         ],
+
         'google' => [
             'driver' => 'google',
             'clientId' => env('GOOGLE_DRIVE_CLIENT_ID', ''),

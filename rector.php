@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
+use Rector\Strict\Rector\Empty_\DisallowedEmptyRuleFixerRector;
 use Rector\TypeDeclaration\Rector\Property\TypedPropertyFromStrictConstructorRector;
 
 return RectorConfig::configure()
@@ -16,10 +17,11 @@ return RectorConfig::configure()
         __DIR__ . '/routes',
         __DIR__ . '/tests',
     ])
-    // uncomment to reach your current PHP version
-    // ->withPhpSets()
     ->withRules([
         TypedPropertyFromStrictConstructorRector::class,
+    ])
+    ->withSkip([
+        DisallowedEmptyRuleFixerRector::class,
     ])
     ->withPreparedSets(
         deadCode: true,
@@ -30,6 +32,3 @@ return RectorConfig::configure()
         strictBooleans: true,
     )
     ->withPhpSets();
-// ->withTypeCoverageLevel(0)
-// ->withDeadCodeLevel(0)
-// ->withCodeQualityLevel(0);

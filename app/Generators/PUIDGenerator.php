@@ -3,10 +3,13 @@
 namespace App\Generators;
 
 use App\Generators\base\Generator;
+use App\Traits\Generators\GenerateUniqueCodeTrait;
 use Illuminate\Support\Facades\DB;
 
 class PUIDGenerator extends Generator
 {
+    use GenerateUniqueCodeTrait;
+
     /**
      * Generate a unique Patient User ID.
      *
