@@ -4,9 +4,6 @@ namespace App\Services\User;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
-use Log;
-
-use function Illuminate\Log\log;
 
 class GetProfilePhotoUrlService
 {
@@ -40,7 +37,7 @@ class GetProfilePhotoUrlService
     {
         $useName = $username ?? $first_name ?? 'X';
 
-        $name = trim(collect(explode(' ', (string) $useName))->map(fn($segment): string => mb_substr($segment, 0, 1))->join(' '));
+        $name = trim(collect(explode(' ', (string) $useName))->map(fn ($segment): string => mb_substr($segment, 0, 1))->join(' '));
 
         return 'https://ui-avatars.com/api/?name=' . urlencode($name) . '&color=7F9CF5&background=EBF4FF';
     }

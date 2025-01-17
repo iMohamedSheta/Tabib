@@ -6,9 +6,7 @@ namespace App\Http\Controllers\Storage;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use Storage;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class PrivateStorageController extends Controller
@@ -39,7 +37,7 @@ class PrivateStorageController extends Controller
             abort(403, 'Unauthorized access');
         }
 
-        $disk = Storage::disk(config('jetstream.profile_photo_disk', 'public'));
+        $disk = \Storage::disk(config('jetstream.profile_photo_disk', 'public'));
 
         $fullPath = $disk->path($profilePhotoPath);
 

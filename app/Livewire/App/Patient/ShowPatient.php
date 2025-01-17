@@ -14,7 +14,6 @@ use Illuminate\Contracts\View\View;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-use URL;
 
 #[On(['added', 'updated', 'deleted', 'uploaded-file'])]
 class ShowPatient extends Component
@@ -24,7 +23,9 @@ class ShowPatient extends Component
     public Patient $patient;
     public $uploaded_attached_file;
 
-    public function mount() {}
+    public function mount()
+    {
+    }
 
     public function render(): View
     {
@@ -41,7 +42,7 @@ class ShowPatient extends Component
             'clinics' => $clinics,
             'days' => $days,
             'mediaItems' => $mediaItems,
-            'mediaItemsTotal' => $mediaItems->total()
+            'mediaItemsTotal' => $mediaItems->total(),
         ]);
     }
 
@@ -66,7 +67,6 @@ class ShowPatient extends Component
         }
     }
 
-
     public function matchStatus($actionResponseStatus = null): string
     {
         return match ($actionResponseStatus) {
@@ -79,16 +79,16 @@ class ShowPatient extends Component
     public function generateTemporaryUrl(Media $media): Media
     {
         // Check if the media is stored in a supported cloud storage
-        if ($media->disk === 's3') {
+        if ('s3' === $media->disk) {
             $media->temporaryUrl = $media->getTemporaryUrl(now()->addMinutes(5));
         } else {
             // Generate a signed route for local storage
-            $media->temporaryUrl = URL::temporarySignedRoute(
+            $media->temporaryUrl = \URL::temporarySignedRoute(
                 'storage.private.tmp.media',
                 now()->addMinutes(10),
                 [
                     'targetUser' => $this->patient->user->id,
-                    'media' => $media
+                    'media' => $media,
                 ]
             );
         }

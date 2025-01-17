@@ -27,7 +27,7 @@ class FilenameGenerator extends Generator
             throw new \InvalidArgumentException('File extension cannot be empty.');
         }
 
-        $checkNullablePartValue = fn(?string $part, string $separator = ''): string => !empty($part) && '0' !== $part ? Str::slug($part) . $separator : '';
+        $checkNullablePartValue = fn (?string $part, string $separator = ''): string => !empty($part) && '0' !== $part ? Str::slug($part) . $separator : '';
 
         // Build components
         $prefixPart = $checkNullablePartValue($prefix, '_');
@@ -38,7 +38,6 @@ class FilenameGenerator extends Generator
 
         // Construct the base name
         $baseName = "{$prefixPart}{$filenamePart}{$timestampPart}_{$uuidPart}{$suffixPart}";
-
 
         return urlencode("{$baseName}.{$originalExtension}");
     }

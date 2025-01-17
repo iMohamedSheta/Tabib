@@ -5,8 +5,6 @@ namespace App\Actions\User;
 use App\Models\User;
 use App\Responses\ActionResponse;
 use App\Traits\ActionTraits\ActionResponseTrait;
-use DB;
-use Gate;
 
 class DeleteUserAttachedFileAction
 {
@@ -27,14 +25,15 @@ class DeleteUserAttachedFileAction
                 data: [],
             );
         } catch (\Exception $exception) {
-            DB::rollBack();
+            \DB::rollBack();
             log_error($exception);
+
             return $this->error('حدث خطأ في عملية حذف الملف الرجاء المحاولة لاحقاً');
         }
     }
 
     private function isNotAuthorized(User $user): bool
     {
-        return !Gate::allows('deleteAttachedFile', $user);
+        return !\Gate::allows('deleteAttachedFile', $user);
     }
 }

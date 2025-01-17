@@ -36,7 +36,7 @@ enum MediaCollectionEnum: string
             self::VIDEOS->value => self::VIDEOS,
             self::DOCUMENTS->value => self::DOCUMENTS,
             self::OTHERS->value => self::OTHERS,
-            default => self::OTHERS
+            default => self::OTHERS,
         };
     }
 }
