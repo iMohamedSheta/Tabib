@@ -1,6 +1,6 @@
 <div>
     <div x-data="fileListComponent">
-        <div class="flex justify-between">
+        <div class="flex justify-between mb-8">
             <div class="flex items-center justify-center">
                 <div class="inline-flex items-center justify-center bg-gray-800 rounded-lg">
                     <!-- Icon Button -->
