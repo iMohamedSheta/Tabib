@@ -17,9 +17,8 @@ Artisan::command('inspire', function (): void {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote')->hourly();
 
-
 Artisan::command('files', function (): void {
-    $command = "bash testcommand.sh";
+    $command = 'bash testcommand.sh';
 
     $descriptor = [
         ['pipe', 'r'],
@@ -31,11 +30,10 @@ Artisan::command('files', function (): void {
 
     while (!feof($pipes[1])) {
         $line = fgets($pipes[1]);
-        if ($line !== false) {
+        if (false !== $line) {
             echo trim($line) . PHP_EOL;
         }
     }
-
 
     fclose($pipes[1]);
     fclose($pipes[2]);
