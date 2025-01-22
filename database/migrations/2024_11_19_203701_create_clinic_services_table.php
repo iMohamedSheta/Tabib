@@ -14,7 +14,6 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('organization_id')->index();
             $table->unsignedBigInteger('clinic_id')->index()->nullable();
-
             $table->string('name');
             $table->decimal('price', 10, 2);
             $table->string('description')->nullable();

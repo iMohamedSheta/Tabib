@@ -2,7 +2,7 @@
 
 namespace App\Generators;
 
-use App\Generators\base\Generator;
+use App\Generators\Base\Generator;
 use App\Traits\Generators\GenerateUniqueCodeTrait;
 use Illuminate\Support\Facades\DB;
 

@@ -11,6 +11,7 @@ class UserPolicy
      */
     public function viewAny(User $actorUser): bool
     {
+        return $actorUser->isClinicAdmin();
     }
 
     /**
@@ -26,6 +27,7 @@ class UserPolicy
      */
     public function create(User $actorUser): bool
     {
+        return $actorUser->isClinicAdmin();
     }
 
     /**
@@ -33,6 +35,7 @@ class UserPolicy
      */
     public function update(User $actorUser, User $targetUser): bool
     {
+        return $actorUser->organization_id == $targetUser->organization_id && $actorUser->isClinicAdmin();
     }
 
     /**
@@ -40,6 +43,7 @@ class UserPolicy
      */
     public function delete(User $actorUser, User $targetUser): bool
     {
+        return $actorUser->organization_id == $targetUser->organization_id && $actorUser->isClinicAdmin();
     }
 
     /**
@@ -47,6 +51,7 @@ class UserPolicy
      */
     public function restore(User $actorUser, User $targetUser): bool
     {
+        return $actorUser->organization_id == $targetUser->organization_id && $actorUser->isClinicAdmin();
     }
 
     /**
@@ -54,6 +59,7 @@ class UserPolicy
      */
     public function forceDelete(User $actorUser, User $targetUser): bool
     {
+        return $actorUser->organization_id == $targetUser->organization_id && $actorUser->isClinicAdmin();
     }
 
     /**

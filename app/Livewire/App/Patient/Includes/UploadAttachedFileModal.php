@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Livewire\App\Patient\Includes;
 
-use App\Enums\User\MediaLibrary\MediaCollectionEnum;
+use App\Enums\Media\MediaCollectionEnum;
+use App\Enums\Media\MediaTypeEnum;
 use App\Generators\FilenameGenerator;
+use App\Models\Media;
 use App\Models\Patient;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
@@ -18,6 +20,7 @@ class UploadAttachedFileModal extends Component
 
     public Patient $patient;
     public $uploadedAttachedFile;
+    public $mediaType = MediaTypeEnum::FILE;
 
     public function render()
     {
@@ -35,6 +38,13 @@ class UploadAttachedFileModal extends Component
         ]);
 
         try {
+            if ($this->isNotAuthorized()) {
+                // return $this->authorizeError('غير مسموح لك باضافة الملف!');
+                flash()->error('غير مسموح لك باضافة الملف!');
+
+                return;
+            }
+
             // Determine the collection using the enum
             $mimeType = $this->uploadedAttachedFile->getMimeType();
             $collection = MediaCollectionEnum::determineCollection($mimeType)->value;
@@ -45,9 +55,13 @@ class UploadAttachedFileModal extends Component
             $filename = FilenameGenerator::generate($originalExtension, $this->uploadedAttachedFile->getClientOriginalName());
 
             // Add the file to the specified media collection
-            $this->patient->user->addMedia($this->uploadedAttachedFile->getRealPath())
+            $media = $this->patient->user->addMedia($this->uploadedAttachedFile->getRealPath())
                 ->usingFileName($filename)
                 ->toMediaCollection($collection);
+
+            if (in_array($this->mediaType, MediaTypeEnum::cases()) && MediaTypeEnum::FILE !== $this->mediaType) {
+                $media->update(['type' => $this->mediaType]);
+            }
 
             flash()->success('تم رفع الملف للمريض بنجاح!');
 
@@ -56,5 +70,10 @@ class UploadAttachedFileModal extends Component
             log_error($e);
             flash()->error(__('alerts.error'));
         }
+    }
+
+    private function isNotAuthorized(): bool
+    {
+        return !\Gate::allows('create', Media::class);
     }
 }

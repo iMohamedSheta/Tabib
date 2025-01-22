@@ -2,7 +2,7 @@
 
 namespace App\Traits\LivewireTraits;
 
-use App\Services\User\GetProfilePhotoUrlService;
+use App\Services\Internal\User\GetProfilePhotoUrlService;
 use Livewire\Attributes\Computed;
 
 trait withProfilePhotoTrait

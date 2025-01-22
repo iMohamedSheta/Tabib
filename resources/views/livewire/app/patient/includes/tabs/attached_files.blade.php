@@ -6,9 +6,9 @@
                     <!-- Icon Button -->
                     <button class="flex items-center justify-center w-8 h-8 px-1  py-3  rounded-lg"
                         @click="setViewToGrid()" :class="{ 'bg-gray-700': isViewGrid() }">
-                        <svg class="vpbnr m5z5i" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
-                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
                             <rect width="7" height="7" x="3" y="3" rx="1"></rect>
                             <rect width="7" height="7" x="14" y="3" rx="1"></rect>
                             <rect width="7" height="7" x="14" y="14" rx="1"></rect>
@@ -18,9 +18,9 @@
                     <!-- Text Button -->
                     <button class="flex items-center justify-center w-8 h-8 px-1 py-3 rounded-lg"
                         @click="setViewToList()" :class="{ 'bg-gray-700': isViewList() }">
-                        <svg class="vpbnr m5z5i" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
-                            viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
                             <line x1="3" x2="21" y1="6" y2="6"></line>
                             <line x1="3" x2="21" y1="12" y2="12"></line>
                             <line x1="3" x2="21" y1="18" y2="18"></line>
@@ -34,23 +34,23 @@
             </div>
             <div>
                 <span>
-                    {{ $mediaItemsTotal }}
+                    {{ $mediaFileItemsTotal }}
                     ملف ملحق بالمريض
                 </span>
             </div>
         </div>
 
-        @if ($mediaItemsTotal > 0)
+        @if ($mediaFileItemsTotal > 0)
             <ul>
                 <div :class="isViewGrid() ? 'flex flex-wrap justify-center items-center' : 'block'">
-                    @foreach ($mediaItems as $media)
+                    @foreach ($mediaFileItems as $media)
                         <div class="p-4">
-                            <x-files.file :media="$media" :src="$media->temporaryUrl"></x-files.file>
+                            <x-files.file :media="$media" :src="$media->url"></x-files.file>
                         </div>
                     @endforeach
                 </div>
             </ul>
-            <x-datatable.pagination :paginator="$mediaItems"></x-datatable.pagination>
+            <x-datatable.pagination :paginator="$mediaFileItems"></x-datatable.pagination>
         @else
             <p class="text-red-500 text-sm text-center p-8">
                 لا توجد ملفات ملحقة.

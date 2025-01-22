@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Enums\User\MediaLibrary;
+namespace App\Enums\Media;
 
 enum MediaCollectionEnum: string
 {

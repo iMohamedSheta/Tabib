@@ -1,5 +1,5 @@
 <div class="py-6 md:mx-4 grid  text-gray-700 dark:text-gray-200">
-    <x-main.head :icon="asset('images/clinics/icon.png')">
+    {{-- <x-main.head :icon="asset('images/clinics/icon.png')">
         <x-slot name="title">
             المواعيد والحجوزات
         </x-slot>
@@ -10,7 +10,7 @@
             دقيق، ويوفر تجربة تنظيمية أفضل للمرضى. تتيح لك الصفحة أيضًا استعراض الأوقات المتاحة لكل طبيب، لضمان تنظيم
             وقت العيادة وإدارة جدول العمل بكفاءة عالية.
         </x-slot>
-    </x-main.head>
+    </x-main.head> --}}
     <div x-data="calendarComponent()" id="calendarComponent"
         class="w-full bg-purple-200  text-gray-700 dark:bg-c-gray-800 dark:text-white font-bold p-6 rounded-lg shadow-2xl scroll-apply overflow-y-hidden overflow-x-auto">
 
@@ -37,7 +37,6 @@
             return {
                 show: false,
                 showUpdate: false,
-                // showPopover: false,
                 step: 1,
                 start: '',
                 end: '',
@@ -66,11 +65,12 @@
                         initialView: this.initialView,
                         themeSystem: 'standard',
                         editable: true,
+                        eventStartEditable: true,
+                        eventDurationEditable: true,
+                        eventResourceEditable: true,
                         selectable: true,
                         eventDisplay: 'block',
                         eventResizableFromStart: true,
-                        eventStartEditable: true,
-                        eventDurationEditable: true,
                         displayEventTime: false,
                         locale: 'ar',
                         direction: 'rtl',
@@ -132,12 +132,12 @@
 
                     this.calendar.render();
 
-                    Livewire.on('added', (event) => {
+                    Livewire.on('added-event', (event) => {
                         console.log('Event added:', event);
                         this.calendar.addEvent(event[0]);
                         this.calendar.refetchEvents();
                         this.calendar.render();
-                        this.show = false;
+                        // this.show = false;
                     });
 
                     this.flatpickrInstance = this.createFlatpickr('#datepicker');

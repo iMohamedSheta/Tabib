@@ -42,6 +42,12 @@
             font-optical-sizing: auto;
             font-style: normal;
         }
+
+        /* body {
+            font-family: "Cairo", sans-serif;
+            font-size: 0.75rem !important;
+            font-weight: 500 !important;
+        } */
     </style>
 
     <!-- Styles -->

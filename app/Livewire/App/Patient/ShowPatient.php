@@ -6,14 +6,16 @@ namespace App\Livewire\App\Patient;
 
 use App\Actions\User\DeleteUserAttachedFileAction;
 use App\Enums\Actions\ActionResponseStatusEnum;
+use App\Enums\Calendar\CalendarTypeEnum;
 use App\Enums\Helpers\Dates\DaysEnum;
+use App\Enums\Media\MediaTypeEnum;
 use App\Models\Clinic;
+use App\Models\Media;
 use App\Models\Patient;
 use App\Traits\Pagination\WithCustomPagination;
 use Illuminate\Contracts\View\View;
 use Livewire\Attributes\On;
 use Livewire\Component;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 #[On(['added', 'updated', 'deleted', 'uploaded-file'])]
 class ShowPatient extends Component
@@ -22,9 +24,12 @@ class ShowPatient extends Component
 
     public Patient $patient;
     public $uploaded_attached_file;
+    public $events;
 
     public function mount()
     {
+        $this->events = $this->patient->events()->with(['doctor:id,specialization,user_id', 'doctor.user:id,phone', 'clinic:id,name', 'clinicService:id,name', 'patient:id,user_id', 'patient.user:id,first_name,last_name'])->where('type', CalendarTypeEnum::PATIENT_APPOINTMENT->value)->orderByDesc('start_at')->get();
+        $this->perPage = 12;
     }
 
     public function render(): View
@@ -32,17 +37,16 @@ class ShowPatient extends Component
         $clinics = Clinic::list();
         $days = DaysEnum::getDaysLabels();
 
-        $mediaItems = $this->patient->user->media()->paginate(perPage: $this->perPage, page: $this->page);
-
-        $mediaItems->each(function ($media) {
-            return $this->generateTemporaryUrl($media);
-        });
+        $mediaFileItems = $this->patient->user->media()->where('type', MediaTypeEnum::FILE)->paginate(perPage: $this->perPage, page: $this->page);
+        $mediaRadioItems = $this->patient->user->media()->where('type', MediaTypeEnum::RADIOLOGY)->paginate(perPage: $this->perPage, page: $this->page);
 
         return view('livewire.app.patient.show-patient', [
             'clinics' => $clinics,
             'days' => $days,
-            'mediaItems' => $mediaItems,
-            'mediaItemsTotal' => $mediaItems->total(),
+            'mediaFileItems' => $mediaFileItems,
+            'mediaFileItemsTotal' => $mediaFileItems->total(),
+            'mediaRadioItems' => $mediaRadioItems,
+            'mediaRadioItemsTotal' => $mediaRadioItems->total(),
         ]);
     }
 
@@ -50,8 +54,7 @@ class ShowPatient extends Component
     {
         try {
             $actionResponse = (new DeleteUserAttachedFileAction())->handle(
-                $this->patient->user,
-                $mediaId
+                Media::find($mediaId)
             );
 
             flash()->{$actionResponse->success ? 'success' : 'error'}($this->matchStatus($actionResponse->status));
@@ -74,25 +77,5 @@ class ShowPatient extends Component
             ActionResponseStatusEnum::SUCCESS => 'تم حذف الملف بنجاح',
             default => 'حدث خطاء في عملية حذف الملف, الرجاء المحاولة لاحقاً',
         };
-    }
-
-    public function generateTemporaryUrl(Media $media): Media
-    {
-        // Check if the media is stored in a supported cloud storage
-        if ('s3' === $media->disk) {
-            $media->temporaryUrl = $media->getTemporaryUrl(now()->addMinutes(5));
-        } else {
-            // Generate a signed route for local storage
-            $media->temporaryUrl = \URL::temporarySignedRoute(
-                'storage.private.tmp.media',
-                now()->addMinutes(10),
-                [
-                    'targetUser' => $this->patient->user->id,
-                    'media' => $media,
-                ]
-            );
-        }
-
-        return $media;
     }
 }

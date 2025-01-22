@@ -17,11 +17,11 @@ class DoctorQueryBuilder extends QueryBuilderWrapper
     {
         $this->query
             ->select([
-                'doctors.id',
+                'doctors.id as doctor_id',
                 'doctors.specialization',
                 'doctors.user_id',
                 'doctors.created_at',
-                'users.id as user_id',
+                'users.id',
                 'users.first_name',
                 'users.last_name',
                 'users.username',
@@ -41,6 +41,18 @@ class DoctorQueryBuilder extends QueryBuilderWrapper
             ->join('users', 'doctors.user_id', '=', 'users.id')
             ->join('organizations', 'doctors.organization_id', '=', 'organizations.id')
             ->latest('doctors.created_at');
+
+        return $this;
+    }
+
+    public function searchDoctors($search): static
+    {
+        $this->query->when($search, function ($query) use ($search): void {
+            $query->where(function ($query) use ($search): void {
+                $query->likeIn(['users.first_name', 'users.last_name', 'users.phone', 'users.other_phone', 'doctors.specialization'], $search)
+                    ->orLikeUserFullName($search);
+            });
+        });
 
         return $this;
     }

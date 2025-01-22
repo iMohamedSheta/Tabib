@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
@@ -24,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->configureCarbon();
         $this->configureVite();
         $this->configurePulse();
         $this->configureCommands();
@@ -74,5 +76,10 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment('production')) {
             URL::forceScheme('https');
         }
+    }
+
+    private function configureCarbon(): void
+    {
+        Carbon::setLocale($this->app->getLocale());
     }
 }

@@ -1,6 +1,6 @@
 <!-- Desktop sidebar -->
 <aside
-    class="z-20 hidden h-[100vh] overflow-y-auto opacity-90  bg-purple-800  dark:bg-c-gray-800 shadow-lg dark:shadow-lg md:block flex-shrink-0
+    class="z-20 hidden h-[100vh] overflow-y-auto opacity-95  bg-purple-800  dark:bg-c-gray-800 shadow-lg dark:shadow-lg md:block flex-shrink-0
  scrollbar-thin scrollbar-track-purple-800 scrollbar-thumb-purple-500 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800 transition-all  duration-500"
     style="z-index: 0" :class="{ 'w-64': !isAppSidebarClosed, 'w-24': isAppSidebarClosed }">
     <div class="pb-4 text-gray-500 dark:text-gray-400">

@@ -8,32 +8,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 #[ScopedBy(OrganizationScope::class)]
-/**
- * @property int                             $id
- * @property int                             $organization_id
- * @property int|null                        $patient_id
- * @property int|null                        $clinic_service_id
- * @property int                             $type
- * @property string                          $data
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property ClinicService|null              $clinicServices
- * @property object|null                     $decoded_data
- *
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Calendar newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Calendar newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Calendar query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Calendar whereClinicServiceId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Calendar whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Calendar whereData($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Calendar whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Calendar whereOrganizationId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Calendar wherePatientId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Calendar whereType($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Calendar whereUpdatedAt($value)
- *
- * @mixin \Eloquent
- */
 class Calendar extends Model
 {
     use HasFactory;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Register;
+namespace App\Services\Internal\Register;
 
 use Illuminate\Support\Facades\Storage;
 

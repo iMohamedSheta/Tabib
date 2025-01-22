@@ -2,7 +2,7 @@
 
 namespace App\Livewire\App\Calendar\Includes;
 
-use App\Models\Calendar;
+use App\Models\Event;
 use App\Rules\StartDateBeforeEndDate;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
@@ -32,10 +32,10 @@ class UpdateEventModal extends Component
     }
 
     #[On('updateEventAction')]
-    public function updateEventAction($event): void
+    public function updateEventAction(array $event): void
     {
         $validator = Validator::make($event, [
-            'id' => ['required', 'exists:calendars,id'],
+            'id' => ['required', 'exists:events,id'],
             'title' => ['required', 'string', 'max:255'],
             'start' => ['required', 'date', new StartDateBeforeEndDate($event['end'])],
             'end' => ['nullable', 'date', 'after_or_equal:start'],
@@ -54,13 +54,28 @@ class UpdateEventModal extends Component
         }
 
         $eventId = $event['id'];
-        $calendarEvent = Calendar::find($eventId);
+        $calendarEvent = Event::find($eventId);
         $existingData = json_decode($calendarEvent->data, true) ?? [];
 
         foreach ($event as $key => $value) {
             if (!blank($value) && (array_key_exists($key, $existingData) && $value != $existingData[$key] || !array_key_exists($key, $existingData) && 'id' != $key)) {
-                $existingData[$key] = in_array($key, ['start', 'end']) ? Carbon::parse($value)->toIso8601String() : $value;
+                $existingData[$key] = $value;
             }
+        }
+        if (isset($event['start']) && null != $event['start']) {
+            $calendarEvent->start_at = Carbon::parse($existingData['start'])->toIso8601String();
+        }
+
+        if (isset($event['end']) && null != $event['end']) {
+            $calendarEvent->end_at = Carbon::parse($existingData['end'])->toIso8601String();
+        }
+
+        if (isset($event['title']) && null != $event['title']) {
+            $calendarEvent->title = $event['title'];
+        }
+
+        if (isset($event['allDay']) && null != $event['allDay']) {
+            $calendarEvent->all_day = $event['allDay'] ? true : false;
         }
 
         $calendarEvent->data = $existingData;
@@ -72,12 +87,33 @@ class UpdateEventModal extends Component
     #[On('updateEventDateAction')]
     public function updateEventDateAction($id, $start, $end, $allDay): void
     {
-        $event = Calendar::find($id);
-        $event->data = json_decode($event->data);
-        $event->data->start = $start;
-        $event->data->end = $end;
-        $event->data->allDay = $allDay;
-        $event->data = json_encode($event->data);
+        $event = Event::find($id);
+
+        $validator = Validator::make([
+            'event' => $event,
+            'start' => $start,
+            'end' => $end,
+            'allDay' => $allDay,
+        ], [
+            'event' => ['required'],
+            'start' => ['required', 'date', new StartDateBeforeEndDate($end)],
+            'end' => ['nullable', 'date', 'after_or_equal:start'],
+            'allDay' => ['nullable', 'boolean'],
+        ]);
+
+        if ($validator->fails()) {
+            flash()->error($validator->errors()->first());
+            throw new ValidationException($validator);
+        }
+
+        $event->start_at = Carbon::parse($start)->toIso8601String();
+
+        if (!blank($end)) {
+            $event->end_at = Carbon::parse($end)->toIso8601String();
+        }
+
+        $event->all_day = $allDay ? true : false;
+
         $event->save();
     }
 }

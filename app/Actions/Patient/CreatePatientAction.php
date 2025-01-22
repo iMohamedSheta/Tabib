@@ -18,7 +18,7 @@ class CreatePatientAction
     {
         try {
             if ($this->isNotAuthorized()) {
-                return $this->authorizeError('غير مسموح لك باضافة الطبيب!!');
+                return $this->authorizeError('غير مسموح لك باضافة المريض!!');
             }
 
             DB::beginTransaction();

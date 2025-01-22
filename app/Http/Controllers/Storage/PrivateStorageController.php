@@ -5,15 +5,14 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Storage;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use App\Models\Media;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class PrivateStorageController extends Controller
 {
-    public function showMedia(User $targetUser, Media $media): BinaryFileResponse
+    public function showMedia(Media $media): BinaryFileResponse
     {
-        if (!auth()->user()->can('view', $targetUser)) {
+        if (!auth()->user()->can('view', $media)) {
             abort(403, 'Unauthorized access');
         }
 

@@ -47,6 +47,10 @@
             font-weight: 500 !important;
         }
 
+        .swal2-title {
+            font-size: 1.5rem !important;
+        }
+
         /* body {
             font-family: "Changa", sans-serif;
             font-size: 0.75rem !important;
@@ -58,7 +62,8 @@
     @livewireStyles
 </head>
 
-<body dir="rtl" x-data="data()" id="app" :class="{ 'dark': dark }" class="dark  overflow-hidden  ">
+<body dir="rtl" x-data="data()" id="app" :class="{ 'dark': dark }"
+    class="dark  overflow-hidden scroll-smooth">
     <div class="flex bg-purple-300 dark:bg-c-gray-900  dark:bg-purple-400">
 
         {{-- DesktopSidebar --}}
@@ -69,14 +74,14 @@
         @include('layouts.app.sidebar_mobile')
         {{-- /MobileSidebar --}}
         <div
-            class="flex flex-col flex-1 h-screen overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-track-purple-800 scrollbar-thumb-purple-500 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800 min-h-[80vh] max-w-[100vw] ">
+            class="flex flex-col flex-1 h-screen overflow-y-auto  scrollbar-thin scrollbar-track-purple-800 scrollbar-thumb-purple-500 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800 min-h-[80vh] max-w-[100vw] ">
 
             {{-- Header --}}
             @include('layouts.app.header')
             {{-- /Header --}}
 
             <main>
-                <div class="min-h-[87vh]">
+                <div class="min-h-[87vh] overflow-x-auto">
                     <x-spinners.t-spinner></x-spinners.t-spinner>
 
                     {{ $slot }}

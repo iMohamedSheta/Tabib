@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Organization;
+namespace App\Services\Internal\Organization;
 
 use App\Models\Organization;
 

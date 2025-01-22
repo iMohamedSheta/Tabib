@@ -2,7 +2,7 @@
 
 namespace App\Generators;
 
-use App\Generators\base\Generator;
+use App\Generators\Base\Generator;
 use App\Traits\Generators\GenerateUniqueCodeTrait;
 use Illuminate\Support\Facades\DB;
 
@@ -21,7 +21,7 @@ class PUIDGenerator extends Generator
      *
      * @throws \RuntimeException if unable to generate a unique code
      */
-    public static function generate(int $length = 8, int $batchSize = 5, int $maxAttempts = 10, ?string $prefix = 'p', ?string $suffix = ''): string
+    public static function generate(int $length = 8, int $batchSize = 5, int $maxAttempts = 10, ?string $prefix = 'PAT_', ?string $suffix = ''): string
     {
         $static = new static();
 

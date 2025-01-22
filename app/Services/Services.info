@@ -1,6 +1,6 @@
 # What is a Service?
 
-A service is a class responsible for handling internal operations or remote procedure calls (RPCs) within the application.
+A internal service is a class responsible for handling internal operations or remote procedure calls (RPCs) within the application.
 It does not directly interact with external APIs or user-facing actions, but rather focuses on performing specific business logic,
 setting up necessary configurations, or executing tasks that are crucial for the application's flow.
 

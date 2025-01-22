@@ -7,14 +7,19 @@ use App\Adapters\Dates\CalendarDatepickerAdapter;
 use App\DTOs\Patient\CreatePatientDTO;
 use App\Enums\Actions\ActionResponseStatusEnum;
 use App\Enums\Calendar\CalendarTypeEnum;
+use App\Enums\Invoice\InvoiceStatusEnum;
+use App\Enums\Invoice\InvoiceTypeEnum;
 use App\Http\Requests\Patient\CreatePatientRequest;
-use App\Models\Calendar;
 use App\Models\ClinicService;
+use App\Models\Event;
 use App\Models\Patient;
+use App\Proxy\QueryBuilders\DoctorQueryBuilderProxy;
 use App\Proxy\QueryBuilders\PatientQueryBuilderProxy;
 use App\Rules\StartDateBeforeEndDate;
 use App\Traits\LivewireTraits\withProfilePhotoTrait;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
@@ -42,44 +47,42 @@ class AddEventModal extends Component
     |--------------------------------------------
     */
     public $title;
-
     public $start;
-
     public $end;
-
     public $allDay = false;
 
     public $search = '';
-
+    public $searchDoctor = '';
+    public $searchDoctor2 = '';
     public $clinics = [];
-
     #[Locked]
     public $searchResults = [];
+    public $searchDoctorResults = [];
 
     // Step 2 Add new patient
     public $first_name;
-
     public $last_name;
-
     public $phone;
-
     public $other_phone;
-
     public $age;
-
     public $gender;
-
-    public $clinic_id;
 
     // Step 3 select existing patient
     public $patient_id;
 
     // Both (Step 2, Step 3)
     public $service_id;
+    public $clinic_id;
+    public $doctor_id;
+
+    // Step 4
+    public $invoiceView = [];
+    public $paid_price = 0;
 
     public function render()
     {
         $this->searchResults = blank($this->search) ? [] : $this->getSearchResults();
+        $this->searchDoctorResults = blank($this->searchDoctor) && blank($this->searchDoctor2) ? [] : $this->getSearchDoctorResults();
 
         return view('livewire.app.calendar.includes.add-event-modal', [
             'clinicServices' => $this->getClinicServices(),
@@ -95,6 +98,11 @@ class AddEventModal extends Component
     public function getSearchResults(): \Illuminate\Support\Collection
     {
         return PatientQueryBuilderProxy::searchPatients($this->search);
+    }
+
+    public function getSearchDoctorResults(): \Illuminate\Support\Collection
+    {
+        return DoctorQueryBuilderProxy::searchDoctors($this->searchDoctor ?? $this->searchDoctor2);
     }
 
     protected function rules(): array
@@ -129,8 +137,14 @@ class AddEventModal extends Component
     {
         return array_merge(
             $this->addedRules(),
+            array_only(
+                (new CreatePatientRequest(array_keys($this->clinics)))->rules(),
+                [
+                    'clinic_id',
+                ],
+            ),
             [
-                'patient_id' => ['required', 'exists:patients,id,organization_id,' . auth()->user()->organization_id],
+                'patient_id' => ['required', 'exists:patients,id,organization_id,' . Auth::user()->organization_id],
             ],
         );
     }
@@ -156,30 +170,44 @@ class AddEventModal extends Component
             );
 
             $clinicService = ClinicService::find($this->service_id);
+            $authUser = Auth::user();
+            $doctor = \DB::table('doctors')
+                ->join('users', 'doctors.user_id', '=', 'users.id')
+                ->select(['users.first_name', 'users.last_name'])
+                ->first();
 
-            $title = sprintf('[%s] %s %s', $clinicService->name, $this->first_name, $this->last_name);
+            $patientName = sprintf('%s %s', $this->first_name, $this->last_name);
+            $doctorName = $doctor->first_name . ' ' . $doctor->last_name;
 
-            $event = Calendar::create([
-                'organization_id' => auth()->user()->organization_id,
+            $title = sprintf('[%s] %s', $clinicService->name, $patientName);
+
+            $event = Event::create([
+                'organization_id' => $authUser->organization_id,
+                'clinic_id' => $this->clinic_id,
+                'patient_id' => $this->patient_id,
+                'doctor_id' => $this->doctor_id,
                 'clinic_service_id' => $this->service_id,
+                'created_by' => $authUser->id,
                 'type' => CalendarTypeEnum::PATIENT_APPOINTMENT,
+                'title' => $title,
+                'start_at' => $this->start,
+                'end_at' => $this->end,
+                'all_day' => $this->allDay,
                 'data' => json_encode([
-                    'title' => $title,
-                    'start' => $this->start,
-                    'end' => $this->end,
-                    'allDay' => $this->allDay,
+                    'doctor_name' => $doctorName,
                     'backgroundColor' => $clinicService->color,
                 ]),
             ]);
 
-            flash()->{$actionResponse->success ? 'success' : 'error'}($this->matchStatus($actionResponse->status));
+            // flash()->{$actionResponse->success ? 'success' : 'error'}($this->matchStatus($actionResponse->status));
 
             if (!$actionResponse->success) {
                 return;
             }
 
-            $this->dispatchEventToCalendar('added', $event);
-            $this->resetForm();
+            $this->setInvoiceViewInfo($event, $clinicService, $patientName, $doctorName);
+
+            $this->dispatchEventToCalendar('added-event', $event);
         } catch (\Exception $exception) {
             log_error($exception);
             flash()->error($this->matchStatus('server_error'));
@@ -196,33 +224,90 @@ class AddEventModal extends Component
 
             $clinicService = ClinicService::findOrFail($this->service_id);
 
+            $authUser = Auth::user();
+
             $patient = Patient::with('user')->findOrFail($this->patient_id);
+            $doctor = \DB::table('doctors')
+                ->join('users', 'doctors.user_id', '=', 'users.id')
+                ->select(['users.first_name', 'users.last_name'])
+                ->first();
 
-            $title = sprintf('[%s] %s %s', $clinicService->name, $patient->user->first_name, $patient->user->last_name);
+            $patientName = sprintf('%s %s', $patient->user->first_name, $patient->user->last_name);
+            $doctorName = $doctor->first_name . ' ' . $doctor->last_name;
 
-            $event = Calendar::create([
-                'organization_id' => auth()->user()->organization_id,
-                'clinic_service_id' => $clinicService->id,
+            $title = sprintf('[%s] %s', $clinicService->name, $patientName);
+
+            $event = Event::create([
+                'organization_id' => $authUser->organization_id,
+                'clinic_id' => $this->clinic_id,
+                'doctor_id' => $this->doctor_id,
+                'patient_id' => $this->patient_id,
+                'clinic_service_id' => $this->service_id,
+                'created_by' => $authUser->id,
                 'type' => CalendarTypeEnum::PATIENT_APPOINTMENT,
+
+                'title' => $title,
+                'start_at' => $this->start,
+                'end_at' => $this->end,
+                'all_day' => $this->allDay,
                 'data' => json_encode([
-                    'title' => $title,
-                    'start' => $this->start,
-                    'end' => $this->end,
-                    'allDay' => $this->allDay,
+                    'clinic_service_name' => $clinicService->name,
+                    'patient_name' => $patientName,
+                    'doctor_name' => $doctorName,
                     'backgroundColor' => $clinicService->color,
                 ]),
             ]);
 
-            flash()->success($this->matchStatus(ActionResponseStatusEnum::SUCCESS));
-            // flash()->{$actionResponse->success ? 'success' : 'error'}($this->matchStatus($actionResponse->status));
+            // flash()->success($this->matchStatus(ActionResponseStatusEnum::SUCCESS));
 
-            // if (! $actionResponse->success) {
-            //     return;
-            // }
+            $this->setInvoiceViewInfo($event, $clinicService, $patientName, $doctorName);
+            $this->dispatchEventToCalendar('added-event', $event);
+        } catch (\Exception $e) {
+            log_error($e);
+        }
+    }
 
-            $this->dispatchEventToCalendar('added', $event);
+    public function confirmInvoiceReceiptAction()
+    {
+        $this->validate([
+            'invoiceView.event_id' => ['required', 'integer'],
+            'paid_price' => ['required', 'numeric', 'min:0'],
+        ]);
+
+        try {
+            $status = InvoiceStatusEnum::PENDING->value;
+
+            $event = Event::with(['clinicService', 'patient'])->findOrFail($this->invoiceView['event_id']);
+
+            if ($this->paid_price > $event->clinicService->price) {
+                $this->addError('paid_price', __('المبلغ المدفوع يجب ان يكون اصغر او مساوي للمبلغ المطلوب!'));
+
+                return;
+            }
+
+            if ($event->clinicService->price == $this->paid_price) {
+                $status = InvoiceStatusEnum::PAID->value;
+            }
+
+            $event->patient->invoices()->create([
+                'type' => InvoiceTypeEnum::PATIENT_APPOINTMENT->value,
+                'price' => $event->clinicService->price,
+                'paid_price' => $this->paid_price,
+                'organization_id' => $event->organization_id,
+                'clinic_id' => $event->clinic_id,
+                'status' => $status,
+                'created_by' => Auth::user()->id,
+            ]);
+
+            flash()->success('تم تأكيد الحجز بنجاح!');
+            $this->dispatch('added');
             $this->resetForm();
-        } catch (\Exception) {
+        } catch (ModelNotFoundException $e) {
+            flash()->error('هذا الحجز غير موجود لديك!');
+            log_error($e);
+        } catch (\Exception $e) {
+            flash()->error(__('alerts.error'));
+            log_error($e);
         }
     }
 
@@ -240,10 +325,10 @@ class AddEventModal extends Component
         $data = json_decode($event->data);
         $this->dispatch($dispatchedEvent, [
             'id' => $event->id,
-            'title' => $data->title,
+            'title' => $event->title,
             'start' => Carbon::parse($this->start)->toIso8601String(),
-            'end' => $data->end,
-            'allDay' => $data->allDay,
+            'end' => $event->end_at,
+            'allDay' => $event->all_day,
             'editable' => true,
             'backgroundColor' => $data->backgroundColor ?? sprintf('#%06X', mt_rand(0, 0xFFFFFF)),
             'textColor' => '#FFFFFF',
@@ -252,6 +337,15 @@ class AddEventModal extends Component
             // 'borderColor' => 'red',
             // 'overlap' => false,
         ]);
+    }
+
+    protected function setInvoiceViewInfo($event, $clinicService, $patientName, $doctorName)
+    {
+        $this->invoiceView['event_id'] = $event->id;
+        $this->invoiceView['patient_name'] = $patientName;
+        $this->invoiceView['doctor_name'] = $doctorName;
+        $this->invoiceView['clinic_service_name'] = $clinicService->name;
+        $this->invoiceView['price'] = $clinicService->price;
     }
 
     protected function resetForm()
@@ -270,6 +364,10 @@ class AddEventModal extends Component
         $this->clinic_id = null;
         $this->service_id = null;
         $this->patient_id = null;
+        $this->doctor_id = null;
+        $this->searchDoctor = null;
+        $this->searchDoctor2 = null;
+        $this->paid_price = null;
         $this->search = null;
     }
 }

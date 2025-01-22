@@ -2,10 +2,9 @@
     'label' => 'label',
     'border' => true,
     'isText' => false,
-    'minHeight' => '50px',
 ])
 
-<div class="w-full {{ $isText ? "min-h-[{$minHeight}]" : 'md:w-1/2 h-[50px]' }} bg-purple-700">
+<div class="w-full {{ $isText ? '' : 'md:w-1/2' }} h-[60px] bg-purple-700 {{ $attributes->get('class') }}">
     <div class="flex flex-wrap justify-center items-center h-full">
         <div
             class="w-full {{ $isText ? 'md:w-1/6' : 'md:w-1/3' }}  bg-c-gray-700 h-full flex  items-center text-purple-100 px-6 {{ $border ? 'border-t' : '' }}">

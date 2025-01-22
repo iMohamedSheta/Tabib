@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\PWA;
 
 use App\Http\Controllers\Controller;
-use App\Services\PWA\ManifestService;
+use App\Services\Internal\PWA\ManifestService;
 
 class LaravelPWAController extends Controller
 {

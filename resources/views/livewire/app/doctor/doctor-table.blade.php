@@ -1,5 +1,6 @@
 @php
     use Carbon\Carbon;
+    use App\Enums\Helpers\HelperEnum;
 @endphp
 
 <div class="py-6 md:mx-4 grid  text-gray-700 dark:text-gray-200">
@@ -21,7 +22,7 @@
                 <livewire:app.doctor.includes.create-doctor-modal
                     :clinics="$clinics"></livewire:app.doctor.includes.create-doctor-modal>
             </div>
-            <div class=" md:flex md:flex-wrap mx-2 ">
+            <div class=" md:flex md:flex-wrap mx-2  border border-gray-600 border-dashed rounded-lg bg-c-gray-700">
                 @forelse ($doctors as $doctor)
                     <div class="p-2  md:w-1/4 mx-auto  ">
                         <div class="my-6 bg-purple-700 rounded-xl">
@@ -38,8 +39,10 @@
                                         </div>
                                     </div>
                                     <div class="text-center mt-2">
-                                        <h3 class="text-2xl text-slate-700 font-bold leading-normal mb-1">
-                                            {{ $doctor->fullname }}</h3>
+                                        <h3 class="text-xl text-slate-700 font-bold leading-normal pb-2">
+                                            دكتور/
+                                            {{ $doctor->fullname }}
+                                        </h3>
                                         <div class="text-xs mt-0 mb-2 text-slate-400 font-bold uppercase">
                                             <i
                                                 class="fas fa-map-marker-alt mr-2 text-slate-400 opacity-75 px-1 pb-2"></i>{{ $doctor->organization_name }}
@@ -53,7 +56,7 @@
                                                 <p class="font-light leading-relaxed text-slate-600 mb-2">
                                                     {{ $doctor->phone }}</p>
                                                 <p class="font-light leading-relaxed text-slate-600 mb-4">
-                                                    {{ $doctor->other_phone ?: 'N/A' }}</p>
+                                                    {{ $doctor->other_phone ?: HelperEnum::NOT_AVAILABLE->label() }}</p>
 
                                                 <x-datatable.tdata.actions name="العمليات" :isTable="false">
                                                     <div x-data="updateModal" x-on:updated.window="show = false">
@@ -85,7 +88,7 @@
 
                                                     <div x-data="deleteData">
                                                         <x-datatable.tdata.link href="#"
-                                                            x-on:click="confirmedDelete('{{ $doctor->fullname }}', '{{ $doctor->id }}')"
+                                                            x-on:click="confirmedDelete('{{ $doctor->fullname }}', '{{ $doctor->doctor_id }}')"
                                                             class="bg-red-500 hover:bg-red-600 dark:hover:bg-red-600  text-white hover:text-white">
                                                             <i class="fa-solid fa-trash fa-lg px-2"></i>
                                                             حذف

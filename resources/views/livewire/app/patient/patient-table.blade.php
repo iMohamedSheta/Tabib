@@ -3,7 +3,7 @@
 @endphp
 
 <div class="py-6 md:mx-4 grid  text-gray-700 dark:text-gray-200">
-    <x-main.head wire:ignore>
+    {{-- <x-main.head wire:ignore>
         <x-slot name="title">
             المرضي
         </x-slot>
@@ -12,7 +12,7 @@
             بيانات المرضى الحاليين، أو حذف المرضى غير النشطين. يحتوي كل مريض على ملف خاص داخل النظام يمكّنك من متابعة
             معلوماته الطبية وسجلاته الصحية بشكل شامل ومنظم.
         </x-slot>
-    </x-main.head>
+    </x-main.head> --}}
     <div
         class="relative bg-purple-200 text-gray-700 dark:bg-c-gray-800 dark:text-white font-bold p-6 rounded-lg shadow-xl">
         <x-datatable.table :total="$patients->total()">

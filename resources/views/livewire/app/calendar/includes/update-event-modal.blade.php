@@ -5,18 +5,18 @@
     <div x-on:updated-event.window="showUpdate = false">
         <x-modals.modal @keydown.escape.window="showUpdate = false" show="showUpdate" maxWidth="2xl">
             <x-slot name="title">
-                تعديل المهمة
+                تعديل الحجز
             </x-slot>
 
             <x-slot name="content">
                 <h3 class="pb-2">
-                    من فضلك ادخل بيانات المهمة
+                    من فضلك ادخل بيانات الحجز
                 </h3>
 
                 <div class="flex flex-wrap">
                     <div class="w-full  px-2 mt-4 ">
                         <label>
-                            عنوان المهمة
+                            عنوان الحجز
                             <span class="text-red-600">*</span>
                         </label>
                         <x-input type="text" id="update_title" x-model="update_title" wire:ignore withError="title"
@@ -110,7 +110,7 @@
                     {{ __('حفظ') }}
                 </button> --}}
                 <div class="flex justify-between items-center w-full">
-                    <x-danger-button x-on:click="deleteEventAction('{{ $update_title }}', '{{ $update_event_id }}')"
+                    <x-danger-button x-on:click="deleteEventAction()"
                         x-on:deleted:event.window="showUpdate = false; this.$refresh()" wire:loading.attr="disabled">
                         {{ __('حذف') }}
                     </x-danger-button>

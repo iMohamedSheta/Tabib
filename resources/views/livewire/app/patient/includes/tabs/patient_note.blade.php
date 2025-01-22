@@ -4,7 +4,7 @@
     الأعراض، التشخيصات، التعليمات الطبية، أو أي معلومات أخرى قد تكون مفيدة لمتابعة العلاج.
 </p>
 <div class="flex flex-wrap">
-    <x-cells.cell label="مذكرة المريض" :isText="true" :border="false" minHeight="200px">
+    <x-cells.cell label="مذكرة المريض" :isText="true" :border="false" class="min-h-[200px]">
         {{ $patient->notes }}
     </x-cells.cell>
 </div>

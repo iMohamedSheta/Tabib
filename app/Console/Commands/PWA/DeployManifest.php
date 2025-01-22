@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands\PWA;
 
-use App\Services\PWA\ManifestService;
+use App\Services\Internal\PWA\ManifestService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 

@@ -1,6 +1,7 @@
 
 <?php
 
+use App\Enums\Media\MediaTypeEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -10,10 +11,11 @@ return new class extends Migration {
     {
         Schema::create('media', function (Blueprint $table) {
             $table->id();
-
+            $table->unsignedBigInteger('organization_id')->index();
             $table->morphs('model');
             $table->uuid()->nullable()->unique();
             $table->string('collection_name');
+            $table->unsignedTinyInteger('type')->default(MediaTypeEnum::FILE);
             $table->string('name');
             $table->string('file_name');
             $table->string('mime_type')->nullable();

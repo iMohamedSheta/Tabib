@@ -7,14 +7,14 @@
         active:opacity-[0.85] active:shadow-none flex items-center gap-x-3 px-4 py-2.5 lowercase"
         type="button" :aria-label="copied ? 'Copied!' : 'Copy to clipboard'">
         <p
-            class="block pr-3 font-sans text-sm antialiased font-normal leading-normal border-r text-inherit border-gray-400/50">
+            class="block pr-3 font-sans uppercase text-sm antialiased font-normal leading-normal border-r text-inherit border-gray-400/50">
             {{ $slot }}
         </p>
         <i x-show="!copied" class="fa fa-copy"></i>
         <i x-show="copied" class="fa fa-check"></i>
     </button>
     <div x-show="copied"
-        class="absolute z-50 top-[3px] right-[140px] rounded-lg bg-gray-800 py-2 px-3 w-[75px] text-white focus:outline-none">
+        class="absolute z-50 top-[4%] right-[103%] rounded-lg bg-gray-800 py-2 px-3 w-[75px] text-white focus:outline-none">
         تم النسخ!
     </div>
 </div>

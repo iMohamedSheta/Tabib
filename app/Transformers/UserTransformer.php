@@ -2,7 +2,7 @@
 
 namespace App\Transformers;
 
-use App\Services\User\GetProfilePhotoUrlService;
+use App\Services\Internal\User\GetProfilePhotoUrlService;
 use App\Transformers\Base\Transformer;
 
 class UserTransformer extends Transformer

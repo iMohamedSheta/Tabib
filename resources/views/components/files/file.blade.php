@@ -6,7 +6,7 @@
 @php
     use App\Formatters\DateFormatter;
     use App\Formatters\DataSizeFormatter;
-    use App\Enums\User\MediaLibrary\MediaCollectionEnum;
+    use App\Enums\Media\MediaCollectionEnum;
 
     $filename =
         Str::limit(pathinfo($media->file_name, PATHINFO_FILENAME), 20, '..etc') .

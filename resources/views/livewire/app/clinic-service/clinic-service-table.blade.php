@@ -19,7 +19,7 @@
         </x-main.head>
 
         <div
-            class="relative bg-purple-200 text-gray-700 dark:bg-c-gray-800 dark:text-white font-bold p-6 rounded-lg shadow-xl min-h-[50vh] overflow-x-auto">
+            class="relative bg-purple-200 text-gray-700 dark:bg-c-gray-800 dark:text-white font-bold p-6 rounded-lg shadow-xl min-h-[50vh]">
             <x-datatable.table :total="$clinicServices->total()">
                 <x-slot name="thead">
                     <div class="flex justify-between mb-4" x-data="addModal" x-on:added="show = false">

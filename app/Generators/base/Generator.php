@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Generators\base;
+namespace App\Generators\Base;
 
 abstract class Generator
 {

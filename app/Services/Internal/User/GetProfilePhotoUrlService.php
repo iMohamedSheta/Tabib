@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\User;
+namespace App\Services\Internal\User;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
@@ -14,20 +14,16 @@ class GetProfilePhotoUrlService
         }
 
         return $profile_photo_path
-            ? self::generateTemporaryUrl($profile_photo_path)
+            ? self::generateProfileUrl($profile_photo_path)
             : self::defaultProfilePhotoUrl($username, $first_name);
     }
 
-    protected static function generateTemporaryUrl($profile_photo_path): string
+    protected static function generateProfileUrl($profile_photo_path): string
     {
         $disk = Storage::disk(config('jetstream.profile_photo_disk', 'public'));
 
         if ($disk->exists($profile_photo_path)) {
-            return URL::temporarySignedRoute(
-                'storage.private.tmp.profile_picture',
-                now()->addMinutes(10),
-                ['profilePhotoPath' => encrypt($profile_photo_path)]
-            );
+            return URL::route('storage.private.tmp.profile_picture', ['profilePhotoPath' => encrypt($profile_photo_path)]);
         }
 
         return self::defaultProfilePhotoUrl(null, null);

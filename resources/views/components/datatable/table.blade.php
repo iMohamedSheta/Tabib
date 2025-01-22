@@ -2,9 +2,9 @@
     'total' => 0,
 ])
 <div>
-    <div class="w-full rounded-lg shadow-xs  min-w-[800px]">
-        <div class="w-full">
-            <table class="w-full whitespace-no-wrap border-4 dark:border-gray-600 border-double ">
+    <div class="w-full rounded-lg shadow-xs  min-w-[800px] ">
+        <div class="">
+            <table class="w-full whitespace-no-wrap border-4 dark:border-gray-600 border-double scroll">
                 <div class="w-full">
                     {{ $thead }}
                     {{ $tbody }}

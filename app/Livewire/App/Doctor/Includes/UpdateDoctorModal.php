@@ -66,7 +66,7 @@ class UpdateDoctorModal extends Component
     {
         $validatedData = $this->validate();
         try {
-            $doctor = Doctor::find($this->doctor->id);
+            $doctor = Doctor::find($this->doctor->doctor_id);
 
             $validatedData['old_password'] = $doctor->user->password;
 

@@ -2,22 +2,22 @@
 
 namespace App\Actions\User;
 
-use App\Models\User;
+use App\Models\Media;
 use App\Responses\ActionResponse;
 use App\Traits\ActionTraits\ActionResponseTrait;
+use Illuminate\Support\Facades\Gate;
 
 class DeleteUserAttachedFileAction
 {
     use ActionResponseTrait;
 
-    public function handle(User $user, int $mediaId): ActionResponse
+    public function handle(Media $media): ActionResponse
     {
         try {
-            if ($this->isNotAuthorized($user)) {
+            if ($this->isNotAuthorized($media)) {
                 return $this->authorizeError('غير مسموح لك بحذف الملف!!');
             }
 
-            $media = $user->getMedia('*')->where('id', $mediaId)->first();
             $media->delete();
 
             return $this->success(
@@ -32,8 +32,8 @@ class DeleteUserAttachedFileAction
         }
     }
 
-    private function isNotAuthorized(User $user): bool
+    private function isNotAuthorized(Media $media): bool
     {
-        return !\Gate::allows('deleteAttachedFile', $user);
+        return !Gate::allows('delete', $media);
     }
 }

@@ -2,8 +2,8 @@
 
 namespace App\Livewire\App\Calendar;
 
-use App\Models\Calendar as CalendarModel;
 use App\Models\Clinic;
+use App\Models\Event;
 use Livewire\Component;
 
 class Calendar extends Component
@@ -14,15 +14,9 @@ class Calendar extends Component
 
     public $clinics;
 
-    public function render()
+    public function mount()
     {
-        $this->config = obj([
-            'slot_duration' => 5,
-            'initial_view' => 'dayGridMonth', // dayGridWeek, dayGridDay, timeGridWeek, timeGridDay
-        ]);
-
-        $this->clinics = $this->getClinics();
-        $this->events = CalendarModel::all()->map(function ($event): array {
+        $this->events = Event::all()->map(function ($event): array {
             $data = $event->decoded_data; // Use the accessor
 
             if (!$data) {
@@ -31,15 +25,15 @@ class Calendar extends Component
 
             return [
                 'id' => $event->id,
-                'title' => $data->title ?? '',
-                'start' => $data->start ?? null,
-                'end' => $data->end ?? null,
-                'allDay' => $data->allDay ?? false,
+                'title' => $event->title ?? '',
+                'start' => $event->start_at ?? null,
+                'end' => $event->end_at ?? null,
+                'allDay' => $event->all_day ?? false,
                 'editable' => true,
                 'backgroundColor' => $data->backgroundColor ?? sprintf('#%06X', mt_rand(0, 0xFFFFFF)),
                 'textColor' => '#FFFFFF',
                 'className' => 'event',
-                'overlap' => $data->overlap ?? true,
+                'overlap' => $data->overlap ?? false,
                 // 'borderColor' => $event->data?->borderColor ?? 'inherit',
                 // 'display' => $event->data?->display ?? 'block',
                 // 'allow' => $event->data?->allow ?? null,
@@ -47,6 +41,16 @@ class Calendar extends Component
             ];
             // $date = $event->created_at->format('Y-m-d H:i');
         })->filter();
+    }
+
+    public function render()
+    {
+        $this->config = obj([
+            'slot_duration' => 5,
+            'initial_view' => 'dayGridMonth', // dayGridWeek, dayGridDay, timeGridWeek, timeGridDay
+        ]);
+
+        $this->clinics = $this->getClinics();
 
         return view('livewire.app.calendar.calendar');
     }
@@ -58,7 +62,7 @@ class Calendar extends Component
 
     public function deleteEventAction($eventId): void
     {
-        CalendarModel::find($eventId)->delete();
+        Event::find($eventId)->delete();
 
         flash()->success('تم حذف الحجز بنجاح');
 

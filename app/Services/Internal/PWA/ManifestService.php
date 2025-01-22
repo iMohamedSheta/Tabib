@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\PWA;
+namespace App\Services\Internal\PWA;
 
 class ManifestService
 {

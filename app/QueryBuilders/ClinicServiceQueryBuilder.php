@@ -26,16 +26,16 @@ class ClinicServiceQueryBuilder extends QueryBuilderWrapper
 
     public function withPatientsCount(): static
     {
-        $builder = DB::table('calendars')
+        $builder = DB::table('events')
             ->select('clinic_service_id', DB::raw('COUNT(id) as patients_count'))
             ->groupBy('clinic_service_id');
 
         $this->query
             ->addSelect([
-                'calendars_temp.patients_count',
+                'events_temp.patients_count',
             ])
-            ->leftJoinSub($builder, 'calendars_temp', function ($join): void {
-                $join->on('clinic_services.id', '=', 'calendars_temp.clinic_service_id');
+            ->leftJoinSub($builder, 'events_temp', function ($join): void {
+                $join->on('clinic_services.id', '=', 'events_temp.clinic_service_id');
             });
 
         return $this;

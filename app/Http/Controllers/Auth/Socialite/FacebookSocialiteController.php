@@ -7,7 +7,7 @@ use App\Enums\User\UserRoleEnum;
 use App\Http\Controllers\Controller;
 use App\Models\ClinicAdmin;
 use App\Models\User;
-use App\Services\Register\StoreProfileImageService;
+use App\Services\Internal\Register\StoreProfileImageService;
 use App\Traits\Socialite\SocialiteResponseTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;

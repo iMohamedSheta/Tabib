@@ -1,5 +1,5 @@
 {
-    "name": "\u0645\u064a\u062f\u0643\u0644\u064a\u0646\u0643\u0633 - MedClinux",
+    "name": "medclinux",
     "short_name": "PWA",
     "start_url": "http:\/\/localhost\/register",
     "display": "standalone",
