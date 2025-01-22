@@ -134,12 +134,12 @@ Route::get('/test-google-drive', function (): false|string {
 
 Route::name('storage.private.tmp.')
     ->prefix('tmp/storage/private/')
-    ->group(function () {
+    ->group(function (): void {
         Route::get('/media/{media}', [PrivateStorageController::class, 'showMedia'])->name('media');
         Route::get('profile_picture/{profilePhotoPath}', [PrivateStorageController::class, 'showProfilePicture'])->name('profile_picture');
     });
 
-Route::get('files', function () {
+Route::get('files', function (): void {
     $command = 'bash testcommand.sh';
 
     $descriptor = [

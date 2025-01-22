@@ -26,7 +26,7 @@ class ShowPatient extends Component
     public $uploaded_attached_file;
     public $events;
 
-    public function mount()
+    public function mount(): void
     {
         $this->events = $this->patient->events()->with(['doctor:id,specialization,user_id', 'doctor.user:id,phone', 'clinic:id,name', 'clinicService:id,name', 'patient:id,user_id', 'patient.user:id,first_name,last_name'])->where('type', CalendarTypeEnum::PATIENT_APPOINTMENT->value)->orderByDesc('start_at')->get();
         $this->perPage = 12;

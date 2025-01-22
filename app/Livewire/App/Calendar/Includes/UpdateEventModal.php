@@ -55,7 +55,7 @@ class UpdateEventModal extends Component
 
         $eventId = $event['id'];
         $calendarEvent = Event::find($eventId);
-        $existingData = json_decode($calendarEvent->data, true) ?? [];
+        $existingData = json_decode((string) $calendarEvent->data, true) ?? [];
 
         foreach ($event as $key => $value) {
             if (!blank($value) && (array_key_exists($key, $existingData) && $value != $existingData[$key] || !array_key_exists($key, $existingData) && 'id' != $key)) {
@@ -75,7 +75,7 @@ class UpdateEventModal extends Component
         }
 
         if (isset($event['allDay']) && null != $event['allDay']) {
-            $calendarEvent->all_day = $event['allDay'] ? true : false;
+            $calendarEvent->all_day = (bool) $event['allDay'];
         }
 
         $calendarEvent->data = $existingData;
@@ -85,7 +85,7 @@ class UpdateEventModal extends Component
     }
 
     #[On('updateEventDateAction')]
-    public function updateEventDateAction($id, $start, $end, $allDay): void
+    public function updateEventDateAction($id, \DateTimeInterface|\Carbon\WeekDay|\Carbon\Month|string|int|float|null $start, $end, $allDay): void
     {
         $event = Event::find($id);
 
@@ -112,7 +112,7 @@ class UpdateEventModal extends Component
             $event->end_at = Carbon::parse($end)->toIso8601String();
         }
 
-        $event->all_day = $allDay ? true : false;
+        $event->all_day = (bool) $allDay;
 
         $event->save();
     }

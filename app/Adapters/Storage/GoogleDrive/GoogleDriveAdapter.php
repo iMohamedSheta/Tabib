@@ -397,7 +397,10 @@ class GoogleDriveAdapter implements FilesystemAdapter
         }
     }
 
-    protected function cleanOptParameters($parameters)
+    /**
+     * @return mixed[]
+     */
+    protected function cleanOptParameters($parameters): array
     {
         $operations = [
             'files.copy',
@@ -1866,7 +1869,10 @@ class GoogleDriveAdapter implements FilesystemAdapter
         }
     }
 
-    protected function indexString($str, $ch = '/')
+    /**
+     * @return int[]
+     */
+    protected function indexString($str, $ch = '/'): array
     {
         $indices = [];
         for ($i = 0, $len = strlen((string) $str); $i < $len; $i++) {

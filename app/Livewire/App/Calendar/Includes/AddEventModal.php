@@ -267,7 +267,7 @@ class AddEventModal extends Component
         }
     }
 
-    public function confirmInvoiceReceiptAction()
+    public function confirmInvoiceReceiptAction(): void
     {
         $this->validate([
             'invoiceView.event_id' => ['required', 'integer'],
@@ -322,7 +322,7 @@ class AddEventModal extends Component
 
     protected function dispatchEventToCalendar($dispatchedEvent, $event)
     {
-        $data = json_decode($event->data);
+        $data = json_decode((string) $event->data);
         $this->dispatch($dispatchedEvent, [
             'id' => $event->id,
             'title' => $event->title,

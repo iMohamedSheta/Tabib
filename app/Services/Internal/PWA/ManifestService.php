@@ -4,7 +4,10 @@ namespace App\Services\Internal\PWA;
 
 class ManifestService
 {
-    public function generate()
+    /**
+     * @return mixed[]
+     */
+    public function generate(): array
     {
         $basicManifest = [
             'name' => config('laravelpwa.manifest.name'),

@@ -14,7 +14,7 @@ class Calendar extends Component
 
     public $clinics;
 
-    public function mount()
+    public function mount(): void
     {
         $this->events = Event::all()->map(function ($event): array {
             $data = $event->decoded_data; // Use the accessor

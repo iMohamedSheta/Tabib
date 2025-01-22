@@ -24,10 +24,8 @@ class AnalyzeCloc extends Command
 
     /**
      * Execute the console command.
-     *
-     * @return int
      */
-    public function handle()
+    public function handle(): int
     {
         $excludeDirs = $this->option('exclude');
         $command = "cloc --exclude-dir=$excludeDirs .";
@@ -44,9 +42,7 @@ class AnalyzeCloc extends Command
 
         if (($filesCount = count($files)) > 10) {
             // Sort files by modification time (oldest first)
-            usort($files, function ($a, $b): int {
-                return filemtime($a) <=> filemtime($b);
-            });
+            usort($files, fn($a, $b): int => filemtime($a) <=> filemtime($b));
 
             // Keep only the 10 most recent files
             $filesToRemove = array_slice($files, 0, $filesCount - 10);
@@ -105,10 +101,8 @@ class AnalyzeCloc extends Command
             $this->info("cloc analysis complete. Report saved to: $reportPath");
 
             return Command::SUCCESS;
-        } else {
-            $this->error("An error occurred while running cloc. Exit code: $returnVar.");
-
-            return Command::FAILURE;
         }
+        $this->error("An error occurred while running cloc. Exit code: $returnVar.");
+        return Command::FAILURE;
     }
 }

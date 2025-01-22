@@ -40,11 +40,7 @@ class DateFormatter
         }
         $start = Carbon::parse($start);
 
-        if (is_null($end)) {
-            $end = $start->addMinutes(10);
-        } else {
-            $end = Carbon::parse($end);
-        }
+        $end = is_null($end) ? $start->addMinutes(10) : Carbon::parse($end);
 
         $startTime = $start->translatedFormat('g:iA');
         $endTime = $end->translatedFormat('g:iA');
