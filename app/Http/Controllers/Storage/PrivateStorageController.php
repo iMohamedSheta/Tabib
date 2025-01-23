@@ -41,7 +41,6 @@ class PrivateStorageController extends Controller
 
         $profilePhotoPath = decrypt($encryptedPath);
 
-
         $disk = Storage::disk(config('jetstream.profile_photo_disk', 'public'));
 
         $fullPath = $disk->path($profilePhotoPath);

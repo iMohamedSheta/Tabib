@@ -42,7 +42,7 @@ class AnalyzeCloc extends Command
 
         if (($filesCount = count($files)) > 10) {
             // Sort files by modification time (oldest first)
-            usort($files, fn($a, $b): int => filemtime($a) <=> filemtime($b));
+            usort($files, fn ($a, $b): int => filemtime($a) <=> filemtime($b));
 
             // Keep only the 10 most recent files
             $filesToRemove = array_slice($files, 0, $filesCount - 10);
@@ -103,6 +103,7 @@ class AnalyzeCloc extends Command
             return Command::SUCCESS;
         }
         $this->error("An error occurred while running cloc. Exit code: $returnVar.");
+
         return Command::FAILURE;
     }
 }

@@ -10,8 +10,7 @@ class MediaUrlGeneratorService
     /**
      * Generates a URL for a given media item.
      *
-     * @param Media $media        the media item to generate a URL for
-     * @param int   $ttlInMinutes the time to live for the URL in minutes
+     * @param int $ttlInMinutes the time to live for the URL in minutes
      *
      * @return string the temporary URL
      */
