@@ -15,11 +15,11 @@
 bg-purple-600 dark:text-white
 @endIsRoute hover:bg-purple-500 hover:text-white w-full transition-all font-semibold  duration-200
         {{ $attributes->get('class') }}"
-        {{ $attributes->except('class') }} :class="{ 'px-8': isAppSidebarClosed }" x-cloak>
+        {{ $attributes->except('class') }} :class="{ 'px-8': !$store.appConfig.isAppSidebarOpen }" x-cloak>
         <span>
             {{ $icon }}
         </span>
-        <span :class="{ 'hidden': isAppSidebarClosed }" x-cloak>
+        <span :class="{ 'hidden': !$store.appConfig.isAppSidebarOpen }" x-cloak>
             {{ $slot }}
         </span>
     </button>

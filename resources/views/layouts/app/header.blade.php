@@ -11,24 +11,32 @@
         </button>
         <!-- Search input -->
         <div class="flex justify-start flex-1 lg:ml-32 px-10">
-            <button class="hidden md:block mx-2" x-on:click="toggleAppSidebar()">
-                <i x-show="isAppSidebarClosed" class="fas fa-bars-staggered "></i>
-                <i x-show="!isAppSidebarClosed" class="fas fa-bars "></i>
+            <button class="hidden md:block mx-2" x-on:click="$store.appConfig.toggleAppSidebar()">
+                <i x-show="!$store.appConfig.isAppSidebarOpen" class="fas fa-bars-staggered "></i>
+                <i x-show="$store.appConfig.isAppSidebarOpen" class="fas fa-bars "></i>
             </button>
-            <button class=" mx-2" x-on:click="toggleAppFullscreen()">
-                <i x-show="!isAppFullscreen" class="fas fa-compress"></i>
-                <i x-show="isAppFullscreen" class="fas fa-expand"></i>
+            <button class=" mx-2" x-on:click="$store.appConfig.toggleAppFullscreen()">
+                <i x-show="!$store.appConfig.isAppFullscreen" class="fas fa-compress"></i>
+                <i x-show="$store.appConfig.isAppFullscreen" class="fas fa-expand"></i>
             </button>
-            <li class="relative mx-4 flex justify-center items-center " x-data="receptionGlobalSearchModal">
-                <form autocomplete="off">
+            <li class="relative mx-4 flex justify-center items-center ">
+                {{-- <form autocomplete="off">
                     <x-input type="search" class="py-1 bg-purple-200 text-xs hidden lg:block  xl:w-80"
                         placeholder="بحث" name="search-input" spellcheck="false"
                         x-on:click="showReceptionSearchModal = true" />
-                </form>
+                </form> --}}
+                <label class="input  items-center gap-2 " x-on:click="$store.appConfig.showReceptionSearchModal = true"
+                    style="border:none!important;outline:none!important;">
+                    <input type="text" class="grow outline-none border-none ring-0   focus:ring-0 "
+                        placeholder="البحث" readonly />
+                    <kbd class="kbd kbd-sm">K</kbd>
+                    <kbd class="kbd kbd-sm">⌘</kbd>
+                </label>
 
 
                 @teleport('body')
-                    <livewire:app.reception.reception-global-search-modal show="showReceptionSearchModal" />
+                    <livewire:app.reception.reception-global-search-modal
+                        show="$store.appConfig.showReceptionSearchModal" />
                 @endteleport
             </li>
         </div>

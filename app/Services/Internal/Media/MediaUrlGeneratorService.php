@@ -15,12 +15,12 @@ class MediaUrlGeneratorService
      *
      * @return string the temporary URL
      */
-    public function handle(Media $media, int $ttlInMinutes = 10): string
+    public function handle(int $mediaId, int $ttlInMinutes = 10): string
     {
-        if ('s3' === $media->disk) {
-            return $media->getTemporaryUrl(now()->addMinutes($ttlInMinutes));
-        }
+        // if ('s3' === $media->disk) {
+        //     return $media->getTemporaryUrl(now()->addMinutes($ttlInMinutes));
+        // }
 
-        return URL::route('storage.private.tmp.media', ['media' => $media]);
+        return URL::route('storage.private.tmp.media', ['encryptedMedia' => encrypt($mediaId)]);
     }
 }

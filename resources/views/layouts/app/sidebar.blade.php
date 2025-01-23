@@ -2,10 +2,11 @@
 <aside
     class="z-20 hidden h-[100vh] overflow-y-auto opacity-95  bg-purple-800  dark:bg-c-gray-800 shadow-lg dark:shadow-lg md:block flex-shrink-0
  scrollbar-thin scrollbar-track-purple-800 scrollbar-thumb-purple-500 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800 transition-all  duration-500"
-    style="z-index: 0" :class="{ 'w-64': !isAppSidebarClosed, 'w-24': isAppSidebarClosed }">
+    style="z-index: 0"
+    :class="{ 'w-64': $store.appConfig.isAppSidebarOpen, 'w-24': !$store.appConfig.isAppSidebarOpen }">
     <div class="pb-4 text-gray-500 dark:text-gray-400">
         <div class="text-center bg-c-gray-800   pb-2 pt-4 rounded transition-all duration-500"
-            x-show="!isAppSidebarClosed">
+            x-show="$store.appConfig.isAppSidebarOpen">
             <a class="text-2xl font-extrabold text-purple-200 dark:text-purple-200 " href="#">
                 {{-- طبيب<span class=" text-purple-300 dark:text-purple-600 ">.كلاود</span> --}}
                 {{-- Tabib<span class="text-orange-600">Hub</span> --}}
@@ -19,7 +20,7 @@
             </a>
         </div>
         <div class="text-center bg-c-gray-800   pb-2 pt-4 rounded transition-all duration-500"
-            x-show="isAppSidebarClosed" x-cloak>
+            x-show="!$store.appConfig.isAppSidebarOpen" x-cloak>
             <a class="text-2xl font-extrabold text-purple-200 dark:text-purple-200 " href="#">
                 {{-- طبيب<span class=" text-purple-300 dark:text-purple-600 ">.كلاود</span> --}}
                 {{-- Tabib<span class="text-orange-600">Hub</span> --}}
@@ -214,7 +215,7 @@
         <div class="px-6 my-6">
             <button
                 class="flex items-center justify-between w-full px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-                <span :class="{ 'hidden': isAppSidebarClosed }">
+                <span :class="{ 'hidden': !$store.appConfig.isAppSidebarOpen }">
                     انشاء عيادة
                 </span>
                 <i class="fa-solid fa-plus"></i>

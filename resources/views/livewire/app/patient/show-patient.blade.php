@@ -67,8 +67,8 @@
                 </div>
             </div>
         </div>
-        <x-tabs.tab-list selected-tab="medical_records" :patient="$patient">
-            {{-- <x-tabs.tab-list selected-tab="attached_files"> --}}
+        <x-tabs.tab-list selected-tab="exams" :patient="$patient">
+            {{-- <x-tabs.tab-list selected-tab="medical_records"> --}}
             <x-slot name="tabs">
                 @foreach (config('patient.view.show-patient.tabs') as $tabKey => $tab)
                     <x-tabs.tab-head :name="$tabKey">

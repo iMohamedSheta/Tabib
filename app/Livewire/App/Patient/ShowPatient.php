@@ -28,7 +28,6 @@ class ShowPatient extends Component
 
     public function mount(): void
     {
-        $this->events = $this->patient->events()->with(['doctor:id,specialization,user_id', 'doctor.user:id,phone', 'clinic:id,name', 'clinicService:id,name', 'patient:id,user_id', 'patient.user:id,first_name,last_name'])->where('type', CalendarTypeEnum::PATIENT_APPOINTMENT->value)->orderByDesc('start_at')->get();
         $this->perPage = 12;
     }
 
@@ -36,6 +35,8 @@ class ShowPatient extends Component
     {
         $clinics = Clinic::list();
         $days = DaysEnum::getDaysLabels();
+
+        $this->events = $this->patient->events()->with(['doctor:id,specialization,user_id', 'doctor.user:id,phone', 'clinic:id,name', 'clinicService:id,name', 'patient:id,user_id', 'patient.user:id,first_name,last_name'])->where('type', CalendarTypeEnum::PATIENT_APPOINTMENT->value)->orderByDesc('start_at')->get();
 
         $mediaFileItems = $this->patient->user->media()->where('type', MediaTypeEnum::FILE)->paginate(perPage: $this->perPage, page: $this->page);
         $mediaRadioItems = $this->patient->user->media()->where('type', MediaTypeEnum::RADIOLOGY)->paginate(perPage: $this->perPage, page: $this->page);

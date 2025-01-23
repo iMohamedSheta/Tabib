@@ -97,12 +97,3 @@
         </x-slot>
     </x-modals.modal>
 </div>
-@push('scripts')
-    <script>
-        function receptionGlobalSearchModal() {
-            return {
-                showReceptionSearchModal: false,
-            }
-        }
-    </script>
-@endpush

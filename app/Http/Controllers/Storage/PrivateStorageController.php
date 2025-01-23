@@ -6,13 +6,18 @@ namespace App\Http\Controllers\Storage;
 
 use App\Http\Controllers\Controller;
 use App\Models\Media;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class PrivateStorageController extends Controller
 {
-    public function showMedia(Media $media): BinaryFileResponse
+    public function showMedia(string $encryptedMedia): BinaryFileResponse
     {
-        if (!auth()->user()->can('view', $media)) {
+        $media = Media::find(decrypt($encryptedMedia));
+
+        if (!Gate::allows('view', $media)) {
             abort(403, 'Unauthorized access');
         }
 
@@ -30,13 +35,14 @@ class PrivateStorageController extends Controller
 
     public function showProfilePicture(string $encryptedPath): BinaryFileResponse
     {
-        $profilePhotoPath = decrypt($encryptedPath);
-
-        if (!auth()->user()->can('view', auth()->user())) {
+        if (!Gate::allows('view', Auth::user())) {
             abort(403, 'Unauthorized access');
         }
 
-        $disk = \Storage::disk(config('jetstream.profile_photo_disk', 'public'));
+        $profilePhotoPath = decrypt($encryptedPath);
+
+
+        $disk = Storage::disk(config('jetstream.profile_photo_disk', 'public'));
 
         $fullPath = $disk->path($profilePhotoPath);
 

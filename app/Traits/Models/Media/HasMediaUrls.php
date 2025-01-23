@@ -8,6 +8,6 @@ trait HasMediaUrls
 {
     public function getUrlAttribute(): string
     {
-        return (new MediaUrlGeneratorService())->handle($this);
+        return (new MediaUrlGeneratorService())->handle($this->id);
     }
 }

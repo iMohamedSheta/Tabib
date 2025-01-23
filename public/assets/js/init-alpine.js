@@ -43,34 +43,6 @@ function data() {
     closeProfileMenu() {
       this.isProfileMenuOpen = false
     },
-    // Modal
-    isModalOpen: false,
-    trapCleanup: null,
-    openModal() {
-      this.isModalOpen = true
-      this.trapCleanup = focusTrap(document.querySelector('#modal'))
-    },
-    closeModal() {
-      this.isModalOpen = false
-      this.trapCleanup()
-    },
-    isAppFullscreen: JSON.parse(sessionStorage.getItem('isAppFullscreen')) || false,
-    toggleAppFullscreen() {
-        this.isAppFullscreen = !this.isAppFullscreen;
-        sessionStorage.setItem('isAppFullscreen', JSON.stringify(this.isAppFullscreen));
-
-        if (this.isAppFullscreen) {
-            document.documentElement.requestFullscreen();
-        } else {
-            document.exitFullscreen();
-        }
-    },
-    isAppSidebarClosed: JSON.parse(localStorage.getItem('isAppSidebarClosed')) || false,
-    toggleAppSidebar() {
-      this.isAppSidebarClosed = !this.isAppSidebarClosed;
-      localStorage.setItem('isAppSidebarClosed', JSON.stringify(this.isAppSidebarClosed));
-      console.log('this.isAppSidebarClosed '+ this.isAppSidebarClosed);
-    }
 }
 }
 

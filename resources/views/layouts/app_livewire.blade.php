@@ -8,7 +8,7 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
-    <script type="text/javascript">
+    {{-- <script type="text/javascript">
         (function(c, l, a, r, i, t, y) {
             c[a] = c[a] || function() {
                 (c[a].q = c[a].q || []).push(arguments)
@@ -19,7 +19,7 @@
             y = l.getElementsByTagName(r)[0];
             y.parentNode.insertBefore(t, y);
         })(window, document, "clarity", "script", "pqxfuoazni");
-    </script>
+    </script> --}}
 
     @vite('resources/css/app.css')
     @vite('resources/js/app.js')
@@ -63,7 +63,9 @@
 </head>
 
 <body dir="rtl" x-data="data()" id="app" :class="{ 'dark': dark }"
-    class="dark  overflow-hidden scroll-smooth">
+    class="dark  overflow-hidden scroll-smooth"
+    x-on:keydown.window.prevent.ctrl.k="$store.appConfig.showReceptionSearchModal = true"
+    x-on:keydown.window.prevent.meta.k="$store.appConfig.showReceptionSearchModal = true">
     <div class="flex bg-purple-300 dark:bg-c-gray-900  dark:bg-purple-400">
 
         {{-- DesktopSidebar --}}
@@ -101,22 +103,37 @@
     <script src="{{ asset('assets/helpers/sweetalertHelper.js') }}"></script>
     <script src="{{ asset('assets/helpers/mainHelpers.js') }}"></script>
     <script src="{{ asset('assets/js/vendor/ripple.min.js') }}"></script>
-    {{-- <script>
-        // Function to initialize Ripple.js
-        function initializeRipple() {
-            const ripple = window.ripple; // Access ripple from the global scope
-            if (ripple) ripple();
-        }
 
-        // Initialize Ripple effect on page load
-        initializeRipple();
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.store('appConfig', {
+                showReceptionSearchModal: false,
+                isAppFullscreen: false,
+                isAppSidebarOpen: Alpine.$persist(true),
+                toggleAppFullscreen() {
+                    this.isAppFullscreen = !this.isAppFullscreen;
 
-        // Reinitialize after Livewire events
-        document.addEventListener('livewire:load', initializeRipple); // On Livewire load
-        document.addEventListener('livewire:update', initializeRipple); // On Livewire DOM update
-        document.addEventListener('livewire:navigate', initializeRipple); // On SPA navigation
-    </script> --}}
-
+                    if (this.isAppFullscreen) {
+                        document.documentElement.requestFullscreen();
+                    } else {
+                        document.exitFullscreen();
+                    }
+                },
+                toggleAppSidebar() {
+                    this.isAppSidebarOpen = !this.isAppSidebarOpen;
+                },
+                resetGlobalState() {
+                    this.showReceptionSearchModal = false;
+                }
+            })
+            // Listen for Livewire events and reset global state
+            'livewire:load, livewire:navigate, livewire:update'.split(',').forEach(event => {
+                document.addEventListener(event.trim(), () => {
+                    Alpine.store('appConfig').resetGlobalState();
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

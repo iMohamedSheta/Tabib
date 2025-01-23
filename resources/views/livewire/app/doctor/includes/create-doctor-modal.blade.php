@@ -10,7 +10,7 @@
             </x-slot>
 
             <x-slot name="content">
-                <div x-data="{ selectedTab: 'groups' }" class="w-full">
+                <div x-data="{ selectedTab: 'groups', start_time: '', end_time: '' }" class="w-full">
                     <div @keydown.right.prevent="$focus.wrap().next()" @keydown.left.prevent="$focus.wrap().previous()"
                         class="flex gap-2 overflow-x-auto border-b border-neutral-300 dark:border-neutral-700"
                         role="tablist" aria-label="tab options">
