@@ -66,7 +66,7 @@
     class="dark  overflow-hidden scroll-smooth"
     x-on:keydown.window.prevent.ctrl.k="$store.appConfig.showReceptionSearchModal = true"
     x-on:keydown.window.prevent.meta.k="$store.appConfig.showReceptionSearchModal = true">
-    <div class="flex bg-purple-300 dark:bg-c-gray-900  dark:bg-purple-400">
+    <div class="flex bg-purple-400 dark:bg-c-gray-900  dark:bg-purple-400">
 
         {{-- DesktopSidebar --}}
         @include('layouts.app.sidebar')

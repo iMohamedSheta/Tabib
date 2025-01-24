@@ -39,4 +39,13 @@ enum UserRoleEnum: String
             default => 'unknown',
         };
     }
+
+    public function label(): string
+    {
+        return match ($this) {
+            self::MANAGER => 'مدير النظام',
+            self::CLINIC_ADMIN => 'مدير العيادة',
+            self::DOCTOR => 'طبيب',
+        };
+    }
 }

@@ -1,5 +1,5 @@
-<header class="sticky  top-0 z-10 py-2   flex   bg-purple-800 opacity-95 shadow-lg dark:bg-c-gray-800 ">
-    <div class="container contents  h-full px-6 mx-auto text-white dark:text-purple-300">
+<header class="sticky  top-0 z-10 py-2   flex    opacity-95 shadow-lg bg-c-gray-800 ">
+    <div class="container contents  h-full px-6 mx-auto text-purple-300">
         <!-- Mobile hamburger -->
         <button class="p-1 -ml-1 mr-5 justify-start rounded-md md:hidden focus:outline-none focus:shadow-outline-purple"
             @click="toggleSideMenu" aria-label="Menu">
@@ -42,13 +42,13 @@
         </div>
         <ul class="hidden md:flex items-center flex-shrink-0">
             <a class="mx-2" href="{{ url()->current() }}" wire:navigate>
-                <i class="fas fa-arrows-rotate text-white dark:text-purple-300"></i>
+                <i class="fas fa-arrows-rotate text-purple-300"></i>
             </a>
             <a class="mx-2" href="{{ url()->previous() }}" wire:navigate>
-                <i class="fas fa-arrow-left text-white dark:text-purple-300"></i>
+                <i class="fas fa-arrow-left text-purple-300"></i>
             </a>
             <li class="relative mx-4 flex justify-center items-center">
-                <span class="text-white  dark:bg-gray-800 bg-purple-600 p-3 rounded-full shadow-lg">
+                <span class="  bg-gray-800 p-3 rounded-full shadow-lg">
                     كود التحصيل :
                     {{ auth()->user()->organization->billing_code }}
                 </span>
