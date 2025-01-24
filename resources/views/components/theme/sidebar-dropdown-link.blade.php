@@ -32,14 +32,8 @@
                 clip-rule="evenodd"></path>
         </svg>
     </button>
-    <div x-show="isPagesMenuOpen" style="display: none" class="mr-4 mt-1" x-cloak
-        :class="{ 'mr-0': !$store.appConfig.isAppSidebarOpen }"
-        x-transition:enter="transition-all ease-in-out duration-300"
-        x-transition:enter-start="opacity-0 transform -translate-y-2 max-h-0"
-        x-transition:enter-end="opacity-100 transform translate-y-0 max-h-screen"
-        x-transition:leave="transition-all ease-in-out duration-300"
-        x-transition:leave-start="opacity-100 transform translate-y-0 max-h-screen"
-        x-transition:leave-end="opacity-0 transform -translate-y-2 max-h-0">
+    <div x-show="isPagesMenuOpen" x-collapse style="display: none" class="mr-4 mt-1" x-cloak
+        :class="{ 'mr-0': !$store.appConfig.isAppSidebarOpen }">
         <ul class="mb-2  overflow-hidden  bg-purple-800 font-medium text-gray-500 rounded-md shadow-inner  dark:text-gray-400 dark:bg-c-gray-900"
             aria-label="submenu">
             {{ $slot }}

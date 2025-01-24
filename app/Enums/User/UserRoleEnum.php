@@ -44,7 +44,7 @@ enum UserRoleEnum: String
     {
         return match ($this) {
             self::MANAGER => 'مدير النظام',
-            self::CLINIC_ADMIN => 'مدير العيادة',
+            self::CLINIC_ADMIN => 'مدير العيادات',
             self::DOCTOR => 'طبيب',
         };
     }

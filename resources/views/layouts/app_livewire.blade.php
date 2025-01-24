@@ -66,7 +66,7 @@
     class="dark  overflow-hidden scroll-smooth"
     x-on:keydown.window.prevent.ctrl.k="$store.appConfig.showReceptionSearchModal = true"
     x-on:keydown.window.prevent.meta.k="$store.appConfig.showReceptionSearchModal = true">
-    <div class="flex bg-purple-400 dark:bg-c-gray-900  dark:bg-purple-400">
+    <div class="h-screen flex bg-purple-400 dark:bg-c-gray-900  dark:bg-purple-400">
 
         {{-- DesktopSidebar --}}
         @include('layouts.app.sidebar')
@@ -76,20 +76,19 @@
         @include('layouts.app.sidebar_mobile')
         {{-- /MobileSidebar --}}
         <div
-            class="flex flex-col flex-1 h-screen overflow-y-auto  scrollbar-thin scrollbar-track-purple-800 scrollbar-thumb-purple-500 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800 min-h-[80vh] max-w-[100vw] ">
+            class=" h-full flex flex-col flex-1 overflow-y-auto  scrollbar-thin scrollbar-track-purple-800 scrollbar-thumb-purple-500 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800 min-h-[80vh] max-w-[100vw] ">
 
             {{-- Header --}}
             @include('layouts.app.header')
             {{-- /Header --}}
-
             <main>
-                <div class="min-h-[87vh] overflow-x-auto">
+                <div class="h-full overflow-x-auto">
                     <x-spinners.t-spinner></x-spinners.t-spinner>
 
                     {{ $slot }}
                 </div>
             </main>
-            <div class="block">
+            <div class="h-full flex items-end">
                 @include('layouts.app.footer')
             </div>
         </div>

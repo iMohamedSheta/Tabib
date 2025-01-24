@@ -2,7 +2,17 @@
 <aside
     class="z-20 hidden h-screen  opacity-95 bg-c-gray-800 duration-300 shadow-lg dark:shadow-lg md:block flex-shrink-0
 "
-    style="z-index: 0" x-data="{ userMenuOpen: false }"
+    style="z-index: 0" x-data="{
+        userMenuOpen: false,
+        toggleUserProfileDropdown() {
+            if (!$store.appConfig.isAppSidebarOpen) {
+                this.userMenuOpen = true;
+                $store.appConfig.isAppSidebarOpen = true;
+            } else {
+                this.userMenuOpen = !this.userMenuOpen;
+            }
+        }
+    }"
     :class="{ 'w-64': $store.appConfig.isAppSidebarOpen, 'w-24': !$store.appConfig.isAppSidebarOpen }">
     <div class="h-full flex flex-col flex-1 justify-space-between  text-gray-400 dark:text-gray-400">
         <div
@@ -233,27 +243,30 @@
         </div>
         <!-- User Profile Section -->
         <div class=" border-t border-purple-700/50 bg-purple-950/20 ">
-            <button @click="userMenuOpen = !userMenuOpen"
+            <button @click="toggleUserProfileDropdown()"
                 class="flex items-center w-full rounded-lg p-4 transition-colors duration-200 hover:bg-purple-700/50 group">
                 <div class="relative">
-                    <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&auto=format&fit=crop&q=60"
-                        alt="Profile" class="w-10 h-10 rounded-full border-2 border-purple-400 object-cover">
+                    <img src="{{ auth()->user()->profile_photo_url }}" alt="Profile"
+                        class="w-10 h-10 rounded-full border-2 border-purple-400 object-cover">
                     <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-purple-900 rounded-full">
                     </div>
+                    <span aria-hidden="true"
+                        class="absolute bottom-0 animate-ping right-0 inline-block w-3 h-3  bg-green-500 border-2 border-purple-700 rounded-full dark:border-gray-800"></span>
                 </div>
-                <div class="mr-3 text-right transition-all duration-200"
-                    :class="{ 'opacity-0': !$store.appConfig.isAppSidebarOpen }">
+                <div class="mr-3 text-right transition-all duration-200" x-cloak
+                    :class="{ 'hidden': !$store.appConfig.isAppSidebarOpen }">
                     <h3 class="text-sm font-medium text-white">د.
                         {{ auth()->user()->first_name . ' ' . auth()->user()->last_name }}</h3>
                     <p class="text-xs text-purple-300">
                         {{ App\Enums\User\UserRoleEnum::from(auth()->user()->role)->label() }}</p>
                 </div>
-                <i class="fa-solid fa-chevron-down mr-auto text-purple-400 transition-transform duration-200"
-                    :class="{ 'rotate-180': userMenuOpen, 'opacity-0': !$store.appConfig.isAppSidebarOpen }"></i>
+                <i class="fa-solid fa-chevron-down mr-auto text-purple-400 transition-transform duration-200" x-cloak
+                    :class="{ 'rotate-180': userMenuOpen, 'hidden': !$store.appConfig.isAppSidebarOpen }"></i>
             </button>
 
             <!-- User Menu Dropdown -->
-            <div x-show="userMenuOpen" x-collapse class="mb-2  rounded-lg bg-purple-900/50 overflow-auto">
+            <div x-show="userMenuOpen" x-collapse :class="{ 'hidden': !$store.appConfig.isAppSidebarOpen }" x-cloak
+                class="mb-2  rounded-lg bg-c-gray-900/90 overflow-auto">
                 <a href="#"
                     class="flex items-center px-4 py-2 text-sm hover:bg-purple-700/50 transition-colors duration-200">
                     <i class="fa-solid fa-user-cog fa-lg text-purple-400"></i>
