@@ -29,8 +29,7 @@
                                 <a href="{{ $this->getSearchResultUrl($user->patient_id) }}" wire:navigate.hover
                                     class="flex justify-center items-center  px-4 py-2 text-white  hover:bg-[#1F2937] rounded-b-2xl
                                             focus:outline-none  transition-colors  ease-in-out duration-50 w-full"
-                                    {{-- x-on:click="searchResultClicked('{{ $user->first_name }} {{ $user->last_name }}', '{{ $user->patient_id }}')" --}} x-on:mouseenter="showPopover = true"
-                                    x-on:mouseleave="showPopover = false">
+                                    x-on:mouseenter="showPopover = true" x-on:mouseleave="showPopover = false">
                                     <img class="object-cover w-8 h-8 rounded-full"
                                         src="{{ $this->getUserProfilePhotoUrl($user->profile_photo_path, $user->username, $user->first_name) }}"
                                         alt="" aria-hidden="true" />

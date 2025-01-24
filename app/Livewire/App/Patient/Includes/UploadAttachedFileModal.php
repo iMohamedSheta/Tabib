@@ -60,12 +60,12 @@ class UploadAttachedFileModal extends Component
                 ->toMediaCollection($collection);
 
             if (in_array($this->mediaType, MediaTypeEnum::cases()) && MediaTypeEnum::FILE !== $this->mediaType) {
-                $media->update(['type' => $this->mediaType]);
+                $media->update(['media_type' => $this->mediaType]);
             }
 
             flash()->success('تم رفع الملف للمريض بنجاح!');
 
-            $this->dispatch('uploaded-file');
+            $this->dispatch('uploaded-file', $this->mediaType);
         } catch (\Exception $e) {
             log_error($e);
             flash()->error(__('alerts.error'));

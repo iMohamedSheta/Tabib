@@ -34,23 +34,23 @@
             </div>
             <div>
                 <span>
-                    {{ $mediaRadioItemsTotal }}
+                    {{ $this->mediaRadioItems['total'] }}
                     اشعة ملحقة بالمريض
                 </span>
             </div>
         </div>
 
-        @if ($mediaRadioItemsTotal > 0)
+        @if ($this->mediaRadioItems['total'] > 0)
             <ul>
                 <div :class="isViewGrid() ? 'flex flex-wrap justify-center items-center' : 'block'">
-                    @foreach ($mediaRadioItems as $media)
+                    @foreach ($this->mediaRadioItems['items'] as $media)
                         <div class="p-4">
                             <x-files.file :media="$media" :src="$media->url"></x-files.file>
                         </div>
                     @endforeach
                 </div>
             </ul>
-            <x-datatable.pagination :paginator="$mediaRadioItems"></x-datatable.pagination>
+            <x-datatable.pagination :paginator="$this->mediaRadioItems['items']"></x-datatable.pagination>
         @else
             <p class="text-red-500 text-sm text-center p-8">
                 لا توجد اشعة ملحقة.

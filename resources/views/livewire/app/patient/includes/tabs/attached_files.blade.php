@@ -34,23 +34,23 @@
             </div>
             <div>
                 <span>
-                    {{ $mediaFileItemsTotal }}
+                    {{ $this->mediaFileItems['total'] }}
                     ملف ملحق بالمريض
                 </span>
             </div>
         </div>
 
-        @if ($mediaFileItemsTotal > 0)
+        @if ($this->mediaFileItems['total'] > 0)
             <ul>
                 <div :class="isViewGrid() ? 'flex flex-wrap justify-center items-center' : 'block'">
-                    @foreach ($mediaFileItems as $media)
+                    @foreach ($this->mediaFileItems['items'] as $media)
                         <div class="p-4">
                             <x-files.file :media="$media" :src="$media->url"></x-files.file>
                         </div>
                     @endforeach
                 </div>
             </ul>
-            <x-datatable.pagination :paginator="$mediaFileItems"></x-datatable.pagination>
+            <x-datatable.pagination :paginator="$this->mediaFileItems['items']"></x-datatable.pagination>
         @else
             <p class="text-red-500 text-sm text-center p-8">
                 لا توجد ملفات ملحقة.

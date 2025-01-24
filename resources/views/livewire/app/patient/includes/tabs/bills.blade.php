@@ -11,7 +11,7 @@
     مستقبلية، مع تفاصيل مثل تاريخ ووقت الحجز، اسم الطبيب، والعيادة.
 </p>
 <div class="flex flex-wrap">
-    @foreach ($events as $event)
+    @foreach ($this->events as $event)
         <div class="bg-purple-700 w-full m-3">
             <div
                 class="w-full mx-auto bg-purple-200 hover:bg-purple-300  shadow-md overflow-hidden  group transform transition-transform duration-300 hover:-translate-x-1 hover:-translate-y-1  hover:shadow-2xl">

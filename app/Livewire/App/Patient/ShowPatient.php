@@ -14,49 +14,71 @@ use App\Models\Media;
 use App\Models\Patient;
 use App\Traits\Pagination\WithCustomPagination;
 use Illuminate\Contracts\View\View;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\Locked;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
-#[On(['added', 'updated', 'deleted', 'uploaded-file'])]
+#[On(['added', 'updated'])]
 class ShowPatient extends Component
 {
     use WithCustomPagination;
 
     public Patient $patient;
-    public $uploaded_attached_file;
-    public $events;
+    #[Locked]
+    public $days;
+    #[Locked]
+    public $clinics;
 
     public function mount(): void
     {
+        $this->days = DaysEnum::getDaysLabels();
         $this->perPage = 12;
+        $this->clinics = Clinic::list();
     }
 
     public function render(): View
     {
-        $clinics = Clinic::list();
-        $days = DaysEnum::getDaysLabels();
+        return view('livewire.app.patient.show-patient');
+    }
+    #[Computed(persist: true)]
+    public function events()
+    {
+        return $this->patient->events()->with(['doctor:id,specialization,user_id', 'doctor.user:id,phone', 'clinic:id,name', 'clinicService:id,name', 'patient:id,user_id', 'patient.user:id,first_name,last_name'])
+            ->where('type', CalendarTypeEnum::PATIENT_APPOINTMENT->value)->orderByDesc('start_at')->get();
+    }
 
-        $this->events = $this->patient->events()->with(['doctor:id,specialization,user_id', 'doctor.user:id,phone', 'clinic:id,name', 'clinicService:id,name', 'patient:id,user_id', 'patient.user:id,first_name,last_name'])->where('type', CalendarTypeEnum::PATIENT_APPOINTMENT->value)->orderByDesc('start_at')->get();
+    #[Computed(persist: true)]
+    public function mediaFileItems()
+    {
+        $items = $this->patient->user->media()->where('media_type', MediaTypeEnum::FILE)->paginate(perPage: $this->perPage, page: $this->page);
+        $itemsTotal = $items->total();
 
-        $mediaFileItems = $this->patient->user->media()->where('type', MediaTypeEnum::FILE)->paginate(perPage: $this->perPage, page: $this->page);
-        $mediaRadioItems = $this->patient->user->media()->where('type', MediaTypeEnum::RADIOLOGY)->paginate(perPage: $this->perPage, page: $this->page);
+        return [
+            'items' => $items,
+            'total' => $itemsTotal,
+        ];
+    }
 
-        return view('livewire.app.patient.show-patient', [
-            'clinics' => $clinics,
-            'days' => $days,
-            'mediaFileItems' => $mediaFileItems,
-            'mediaFileItemsTotal' => $mediaFileItems->total(),
-            'mediaRadioItems' => $mediaRadioItems,
-            'mediaRadioItemsTotal' => $mediaRadioItems->total(),
-        ]);
+    #[Computed(persist: true)]
+    public function mediaRadioItems()
+    {
+        $items = $this->patient->user->media()->where('media_type', MediaTypeEnum::RADIOLOGY)->paginate(perPage: $this->perPage, page: $this->page);
+        $itemsTotal = $items->total();
+
+        return [
+            'items' => $items,
+            'total' => $itemsTotal,
+        ];
     }
 
     public function deleteMediaAction(int $mediaId): void
     {
         try {
-            $actionResponse = (new DeleteUserAttachedFileAction())->handle(
-                Media::find($mediaId)
-            );
+            $media = Media::find($mediaId);
+            $mediaType = $media->media_type;
+
+            $actionResponse = (new DeleteUserAttachedFileAction())->handle($media);
 
             flash()->{$actionResponse->success ? 'success' : 'error'}($this->matchStatus($actionResponse->status));
 
@@ -64,6 +86,7 @@ class ShowPatient extends Component
                 return;
             }
 
+            $this->unsetMediaItems($mediaType);
             $this->dispatch('deleted');
         } catch (\Exception $exception) {
             log_error($exception);
@@ -78,5 +101,17 @@ class ShowPatient extends Component
             ActionResponseStatusEnum::SUCCESS => 'تم حذف الملف بنجاح',
             default => 'حدث خطاء في عملية حذف الملف, الرجاء المحاولة لاحقاً',
         };
+    }
+
+    #[On('uploaded-file')]
+    public function unsetMediaItems(int|MediaTypeEnum $mediaType): void
+    {
+        if ($mediaType == MediaTypeEnum::FILE) {
+            unset($this->mediaFileItems);
+        } elseif ($mediaType == MediaTypeEnum::RADIOLOGY) {
+            unset($this->mediaRadioItems);
+        } else {
+            unset($this->mediaFileItems, $this->mediaRadioItems);
+        }
     }
 }

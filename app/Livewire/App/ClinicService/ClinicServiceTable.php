@@ -57,6 +57,7 @@ class ClinicServiceTable extends Component
 
     public function render()
     {
+        $this->perPage = 2;
         return view('livewire.app.clinic-service.clinic-service-table', [
             'clinicServices' => $this->getClinicServices(),
             'clinics' => $this->getClinics(),

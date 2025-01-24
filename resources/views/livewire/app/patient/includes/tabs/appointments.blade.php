@@ -11,7 +11,7 @@
 </p>
 
 <ul class="timeline timeline-snap-icon max-md:timeline-compact timeline-vertical hover">
-    @foreach ($events as $event)
+    @foreach ($this->events as $event)
         @php
             $eventIsPast = Carbon::parse($event->start_at)->isPast();
         @endphp
