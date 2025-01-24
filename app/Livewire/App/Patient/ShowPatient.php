@@ -41,6 +41,7 @@ class ShowPatient extends Component
     {
         return view('livewire.app.patient.show-patient');
     }
+
     #[Computed(persist: true)]
     public function events()
     {
@@ -106,9 +107,9 @@ class ShowPatient extends Component
     #[On('uploaded-file')]
     public function unsetMediaItems(int|MediaTypeEnum $mediaType): void
     {
-        if ($mediaType == MediaTypeEnum::FILE) {
+        if (MediaTypeEnum::FILE == $mediaType) {
             unset($this->mediaFileItems);
-        } elseif ($mediaType == MediaTypeEnum::RADIOLOGY) {
+        } elseif (MediaTypeEnum::RADIOLOGY == $mediaType) {
             unset($this->mediaRadioItems);
         } else {
             unset($this->mediaFileItems, $this->mediaRadioItems);
