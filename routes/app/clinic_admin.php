@@ -26,9 +26,9 @@ Route::middleware([
     // 'verified',
 ])->group(function (): void {
     // #Redirects - After Login based on type
-    Route::get('/auth/app/redirect', fn() => redirect(UserRoleEnum::authRedirectRouteBasedOnType()))->name('auth.app.redirect');
+    Route::get('/auth/app/redirect', fn () => redirect(UserRoleEnum::authRedirectRouteBasedOnType()))->name('auth.app.redirect');
 
-    Route::get('dashboard', fn() => view('dashboard'))->name('dashboard');
+    Route::get('dashboard', fn () => view('dashboard'))->name('dashboard');
 
     Route::prefix('clinic')->name('clinic.')->group(function (): void {
         Route::get('', ClinicTable::class)->name('index');
