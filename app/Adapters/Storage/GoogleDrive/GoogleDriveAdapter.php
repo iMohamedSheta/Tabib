@@ -273,7 +273,7 @@ class GoogleDriveAdapter implements FilesystemAdapter
     /**
      * @var array Optional parameters sent with each request (see Google_Service_Resource var stackParameters and https://developers.google.com/analytics/devguides/reporting/core/v4/parameters)
      */
-    private $optParams = [];
+    private array $optParams;
 
     private ?PathPrefixer $prefixer = null;
 
