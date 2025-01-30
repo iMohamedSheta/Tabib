@@ -1,7 +1,5 @@
 <?php
 
-use App\Enums\Ai\SystemPromptEnum;
-
 return [
     'prism_server' => [
         // The middleware that will be applied to the Prism Server routes.
