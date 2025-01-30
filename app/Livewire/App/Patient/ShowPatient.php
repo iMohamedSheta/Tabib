@@ -50,7 +50,7 @@ class ShowPatient extends Component
     }
 
     #[Computed(persist: true)]
-    public function mediaFileItems()
+    public function mediaFileItems(): array
     {
         $items = $this->patient->user->media()->where('media_type', MediaTypeEnum::FILE)->paginate(perPage: $this->perPage, page: $this->page);
         $itemsTotal = $items->total();
@@ -62,7 +62,7 @@ class ShowPatient extends Component
     }
 
     #[Computed(persist: true)]
-    public function mediaRadioItems()
+    public function mediaRadioItems(): array
     {
         $items = $this->patient->user->media()->where('media_type', MediaTypeEnum::RADIOLOGY)->paginate(perPage: $this->perPage, page: $this->page);
         $itemsTotal = $items->total();
