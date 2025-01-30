@@ -181,7 +181,7 @@ Route::get('files', function (): void {
 //     }
 // })->name('video.streamed');
 
-Route::get('ai', function () {
+Route::get('ai', function (): void {
     // ->withSystemPrompt('You are an AI assistant for a SaaS company called "كونكت فور عرب" (Connect for Arab) that provides solutions for network administrators in Egypt. Your primary role is to assist network admins with their networks by:
     //     Creating a cloud-based RADIUS server for authentication and authorization.
     //     Setting up VPN connections to securely connect to their networks.
@@ -221,7 +221,7 @@ Route::get('ai', function () {
     dd($response->text);
 });
 
-Route::get('hugging-face', function () {
+Route::get('hugging-face', function (): void {
     $inputText = 'is hugging face free or not';
     $huggingFaceService = new HuggingFaceService();
 
@@ -230,6 +230,4 @@ Route::get('hugging-face', function () {
     dd($result);
 });
 
-Route::get('test', function () {
-    return view('test');
-});
+Route::get('test', fn() => view('test'));

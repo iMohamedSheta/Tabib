@@ -14,10 +14,10 @@ class HuggingFaceService
     // private $apiUrl = "https://api-inference.huggingface.co/models/openai-community/gpt2";
     // private $apiUrl = "https://api-inference.huggingface.co/models/deepseek-ai/DeepSeek-R1/v1/chat/completions";
     // private $apiUrl = "https://api-inference.huggingface.co/models/EleutherAI/gpt-neo-2.7B";
-    private $apiUrl = 'https://api-inference.huggingface.co/models/meta-llama/Meta-Llama-3-8B-Instruct/v1/chat/completions';
+    private string $apiUrl = 'https://api-inference.huggingface.co/models/meta-llama/Meta-Llama-3-8B-Instruct/v1/chat/completions';
 
     // Your Hugging Face API Token
-    private $apiToken = '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';  // Replace with your token
+    private string $apiToken = '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';  // Replace with your token
 
     // Method to query the Hugging Face model
     // public function queryModel(string $inputText)
@@ -82,12 +82,10 @@ class HuggingFaceService
     }
 
     protected $apiKey;
-    protected $client;
 
-    public function __construct($apiKey = null, ?Client $client = null)
+    public function __construct($apiKey = null, protected Client $client = new Client())
     {
         $this->apiKey = $this->apiToken ?? $apiKey;
-        $this->client = $client ?? new Client();
     }
 
     /**
@@ -114,10 +112,10 @@ class HuggingFaceService
                     ],
                 ]);
 
-                $responseData = json_decode($response->getBody()->getContents(), true);
+                $responseData = json_decode((string) $response->getBody()->getContents(), true);
 
                 // Check if the response indicates that the model is still loading
-                if (isset($responseData['error']) && false !== strpos($responseData['error'], 'currently loading')) {
+                if (isset($responseData['error']) && str_contains((string) $responseData['error'], 'currently loading')) {
                     $retryCount++;
                     $estimatedTime = $responseData['estimated_time'] ?? $waitTime;
                     sleep($estimatedTime); // Wait for the estimated time before retrying
@@ -140,9 +138,9 @@ class HuggingFaceService
 
             throw new \Exception('Text generation failed. No "generated_text" in response.');
         } catch (RequestException $e) {
-            throw new \Exception('Request failed: ' . $e->getMessage());
+            throw new \Exception('Request failed: ' . $e->getMessage(), $e->getCode(), $e);
         } catch (\Exception $e) {
-            throw new \Exception('Unexpected error: ' . $e->getMessage());
+            throw new \Exception('Unexpected error: ' . $e->getMessage(), $e->getCode(), $e);
         }
     }
 
@@ -170,10 +168,10 @@ class HuggingFaceService
                     ],
                 ]);
 
-                $responseData = json_decode($response->getBody()->getContents(), true);
+                $responseData = json_decode((string) $response->getBody()->getContents(), true);
 
                 // Check if the response indicates that the model is still loading
-                if (isset($responseData['error']) && false !== strpos($responseData['error'], 'currently loading')) {
+                if (isset($responseData['error']) && str_contains((string) $responseData['error'], 'currently loading')) {
                     $retryCount++;
                     $estimatedTime = $responseData['estimated_time'] ?? $waitTime;
                     sleep($estimatedTime); // Wait for the estimated time before retrying
@@ -205,9 +203,9 @@ class HuggingFaceService
 
             throw new \Exception('Image generation failed. Unexpected response format.');
         } catch (RequestException $e) {
-            throw new \Exception('Request failed: ' . $e->getMessage());
+            throw new \Exception('Request failed: ' . $e->getMessage(), $e->getCode(), $e);
         } catch (\Exception $e) {
-            throw new \Exception('Unexpected error: ' . $e->getMessage());
+            throw new \Exception('Unexpected error: ' . $e->getMessage(), $e->getCode(), $e);
         }
     }
 }

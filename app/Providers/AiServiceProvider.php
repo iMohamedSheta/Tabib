@@ -25,12 +25,10 @@ class AiServiceProvider extends ServiceProvider
     private function registerCustomProviders(): void
     {
         foreach (config('prism.providers.custom') as $providerKey => $provider) {
-            $this->app['prism-manager']->extend("custom.{$providerKey}", function ($app, $config) {
-                return new Gemini(
-                    apiKey: $config['api_key'] ?? '',
-                    url: $config['url'] ?? '',
-                );
-            });
+            $this->app['prism-manager']->extend("custom.{$providerKey}", fn($app, $config): \EchoLabs\Prism\Providers\Gemini\Gemini => new Gemini(
+                apiKey: $config['api_key'] ?? '',
+                url: $config['url'] ?? '',
+            ));
         }
     }
 }

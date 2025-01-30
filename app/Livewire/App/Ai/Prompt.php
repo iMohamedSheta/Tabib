@@ -21,7 +21,7 @@ class Prompt extends Component
 
     public ?PromptModel $promptModel = null;
 
-    public function mount()
+    public function mount(): void
     {
         // Add a welcome message
         $this->messages[] = [
@@ -49,7 +49,7 @@ class Prompt extends Component
         }
     }
 
-    public function send()
+    public function send(): void
     {
         $this->validate([
             'prompt' => ['required', 'string', 'max:2048'],
@@ -82,7 +82,7 @@ class Prompt extends Component
     }
 
     #[On('generate-prompt')]
-    public function generatePrompt($prompt)
+    public function generatePrompt(string $prompt): void
     {
         Validator::make([
             'prompt' => $prompt,
