@@ -111,7 +111,7 @@ class Prompt extends Component
 
             // Communicate with the AI through Prism, sending the conversation history
             $prism = Prism::text()
-                ->withSystemPrompt(SystemPromptEnum::DEFAULT->prompt() . "\n here is the conversation history: \n" . $conversationHistory . "\n" . "User: " . SystemPromptEnum::AUTH->prompt() . "\n")
+                ->withSystemPrompt(SystemPromptEnum::DEFAULT->prompt() . "\n here is the conversation history: \n" . $conversationHistory . "\n" . 'User: ' . SystemPromptEnum::AUTH->prompt() . "\n")
                 ->using('custom.gemini_1', AiModelEnum::GEMINI_2_0_FLASH_EXP->value)
                 ->usingProviderConfig([
                     'temperature' => 1,

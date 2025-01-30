@@ -6,7 +6,6 @@ use App\Models\Scopes\OrganizationScope;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 #[ScopedBy(OrganizationScope::class)]
 class Patient extends Model

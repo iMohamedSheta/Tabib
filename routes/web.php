@@ -230,4 +230,4 @@ Route::get('hugging-face', function (): void {
     dd($result);
 });
 
-Route::get('test', fn() => view('test'));
+Route::get('test', fn () => view('test'));
