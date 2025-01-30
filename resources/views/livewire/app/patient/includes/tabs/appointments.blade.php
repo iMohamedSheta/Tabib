@@ -117,7 +117,7 @@
                         {{ Carbon::parse($event->start_at)->translatedFormat('jS F, Y') }}
                     </time>
                     <div
-                        class="text-xl font-bold absolute top-50 right-0 md:right-[6rem] z-10 bg-c-gray-800 py-2 rounded-full ">
+                        class="text-xl font-bold absolute top-50 right-0 md:right-[6rem] bg-c-gray-800 py-2 rounded-full ">
                         {{-- [{{ $event->clinicService->name ?? HelperEnum::NOT_AVAILABLE->label() }}] --}}
                         @if ($eventIsPast)
                             <span class="text-green-500">
@@ -180,7 +180,7 @@
                         <!-- Doctor Details -->
                         <div class="flex justify-between mt-6">
                             <div class="text-gray-300 text-sm text-center">
-                                دكتور/
+                                د.
                                 {{ $event->decoded_data->doctor_name ?? HelperEnum::NOT_AVAILABLE->label() }}
                                 <p class="text-gray-400 text-xs pt-2">
                                     {{ $event->doctor->specialization ?? HelperEnum::NOT_AVAILABLE->label() }}

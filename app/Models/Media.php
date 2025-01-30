@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\Models\Media\HasMediaUrls;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Auth;
 use Spatie\MediaLibrary\MediaCollections\Models\Media as MediaLibraryModel;
 
 class Media extends MediaLibraryModel
@@ -23,7 +24,7 @@ class Media extends MediaLibraryModel
     protected static function booted()
     {
         self::creating(function ($media): void {
-            $media->organization_id = auth()->user()->organization_id;
+            $media->organization_id = Auth::user()->organization_id;
         });
     }
 }

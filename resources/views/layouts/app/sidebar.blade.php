@@ -22,7 +22,7 @@
                 <a class="text-2xl font-extrabold text-purple-200 dark:text-purple-200 " href="#">
                     {{-- طبيب<span class=" text-purple-300 dark:text-purple-600 ">.كلاود</span> --}}
                     {{-- Tabib<span class="text-orange-600">Hub</span> --}}
-                    <img src="{{ asset('images/clinics/icon.png') }}" alt="Logo"
+                    <img src="{{ asset('images/logo/4.png') }}" alt="Logo"
                         class="w-[50px] border-2 bg-c-gray-700 border-gray-400 mx-auto pointer-events-none select-none rounded-full">
                     <span class="block mt-1">
                         ميدكيلنكس
@@ -36,7 +36,7 @@
                 <a class="text-2xl font-extrabold text-purple-200 dark:text-purple-200 " href="#">
                     {{-- طبيب<span class=" text-purple-300 dark:text-purple-600 ">.كلاود</span> --}}
                     {{-- Tabib<span class="text-orange-600">Hub</span> --}}
-                    <img src="{{ asset('images/clinics/icon.png') }}" alt="Logo"
+                    <img src="{{ asset('images/logo/4.png') }}" alt="Logo"
                         class="w-[50px] border-2 bg-c-gray-700 border-gray-400 mx-auto pointer-events-none select-none rounded-full">
                 </a>
             </div>
@@ -115,6 +115,25 @@
                         </x-slot:icon>
                         <span class="mr-4">
                             الفواتير والمدفوعات
+                        </span>
+                    </x-theme.sidebar-link>
+
+                    <x-theme.sidebar-link href="{{ route('app.admin.ai.prompt.index') }}"
+                        activeRoute="app.admin.ai.prompt.index">
+                        <x-slot:icon>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <path d="M12 8V4H8" />
+                                <rect x="4" y="8" width="16" height="12" rx="2" />
+                                <path d="M2 14h2" />
+                                <path d="M20 14h2" />
+                                <path d="M15 13v2" />
+                                <path d="M9 13v2" />
+                            </svg>
+                        </x-slot:icon>
+                        <span class="mr-4">
+                            محادثة ذكية
                         </span>
                     </x-theme.sidebar-link>
 
@@ -269,13 +288,13 @@
                 class="mb-2  rounded-lg bg-c-gray-900/90 overflow-auto">
                 <a href="#"
                     class="flex items-center px-4 py-2 text-sm hover:bg-purple-700/50 transition-colors duration-200">
-                    <i class="fa-solid fa-user-cog fa-lg text-purple-400"></i>
+                    <i class="fa-solid fa-user-cog fa-lg"></i>
                     <span class="mr-3">الملف الشخصي</span>
                 </a>
                 <a href="#"
                     class="flex items-center justify-between px-4 py-2 text-sm hover:bg-purple-700/50 transition-colors duration-200">
                     <div class="flex items-center">
-                        <i class="fa-solid fa-envelope fa-lg text-purple-400"></i>
+                        <i class="fa-solid fa-envelope fa-lg "></i>
                         <span class="mr-3">الرسائل</span>
                     </div>
                     <span
@@ -284,7 +303,7 @@
                 <a href="#"
                     class="flex items-center justify-between px-4 py-2 text-sm hover:bg-purple-700/50 transition-colors duration-200">
                     <div class="flex items-center">
-                        <i class="fa-solid fa-bell fa-lg text-purple-400"></i>
+                        <i class="fa-solid fa-bell fa-lg "></i>
                         <span class="mr-3">الإشعارات</span>
                     </div>
                     <span

@@ -1,5 +1,5 @@
 <header class="sticky  top-0 z-10 py-2   flex    opacity-95 shadow-lg bg-c-gray-800 ">
-    <div class="container contents  h-full px-6 mx-auto text-purple-300">
+    <div class="container contents  h-full px-6 mx-auto text-purple-200">
         <!-- Mobile hamburger -->
         <button class="p-1 -ml-1 mr-5 justify-start rounded-md md:hidden focus:outline-none focus:shadow-outline-purple"
             @click="toggleSideMenu" aria-label="Menu">
@@ -16,8 +16,8 @@
                 <i x-show="$store.appConfig.isAppSidebarOpen" class="fas fa-bars "></i>
             </button>
             <button class=" mx-2" x-on:click="$store.appConfig.toggleAppFullscreen()">
-                <i x-show="!$store.appConfig.isAppFullscreen" class="fas fa-compress"></i>
-                <i x-show="$store.appConfig.isAppFullscreen" class="fas fa-expand"></i>
+                <i x-show="$store.appConfig.isAppFullscreen" class="fas fa-compress"></i>
+                <i x-show="!$store.appConfig.isAppFullscreen" class="fas fa-expand"></i>
             </button>
             <li class="relative mx-4 flex justify-center items-center ">
                 {{-- <form autocomplete="off">
@@ -42,10 +42,10 @@
         </div>
         <ul class="hidden md:flex items-center flex-shrink-0">
             <a class="mx-2" href="{{ url()->current() }}" wire:navigate>
-                <i class="fas fa-arrows-rotate text-purple-300"></i>
+                <i class="fas fa-arrows-rotate text-purple-200"></i>
             </a>
             <a class="mx-2" href="{{ url()->previous() }}" wire:navigate>
-                <i class="fas fa-arrow-left text-purple-300"></i>
+                <i class="fas fa-arrow-left text-purple-200"></i>
             </a>
             <li class="relative mx-4 flex justify-center items-center">
                 <span class="  bg-gray-800 p-3 rounded-full shadow-lg">

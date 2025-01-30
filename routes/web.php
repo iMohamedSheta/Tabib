@@ -10,6 +10,7 @@
 |__________________________________________
 */
 
+use App\Enums\Ai\AiModelEnum;
 use App\Enums\Exceptions\ExceptionCodeEnum;
 use App\Enums\User\UserRoleEnum;
 use App\Generators\ClinicCodeGenerator;
@@ -20,8 +21,10 @@ use App\Http\Controllers\Auth\Socialite\GoogleSocialiteController;
 use App\Http\Controllers\PWA\LaravelPWAController;
 use App\Http\Controllers\Storage\PrivateStorageController;
 use App\Models\Patient;
+use App\Services\HuggingFaceService;
 use App\Services\Internal\VideoStream;
 use Carbon\Carbon;
+use EchoLabs\Prism\Prism;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -51,7 +54,7 @@ Route::get('/auth/google/callback', [GoogleSocialiteController::class, 'callback
 Route::get('/auth/facebook/redirect', [FacebookSocialiteController::class, 'redirect'])->name('socialite.facebook.redirect');
 Route::get('/auth/facebook/callback', [FacebookSocialiteController::class, 'callback']);
 
-Route::get('welcome', fn () => view('welcome'));
+Route::get('welcome', fn() => view('welcome'));
 
 // Test Routes
 Route::get('test', function () {
@@ -61,7 +64,7 @@ Route::get('test', function () {
     return to_route('register');
 });
 
-Route::get('speed', fn (): array => speedTest(fn () => DB::table('users')
+Route::get('speed', fn(): array => speedTest(fn() => DB::table('users')
     ->where('role', Patient::class)
     ->where(function ($query): void {
         $query->likeIn(['first_name', 'last_name', 'phone', 'other_phone'], 'i');
@@ -82,8 +85,8 @@ Route::view('testx', 'welcome');
 //     dd($code->getLink());
 // })->name('docs.exceptions');
 
-Route::get('check', fn (): string => PUIDGenerator::generate());
-Route::get('check-2', fn (): string => ClinicCodeGenerator::generate());
+Route::get('check', fn(): string => PUIDGenerator::generate());
+Route::get('check-2', fn(): string => ClinicCodeGenerator::generate());
 
 // Route::get('test', function () {
 //     $yamlFile = base_path('.github/workflows/tabib_pushflow.yml');
@@ -177,3 +180,57 @@ Route::get('files', function (): void {
 //         });
 //     }
 // })->name('video.streamed');
+
+Route::get('ai', function () {
+    // ->withSystemPrompt('You are an AI assistant for a SaaS company called "كونكت فور عرب" (Connect for Arab) that provides solutions for network administrators in Egypt. Your primary role is to assist network admins with their networks by:
+    //     Creating a cloud-based RADIUS server for authentication and authorization.
+    //     Setting up VPN connections to securely connect to their networks.
+    //     Helping them manage billing and access their network devices remotely.
+    //     Assisting with AAA (Authentication, Authorization, and Accounting) for their users.
+    //     You communicate fluently in Arabic to guide and support the network administrators effectively.
+
+    //     ')
+    $prism = Prism::text()
+        ->withSystemPrompt('
+        You are an AI assistant for a SaaS company called "مدكلينكس" (MedClinux) that provides solutions for clinics, doctors, nurses, and clinic managers in Egypt. Your primary role is to assist doctors and clinic managers with their patients by:
+    
+        You communicate fluently in Arabic to guide and support the doctors and clinic managers effectively.
+    
+        Your capabilities include:
+        1. **Patient Management**: Help doctors and clinic managers manage patient records, appointments, and treatment plans.
+        2. **Appointment Scheduling**: Assist in scheduling or rescheduling appointments based on availability.
+        3. **Medication Guidance**: Provide guidance on prescriptions and treatment plans.
+        4. **Reporting and Analytics**: Generate detailed reports on patient statistics and clinic performance.
+        5. **Arabic Communication**: Communicate fluently in Arabic with Egyptian clinics and healthcare professionals.
+        6. **Regulatory Compliance**: Ensure all suggestions comply with Egyptian medical regulations and standards.
+    ')
+        ->using('custom.gemini_sssssssssssssssssssssssss', AiModelEnum::GEMINI_2_0_FLASH_EXP->value)
+        ->usingProviderConfig([
+            'temperature' => 1,
+            'topK' => 40,
+            'topP' => 0.95,
+            'maxOutputTokens' => 8192,
+            'responseMimeType' => 'text/plain',
+        ])
+        ->withPrompt('مرحبا المريض يشتكي من حساسية مفرطة في الرقبة ماذا قد يكون سبب ذالك؟');
+
+    // Log the request payload
+
+    $response = $prism->generate();
+
+    dd($response->text);
+});
+
+Route::get('hugging-face', function () {
+    $inputText = 'is hugging face free or not';
+    $huggingFaceService = new HuggingFaceService();
+
+    $result = $huggingFaceService->generateText($inputText);
+
+    dd($result);
+});
+
+
+Route::get('test', function () {
+    return view('test');
+});

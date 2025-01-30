@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "echolabsdev/prism": "^0.31.0",
         "google/apiclient": "*",
         "laravel/framework": "^11.9",
         "laravel/jetstream": "^5.2",
@@ -61,9 +62,7 @@
             "@php artisan package:discover --ansi"
         ],
         "post-update-cmd": [
-            "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
-            "@php artisan ide-helper:generate",
-            "@php artisan ide-helper:meta"
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""

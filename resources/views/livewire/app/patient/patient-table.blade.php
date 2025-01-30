@@ -81,8 +81,8 @@
                         <td class="px-4 py-3">
                             {{ $patient->phone }}
                         </td>
-                        <td class="px-4 py-3" dir="ltr">
-                            {{ Carbon::parse($patient->created_at)->format('d/m/Y - h:ia ') }}
+                        <td class="px-4 py-3">
+                            {{ Carbon::parse($patient->created_at)->translatedFormat('d/m/Y - h:ia ') }}
                         </td>
                     </x-datatable.trow>
                 @endforeach

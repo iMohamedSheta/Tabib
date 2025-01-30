@@ -16,13 +16,13 @@
     </x-main.head>
 
     <div
-        class="relative bg-purple-200 text-gray-700  dark:bg-c-gray-800 dark:text-white font-bold p-6 rounded-lg shadow-xl">
+        class="relative bg-purple-200 text-gray-700  dark:bg-c-gray-800 dark:text-white font-bold sm:px-6 py-6 rounded-lg shadow-xl">
         <div>
             <div class="flex justify-between mb-2">
                 <livewire:app.doctor.includes.create-doctor-modal
                     :clinics="$clinics"></livewire:app.doctor.includes.create-doctor-modal>
             </div>
-            <div class=" md:flex md:flex-wrap mx-2  border border-gray-600 border-dashed rounded-lg bg-c-gray-700">
+            <div class=" md:flex md:flex-wrap mx-2  border border-gray-600 border-dashed rounded-lg bg-c-gray-700 ">
                 @forelse ($doctors as $doctor)
                     <div class="p-2  md:w-1/4 mx-auto  ">
                         <div class="my-6 bg-purple-700 rounded-xl">
