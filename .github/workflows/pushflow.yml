@@ -149,7 +149,7 @@ jobs:
 
       - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
         id: run_tests
-        run: .\vendor\bin\pest.bat
+        run: php artisan test
 
   code_style:
     runs-on: ubuntu-latest
