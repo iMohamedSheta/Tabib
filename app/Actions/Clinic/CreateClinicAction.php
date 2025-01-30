@@ -43,10 +43,12 @@ class CreateClinicAction
             ]));
 
             // Create ClinicAdmin for the user
-            $user->clinicAdmin()->create([
+            $clinicAdmin = $user->clinicAdmin()->create([
                 'organization_id' => $organization->id,
                 'type' => ClinicAdmin::TYPE_SUPER_ADMIN,
             ]);
+
+            $user->update(['role_id' => $clinicAdmin->id]);
 
             DB::commit();
 

@@ -42,7 +42,7 @@ return [
         ],
 
         'custom' => [
-            'gemini_sssssssssssssssssssssssss' => [
+            'gemini_1' => [
                 'api_key' => env('GEMINI_CUSTOM_API_KEY', 'AIzaSyCfI9JCoCRQX-98QYiVXlHHX5ijND6_NJM'),
                 'url' => env('GEMINI_CUSTOM_URL', 'https://generativelanguage.googleapis.com/v1beta/models'),
             ],

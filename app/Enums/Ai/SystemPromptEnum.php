@@ -2,14 +2,18 @@
 
 namespace App\Enums\Ai;
 
+use Illuminate\Support\Facades\Auth;
+
 enum SystemPromptEnum: int
 {
     case DEFAULT = 1;
+    case AUTH = 2;
 
     public function prompt(): string
     {
         return match ($this) {
             self::DEFAULT => $this->getDefaultPrompt(),
+            self::AUTH => $this->getAuthPrompt(),
         };
     }
 
@@ -27,5 +31,20 @@ enum SystemPromptEnum: int
             5. **Arabic Communication**: Communicate fluently in Arabic with Egyptian clinics and healthcare professionals.
             6. **Regulatory Compliance**: Ensure all suggestions comply with Egyptian medical regulations and standards.
         ';
+    }
+
+    private function getAuthPrompt(): string
+    {
+        $authUser = Auth::user();
+
+        if (!$authUser) {
+            return ''; // If no authenticated user, just return an empty string.
+        }
+
+        return "### Authenticated User Details ###\n" .
+            "- **Name**: {$authUser->first_name} {$authUser->last_name}\n" .
+            "- **Role**: {$authUser->role}\n\n" .
+            "- ****: {$authUser->role}\n\n" .
+            "As an AI, you are assisting **{$authUser->role}** with their clinic tasks. Your responses should be personalized to their needs.";
     }
 }

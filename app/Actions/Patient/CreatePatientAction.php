@@ -29,7 +29,9 @@ class CreatePatientAction
                 $user->updateProfilePhoto($createPatientDTO->photo);
             }
 
-            $user->patient()->create($createPatientDTO->patientData());
+            $patient = $user->patient()->create($createPatientDTO->patientData());
+
+            $user->update(['role_id' => $patient->id]);
 
             DB::commit();
 

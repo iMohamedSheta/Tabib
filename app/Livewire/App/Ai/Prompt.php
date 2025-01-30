@@ -109,13 +109,10 @@ class Prompt extends Component
                 }
             }
 
-            // Add the new user prompt to the history
-            $conversationHistory .= $prompt . "\n";
-
             // Communicate with the AI through Prism, sending the conversation history
             $prism = Prism::text()
-                ->withSystemPrompt(SystemPromptEnum::DEFAULT->prompt())
-                ->using('custom.gemini_sssssssssssssssssssssssss', AiModelEnum::GEMINI_2_0_FLASH_EXP->value)
+                ->withSystemPrompt(SystemPromptEnum::DEFAULT->prompt() . "\n here is the conversation history: \n" . $conversationHistory . "\n" . "User: " . SystemPromptEnum::AUTH->prompt() . "\n")
+                ->using('custom.gemini_1', AiModelEnum::GEMINI_2_0_FLASH_EXP->value)
                 ->usingProviderConfig([
                     'temperature' => 1,
                     'topK' => 40,
@@ -123,7 +120,7 @@ class Prompt extends Component
                     'maxOutputTokens' => 8192,
                     'responseMimeType' => 'text/plain',
                 ])
-                ->withPrompt($conversationHistory); // Send the full conversation history
+                ->withPrompt($prompt);
 
             $response = $prism->generate();
             $responseMessage = $response->text;

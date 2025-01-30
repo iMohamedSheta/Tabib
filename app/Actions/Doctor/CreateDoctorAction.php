@@ -29,7 +29,9 @@ class CreateDoctorAction
                 $user->updateProfilePhoto($createDoctorDTO->photo);
             }
 
-            $user->doctor()->create($createDoctorDTO->doctorData());
+            $doctor = $user->doctor()->create($createDoctorDTO->doctorData());
+
+            $user->update(['role_id' => $doctor->id]);
 
             DB::commit();
 

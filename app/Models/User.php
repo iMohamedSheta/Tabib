@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Traits\Models\User\HasCustomDefaultProfilePhoto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -67,6 +68,11 @@ class User extends Authenticatable implements HasMedia
         ];
     }
 
+    public function role(): MorphTo
+    {
+        return $this->morphTo();
+    }
+
     public function getFullnameAttribute(): string
     {
         return $this->first_name . ' ' . $this->last_name;
@@ -94,25 +100,12 @@ class User extends Authenticatable implements HasMedia
 
     public function isManager(): bool
     {
-        // return $this->email == 'icrush15@yahoo.com';
         return Manager::class == $this->role;
     }
 
     public function organization()
     {
         return $this->belongsTo(Organization::class, 'organization_id', 'id');
-    }
-
-    public function user()
-    {
-        switch ($this->role) {
-            case ClinicAdmin::class:
-                return $this->clinicAdmin();
-            case Doctor::class:
-                return $this->doctor();
-            default:
-                return $this;
-        }
     }
 
     public function clinicAdmin()
