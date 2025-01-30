@@ -1,4 +1,4 @@
-name: Tabib-PushFlow
+name: PushFlow
 
 on:
   push:
@@ -149,7 +149,7 @@ jobs:
 
       - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
         id: run_tests
-        run: php artisan test
+        run: .\vendor\bin\pest.bat
 
   code_style:
     runs-on: ubuntu-latest

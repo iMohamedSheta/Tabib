@@ -112,7 +112,7 @@ class HuggingFaceService
                     ],
                 ]);
 
-                $responseData = json_decode((string) $response->getBody()->getContents(), true);
+                $responseData = json_decode($response->getBody()->getContents(), true);
 
                 // Check if the response indicates that the model is still loading
                 if (isset($responseData['error']) && str_contains((string) $responseData['error'], 'currently loading')) {
@@ -168,7 +168,7 @@ class HuggingFaceService
                     ],
                 ]);
 
-                $responseData = json_decode((string) $response->getBody()->getContents(), true);
+                $responseData = json_decode($response->getBody()->getContents(), true);
 
                 // Check if the response indicates that the model is still loading
                 if (isset($responseData['error']) && str_contains((string) $responseData['error'], 'currently loading')) {
