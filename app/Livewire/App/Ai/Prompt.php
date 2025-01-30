@@ -102,9 +102,9 @@ class Prompt extends Component
             // Build the conversation history from the recent messages
             $conversationHistory = '';
             foreach ($recentMessages as $message) {
-                if ($message['type'] === 'user') {
+                if ('user' === $message['type']) {
                     $conversationHistory .= $message['message'] . "\n";
-                } elseif ($message['type'] === 'ai') {
+                } elseif ('ai' === $message['type']) {
                     $conversationHistory .= $message['message'] . "\n";
                 }
             }
