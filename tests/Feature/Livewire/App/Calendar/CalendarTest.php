@@ -9,8 +9,6 @@ use App\Models\Organization;
 use App\Models\User;
 use Livewire\Livewire;
 
-use function Pest\Laravel\actingAs;
-
 beforeEach(function (): void {
     $this->organization = Organization::factory()->create();
 
@@ -37,9 +35,7 @@ beforeEach(function (): void {
     ];
 });
 
-
 it('mounts and retrieves events with correct format', function (): void {
-
     Event::factory()->create([
         'data' => json_encode(['backgroundColor' => '#ff0000', 'overlap' => true]),
         'clinic_id' => $this->clinic->id,

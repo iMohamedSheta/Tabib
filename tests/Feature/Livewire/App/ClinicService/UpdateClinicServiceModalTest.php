@@ -96,7 +96,7 @@ it('handles update failure due to authorization', function (): void {
             message: 'غير مسموح لك بتعديل خدمة طبية!!'
         ));
 
-    app()->bind(UpdateClinicServiceAction::class, fn() => $actionMock);
+    app()->bind(UpdateClinicServiceAction::class, fn () => $actionMock);
 
     Livewire::test(UpdateClinicServiceModal::class, $this->mountingData)
         ->set('name', 'Updated Service')
@@ -114,7 +114,7 @@ it('handles update failure due to general error', function (): void {
         ->once()
         ->andThrow(new Exception('General error'));
 
-    app()->bind(UpdateClinicServiceAction::class, fn() => $actionMock);
+    app()->bind(UpdateClinicServiceAction::class, fn () => $actionMock);
 
     Livewire::test(UpdateClinicServiceModal::class, $this->mountingData)
         ->set('name', 'Updated Service')
