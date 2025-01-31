@@ -20,6 +20,7 @@ use App\Traits\LivewireTraits\withProfilePhotoTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\Locked;
 use Livewire\Component;
@@ -57,6 +58,7 @@ class AddEventModal extends Component
     public $clinics = [];
     #[Locked]
     public $searchResults = [];
+    #[Locked]
     public $searchDoctorResults = [];
 
     // Step 2 Add new patient
@@ -171,7 +173,7 @@ class AddEventModal extends Component
 
             $clinicService = ClinicService::find($this->service_id);
             $authUser = Auth::user();
-            $doctor = \DB::table('doctors')
+            $doctor = DB::table('doctors')
                 ->join('users', 'doctors.user_id', '=', 'users.id')
                 ->select(['users.first_name', 'users.last_name'])
                 ->first();
@@ -227,7 +229,7 @@ class AddEventModal extends Component
             $authUser = Auth::user();
 
             $patient = Patient::with('user')->findOrFail($this->patient_id);
-            $doctor = \DB::table('doctors')
+            $doctor = DB::table('doctors')
                 ->join('users', 'doctors.user_id', '=', 'users.id')
                 ->select(['users.first_name', 'users.last_name'])
                 ->first();

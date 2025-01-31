@@ -28,7 +28,6 @@ class CreatePatientAction
             if ($createPatientDTO->photo) {
                 $user->updateProfilePhoto($createPatientDTO->photo);
             }
-
             $patient = $user->patient()->create($createPatientDTO->patientData());
 
             $user->update(['role_id' => $patient->id]);
