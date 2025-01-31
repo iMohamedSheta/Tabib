@@ -261,7 +261,6 @@ enum SystemPromptEnum: int
         EOT;
     }
 
-
     private function getDocumentationProPrompt(): string
     {
         return 'You are an AI Documentation Generator and freeradius expert microtik expert and openwrt coovachilli expert. Your task is to analyze the provided source code files and generate structured documentation in Markdown format.
