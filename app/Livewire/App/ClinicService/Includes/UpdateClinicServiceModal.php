@@ -63,7 +63,7 @@ class UpdateClinicServiceModal extends Component
     {
         $validatedData = $this->validate();
         try {
-            $actionResponse = (new UpdateClinicServiceAction())->handle(
+            $actionResponse = app(UpdateClinicServiceAction::class)->handle(
                 ClinicService::find($this->clinicServiceId),
                 new UpdateClinicServiceDTO(...$validatedData),
             );
