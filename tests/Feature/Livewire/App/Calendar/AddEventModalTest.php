@@ -13,8 +13,6 @@ use App\Models\Invoice;
 use App\Models\Organization;
 use App\Models\Patient;
 use App\Models\User;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;
 
 beforeEach(function (): void {
@@ -93,7 +91,6 @@ it('can add an event with a new patient', function (): void {
         ->call('addPatientWithEventAction')
         ->assertHasNoErrors();
 
-
     $this->assertDatabaseHas('users', [
         'first_name' => 'John',
         'last_name' => 'Doe',
@@ -101,12 +98,10 @@ it('can add an event with a new patient', function (): void {
         'role' => Patient::class,
     ]);
 
-
     $this->assertDatabaseHas('events', [
-        'start_at' =>  CalendarDatepickerAdapter::handle($startDate),
+        'start_at' => CalendarDatepickerAdapter::handle($startDate),
         'end_at' => null,
     ]);
-
 
     expect(Event::count())->toBe(1);
     $event = Event::first();
