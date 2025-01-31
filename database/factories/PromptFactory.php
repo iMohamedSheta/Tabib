@@ -10,16 +10,16 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class PromptFactory extends Factory
 {
-	/**
-	 * Define the model's default state.
-	 *
-	 * @return array<string, mixed>
-	 */
-	public function definition(): array
-	{
-		return [
-			'name' => fake()->sentence(),
-			'organization_id' => Organization::factory()->create()->id
-		];
-	}
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+            'name' => fake()->sentence(),
+            'organization_id' => Organization::factory()->create()->id,
+        ];
+    }
 }
