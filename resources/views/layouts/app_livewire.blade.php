@@ -51,6 +51,19 @@
             font-size: 1.5rem !important;
         }
 
+        pre,
+        code {
+            text-align: left !important;
+            font-size: 0.8rem !important;
+            direction: ltr !important;
+            background-color: #1f1f1f !important;
+            color: #00FF60 !important;
+            padding: 1rem !important;
+            border-radius: 0.5rem !important;
+            overflow-x: auto !important;
+            margin: 1rem !important;
+        }
+
         /* body {
             font-family: "Changa", sans-serif;
             font-size: 0.75rem !important;

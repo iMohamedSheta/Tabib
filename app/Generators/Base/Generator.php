@@ -2,4 +2,6 @@
 
 namespace App\Generators\Base;
 
-abstract class Generator {}
+abstract class Generator
+{
+}

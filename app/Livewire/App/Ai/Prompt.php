@@ -7,10 +7,11 @@ namespace App\Livewire\App\Ai;
 use App\Enums\Ai\AiModelEnum;
 use App\Enums\Ai\SystemPromptEnum;
 use App\Enums\Message\MessageTypeEnum;
-use App\Models\Message;
 use App\Models\Prompt as PromptModel;
 use EchoLabs\Prism\Prism;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -29,7 +30,7 @@ class Prompt extends Component
             'message' => 'مرحبا! كيف يمكنني مساعدتك؟',
         ];
 
-        $this->promptModel = PromptModel::first();
+        $this->promptModel = PromptModel::find(2);
 
         if (!is_null($this->promptModel)) {
             foreach ($this->promptModel->messages()->get() as $message) {
@@ -81,7 +82,7 @@ class Prompt extends Component
         $this->dispatch('generate-prompt', $prompt)->self();
     }
 
-    #[On('generate-prompt')]
+    // #[On('generate-prompt')]
     public function generatePrompt(string $prompt): void
     {
         Validator::make([
@@ -130,7 +131,94 @@ class Prompt extends Component
                 $this->promptModel->messages()
                     ->create([
                         'type' => MessageTypeEnum::ANSWER->value,
-                        'message' => $responseMessage,
+                        'message' => Str::markdown($responseMessage),
+                    ]);
+            } else {
+                $responseMessage = 'حدث خطاء في معالجة طلبك. يرجى المحاولة مرة أخرى.';
+            }
+
+            // Add AI response to the conversation
+            $this->messages[] = [
+                'type' => 'ai',
+                'message' => $responseMessage,
+            ];
+
+            $this->dispatch('prompt-generated');
+        } catch (\Exception $e) {
+            log_error($e);
+
+            $this->messages[] = [
+                'type' => 'error',
+                'message' => 'حدث خطأ أثناء معالجة طلبك. يرجى المحاولة مرة أخرى.',
+            ];
+
+            flash()->error(__('alerts.error'));
+        }
+    }
+
+    #[On('generate-prompt')]
+    public function generateProgrammingPrompt(): void
+    {
+        // Validator::make([
+        //     'prompt' => $prompt,
+        // ], [
+        //     'prompt' => ['required', 'string', 'max:2048'],
+        // ], [], [
+        //     'prompt' => 'الرسالة',
+        // ]);
+
+        try {
+            $folderPath = base_path('app\Actions'); // Set your folder path
+
+            // Define the maximum number of messages to keep in the conversation history
+            $maxMessages = 3;
+
+            // Create a new array to hold the recent conversation history
+            $recentMessages = array_slice($this->messages, -$maxMessages);
+
+            // Build the conversation history from the recent messages
+            $conversationHistory = '';
+            foreach ($recentMessages as $message) {
+                if ('user' === $message['type']) {
+                    $conversationHistory .= $message['message'] . "\n";
+                } elseif ('ai' === $message['type']) {
+                    $conversationHistory .= $message['message'] . "\n";
+                }
+            }
+
+            // Communicate with the AI through Prism, sending the conversation history
+            $files = File::allFiles($folderPath); // Get all files in the folder
+            $filesContents = '';
+
+            foreach ($files as $file) {
+                $filesContents .= '### File: ' . $file->getFilename() . " ###\n";
+                $filesContents .= File::get($file) . "\n\n";
+            }
+
+            // Define the AI prompt
+            $prompt = "these are the files to create the docs for :\n\n" . $filesContents;
+
+            $prism = Prism::text()
+                ->withSystemPrompt(SystemPromptEnum::DOCUMENTATION->prompt())
+                ->using('custom.gemini_1', AiModelEnum::GEMINI_2_0_FLASH_EXP->value)
+                ->usingProviderConfig([
+                    'temperature' => 1,
+                    'topK' => 40,
+                    'topP' => 0.95,
+                    'maxOutputTokens' => 8192,
+                    'responseMimeType' => 'text/plain',
+                ])
+                ->withPrompt($prompt);
+
+            $response = $prism->generate();
+            $responseMessage = $response->text;
+
+            // Store the response in the database
+            if (!blank($responseMessage)) {
+                $this->promptModel->messages()
+                    ->create([
+                        'type' => MessageTypeEnum::ANSWER->value,
+                        'message' => Str::markdown($responseMessage),
                     ]);
             } else {
                 $responseMessage = 'حدث خطاء في معالجة طلبك. يرجى المحاولة مرة أخرى.';

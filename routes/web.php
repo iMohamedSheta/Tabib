@@ -11,6 +11,7 @@
 */
 
 use App\Enums\Ai\AiModelEnum;
+use App\Enums\Ai\SystemPromptEnum;
 use App\Enums\Exceptions\ExceptionCodeEnum;
 use App\Enums\User\UserRoleEnum;
 use App\Generators\ClinicCodeGenerator;
@@ -27,6 +28,7 @@ use Carbon\Carbon;
 use EchoLabs\Prism\Prism;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use League\Flysystem\FileAttributes;
@@ -54,7 +56,7 @@ Route::get('/auth/google/callback', [GoogleSocialiteController::class, 'callback
 Route::get('/auth/facebook/redirect', [FacebookSocialiteController::class, 'redirect'])->name('socialite.facebook.redirect');
 Route::get('/auth/facebook/callback', [FacebookSocialiteController::class, 'callback']);
 
-Route::get('welcome', fn () => view('welcome'));
+Route::get('welcome', fn() => view('welcome'));
 
 // Test Routes
 Route::get('test', function () {
@@ -64,7 +66,7 @@ Route::get('test', function () {
     return to_route('register');
 });
 
-Route::get('speed', fn (): array => speedTest(fn () => DB::table('users')
+Route::get('speed', fn(): array => speedTest(fn() => DB::table('users')
     ->where('role', Patient::class)
     ->where(function ($query): void {
         $query->likeIn(['first_name', 'last_name', 'phone', 'other_phone'], 'i');
@@ -85,8 +87,8 @@ Route::view('testx', 'welcome');
 //     dd($code->getLink());
 // })->name('docs.exceptions');
 
-Route::get('check', fn (): string => PUIDGenerator::generate());
-Route::get('check-2', fn (): string => ClinicCodeGenerator::generate());
+Route::get('check', fn(): string => PUIDGenerator::generate());
+Route::get('check-2', fn(): string => ClinicCodeGenerator::generate());
 
 // Route::get('test', function () {
 //     $yamlFile = base_path('.github/workflows/tabib_pushflow.yml');
@@ -230,4 +232,90 @@ Route::get('hugging-face', function (): void {
     dd($result);
 });
 
-Route::get('test', fn () => view('test'));
+Route::get('test', fn() => view('test'));
+
+Route::get('ai/code/refactor', function () {
+    $folderPath = base_path('Auth');
+    $files = File::allFiles($folderPath);
+    $filesChunks = array_chunk($files, 1);
+    $allResponses = [];
+    // dd($files);
+    $usingModels = [
+        'custom.gemini_1',
+        'gemini',
+    ];
+
+    $usingModel = $usingModels[array_rand($usingModels)];
+
+    foreach ($filesChunks as $filesChunk) {
+        $filesContents = '';
+
+        foreach ($filesChunk as $file) {
+            $filesContents .= '### File: ' . $file->getFilename() . " ###\n";
+            $filesContents .= File::get($file) . "\n\n";
+        }
+
+        if (empty($filesContents)) {
+            return response()->json(['error' => 'No files found or folder is empty'], 400);
+        }
+
+        $prompt = "these are the files :\n\n" . $filesContents;
+
+        $prism = Prism::text()
+            ->withSystemPrompt(SystemPromptEnum::DOCUMENTATION->prompt())
+            ->using($usingModel, AiModelEnum::GEMINI_2_0_FLASH_EXP->value)
+            ->usingProviderConfig([
+                'temperature' => 1,
+                'topK' => 40,
+                'topP' => 0.95,
+                'maxOutputTokens' => 8192,
+                'responseMimeType' => 'json',
+            ])
+            ->withPrompt($prompt);
+
+        $response = $prism->generate();
+        $aiResponse = $response->text;
+        dd($aiResponse);
+        // Clean the response for any unwanted markdown (e.g., ```json)
+        // Remove any ```json or ``` from the start and end of the response
+        $cleanedResponse = preg_replace('/^```json|\```$/', '', $aiResponse);
+
+        // Remove any extra characters like ▶ or excessive spaces
+        $cleanedResponse = preg_replace('/\n|\r|\s{2,}/', ' ', (string) $cleanedResponse);
+        $cleanedResponse = str_replace('▶', '', $cleanedResponse);
+
+        // Decode the cleaned JSON result
+        $data = json_decode($cleanedResponse, true);
+
+        if (!$data) {
+            throw new Exception('Invalid AI response: Unable to parse JSON');
+        }
+
+        // **Step 1: Create the folder if needed**
+        if (isset($data['__CREATE_FOLDER__'])) {
+            $folderPath = base_path($data['__CREATE_FOLDER__']);
+
+            if (!File::exists($folderPath)) {
+                File::makeDirectory($folderPath, 0777, true, true);
+            }
+        }
+
+        // **Step 2: Create the documentation files**
+        if (isset($data['__FILES__'])) {
+            foreach ($data['__FILES__'] as $filePath => $fileContent) {
+                $fullPath = base_path($filePath);
+
+                // Ensure the parent directory exists
+                File::ensureDirectoryExists(dirname($fullPath));
+
+                // Create or overwrite the file with content
+                File::put($fullPath, $fileContent);
+            }
+        }
+
+        // Collect the responses for each chunk
+        $allResponses[] = $data;
+    }
+
+    return response()->json($allResponses);
+});
