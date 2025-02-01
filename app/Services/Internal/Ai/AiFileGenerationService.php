@@ -15,80 +15,80 @@ use Illuminate\Support\Facades\File;
 
 class AiFileGenerationService
 {
-	use AiFileGenerationApiTrait;
+    use AiFileGenerationApiTrait;
 
-	/**
-	 * Process the files, chunk them, build the prompt, and generate AI files.
-	 *
-	 * @param string $systemPromptKey e.g. "TEST_GENERATOR" or another key.
-	 *
-	 * @return array array of parsed AI responses
-	 */
-	public function processFiles(Collection $files, string $systemPromptKey, int $chunkSize = 5): array
-	{
-		$responses = [];
-		// Convert files collection to chunks of 5.
-		$fileChunks = $files->chunk($chunkSize);
+    /**
+     * Process the files, chunk them, build the prompt, and generate AI files.
+     *
+     * @param string $systemPromptKey e.g. "TEST_GENERATOR" or another key.
+     *
+     * @return array array of parsed AI responses
+     */
+    public function processFiles(Collection $files, string $systemPromptKey, int $chunkSize = 5): array
+    {
+        $responses = [];
+        // Convert files collection to chunks of 5.
+        $fileChunks = $files->chunk($chunkSize);
 
-		// Determine the system prompt string based on the provided key.
-		$systemPrompt = $this->resolveSystemPrompt($systemPromptKey);
+        // Determine the system prompt string based on the provided key.
+        $systemPrompt = $this->resolveSystemPrompt($systemPromptKey);
 
-		foreach ($fileChunks as $chunk) {
-			try {
-				// Randomly select a model.
-				$usingModels = ['custom.gemini_1', 'gemini'];
-				$usingModel = $usingModels[array_rand($usingModels)];
+        foreach ($fileChunks as $chunk) {
+            try {
+                // Randomly select a model.
+                $usingModels = ['custom.gemini_1', 'gemini'];
+                $usingModel = $usingModels[array_rand($usingModels)];
 
-				$filesContents = '';
-				foreach ($chunk as $file) {
-					$filesContents .= "### File: {$file->getFilename()} ###\n";
-					$filesContents .= File::get($file) . "\n\n";
-				}
+                $filesContents = '';
+                foreach ($chunk as $file) {
+                    $filesContents .= "### File: {$file->getFilename()} ###\n";
+                    $filesContents .= File::get($file) . "\n\n";
+                }
 
-				$prompt = "These are the files:\n\n" . $filesContents;
+                $prompt = "These are the files:\n\n" . $filesContents;
 
-				$prism = Prism::text()
-					->withSystemPrompt($systemPrompt) // Use the resolved system prompt.
-					->using($usingModel, AiModelEnum::GEMINI_2_0_FLASH_EXP->value)
-					->usingProviderConfig([
-						'temperature' => 1,
-						'topK' => 40,
-						'topP' => 0.95,
-						'maxOutputTokens' => 8192,
-						'responseMimeType' => 'json',
-					])
-					->withPrompt($prompt);
+                $prism = Prism::text()
+                    ->withSystemPrompt($systemPrompt) // Use the resolved system prompt.
+                    ->using($usingModel, AiModelEnum::GEMINI_2_0_FLASH_EXP->value)
+                    ->usingProviderConfig([
+                        'temperature' => 1,
+                        'topK' => 40,
+                        'topP' => 0.95,
+                        'maxOutputTokens' => 8192,
+                        'responseMimeType' => 'json',
+                    ])
+                    ->withPrompt($prompt);
 
-				$response = $prism->generate();
+                $response = $prism->generate();
 
-				if ($response->finishReason !== FinishReason::Stop) {
-					continue;
-				}
+                if (FinishReason::Stop !== $response->finishReason) {
+                    continue;
+                }
 
-				$parsedResponse = $this->generateAiFiles($response);
-				$responses[] = $parsedResponse;
-			} catch (FailedToParseResponseException $e) {
-				log_error($e);
-				continue;
-			} catch (\Exception $e) {
-				log_error($e);
-				continue;
-			}
-		}
+                $parsedResponse = $this->generateAiFiles($response);
+                $responses[] = $parsedResponse;
+            } catch (FailedToParseResponseException $e) {
+                log_error($e);
+                continue;
+            } catch (\Exception $e) {
+                log_error($e);
+                continue;
+            }
+        }
 
-		return $responses;
-	}
+        return $responses;
+    }
 
-	/**
-	 * Resolve the system prompt based on a key.
-	 */
-	protected function resolveSystemPrompt(string $key): string
-	{
-		return match (strtolower($key)) {
-			'test', 'test_generator', 'testing', 'testing_generator' => SystemPromptEnum::TEST_GENERATOR->prompt(),
-			'docs', 'documentation', 'document', 'doc' => SystemPromptEnum::DOCUMENTATION->prompt(),
-			'programming', 'program' => SystemPromptEnum::PROGRAMMING->prompt(),
-			default => SystemPromptEnum::TEST_GENERATOR->prompt(),
-		};
-	}
+    /**
+     * Resolve the system prompt based on a key.
+     */
+    protected function resolveSystemPrompt(string $key): string
+    {
+        return match (strtolower($key)) {
+            'test', 'test_generator', 'testing', 'testing_generator' => SystemPromptEnum::TEST_GENERATOR->prompt(),
+            'docs', 'documentation', 'document', 'doc' => SystemPromptEnum::DOCUMENTATION->prompt(),
+            'programming', 'program' => SystemPromptEnum::PROGRAMMING->prompt(),
+            default => SystemPromptEnum::TEST_GENERATOR->prompt(),
+        };
+    }
 }
