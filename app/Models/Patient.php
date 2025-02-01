@@ -10,27 +10,34 @@ use Illuminate\Database\Eloquent\Model;
 #[ScopedBy(OrganizationScope::class)]
 class Patient extends Model
 {
-    use HasFactory;
+	use HasFactory;
 
-    protected $guarded = [];
+	protected $guarded = [];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id', 'id');
-    }
+	public function user()
+	{
+		return $this->belongsTo(User::class, 'user_id', 'id');
+	}
 
-    public function clinic()
-    {
-        return $this->belongsTo(Clinic::class, 'clinic_id', 'id');
-    }
+	public function clinic()
+	{
+		return $this->belongsTo(Clinic::class, 'clinic_id', 'id');
+	}
 
-    public function events()
-    {
-        return $this->hasMany(Event::class, 'patient_id', 'id');
-    }
+	public function events()
+	{
+		return $this->hasMany(Event::class, 'patient_id', 'id');
+	}
 
-    public function invoices()
-    {
-        return $this->morphMany(Invoice::class, 'model');
-    }
+	public function invoices()
+	{
+		return $this->morphMany(Invoice::class, 'model');
+	}
+
+	protected static function booted()
+	{
+		self::deleting(function ($patient): void {
+			$patient->user->delete();
+		});
+	}
 }
