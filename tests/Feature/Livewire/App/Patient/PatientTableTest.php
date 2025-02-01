@@ -8,52 +8,55 @@ use App\Models\Patient;
 use App\Models\User;
 use Livewire\Livewire;
 
-beforeEach(function (): void {
-    $this->organization = Organization::factory()->create();
+describe('PatientTable [Livewire-Component]', function () {
 
-    // Create a ClinicAdmin user for the organization
-    $this->user = User::factory()->create([
-        'organization_id' => $this->organization->id,
-        'role' => ClinicAdmin::class,
-    ]);
+	beforeEach(function (): void {
+		$this->organization = Organization::factory()->create();
 
-    // Create a clinic for the organization
-    $clinic = Clinic::factory()->create([
-        'organization_id' => $this->organization->id,
-    ]);
+		// Create a ClinicAdmin user for the organization
+		$this->user = User::factory()->create([
+			'organization_id' => $this->organization->id,
+			'role' => ClinicAdmin::class,
+		]);
 
-    $this->clinicId = $clinic->id;
+		// Create a clinic for the organization
+		$clinic = Clinic::factory()->create([
+			'organization_id' => $this->organization->id,
+		]);
 
-    // Create a patient for the organization
-    $this->patientUser = User::factory()->create([
-        'organization_id' => $this->organization->id,
-    ]);
+		$this->clinicId = $clinic->id;
 
-    $this->patient = Patient::factory()->create([
-        'organization_id' => $this->organization->id,
-        'user_id' => $this->patientUser->id,
-    ]);
+		// Create a patient for the organization
+		$this->patientUser = User::factory()->create([
+			'organization_id' => $this->organization->id,
+		]);
 
-    // Create a ClinicAdmin model linked to the created user
-    $this->clinicAdmin = ClinicAdmin::factory()->create([
-        'organization_id' => $this->organization->id,
-        'user_id' => $this->user->id,
-    ]);
+		$this->patient = Patient::factory()->create([
+			'organization_id' => $this->organization->id,
+			'user_id' => $this->patientUser->id,
+		]);
 
-    $this->actingAs($this->user);
-});
+		// Create a ClinicAdmin model linked to the created user
+		$this->clinicAdmin = ClinicAdmin::factory()->create([
+			'organization_id' => $this->organization->id,
+			'user_id' => $this->user->id,
+		]);
 
-it('renders successfully', function (): void {
-    Livewire::test(PatientTable::class)
-        ->assertStatus(200);
-});
+		$this->actingAs($this->user);
+	});
 
-it('can delete a patient', function (): void {
-    Livewire::test(PatientTable::class)
-        ->call('deletePatientAction', $this->patient->id)
-        ->assertHasNoErrors()
-        ->assertDispatched('deleted');
+	it('renders successfully', function (): void {
+		Livewire::test(PatientTable::class)
+			->assertStatus(200);
+	});
 
-    $this->assertDatabaseMissing('users', ['id' => $this->patient->user_id]);
-    $this->assertDatabaseMissing('patients', ['id' => $this->patient->id]);
+	it('can delete a patient', function (): void {
+		Livewire::test(PatientTable::class)
+			->call('deletePatientAction', $this->patient->id)
+			->assertHasNoErrors()
+			->assertDispatched('deleted');
+
+		$this->assertDatabaseMissing('users', ['id' => $this->patient->user_id]);
+		$this->assertDatabaseMissing('patients', ['id' => $this->patient->id]);
+	});
 });

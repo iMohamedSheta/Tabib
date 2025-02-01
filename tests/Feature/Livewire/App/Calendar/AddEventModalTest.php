@@ -15,209 +15,212 @@ use App\Models\Patient;
 use App\Models\User;
 use Livewire\Livewire;
 
-beforeEach(function (): void {
-    $this->organization = Organization::factory()->create();
+describe('AddEventModal [Livewire-Component]', function () {
 
-    // Create a ClinicAdmin user for the organization
-    $this->user = User::factory()->create([
-        'organization_id' => $this->organization->id,
-        'role' => ClinicAdmin::class,
-    ]);
+	beforeEach(function (): void {
+		$this->organization = Organization::factory()->create();
 
-    // Create a clinic for the organization
-    $clinic = Clinic::factory()->create([
-        'organization_id' => $this->organization->id,
-    ]);
+		// Create a ClinicAdmin user for the organization
+		$this->user = User::factory()->create([
+			'organization_id' => $this->organization->id,
+			'role' => ClinicAdmin::class,
+		]);
 
-    $this->clinicService = ClinicService::factory()->create([
-        'organization_id' => $this->organization->id,
-        'clinic_id' => $clinic->id,
-    ]);
+		// Create a clinic for the organization
+		$clinic = Clinic::factory()->create([
+			'organization_id' => $this->organization->id,
+		]);
 
-    $this->doctor = Doctor::factory()->create([
-        'organization_id' => $this->organization->id,
-    ]);
+		$this->clinicService = ClinicService::factory()->create([
+			'organization_id' => $this->organization->id,
+			'clinic_id' => $clinic->id,
+		]);
 
-    $this->clinics = [$clinic->id => $clinic->name];
-    $this->mountingData = ['clinics' => $this->clinics];
+		$this->doctor = Doctor::factory()->create([
+			'organization_id' => $this->organization->id,
+		]);
 
-    $this->clinicId = $clinic->id;
-    $this->serviceId = $this->clinicService->id;
+		$this->clinics = [$clinic->id => $clinic->name];
+		$this->mountingData = ['clinics' => $this->clinics];
 
-    // Create a ClinicAdmin model linked to the created user
-    $this->clinicAdmin = ClinicAdmin::factory()->create([
-        'organization_id' => $this->organization->id,
-        'user_id' => $this->user->id,
-    ]);
+		$this->clinicId = $clinic->id;
+		$this->serviceId = $this->clinicService->id;
 
-    $this->actingAs($this->user);
-});
+		// Create a ClinicAdmin model linked to the created user
+		$this->clinicAdmin = ClinicAdmin::factory()->create([
+			'organization_id' => $this->organization->id,
+			'user_id' => $this->user->id,
+		]);
 
-it('renders successfully', function (): void {
-    Livewire::test(AddEventModal::class)
-        ->assertStatus(200);
-});
+		$this->actingAs($this->user);
+	});
 
-it('validates the input correctly when adding a new patient', function (): void {
-    Livewire::test(AddEventModal::class)
-        ->set('start', '')
-        ->set('end', '')
-        ->set('first_name', '')
-        ->set('last_name', '')
-        ->set('phone', '')
-        ->set('age', '')
-        ->set('gender', '')
-        ->set('clinic_id', '')
-        ->set('service_id', '')
-        ->call('addPatientWithEventAction')
-        ->assertHasErrors(['start', 'first_name', 'last_name', 'phone', 'age', 'gender', 'clinic_id', 'service_id']);
-});
+	it('renders successfully', function (): void {
+		Livewire::test(AddEventModal::class)
+			->assertStatus(200);
+	});
 
-it('can add an event with a new patient', function (): void {
-    $startDate = '2025/01/13 7:40م (اثنين)';
+	it('validates the input correctly when adding a new patient', function (): void {
+		Livewire::test(AddEventModal::class)
+			->set('start', '')
+			->set('end', '')
+			->set('first_name', '')
+			->set('last_name', '')
+			->set('phone', '')
+			->set('age', '')
+			->set('gender', '')
+			->set('clinic_id', '')
+			->set('service_id', '')
+			->call('addPatientWithEventAction')
+			->assertHasErrors(['start', 'first_name', 'last_name', 'phone', 'age', 'gender', 'clinic_id', 'service_id']);
+	});
 
-    Livewire::test(AddEventModal::class)
-        ->set('clinics', $this->mountingData['clinics'])
-        ->set('start', $startDate)
-        ->set('end', null)
-        ->set('first_name', 'John')
-        ->set('last_name', 'Doe')
-        ->set('phone', '1234567890')
-        ->set('service_id', $this->serviceId)
-        ->set('age', 30)
-        ->set('gender', 'male')
-        ->set('clinic_id', $this->clinicId)
-        ->set('doctor_id', $this->doctor->id)
-        ->call('addPatientWithEventAction')
-        ->assertHasNoErrors();
+	it('can add an event with a new patient', function (): void {
+		$startDate = '2025/01/13 7:40م (اثنين)';
 
-    $this->assertDatabaseHas('users', [
-        'first_name' => 'John',
-        'last_name' => 'Doe',
-        'phone' => '1234567890',
-        'role' => Patient::class,
-    ]);
+		Livewire::test(AddEventModal::class)
+			->set('clinics', $this->mountingData['clinics'])
+			->set('start', $startDate)
+			->set('end', null)
+			->set('first_name', 'John')
+			->set('last_name', 'Doe')
+			->set('phone', '1234567890')
+			->set('service_id', $this->serviceId)
+			->set('age', 30)
+			->set('gender', 'male')
+			->set('clinic_id', $this->clinicId)
+			->set('doctor_id', $this->doctor->id)
+			->call('addPatientWithEventAction')
+			->assertHasNoErrors();
 
-    $this->assertDatabaseHas('events', [
-        'start_at' => CalendarDatepickerAdapter::handle($startDate),
-        'end_at' => null,
-    ]);
+		$this->assertDatabaseHas('users', [
+			'first_name' => 'John',
+			'last_name' => 'Doe',
+			'phone' => '1234567890',
+			'role' => Patient::class,
+		]);
 
-    expect(Event::count())->toBe(1);
-    $event = Event::first();
-    expect($event->title)->toContain('John Doe');
+		$this->assertDatabaseHas('events', [
+			'start_at' => CalendarDatepickerAdapter::handle($startDate),
+			'end_at' => null,
+		]);
 
-    $this->assertDatabaseHas('patients', [
-        'organization_id' => $this->organization->id,
-    ]);
+		expect(Event::count())->toBe(1);
+		$event = Event::first();
+		expect($event->title)->toContain('John Doe');
 
-    $patient = Patient::first();
-    expect($patient->user->first_name)->toBe('John');
-    expect($patient->user->last_name)->toBe('Doe');
-});
+		$this->assertDatabaseHas('patients', [
+			'organization_id' => $this->organization->id,
+		]);
 
-it('validates the input correctly when adding with an existing patient', function (): void {
-    Livewire::test(AddEventModal::class)
-        ->set('start', '')
-        ->set('service_id', '')
-        ->set('patient_id', '')
-        ->set('clinic_id', '')
-        ->call('addEventWithExistingPatientAction')
-        ->assertHasErrors(['start', 'patient_id', 'service_id', 'clinic_id']);
-});
+		$patient = Patient::first();
+		expect($patient->user->first_name)->toBe('John');
+		expect($patient->user->last_name)->toBe('Doe');
+	});
 
-it('can add an event with an existing patient', function (): void {
-    $patient = Patient::factory()->create([
-        'organization_id' => $this->organization->id,
-    ]);
+	it('validates the input correctly when adding with an existing patient', function (): void {
+		Livewire::test(AddEventModal::class)
+			->set('start', '')
+			->set('service_id', '')
+			->set('patient_id', '')
+			->set('clinic_id', '')
+			->call('addEventWithExistingPatientAction')
+			->assertHasErrors(['start', 'patient_id', 'service_id', 'clinic_id']);
+	});
 
-    $startDate = '2025/01/13 7:40م (اثنين)';
+	it('can add an event with an existing patient', function (): void {
+		$patient = Patient::factory()->create([
+			'organization_id' => $this->organization->id,
+		]);
 
-    Livewire::test(AddEventModal::class)
-        ->set('start', $startDate)
-        ->set('end', $startDate)
-        ->set('clinics', $this->mountingData['clinics'])
-        ->set('service_id', $this->serviceId)
-        ->set('patient_id', $patient->id)
-        ->set('clinic_id', $this->clinicId)
-        ->set('doctor_id', $this->doctor->id)
-        ->call('addEventWithExistingPatientAction')
-        ->assertHasNoErrors();
+		$startDate = '2025/01/13 7:40م (اثنين)';
 
-    expect(Event::count())->toBe(1);
-    $event = Event::first();
-    expect($event->title)->toContain($patient->user->first_name . ' ' . $patient->user->last_name);
-});
+		Livewire::test(AddEventModal::class)
+			->set('start', $startDate)
+			->set('end', $startDate)
+			->set('clinics', $this->mountingData['clinics'])
+			->set('service_id', $this->serviceId)
+			->set('patient_id', $patient->id)
+			->set('clinic_id', $this->clinicId)
+			->set('doctor_id', $this->doctor->id)
+			->call('addEventWithExistingPatientAction')
+			->assertHasNoErrors();
 
-it('validates confirm invoice input', function (): void {
-    Livewire::test(AddEventModal::class)
-        ->set('invoiceView.event_id', '')
-        ->set('paid_price', '')
-        ->call('confirmInvoiceReceiptAction')
-        ->assertHasErrors(['invoiceView.event_id', 'paid_price']);
-});
+		expect(Event::count())->toBe(1);
+		$event = Event::first();
+		expect($event->title)->toContain($patient->user->first_name . ' ' . $patient->user->last_name);
+	});
 
-it('can confirm invoice receipt', function (): void {
-    $patient = Patient::factory()->create([
-        'organization_id' => $this->organization->id,
-    ]);
+	it('validates confirm invoice input', function (): void {
+		Livewire::test(AddEventModal::class)
+			->set('invoiceView.event_id', '')
+			->set('paid_price', '')
+			->call('confirmInvoiceReceiptAction')
+			->assertHasErrors(['invoiceView.event_id', 'paid_price']);
+	});
 
-    $startDate = '2025/01/13 7:40م (اثنين)';
+	it('can confirm invoice receipt', function (): void {
+		$patient = Patient::factory()->create([
+			'organization_id' => $this->organization->id,
+		]);
 
-    $event = Event::create([
-        'organization_id' => $this->organization->id,
-        'clinic_id' => $this->clinicId,
-        'patient_id' => $patient->id,
-        'clinic_service_id' => $this->serviceId,
-        'created_by' => $this->user->id,
-        'type' => CalendarTypeEnum::PATIENT_APPOINTMENT,
-        'title' => 'test',
-        'start_at' => CalendarDatepickerAdapter::handle($startDate),
-        'end_at' => null,
-        'all_day' => false,
-        'data' => json_encode(['backgroundColor' => '#ffffff']),
-    ]);
+		$startDate = '2025/01/13 7:40م (اثنين)';
 
-    Livewire::test(AddEventModal::class)
-        ->set('invoiceView.event_id', $event->id)
-        ->set('paid_price', $this->clinicService->price)
-        ->call('confirmInvoiceReceiptAction')
-        ->assertHasNoErrors();
+		$event = Event::create([
+			'organization_id' => $this->organization->id,
+			'clinic_id' => $this->clinicId,
+			'patient_id' => $patient->id,
+			'clinic_service_id' => $this->serviceId,
+			'created_by' => $this->user->id,
+			'type' => CalendarTypeEnum::PATIENT_APPOINTMENT,
+			'title' => 'test',
+			'start_at' => CalendarDatepickerAdapter::handle($startDate),
+			'end_at' => null,
+			'all_day' => false,
+			'data' => json_encode(['backgroundColor' => '#ffffff']),
+		]);
 
-    expect(Invoice::count())->toBe(1);
-    $invoice = Invoice::first();
-    expect($invoice->status)->toBe(InvoiceStatusEnum::PAID->value);
-});
+		Livewire::test(AddEventModal::class)
+			->set('invoiceView.event_id', $event->id)
+			->set('paid_price', $this->clinicService->price)
+			->call('confirmInvoiceReceiptAction')
+			->assertHasNoErrors();
 
-it('can confirm invoice receipt with pending status', function (): void {
-    $patient = Patient::factory()->create([
-        'organization_id' => $this->organization->id,
-    ]);
+		expect(Invoice::count())->toBe(1);
+		$invoice = Invoice::first();
+		expect($invoice->status)->toBe(InvoiceStatusEnum::PAID->value);
+	});
 
-    $startDate = '2025/01/13 7:40م (اثنين)';
+	it('can confirm invoice receipt with pending status', function (): void {
+		$patient = Patient::factory()->create([
+			'organization_id' => $this->organization->id,
+		]);
 
-    $event = Event::create([
-        'organization_id' => $this->organization->id,
-        'clinic_id' => $this->clinicId,
-        'patient_id' => $patient->id,
-        'clinic_service_id' => $this->serviceId,
-        'created_by' => $this->user->id,
-        'type' => CalendarTypeEnum::PATIENT_APPOINTMENT,
-        'title' => 'test',
-        'start_at' => CalendarDatepickerAdapter::handle($startDate),
-        'end_at' => null,
-        'all_day' => false,
-        'data' => json_encode(['backgroundColor' => '#ffffff']),
-    ]);
+		$startDate = '2025/01/13 7:40م (اثنين)';
 
-    Livewire::test(AddEventModal::class)
-        ->set('invoiceView.event_id', $event->id)
-        ->set('paid_price', $this->clinicService->price - 1)
-        ->call('confirmInvoiceReceiptAction')
-        ->assertHasNoErrors()
-        ->assertDispatched('added');
+		$event = Event::create([
+			'organization_id' => $this->organization->id,
+			'clinic_id' => $this->clinicId,
+			'patient_id' => $patient->id,
+			'clinic_service_id' => $this->serviceId,
+			'created_by' => $this->user->id,
+			'type' => CalendarTypeEnum::PATIENT_APPOINTMENT,
+			'title' => 'test',
+			'start_at' => CalendarDatepickerAdapter::handle($startDate),
+			'end_at' => null,
+			'all_day' => false,
+			'data' => json_encode(['backgroundColor' => '#ffffff']),
+		]);
 
-    expect(Invoice::count())->toBe(1);
-    $invoice = Invoice::first();
-    expect($invoice->status)->toBe(InvoiceStatusEnum::PENDING->value);
+		Livewire::test(AddEventModal::class)
+			->set('invoiceView.event_id', $event->id)
+			->set('paid_price', $this->clinicService->price - 1)
+			->call('confirmInvoiceReceiptAction')
+			->assertHasNoErrors()
+			->assertDispatched('added');
+
+		expect(Invoice::count())->toBe(1);
+		$invoice = Invoice::first();
+		expect($invoice->status)->toBe(InvoiceStatusEnum::PENDING->value);
+	});
 });
