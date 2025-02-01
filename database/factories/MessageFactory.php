@@ -12,19 +12,19 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class MessageFactory extends Factory
 {
-	/**
-	 * Define the model's default state.
-	 *
-	 * @return array<string, mixed>
-	 */
-	public function definition(): array
-	{
-		return [
-			'message' => fake()->sentence(),
-			'type' => MessageTypeEnum::QUESTION->value,
-			'organization_id' => Organization::factory()->create()->id,
-			'model_type' => Prompt::class,
-			'model_id' => Prompt::factory()->create()->id,
-		];
-	}
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+            'message' => fake()->sentence(),
+            'type' => MessageTypeEnum::QUESTION->value,
+            'organization_id' => Organization::factory()->create()->id,
+            'model_type' => Prompt::class,
+            'model_id' => Prompt::factory()->create()->id,
+        ];
+    }
 }
