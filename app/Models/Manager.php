@@ -8,17 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Manager extends Model implements UserRoleModelInterface
 {
-	use HasFactory;
+    use HasFactory;
 
-	public function user()
-	{
-		return $this->belongsTo(User::class);
-	}
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
-	protected static function booted()
-	{
-		self::deleting(function ($manager): void {
-			$manager->user->delete();
-		});
-	}
+    protected static function booted()
+    {
+        self::deleting(function ($manager): void {
+            $manager->user->delete();
+        });
+    }
 }

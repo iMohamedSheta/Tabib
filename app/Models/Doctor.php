@@ -12,24 +12,24 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 #[ScopedBy(OrganizationScope::class)]
 class Doctor extends Model implements UserRoleModelInterface
 {
-	use HasFactory;
+    use HasFactory;
 
-	protected $guarded = [];
+    protected $guarded = [];
 
-	public function user(): BelongsTo
-	{
-		return $this->belongsTo(User::class);
-	}
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
-	public function clinic(): BelongsTo
-	{
-		return $this->belongsTo(Clinic::class, 'clinic_id', 'id');
-	}
+    public function clinic(): BelongsTo
+    {
+        return $this->belongsTo(Clinic::class, 'clinic_id', 'id');
+    }
 
-	protected static function booted()
-	{
-		self::deleting(function ($doctor): void {
-			$doctor->user->delete();
-		});
-	}
+    protected static function booted()
+    {
+        self::deleting(function ($doctor): void {
+            $doctor->user->delete();
+        });
+    }
 }

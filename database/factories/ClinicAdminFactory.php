@@ -12,24 +12,25 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class ClinicAdminFactory extends Factory
 {
-	protected $model = ClinicAdmin::class;
+    protected $model = ClinicAdmin::class;
 
-	/**
-	 * Define the model's default state.
-	 *
-	 * @return array<string, mixed>
-	 */
-	public function definition(): array
-	{
-		$org_id = Organization::factory()->create()->id;
-		return
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        $org_id = Organization::factory()->create()->id;
 
-			[
-				'user_id' => User::factory()->create([
-					'organization_id' => $org_id,
-				])->id,
-				'type' => ClinicAdmin::TYPE_SUPER_ADMIN,
-				'organization_id' => $org_id,
-			];
-	}
+        return
+
+            [
+                'user_id' => User::factory()->create([
+                    'organization_id' => $org_id,
+                ])->id,
+                'type' => ClinicAdmin::TYPE_SUPER_ADMIN,
+                'organization_id' => $org_id,
+            ];
+    }
 }
