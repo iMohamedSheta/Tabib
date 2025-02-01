@@ -10,8 +10,6 @@
 |__________________________________________
 */
 
-use App\Enums\Ai\AiModelEnum;
-use App\Enums\Ai\SystemPromptEnum;
 use App\Enums\Exceptions\ExceptionCodeEnum;
 use App\Enums\User\UserRoleEnum;
 use App\Generators\ClinicCodeGenerator;
@@ -22,10 +20,7 @@ use App\Http\Controllers\Auth\Socialite\GoogleSocialiteController;
 use App\Http\Controllers\PWA\LaravelPWAController;
 use App\Http\Controllers\Storage\PrivateStorageController;
 use App\Models\Patient;
-use App\Services\HuggingFaceService;
-use App\Services\Internal\VideoStream;
 use Carbon\Carbon;
-use EchoLabs\Prism\Prism;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -35,18 +30,18 @@ use League\Flysystem\FileAttributes;
 
 // Home
 Route::get('/', function () {
-	if (Auth::check()) {
-		return redirect(UserRoleEnum::authRedirectRouteBasedOnType());
-	}
+    if (Auth::check()) {
+        return redirect(UserRoleEnum::authRedirectRouteBasedOnType());
+    }
 
-	return to_route('register');
+    return to_route('register');
 });
 
 // PWA
 Route::group(['as' => 'laravelpwa.'], function (): void {
-	// Instead of using the file generate file every time with the updated version from the laravelpwa config
-	Route::get('/manifest.json', [LaravelPWAController::class, 'manifestJson'])->name('manifest');
-	Route::get('offline', [LaravelPWAController::class, 'offline']);
+    // Instead of using the file generate file every time with the updated version from the laravelpwa config
+    Route::get('/manifest.json', [LaravelPWAController::class, 'manifestJson'])->name('manifest');
+    Route::get('offline', [LaravelPWAController::class, 'offline']);
 });
 
 // OAuth Socialite
@@ -56,23 +51,23 @@ Route::get('/auth/google/callback', [GoogleSocialiteController::class, 'callback
 Route::get('/auth/facebook/redirect', [FacebookSocialiteController::class, 'redirect'])->name('socialite.facebook.redirect');
 Route::get('/auth/facebook/callback', [FacebookSocialiteController::class, 'callback'])->name('socialite.facebook.callback');
 
-Route::get('welcome', fn() => view('welcome'));
+Route::get('welcome', fn () => view('welcome'));
 
 // Test Routes
 Route::get('test', function () {
-	flash()->success('User saved successfully!');
-	sweetalert()->error('There was an issue locking your account.');
+    flash()->success('User saved successfully!');
+    sweetalert()->error('There was an issue locking your account.');
 
-	return to_route('register');
+    return to_route('register');
 });
 
-Route::get('speed', fn(): array => speedTest(fn() => DB::table('users')
-	->where('role', Patient::class)
-	->where(function ($query): void {
-		$query->likeIn(['first_name', 'last_name', 'phone', 'other_phone'], 'i');
-	})
-	->take(5)
-	->get(), 1000));
+Route::get('speed', fn (): array => speedTest(fn () => DB::table('users')
+    ->where('role', Patient::class)
+    ->where(function ($query): void {
+        $query->likeIn(['first_name', 'last_name', 'phone', 'other_phone'], 'i');
+    })
+    ->take(5)
+    ->get(), 1000));
 
 Route::view('testx', 'welcome');
 
@@ -87,8 +82,8 @@ Route::view('testx', 'welcome');
 //     dd($code->getLink());
 // })->name('docs.exceptions');
 
-Route::get('check', fn(): string => PUIDGenerator::generate());
-Route::get('check-2', fn(): string => ClinicCodeGenerator::generate());
+Route::get('check', fn (): string => PUIDGenerator::generate());
+Route::get('check-2', fn (): string => ClinicCodeGenerator::generate());
 
 // Route::get('test', function () {
 //     $yamlFile = base_path('.github/workflows/tabib_pushflow.yml');
@@ -97,50 +92,50 @@ Route::get('check-2', fn(): string => ClinicCodeGenerator::generate());
 // });
 
 Route::get('/test-google-drive', function (): false|string {
-	try {
-		$minimumBackupInterval = 3600; // seconds
+    try {
+        $minimumBackupInterval = 3600; // seconds
 
-		$latestBackupFile = null;
-		$latestBackupTime = null;
+        $latestBackupFile = null;
+        $latestBackupTime = null;
 
-		$files = Storage::disk('google')->listContents('/', true);
+        $files = Storage::disk('google')->listContents('/', true);
 
-		foreach ($files as $file) {
-			if ($file->isFile()) {
-				$fileModifiedTime = Carbon::parse($file->lastModified());
+        foreach ($files as $file) {
+            if ($file->isFile()) {
+                $fileModifiedTime = Carbon::parse($file->lastModified());
 
-				// Identify the most recently modified file
-				if (!$latestBackupTime instanceof Carbon || $fileModifiedTime->greaterThan($latestBackupTime)) {
-					$latestBackupTime = $fileModifiedTime;
-					$latestBackupFile = $file;
-				}
-			}
-		}
+                // Identify the most recently modified file
+                if (!$latestBackupTime instanceof Carbon || $fileModifiedTime->greaterThan($latestBackupTime)) {
+                    $latestBackupTime = $fileModifiedTime;
+                    $latestBackupFile = $file;
+                }
+            }
+        }
 
-		// Return false if no file was found
-		if (is_null($latestBackupFile) || !($latestBackupFile instanceof FileAttributes)) {
-			return false;
-		}
+        // Return false if no file was found
+        if (is_null($latestBackupFile) || !($latestBackupFile instanceof FileAttributes)) {
+            return false;
+        }
 
-		// Calculate time difference from the current time
-		$lastModifiedTime = Carbon::parse($latestBackupFile->lastModified());
-		$timeSinceLastBackupInSeconds = $lastModifiedTime->diffInSeconds(Carbon::now());
+        // Calculate time difference from the current time
+        $lastModifiedTime = Carbon::parse($latestBackupFile->lastModified());
+        $timeSinceLastBackupInSeconds = $lastModifiedTime->diffInSeconds(Carbon::now());
 
-		// Check if the backup hasn't been taken in the specified interval
-		$backupIsStale = ($timeSinceLastBackupInSeconds > $minimumBackupInterval);
+        // Check if the backup hasn't been taken in the specified interval
+        $backupIsStale = ($timeSinceLastBackupInSeconds > $minimumBackupInterval);
 
-		$readableBackupTime = $lastModifiedTime->diffForHumans();
+        $readableBackupTime = $lastModifiedTime->diffForHumans();
 
-		// dd($backupIsStale, $readableBackupTime);
-		return 'File uploaded successfully!';
-	} catch (Exception $e) {
-		return 'Error: ' . $e->getMessage();
-	}
+        // dd($backupIsStale, $readableBackupTime);
+        return 'File uploaded successfully!';
+    } catch (Exception $e) {
+        return 'Error: ' . $e->getMessage();
+    }
 });
 
 Route::name('storage.private.tmp.')
-	->prefix('storage/private/')
-	->group(function (): void {
-		Route::get('/media/{encryptedMedia}', [PrivateStorageController::class, 'showMedia'])->name('media');
-		Route::get('profile_picture/{profilePhotoPath}', [PrivateStorageController::class, 'showProfilePicture'])->name('profile_picture');
-	});
+    ->prefix('storage/private/')
+    ->group(function (): void {
+        Route::get('/media/{encryptedMedia}', [PrivateStorageController::class, 'showMedia'])->name('media');
+        Route::get('profile_picture/{profilePhotoPath}', [PrivateStorageController::class, 'showProfilePicture'])->name('profile_picture');
+    });
