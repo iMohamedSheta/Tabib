@@ -30,7 +30,7 @@
                         <x-stepper.step-middle title="بيانات العيادة" :active="$step == 2 ? 1 : 0" :nextIsActive="$this->isLastStep()"
                             :done="$step > 2">
                             @slot('icon')
-                                <i class="fa-solid fa-suitcase-medical @if($step == 2 ? 1 : 0) fa-bounce @endif fa-xl px-1"></i>
+                                <i class="fa-solid fa-suitcase-medical @if ($step == 2 ? 1 : 0) fa-bounce @endif fa-xl px-1"></i>
                             @endslot
                             بيانات خاصة بالعيادة الخاصة بك
                         </x-stepper.step-middle>

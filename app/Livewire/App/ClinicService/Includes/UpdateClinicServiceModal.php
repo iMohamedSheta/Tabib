@@ -47,18 +47,6 @@ class UpdateClinicServiceModal extends Component
         return view('livewire.app.clinic-service.includes.update-clinic-service-modal');
     }
 
-    protected function rules(): array
-    {
-        return (new UpdateClinicServiceRequest(array_keys($this->clinics)))->rules();
-    }
-
-    protected function prepareForValidation($attributes): array
-    {
-        $attributes['clinic_id'] = empty($this->clinic_id) ? null : $this->clinic_id;
-
-        return $attributes;
-    }
-
     public function updateClinicServiceAction(): void
     {
         $validatedData = $this->validate();
@@ -81,6 +69,18 @@ class UpdateClinicServiceModal extends Component
             log_error($exception);
             flash()->error($this->matchStatus());
         }
+    }
+
+    protected function rules(): array
+    {
+        return (new UpdateClinicServiceRequest(array_keys($this->clinics)))->rules();
+    }
+
+    protected function prepareForValidation($attributes): array
+    {
+        $attributes['clinic_id'] = empty($this->clinic_id) ? null : $this->clinic_id;
+
+        return $attributes;
     }
 
     protected function matchStatus($status = null): string

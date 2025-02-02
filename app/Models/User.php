@@ -55,19 +55,6 @@ class User extends Authenticatable implements HasMedia
         'fullname',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
-
     public function role(): MorphTo
     {
         return $this->morphTo();
@@ -142,5 +129,18 @@ class User extends Authenticatable implements HasMedia
         }
 
         return $query;
+    }
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
     }
 }

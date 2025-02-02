@@ -12,6 +12,18 @@ class Organization extends Model
 
     protected $guarded = [];
 
+    /**
+     * Perform any actions required after the model boots.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        self::created(function ($organization): void {
+            OrganizationSetupService::setup($organization);
+        });
+    }
+
     public function clinics()
     {
         return $this->hasMany(Clinic::class, 'organization_id', 'id');
@@ -35,17 +47,5 @@ class Organization extends Model
     public function patients()
     {
         return $this->hasMany(Patient::class, 'organization_id', 'id');
-    }
-
-    /**
-     * Perform any actions required after the model boots.
-     *
-     * @return void
-     */
-    protected static function booted()
-    {
-        self::created(function ($organization): void {
-            OrganizationSetupService::setup($organization);
-        });
     }
 }

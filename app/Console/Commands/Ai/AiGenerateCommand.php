@@ -19,7 +19,7 @@ class AiGenerateCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'ai:generate 
+    protected $signature = 'ai:generate
         {--folders= : List of folders where files are located}
 		{--files= : List of files to process}
         {--system-prompt=TEST_GENERATOR : The key for the system prompt to use}

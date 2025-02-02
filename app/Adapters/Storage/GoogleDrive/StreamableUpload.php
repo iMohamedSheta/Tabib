@@ -177,6 +177,69 @@ class StreamableUpload
     }
 
     /**
+     * Resume a previously unfinished upload.
+     *
+     * @param string $resumeUri the resume-URI of the unfinished, resumable upload
+     *
+     * @return false|mixed
+     */
+    public function resume($resumeUri)
+    {
+        $this->resumeUri = $resumeUri;
+        $headers = [
+            'content-range' => 'bytes */' . $this->size,
+            'content-length' => 0,
+        ];
+        $httpRequest = new Request(
+            'PUT',
+            $this->resumeUri,
+            $headers
+        );
+
+        return $this->makePutRequest($httpRequest);
+    }
+
+    /**
+     * Valid upload types:
+     * - resumable (UPLOAD_RESUMABLE_TYPE)
+     * - media (UPLOAD_MEDIA_TYPE)
+     * - multipart (UPLOAD_MULTIPART_TYPE)
+     *
+     * @visible for testing
+     */
+    public function getUploadType($meta): string
+    {
+        if ($this->resumable) {
+            return self::UPLOAD_RESUMABLE_TYPE;
+        }
+
+        if (false == $meta && $this->data) {
+            return self::UPLOAD_MEDIA_TYPE;
+        }
+
+        return self::UPLOAD_MULTIPART_TYPE;
+    }
+
+    public function getResumeUri()
+    {
+        if (null === $this->resumeUri) {
+            $this->resumeUri = $this->fetchResumeUri();
+        }
+
+        return $this->resumeUri;
+    }
+
+    public function setChunkSize($chunkSize): void
+    {
+        $this->chunkSize = $chunkSize;
+    }
+
+    public function getRequest(): RequestInterface
+    {
+        return $this->request;
+    }
+
+    /**
      * Sends a PUT-Request to google drive and parses the response,
      * setting the appropriate variables from the response().
      *
@@ -209,29 +272,6 @@ class StreamableUpload
         }
 
         return REST::decodeHttpResponse($response, $this->request);
-    }
-
-    /**
-     * Resume a previously unfinished upload.
-     *
-     * @param string $resumeUri the resume-URI of the unfinished, resumable upload
-     *
-     * @return false|mixed
-     */
-    public function resume($resumeUri)
-    {
-        $this->resumeUri = $resumeUri;
-        $headers = [
-            'content-range' => 'bytes */' . $this->size,
-            'content-length' => 0,
-        ];
-        $httpRequest = new Request(
-            'PUT',
-            $this->resumeUri,
-            $headers
-        );
-
-        return $this->makePutRequest($httpRequest);
     }
 
     /**
@@ -291,36 +331,6 @@ class StreamableUpload
         return $this->request = $request;
     }
 
-    /**
-     * Valid upload types:
-     * - resumable (UPLOAD_RESUMABLE_TYPE)
-     * - media (UPLOAD_MEDIA_TYPE)
-     * - multipart (UPLOAD_MULTIPART_TYPE)
-     *
-     * @visible for testing
-     */
-    public function getUploadType($meta): string
-    {
-        if ($this->resumable) {
-            return self::UPLOAD_RESUMABLE_TYPE;
-        }
-
-        if (false == $meta && $this->data) {
-            return self::UPLOAD_MEDIA_TYPE;
-        }
-
-        return self::UPLOAD_MULTIPART_TYPE;
-    }
-
-    public function getResumeUri()
-    {
-        if (null === $this->resumeUri) {
-            $this->resumeUri = $this->fetchResumeUri();
-        }
-
-        return $this->resumeUri;
-    }
-
     private function fetchResumeUri()
     {
         $body = $this->request->getBody();
@@ -377,15 +387,5 @@ class StreamableUpload
         $parts['path'] = '/upload' . $parts['path'];
         $uri = Uri::fromParts($parts);
         $this->request = $this->request->withUri($uri);
-    }
-
-    public function setChunkSize($chunkSize): void
-    {
-        $this->chunkSize = $chunkSize;
-    }
-
-    public function getRequest(): RequestInterface
-    {
-        return $this->request;
     }
 }

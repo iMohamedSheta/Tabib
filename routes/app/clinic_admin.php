@@ -25,7 +25,7 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
 ])->group(function (): void {
-    Route::get('/auth/app/redirect', fn () => redirect(UserRoleEnum::authRedirectRouteBasedOnType()))->name('app.admin.auth.app.redirect');
+    Route::get('auth/app/redirect', fn () => redirect(UserRoleEnum::authRedirectRouteBasedOnType()))->name('app.admin.auth.app.redirect');
 
     Route::get('dashboard', fn () => view('dashboard'))->name('app.admin.dashboard');
 

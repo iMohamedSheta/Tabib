@@ -57,11 +57,6 @@ class UpdateDoctorModal extends Component
         $this->other_phone = $doctor->other_phone;
     }
 
-    protected function rules(): array
-    {
-        return (new UpdateDoctorRequest($this->doctor))->rules();
-    }
-
     public function updateDoctorAction(): void
     {
         $validatedData = $this->validate();
@@ -100,5 +95,10 @@ class UpdateDoctorModal extends Component
     public function render()
     {
         return view('livewire.app.doctor.includes.update-doctor-modal');
+    }
+
+    protected function rules(): array
+    {
+        return (new UpdateDoctorRequest($this->doctor))->rules();
     }
 }

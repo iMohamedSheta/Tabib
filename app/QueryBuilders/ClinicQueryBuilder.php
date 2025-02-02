@@ -8,11 +8,6 @@ use Illuminate\Support\Facades\DB;
 
 class ClinicQueryBuilder extends QueryBuilderWrapper
 {
-    protected function initializeQuery(): Builder
-    {
-        return DB::table('clinics');
-    }
-
     public function getOrganizationClinics(): static
     {
         $this->query
@@ -30,5 +25,10 @@ class ClinicQueryBuilder extends QueryBuilderWrapper
             ->join('plans', 'clinics.plan_id', '=', 'plans.id');
 
         return $this;
+    }
+
+    protected function initializeQuery(): Builder
+    {
+        return DB::table('clinics');
     }
 }

@@ -8,11 +8,6 @@ use Illuminate\Support\Facades\DB;
 
 class PatientQueryBuilder extends QueryBuilderWrapper
 {
-    protected function initializeQuery(): Builder
-    {
-        return DB::table('patients');
-    }
-
     public function getOrganizationPatients(): static
     {
         $this->query
@@ -53,5 +48,10 @@ class PatientQueryBuilder extends QueryBuilderWrapper
         });
 
         return $this;
+    }
+
+    protected function initializeQuery(): Builder
+    {
+        return DB::table('patients');
     }
 }

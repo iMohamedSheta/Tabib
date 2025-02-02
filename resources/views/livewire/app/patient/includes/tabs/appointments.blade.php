@@ -105,8 +105,8 @@
             <div class="relative pr-8 sm:pr-32 py-6 group">
                 <!-- Indicator and Date -->
                 <div
-                    class="flex flex-col sm:flex-row items-end mb-1 group-last:before:hidden before:absolute before:right-2 sm:before:right-0 before:h-full before:px-px 
-                    before:bg-gray-600 sm:before:mr-[6.5rem] before:self-start before:-translate-x-1/2 before:translate-y-3 
+                    class="flex flex-col sm:flex-row items-end mb-1 group-last:before:hidden before:absolute before:right-2 sm:before:right-0 before:h-full before:px-px
+                    before:bg-gray-600 sm:before:mr-[6.5rem] before:self-start before:-translate-x-1/2 before:translate-y-3
                     ">
 
                     <time

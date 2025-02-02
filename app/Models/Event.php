@@ -14,17 +14,17 @@ class Event extends Model
 
     protected $guarded = [];
 
-    public function clinicService()
-    {
-        return $this->belongsTo(ClinicService::class, 'clinic_service_id', 'id');
-    }
-
     /**
      * The accessors to append to the model's array form.
      */
     protected $appends = [
         'decoded_data',
     ];
+
+    public function clinicService()
+    {
+        return $this->belongsTo(ClinicService::class, 'clinic_service_id', 'id');
+    }
 
     // In CalendarModel.php
     public function getDecodedDataAttribute(): ?object

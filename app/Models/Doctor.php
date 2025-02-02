@@ -16,6 +16,13 @@ class Doctor extends Model implements UserRoleModelInterface
 
     protected $guarded = [];
 
+    protected static function booted()
+    {
+        self::deleting(function ($doctor): void {
+            $doctor->user->delete();
+        });
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
@@ -24,12 +31,5 @@ class Doctor extends Model implements UserRoleModelInterface
     public function clinic(): BelongsTo
     {
         return $this->belongsTo(Clinic::class, 'clinic_id', 'id');
-    }
-
-    protected static function booted()
-    {
-        self::deleting(function ($doctor): void {
-            $doctor->user->delete();
-        });
     }
 }

@@ -13,15 +13,15 @@ class Message extends Model
 
     protected $guarded = [];
 
-    public function model(): MorphTo
-    {
-        return $this->morphTo();
-    }
-
     protected static function booted()
     {
         self::creating(function ($message): void {
             $message->organization_id = Auth::user()->organization_id;
         });
+    }
+
+    public function model(): MorphTo
+    {
+        return $this->morphTo();
     }
 }

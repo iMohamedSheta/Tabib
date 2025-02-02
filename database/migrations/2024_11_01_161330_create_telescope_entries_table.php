@@ -13,9 +13,6 @@ return new class extends Migration {
         return config('telescope.storage.database.connection');
     }
 
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         $schema = Schema::connection($this->getConnection());
@@ -55,9 +52,6 @@ return new class extends Migration {
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         $schema = Schema::connection($this->getConnection());

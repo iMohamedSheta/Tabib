@@ -10,6 +10,7 @@
 |__________________________________________
 */
 
+use App\Enums\Ai\PromptTopicEnum;
 use App\Enums\Exceptions\ExceptionCodeEnum;
 use App\Enums\User\UserRoleEnum;
 use App\Generators\ClinicCodeGenerator;
@@ -40,16 +41,16 @@ Route::get('/', function () {
 // PWA
 Route::group(['as' => 'laravelpwa.'], function (): void {
     // Instead of using the file generate file every time with the updated version from the laravelpwa config
-    Route::get('/manifest.json', [LaravelPWAController::class, 'manifestJson'])->name('manifest');
+    Route::get('manifest.json', [LaravelPWAController::class, 'manifestJson'])->name('manifest');
     Route::get('offline', [LaravelPWAController::class, 'offline']);
 });
 
 // OAuth Socialite
-Route::get('/auth/google/redirect', [GoogleSocialiteController::class, 'redirect'])->name('socialite.google.redirect');
-Route::get('/auth/google/callback', [GoogleSocialiteController::class, 'callback'])->name('socialite.google.callback');
+Route::get('auth/google/redirect', [GoogleSocialiteController::class, 'redirect'])->name('socialite.google.redirect');
+Route::get('auth/google/callback', [GoogleSocialiteController::class, 'callback'])->name('socialite.google.callback');
 
-Route::get('/auth/facebook/redirect', [FacebookSocialiteController::class, 'redirect'])->name('socialite.facebook.redirect');
-Route::get('/auth/facebook/callback', [FacebookSocialiteController::class, 'callback'])->name('socialite.facebook.callback');
+Route::get('auth/facebook/redirect', [FacebookSocialiteController::class, 'redirect'])->name('socialite.facebook.redirect');
+Route::get('auth/facebook/callback', [FacebookSocialiteController::class, 'callback'])->name('socialite.facebook.callback');
 
 Route::get('welcome', fn () => view('welcome'));
 
@@ -91,7 +92,7 @@ Route::get('check-2', fn (): string => ClinicCodeGenerator::generate());
 //     dd($fileContent);
 // });
 
-Route::get('/test-google-drive', function (): false|string {
+Route::get('test-google-drive', function (): false|string {
     try {
         $minimumBackupInterval = 3600; // seconds
 
@@ -136,6 +137,10 @@ Route::get('/test-google-drive', function (): false|string {
 Route::name('storage.private.tmp.')
     ->prefix('storage/private/')
     ->group(function (): void {
-        Route::get('/media/{encryptedMedia}', [PrivateStorageController::class, 'showMedia'])->name('media');
+        Route::get('media/{encryptedMedia}', [PrivateStorageController::class, 'showMedia'])->name('media');
         Route::get('profile_picture/{profilePhotoPath}', [PrivateStorageController::class, 'showProfilePicture'])->name('profile_picture');
     });
+
+Route::get('test', function () {
+    return PromptTopicEnum::PATIENT->prompt();
+});

@@ -26,11 +26,6 @@ class CreateClinicServiceModal extends Component
 
     public $color = '#9C27B0';
 
-    protected function rules(): array
-    {
-        return (new CreateClinicServiceRequest(array_keys($this->clinics)))->rules();
-    }
-
     public function createClinicServiceAction(): void
     {
         $validatedData = $this->validate();
@@ -53,6 +48,16 @@ class CreateClinicServiceModal extends Component
         }
     }
 
+    public function render()
+    {
+        return view('livewire.app.clinic-service.includes.create-clinic-service-modal');
+    }
+
+    protected function rules(): array
+    {
+        return (new CreateClinicServiceRequest(array_keys($this->clinics)))->rules();
+    }
+
     protected function matchStatus($actionResponseStatus = null): string
     {
         return match ($actionResponseStatus) {
@@ -68,10 +73,5 @@ class CreateClinicServiceModal extends Component
         $this->clinic_id = null;
         $this->price = null;
         $this->description = null;
-    }
-
-    public function render()
-    {
-        return view('livewire.app.clinic-service.includes.create-clinic-service-modal');
     }
 }

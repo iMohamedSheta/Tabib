@@ -25,9 +25,9 @@
         <div class="h-48 bg-gray-700 rounded-md mb-4 flex items-center justify-center">
             @if (!is_null($src) && MediaCollectionEnum::IMAGES === $mediaCollection)
                 <img src="{{ $src }}" alt="Image description" class="max-h-full max-w-full object-contain">
-            @elseif(MediaCollectionEnum::DOCUMENTS === $mediaCollection->value)
+            @elseif (MediaCollectionEnum::DOCUMENTS === $mediaCollection->value)
                 DOC
-            @elseif(MediaCollectionEnum::VIDEOS === $mediaCollection)
+            @elseif (MediaCollectionEnum::VIDEOS === $mediaCollection)
                 VIDEO
             @else
                 <div class="text-gray-400 text-center">

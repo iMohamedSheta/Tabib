@@ -8,11 +8,6 @@ use Illuminate\Support\Facades\DB;
 
 class ClinicServiceQueryBuilder extends QueryBuilderWrapper
 {
-    protected function initializeQuery(): Builder
-    {
-        return DB::table('clinic_services');
-    }
-
     public function getOrganizationClinicServices(): static
     {
         $this->query
@@ -39,5 +34,10 @@ class ClinicServiceQueryBuilder extends QueryBuilderWrapper
             });
 
         return $this;
+    }
+
+    protected function initializeQuery(): Builder
+    {
+        return DB::table('clinic_services');
     }
 }

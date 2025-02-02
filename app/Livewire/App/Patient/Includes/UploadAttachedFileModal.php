@@ -16,11 +16,11 @@ class UploadAttachedFileModal extends Component
 {
     use WithFileUploads;
 
-    private string $show = 'showUploadAttachedFileModal';
-
     public Patient $patient;
     public $uploadedAttachedFile;
     public $mediaType = MediaTypeEnum::FILE;
+
+    private string $show = 'showUploadAttachedFileModal';
 
     public function render()
     {

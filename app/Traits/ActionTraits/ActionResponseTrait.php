@@ -7,16 +7,6 @@ use App\Responses\ActionResponse;
 
 trait ActionResponseTrait
 {
-    private function createResponse(ActionResponseStatusEnum $status, bool $success, string $message, $data = null): ActionResponse
-    {
-        return new ActionResponse(
-            $success,
-            $status,
-            $message,
-            $data,
-        );
-    }
-
     public function success(string $message = '', array $data = [])
     {
         return $this->createResponse(
@@ -44,6 +34,16 @@ trait ActionResponseTrait
             data: $data,
             status: ActionResponseStatusEnum::AUTHORIZE_ERROR,
             success: false,
+        );
+    }
+
+    private function createResponse(ActionResponseStatusEnum $status, bool $success, string $message, $data = null): ActionResponse
+    {
+        return new ActionResponse(
+            $success,
+            $status,
+            $message,
+            $data,
         );
     }
 }

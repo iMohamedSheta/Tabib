@@ -14,6 +14,11 @@ class Clinic extends Model
 
     protected $guarded = [];
 
+    public static function list(): array
+    {
+        return self::pluck('name', 'id')->toArray();
+    }
+
     public function subClinics()
     {
         return $this->hasMany(self::class, 'parent_clinic_id', 'id');
@@ -27,10 +32,5 @@ class Clinic extends Model
     public function organization()
     {
         return $this->belongsTo(Organization::class, 'organization_id', 'id');
-    }
-
-    public static function list(): array
-    {
-        return self::pluck('name', 'id')->toArray();
     }
 }

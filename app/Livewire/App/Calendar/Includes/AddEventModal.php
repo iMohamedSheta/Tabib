@@ -91,12 +91,6 @@ class AddEventModal extends Component
         ]);
     }
 
-    #[Computed]
-    protected function getClinicServices()
-    {
-        return ClinicService::list();
-    }
-
     public function getSearchResults(): \Illuminate\Support\Collection
     {
         return PatientQueryBuilderProxy::searchPatients($this->search);
@@ -105,50 +99,6 @@ class AddEventModal extends Component
     public function getSearchDoctorResults(): \Illuminate\Support\Collection
     {
         return DoctorQueryBuilderProxy::searchDoctors($this->searchDoctor ?? $this->searchDoctor2);
-    }
-
-    protected function rules(): array
-    {
-        return array_merge(
-            $this->addedRules(),
-            array_only(
-                (new CreatePatientRequest(array_keys($this->clinics)))->rules(),
-                [
-                    'first_name',
-                    'last_name',
-                    'phone',
-                    'age',
-                    'gender',
-                    'clinic_id',
-                    'other_phone',
-                ],
-            ),
-        );
-    }
-
-    protected function addedRules(): array
-    {
-        return [
-            'start' => ['required', new StartDateBeforeEndDate($this->end)],
-            'end' => ['nullable', 'after_or_equal:start'],
-            'service_id' => ['required', 'in:' . implode(',', array_keys($this->getClinicServices()))],
-        ];
-    }
-
-    protected function rulesForAddEventWithExistingPatient(): array
-    {
-        return array_merge(
-            $this->addedRules(),
-            array_only(
-                (new CreatePatientRequest(array_keys($this->clinics)))->rules(),
-                [
-                    'clinic_id',
-                ],
-            ),
-            [
-                'patient_id' => ['required', 'exists:patients,id,organization_id,' . Auth::user()->organization_id],
-            ],
-        );
     }
 
     public function addPatientWithEventAction(): void
@@ -311,6 +261,56 @@ class AddEventModal extends Component
             flash()->error(__('alerts.error'));
             log_error($e);
         }
+    }
+
+    #[Computed]
+    protected function getClinicServices()
+    {
+        return ClinicService::list();
+    }
+
+    protected function rules(): array
+    {
+        return array_merge(
+            $this->addedRules(),
+            array_only(
+                (new CreatePatientRequest(array_keys($this->clinics)))->rules(),
+                [
+                    'first_name',
+                    'last_name',
+                    'phone',
+                    'age',
+                    'gender',
+                    'clinic_id',
+                    'other_phone',
+                ],
+            ),
+        );
+    }
+
+    protected function addedRules(): array
+    {
+        return [
+            'start' => ['required', new StartDateBeforeEndDate($this->end)],
+            'end' => ['nullable', 'after_or_equal:start'],
+            'service_id' => ['required', 'in:' . implode(',', array_keys($this->getClinicServices()))],
+        ];
+    }
+
+    protected function rulesForAddEventWithExistingPatient(): array
+    {
+        return array_merge(
+            $this->addedRules(),
+            array_only(
+                (new CreatePatientRequest(array_keys($this->clinics)))->rules(),
+                [
+                    'clinic_id',
+                ],
+            ),
+            [
+                'patient_id' => ['required', 'exists:patients,id,organization_id,' . Auth::user()->organization_id],
+            ],
+        );
     }
 
     protected function matchStatus($actionResponseStatus): string

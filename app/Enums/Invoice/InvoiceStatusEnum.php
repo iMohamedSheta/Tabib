@@ -9,6 +9,19 @@ enum InvoiceStatusEnum: int
     case CANCELED = 3;
 
     /**
+     * Retrieve an enum instance by its value.
+     */
+    public static function match(int $enumValue): static
+    {
+        return match ($enumValue) {
+            self::PENDING->value => self::PENDING,
+            self::PAID->value => self::PAID,
+            self::CANCELED->value => self::CANCELED,
+            default => throw new \InvalidArgumentException("Invalid value for InvoiceStatusEnum: $enumValue"),
+        };
+    }
+
+    /**
      * Get the human-readable label for each status.
      */
     public function label(): string
@@ -29,19 +42,6 @@ enum InvoiceStatusEnum: int
             self::PENDING => '🕒', // Clock emoji for pending
             self::PAID => '✅',   // Check mark for paid
             self::CANCELED => '❌', // Cross mark for canceled
-        };
-    }
-
-    /**
-     * Retrieve an enum instance by its value.
-     */
-    public static function match(int $enumValue): static
-    {
-        return match ($enumValue) {
-            self::PENDING->value => self::PENDING,
-            self::PAID->value => self::PAID,
-            self::CANCELED->value => self::CANCELED,
-            default => throw new \InvalidArgumentException("Invalid value for InvoiceStatusEnum: $enumValue"),
         };
     }
 }

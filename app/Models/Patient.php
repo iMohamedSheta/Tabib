@@ -14,6 +14,13 @@ class Patient extends Model
 
     protected $guarded = [];
 
+    protected static function booted()
+    {
+        self::deleting(function ($patient): void {
+            $patient->user->delete();
+        });
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
@@ -32,12 +39,5 @@ class Patient extends Model
     public function invoices()
     {
         return $this->morphMany(Invoice::class, 'model');
-    }
-
-    protected static function booted()
-    {
-        self::deleting(function ($patient): void {
-            $patient->user->delete();
-        });
     }
 }

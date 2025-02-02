@@ -52,11 +52,6 @@ class CreatePatientModal extends Component
         return view('livewire.app.patient.includes.create-patient-modal');
     }
 
-    protected function rules(): array
-    {
-        return (new CreatePatientRequest(array_keys($this->clinics)))->rules();
-    }
-
     public function addPatientAction(): void
     {
         $validatedData = $this->validate();
@@ -86,6 +81,11 @@ class CreatePatientModal extends Component
             ActionResponseStatusEnum::SUCCESS => 'تم انشاء المريض بنجاح',
             default => 'حدث خطاء في عملية انشاء المريض، الرجاء المحاولة لاحقاً',
         };
+    }
+
+    protected function rules(): array
+    {
+        return (new CreatePatientRequest(array_keys($this->clinics)))->rules();
     }
 
     private function resetForm(): void

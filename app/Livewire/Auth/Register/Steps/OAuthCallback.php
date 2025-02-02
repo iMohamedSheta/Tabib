@@ -23,11 +23,6 @@ class OAuthCallback extends Component
         $this->userData = $userData;
     }
 
-    protected function rules(): array
-    {
-        return (new CreateClinicRequest())->stepOneRules();
-    }
-
     public function render(): View
     {
         return view('livewire.auth.register.steps.o-auth-callback');
@@ -49,5 +44,10 @@ class OAuthCallback extends Component
         } catch (\Exception $exception) {
             log_error($exception);
         }
+    }
+
+    protected function rules(): array
+    {
+        return (new CreateClinicRequest())->stepOneRules();
     }
 }

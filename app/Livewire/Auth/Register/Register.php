@@ -29,21 +29,6 @@ class Register extends Component
         $this->maxSteps = 3;
     }
 
-    protected function stepOneRules(): array
-    {
-        return (new CreateClinicRequest())->stepOneRules();
-    }
-
-    protected function stepTwoRules(): array
-    {
-        return (new CreateClinicRequest())->stepTwoRules();
-    }
-
-    protected function stepThreeRules(): array
-    {
-        return (new CreateClinicRequest())->stepThreeRules();
-    }
-
     public function submitStepOne(): void
     {
         $this->validate($this->stepOneRules());
@@ -90,5 +75,20 @@ class Register extends Component
     public function render()
     {
         return view('livewire.auth.register.register');
+    }
+
+    protected function stepOneRules(): array
+    {
+        return (new CreateClinicRequest())->stepOneRules();
+    }
+
+    protected function stepTwoRules(): array
+    {
+        return (new CreateClinicRequest())->stepTwoRules();
+    }
+
+    protected function stepThreeRules(): array
+    {
+        return (new CreateClinicRequest())->stepThreeRules();
     }
 }

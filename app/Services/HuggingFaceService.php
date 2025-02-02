@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage as FacadesStorage;
 
 class HuggingFaceService
 {
+    protected $apiKey;
     // API URL for Hugging Face model
     // private $apiUrl = "https://api-inference.huggingface.co/models/openai-community/gpt2";
     // private $apiUrl = "https://api-inference.huggingface.co/models/deepseek-ai/DeepSeek-R1/v1/chat/completions";
@@ -18,6 +19,11 @@ class HuggingFaceService
 
     // Your Hugging Face API Token
     private string $apiToken = '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';  // Replace with your token
+
+    public function __construct($apiKey = null, protected Client $client = new Client())
+    {
+        $this->apiKey = $this->apiToken ?? $apiKey;
+    }
 
     // Method to query the Hugging Face model
     // public function queryModel(string $inputText)
@@ -79,13 +85,6 @@ class HuggingFaceService
                 'details' => $response->body(),
             ];
         }
-    }
-
-    protected $apiKey;
-
-    public function __construct($apiKey = null, protected Client $client = new Client())
-    {
-        $this->apiKey = $this->apiToken ?? $apiKey;
     }
 
     /**

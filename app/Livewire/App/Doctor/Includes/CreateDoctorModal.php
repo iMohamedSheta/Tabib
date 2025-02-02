@@ -64,11 +64,6 @@ class CreateDoctorModal extends Component
         $this->clinics = $clinics;
     }
 
-    protected function rules(): array
-    {
-        return (new CreateDoctorRequest())->rules();
-    }
-
     public function addDoctorAction(): void
     {
         $validatedData = $this->validate();
@@ -99,6 +94,16 @@ class CreateDoctorModal extends Component
         };
     }
 
+    public function render()
+    {
+        return view('livewire.app.doctor.includes.create-doctor-modal');
+    }
+
+    protected function rules(): array
+    {
+        return (new CreateDoctorRequest())->rules();
+    }
+
     private function resetForm(): void
     {
         $this->username = null;
@@ -109,10 +114,5 @@ class CreateDoctorModal extends Component
         $this->phone = null;
         $this->photo = null;
         $this->other_phone = null;
-    }
-
-    public function render()
-    {
-        return view('livewire.app.doctor.includes.create-doctor-modal');
     }
 }

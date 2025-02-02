@@ -16,11 +16,6 @@ class ClinicServiceTable extends Component
 {
     use WithCustomPagination;
 
-    protected function getClinicServices(): \Illuminate\Contracts\Pagination\LengthAwarePaginator
-    {
-        return ClinicServiceQueryBuilderProxy::getClinicServicesForTable($this->perPage, $this->page);
-    }
-
     public function getClinics(): array
     {
         return Clinic::list();
@@ -46,6 +41,19 @@ class ClinicServiceTable extends Component
         }
     }
 
+    public function render()
+    {
+        return view('livewire.app.clinic-service.clinic-service-table', [
+            'clinicServices' => $this->getClinicServices(),
+            'clinics' => $this->getClinics(),
+        ]);
+    }
+
+    protected function getClinicServices(): \Illuminate\Contracts\Pagination\LengthAwarePaginator
+    {
+        return ClinicServiceQueryBuilderProxy::getClinicServicesForTable($this->perPage, $this->page);
+    }
+
     protected function matchStatus($actionResponseStatus = null): string
     {
         return match ($actionResponseStatus) {
@@ -53,13 +61,5 @@ class ClinicServiceTable extends Component
             ActionResponseStatusEnum::SUCCESS => 'تم حذف الخدمة الطبية بنجاح',
             default => 'حدث خطاء في عملية حذف الخدمة الطبية الرجاء المحاولة لاحقاً',
         };
-    }
-
-    public function render()
-    {
-        return view('livewire.app.clinic-service.clinic-service-table', [
-            'clinicServices' => $this->getClinicServices(),
-            'clinics' => $this->getClinics(),
-        ]);
     }
 }
