@@ -17,6 +17,7 @@ class Organization extends Model
      *
      * @return void
      */
+    #[\Override]
     protected static function booted()
     {
         self::created(function ($organization): void {

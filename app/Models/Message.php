@@ -13,6 +13,7 @@ class Message extends Model
 
     protected $guarded = [];
 
+    #[\Override]
     protected static function booted()
     {
         self::creating(function ($message): void {

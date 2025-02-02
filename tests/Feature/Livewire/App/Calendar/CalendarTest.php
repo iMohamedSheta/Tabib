@@ -9,7 +9,7 @@ use App\Models\Organization;
 use App\Models\User;
 use Livewire\Livewire;
 
-describe('Calendar [Livewire-Component]', function () {
+describe('Calendar [Livewire-Component]', function (): void {
     beforeEach(function (): void {
         $this->organization = Organization::factory()->create();
 

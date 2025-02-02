@@ -13,6 +13,7 @@ class Prompt extends Model
 
     protected $guarded = [];
 
+    #[\Override]
     protected static function booted()
     {
         self::creating(function ($prompt): void {
@@ -27,7 +28,7 @@ class Prompt extends Model
 
     public function getAiContextAttribute(): array
     {
-        return $this->messages->map(fn ($message) => [
+        return $this->messages->map(fn ($message): array => [
             'type' => match ($message->type) {
                 MessageTypeEnum::ANSWER->value => 'ai',
                 MessageTypeEnum::QUESTION->value => 'user',

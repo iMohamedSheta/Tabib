@@ -11,7 +11,7 @@ use Livewire\Livewire;
 
 use function Pest\Laravel\assertDatabaseHas;
 
-describe('ShowPatient [Livewire-Component]', function () {
+describe('ShowPatient [Livewire-Component]', function (): void {
     beforeEach(function (): void {
         $this->organization = Organization::factory()->create();
 

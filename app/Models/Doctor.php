@@ -16,6 +16,7 @@ class Doctor extends Model implements UserRoleModelInterface
 
     protected $guarded = [];
 
+    #[\Override]
     protected static function booted()
     {
         self::deleting(function ($doctor): void {

@@ -4,7 +4,7 @@ use App\Livewire\App\ClinicService\Includes\InfoClinicServiceModal;
 use App\Models\ClinicService;
 use Livewire\Livewire;
 
-describe('InfoClinicServiceModal [Livewire-Component]', function () {
+describe('InfoClinicServiceModal [Livewire-Component]', function (): void {
     beforeEach(function (): void {
         $this->clinicService = ClinicService::factory()->create();
     });

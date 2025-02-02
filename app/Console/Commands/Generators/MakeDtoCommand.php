@@ -33,6 +33,7 @@ class MakeDtoCommand extends GeneratorCommand
      *
      * @param string $rootNamespace
      */
+    #[\Override]
     protected function getDefaultNamespace($rootNamespace): string
     {
         return $rootNamespace . '\DTOs';

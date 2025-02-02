@@ -11,7 +11,7 @@ use App\Models\User;
 use App\Responses\ActionResponse;
 use Livewire\Livewire;
 
-describe('UpdateClinicServiceModal [Livewire-Component]', function () {
+describe('UpdateClinicServiceModal [Livewire-Component]', function (): void {
     beforeEach(function (): void {
         $this->organization = Organization::factory()->create();
 

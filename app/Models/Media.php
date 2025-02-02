@@ -21,6 +21,7 @@ class Media extends MediaLibraryModel
         'url',
     ];
 
+    #[\Override]
     protected static function booted()
     {
         self::creating(function ($media): void {

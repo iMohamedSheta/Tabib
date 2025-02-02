@@ -8,7 +8,7 @@ use App\Models\Patient;
 use App\Models\User;
 use Livewire\Livewire;
 
-describe('PatientTable [Livewire-Component]', function () {
+describe('PatientTable [Livewire-Component]', function (): void {
     beforeEach(function (): void {
         $this->organization = Organization::factory()->create();
 

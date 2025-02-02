@@ -9,7 +9,7 @@ use App\Models\Prompt as PromptModel;
 use App\Models\User;
 use Livewire\Livewire;
 
-describe('Prompt [Livewire-Component]', function () {
+describe('Prompt [Livewire-Component]', function (): void {
     beforeEach(function (): void {
         $this->organization = Organization::factory()->create();
 

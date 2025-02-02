@@ -35,14 +35,9 @@ class AiGenerateCommand extends Command
 		php artisan ai:generate --folders="app\Console\Commands\Ai,app\Traits\Command" --system-prompt=test --chunk-size=2
 		php artisan ai:generate --files="app/Console/Commands/Ai/AiGenerateTestCommand.php,app/Traits/Command/AiGenerateFilesApi.php"';
 
-    protected FileCollectorService $fileCollector;
-    protected AiFileGenerationService $aiFileGenerationService;
-
-    public function __construct(FileCollectorService $fileCollector, AiFileGenerationService $aiFileGenerationService)
+    public function __construct(protected FileCollectorService $fileCollector, protected AiFileGenerationService $aiFileGenerationService)
     {
         parent::__construct();
-        $this->fileCollector = $fileCollector;
-        $this->aiFileGenerationService = $aiFileGenerationService;
     }
 
     /**
@@ -71,7 +66,7 @@ class AiGenerateCommand extends Command
         // Let the service determine the actual prompt string.
         $responses = $this->aiFileGenerationService->processFiles($files, $systemPromptKey, $chunkSize);
 
-        if (!empty($responses)) {
+        if ($responses !== []) {
             $this->info('AI generation completed successfully.');
         } else {
             $this->error('AI generation failed for all file chunks.');

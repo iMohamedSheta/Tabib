@@ -14,6 +14,7 @@ class Patient extends Model
 
     protected $guarded = [];
 
+    #[\Override]
     protected static function booted()
     {
         self::deleting(function ($patient): void {

@@ -164,9 +164,9 @@ class Prompt extends Component
 
         $this->messages = [];
 
-        if (null === $promptModel && null === $this->sessionGeneratedPrompt) {
+        if (null === $promptModel && !$this->sessionGeneratedPrompt instanceof \App\Models\Prompt) {
             $this->promptModel = null;
-        } elseif (null === $promptModel && null !== $this->sessionGeneratedPrompt) {
+        } elseif (null === $promptModel && $this->sessionGeneratedPrompt instanceof \App\Models\Prompt) {
             $this->promptModel = $this->sessionGeneratedPrompt;
         } else {
             $this->promptModel = $promptModel;
@@ -183,7 +183,7 @@ class Prompt extends Component
             'message' => PromptMessageEnum::WELCOME->prompt(),
         ];
 
-        if (null !== $this->promptModel) {
+        if ($this->promptModel instanceof \App\Models\Prompt) {
             $this->messages = [
                 ...$this->messages,
                 ...$this->promptModel->ai_context,

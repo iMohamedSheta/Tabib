@@ -67,10 +67,7 @@ class AiFileGenerationService
 
                 $parsedResponse = $this->generateAiFiles($response);
                 $responses[] = $parsedResponse;
-            } catch (FailedToParseResponseException $e) {
-                log_error($e);
-                continue;
-            } catch (\Exception $e) {
+            } catch (FailedToParseResponseException|\Exception $e) {
                 log_error($e);
                 continue;
             }

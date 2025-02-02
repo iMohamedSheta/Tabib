@@ -9,7 +9,7 @@ use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Livewire\Livewire;
 
-describe('UploadAttachedFileModal [Livewire-Component]', function () {
+describe('UploadAttachedFileModal [Livewire-Component]', function (): void {
     beforeEach(function (): void {
         $this->organization = Organization::factory()->create();
 

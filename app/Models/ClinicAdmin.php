@@ -24,6 +24,7 @@ class ClinicAdmin extends Model implements UserRoleModelInterface
      *
      * @return void
      */
+    #[\Override]
     protected static function booted()
     {
         self::deleting(function ($clinicAdmin): void {

@@ -10,6 +10,7 @@ class Manager extends Model implements UserRoleModelInterface
 {
     use HasFactory;
 
+    #[\Override]
     protected static function booted()
     {
         self::deleting(function ($manager): void {

@@ -15,7 +15,7 @@ use App\Models\Patient;
 use App\Models\User;
 use Livewire\Livewire;
 
-describe('AddEventModal [Livewire-Component]', function () {
+describe('AddEventModal [Livewire-Component]', function (): void {
     beforeEach(function (): void {
         $this->organization = Organization::factory()->create();
 

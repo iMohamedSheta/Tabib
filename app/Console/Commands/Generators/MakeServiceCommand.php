@@ -25,6 +25,7 @@ class MakeServiceCommand extends GeneratorCommand
      *
      * @param string $rootNamespace
      */
+    #[\Override]
     protected function getDefaultNamespace($rootNamespace): string
     {
         return $rootNamespace . '\Services';
@@ -47,6 +48,7 @@ class MakeServiceCommand extends GeneratorCommand
      *
      * @return string
      */
+    #[\Override]
     protected function buildClass($name)
     {
         $serviceNamespace = $this->getNamespace($name);

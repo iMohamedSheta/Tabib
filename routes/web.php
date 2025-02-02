@@ -141,6 +141,4 @@ Route::name('storage.private.tmp.')
         Route::get('profile_picture/{profilePhotoPath}', [PrivateStorageController::class, 'showProfilePicture'])->name('profile_picture');
     });
 
-Route::get('test', function () {
-    return PromptTopicEnum::PATIENT->prompt();
-});
+Route::get('test', fn(): string => PromptTopicEnum::PATIENT->prompt());
