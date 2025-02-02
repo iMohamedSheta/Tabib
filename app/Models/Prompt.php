@@ -28,7 +28,7 @@ class Prompt extends Model
 
     public function getAiContextAttribute(): array
     {
-        return $this->messages->map(fn ($message): array => [
+        return $this->messages->map(fn($message): array => [
             'type' => match ($message->type) {
                 MessageTypeEnum::ANSWER->value => 'ai',
                 MessageTypeEnum::QUESTION->value => 'user',

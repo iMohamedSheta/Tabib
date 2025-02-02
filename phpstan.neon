@@ -35,11 +35,6 @@ parameters:
           count: 1
           path: app/Services/Internal/PWA/ManifestService.php
 
-        - message: '#^Match expression does not handle remaining value\: string$#'
-          identifier: match.unhandled
-          count: 3
-          path: database/migrations/2024_11_26_053203_create_pulse_tables.php
-
         -'#^Access to an undefined property Illuminate\\Database\\Eloquent\\Model\:\:\$tokens\.$#'
         -'#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:deleteProfilePhoto\(\)\.$#'
         -'#^Call to an undefined method Illuminate\\Database\\Eloquent\\Model\:\:updateProfilePhoto\(\)\.$#'
@@ -65,7 +60,7 @@ parameters:
         -'#^Relation ''patient'' is not found in App\\Models\\Event model\.$#'
         -'#^Access to an undefined property App\\Models\\Calendar\:\:\$data\.$#'
         -'#^Call to an undefined method App\\QueryBuilders\\DoctorQueryBuilder\:\:take\(\)\.$#'
-
+        -'#^Access to an undefined property App\\Models\\Prompt\:\:\$messages\.$#'
 
         # ignore this error 
         - '#^Unsafe usage of new static\(\)\.$#'
