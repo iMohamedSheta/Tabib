@@ -135,6 +135,7 @@ class GoogleDriveAdapter implements FilesystemAdapter
         ],
         'sanitize_replacement_char' => '_',
     ];
+
     /**
      * Maximum size of upload content before switching from "one shot" mode to "chunked upload".
      *

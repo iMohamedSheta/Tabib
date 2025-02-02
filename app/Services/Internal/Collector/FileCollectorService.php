@@ -56,7 +56,7 @@ class FileCollectorService
         }
 
         // remove duplicate files (if a file is specified both ways).
-        $files = $files->unique(fn($file) => $file instanceof \SplFileInfo
+        $files = $files->unique(fn ($file) => $file instanceof \SplFileInfo
             ? $file->getRealPath()
             : $file);
 

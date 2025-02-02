@@ -66,7 +66,7 @@ class AiGenerateCommand extends Command
         // Let the service determine the actual prompt string.
         $responses = $this->aiFileGenerationService->processFiles($files, $systemPromptKey, $chunkSize);
 
-        if ($responses !== []) {
+        if ([] !== $responses) {
             $this->info('AI generation completed successfully.');
         } else {
             $this->error('AI generation failed for all file chunks.');

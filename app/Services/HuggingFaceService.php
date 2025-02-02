@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage as FacadesStorage;
 class HuggingFaceService
 {
     protected $apiKey;
+
     // API URL for Hugging Face model
     // private $apiUrl = "https://api-inference.huggingface.co/models/openai-community/gpt2";
     // private $apiUrl = "https://api-inference.huggingface.co/models/deepseek-ai/DeepSeek-R1/v1/chat/completions";
