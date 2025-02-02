@@ -1,15 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Traits\LivewireTraits;
 
 use App\Services\Internal\User\GetProfilePhotoUrlService;
 use Livewire\Attributes\Computed;
 
-trait withProfilePhotoTrait
+trait WithProfilePhotoTrait
 {
-    #[Computed]
-    public function getUserProfilePhotoUrl($profile_photo_path, $username, $first_name)
+    #[Computed(true)]
+    public function getUserProfilePhotoUrl(string $profilePhotoPath, string $username, string $firstName): string
     {
-        return GetProfilePhotoUrlService::handle($profile_photo_path, $username, $first_name);
+        return GetProfilePhotoUrlService::handle($profilePhotoPath, $username, $firstName);
     }
 }

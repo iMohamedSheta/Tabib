@@ -16,7 +16,7 @@ use App\Models\Patient;
 use App\Proxy\QueryBuilders\DoctorQueryBuilderProxy;
 use App\Proxy\QueryBuilders\PatientQueryBuilderProxy;
 use App\Rules\StartDateBeforeEndDate;
-use App\Traits\LivewireTraits\withProfilePhotoTrait;
+use App\Traits\LivewireTraits\WithProfilePhotoTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
@@ -27,7 +27,7 @@ use Livewire\Component;
 
 class AddEventModal extends Component
 {
-    use withProfilePhotoTrait;
+    use WithProfilePhotoTrait;
 
     /*
     |------------------------------------------

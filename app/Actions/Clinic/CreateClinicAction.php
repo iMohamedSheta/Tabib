@@ -58,7 +58,7 @@ class CreateClinicAction
         } catch (\Exception $exception) {
             DB::rollBack();
 
-            dd($exception);
+            log_error($exception);
         }
     }
 }

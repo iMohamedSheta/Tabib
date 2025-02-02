@@ -3,12 +3,12 @@
 namespace App\Livewire\App\Reception;
 
 use App\Proxy\QueryBuilders\PatientQueryBuilderProxy;
-use App\Traits\LivewireTraits\withProfilePhotoTrait;
+use App\Traits\LivewireTraits\WithProfilePhotoTrait;
 use Livewire\Component;
 
 class ReceptionGlobalSearchModal extends Component
 {
-    use withProfilePhotoTrait;
+    use WithProfilePhotoTrait;
 
     public $show = 'showReceptionGlobalSearchModal';
 
