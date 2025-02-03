@@ -25,6 +25,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use League\Flysystem\FileAttributes;
@@ -52,7 +53,7 @@ Route::get('auth/google/callback', [GoogleSocialiteController::class, 'callback'
 Route::get('auth/facebook/redirect', [FacebookSocialiteController::class, 'redirect'])->name('socialite.facebook.redirect');
 Route::get('auth/facebook/callback', [FacebookSocialiteController::class, 'callback'])->name('socialite.facebook.callback');
 
-Route::get('welcome', fn () => view('welcome'));
+Route::get('welcome', fn() => view('welcome'));
 
 // Test Routes
 Route::get('test', function () {
@@ -62,7 +63,7 @@ Route::get('test', function () {
     return to_route('register');
 });
 
-Route::get('speed', fn (): array => speedTest(fn () => DB::table('users')
+Route::get('speed', fn(): array => speedTest(fn() => DB::table('users')
     ->where('role', Patient::class)
     ->where(function ($query): void {
         $query->likeIn(['first_name', 'last_name', 'phone', 'other_phone'], 'i');
@@ -83,8 +84,8 @@ Route::view('testx', 'welcome');
 //     dd($code->getLink());
 // })->name('docs.exceptions');
 
-Route::get('check', fn (): string => PUIDGenerator::generate());
-Route::get('check-2', fn (): string => ClinicCodeGenerator::generate());
+Route::get('check', fn(): string => PUIDGenerator::generate());
+Route::get('check-2', fn(): string => ClinicCodeGenerator::generate());
 
 // Route::get('test', function () {
 //     $yamlFile = base_path('.github/workflows/tabib_pushflow.yml');
@@ -141,4 +142,14 @@ Route::name('storage.private.tmp.')
         Route::get('profile_picture/{profilePhotoPath}', [PrivateStorageController::class, 'showProfilePicture'])->name('profile_picture');
     });
 
-Route::get('test', fn (): string => PromptTopicEnum::PATIENT->prompt());
+Route::get('test', function () {
+    $url = 'http://localhost:11434/api/generate';
+
+    $response = Http::stream($url, [
+        "model" => "Deepseek-R1:7B", // Use the correct model name
+        "prompt" => "Write a PHP function to connect to a database.",
+        "stream" => false // Set to true for streaming responses
+    ]);
+
+    return $response->json(); // Return response as JSON
+});

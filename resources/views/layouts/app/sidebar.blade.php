@@ -17,29 +17,85 @@
     <div class="h-full flex flex-col flex-1 justify-space-between  text-gray-400 dark:text-gray-400">
         <div
             class="h-full overflow-y-auto  scrollbar-thin scrollbar-track-purple-800 scrollbar-thumb-purple-500 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800 transition-all  duration-500">
-            <div class="text-center bg-c-gray-800   pb-2 pt-4 rounded transition-all duration-500"
+            {{-- <div class="text-center bg-c-gray-800   pb-2 pt-4 rounded transition-all duration-500"
                 x-show="$store.appConfig.isAppSidebarOpen">
                 <a class="text-2xl font-extrabold text-purple-200 dark:text-purple-200 " href="#">
-                    {{-- طبيب<span class=" text-purple-300 dark:text-purple-600 ">.كلاود</span> --}}
-                    {{-- Tabib<span class="text-orange-600">Hub</span> --}}
                     <img src="{{ asset('images/logo/4.png') }}" alt="Logo"
                         class="w-[50px] border-2 bg-c-gray-700 border-gray-400 mx-auto pointer-events-none select-none rounded-full">
                     <span class="block mt-1">
                         ميدكيلنكس
                     </span>
-                    {{-- <span
-                        class=" text-xl block text-purple-300 dark:text-purple-200 dark:[text-shadow:_0_1px_0_rgb(255_255_255_/_40%)] ">MedClinux</span> --}}
                 </a>
+            </div> --}}
+            <!-- User Profile Section -->
+            <div class=" border-b border-purple-700/50 bg-purple-950/10 ">
+                <button @click="toggleUserProfileDropdown()"
+                    class="flex items-center w-full rounded-lg p-4 transition-colors duration-200 hover:bg-purple-800/50 group">
+                    <div class="relative">
+                        <img src="{{ auth()->user()->profile_photo_url }}" alt="Profile"
+                            class="w-10 h-10 rounded-b-full border-2 border-purple-400 object-cover">
+                        <div
+                            class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-purple-900 rounded-full">
+                        </div>
+                        <span aria-hidden="true"
+                            class="absolute bottom-0 animate-ping right-0 inline-block w-3 h-3  bg-green-500 border-2 border-purple-700 rounded-full dark:border-gray-800"></span>
+                    </div>
+                    <div class="mr-3 text-right transition-all duration-200" x-cloak
+                        :class="{ 'hidden': !$store.appConfig.isAppSidebarOpen }">
+                        <h3 class="text-2xl font-medium text-white">
+                            {{ auth()->user()->organization->name }}</h3>
+                        <p class="text-xs text-purple-300">
+                            المنظمة
+                        </p>
+                    </div>
+                    <i class="fa-solid fa-chevron-down mr-auto text-purple-400 transition-transform duration-200"
+                        x-cloak
+                        :class="{ 'rotate-180': userMenuOpen, 'hidden': !$store.appConfig.isAppSidebarOpen }"></i>
+                </button>
+
+                <!-- User Menu Dropdown -->
+                <div x-show="userMenuOpen" x-collapse :class="{ 'hidden': !$store.appConfig.isAppSidebarOpen }" x-cloak
+                    class="mb-2  rounded-lg bg-c-gray-900/90 overflow-auto">
+                    <a href="#"
+                        class="flex items-center px-4 py-2 text-sm hover:bg-purple-700/50 transition-colors duration-200">
+                        <i class="fa-solid fa-user-cog fa-lg"></i>
+                        <span class="mr-3">الملف الشخصي</span>
+                    </a>
+                    <a href="#"
+                        class="flex items-center justify-between px-4 py-2 text-sm hover:bg-purple-700/50 transition-colors duration-200">
+                        <div class="flex items-center">
+                            <i class="fa-solid fa-envelope fa-lg "></i>
+                            <span class="mr-3">الرسائل</span>
+                        </div>
+                        <span
+                            class="flex items-center justify-center w-5 h-5 bg-blue-600 text-white text-xs rounded-full">4</span>
+                    </a>
+                    <a href="#"
+                        class="flex items-center justify-between px-4 py-2 text-sm hover:bg-purple-700/50 transition-colors duration-200">
+                        <div class="flex items-center">
+                            <i class="fa-solid fa-bell fa-lg "></i>
+                            <span class="mr-3">الإشعارات</span>
+                        </div>
+                        <span
+                            class="flex items-center justify-center w-5 h-5 bg-red-600 text-white text-xs rounded-full">2</span>
+                    </a>
+                    <form method="POST" action="{{ route('logout') }}" class="border-t border-purple-700/50">
+                        @csrf
+                        <button type="submit"
+                            class="flex w-full items-center px-4 py-2  text-sm text-red-400 hover:bg-purple-700/50 transition-colors duration-200">
+                            <i class="fa-solid fa-sign-out-alt fa-lg"></i>
+                            <span class="mr-3">تسجيل الخروج</span>
+                        </button>
+                    </form>
+                </div>
             </div>
-            <div class="text-center bg-c-gray-800   pb-2 pt-4 rounded transition-all duration-500"
+            {{-- <div class="text-center bg-c-gray-800   pb-2 pt-4 rounded transition-all duration-500"
                 x-show="!$store.appConfig.isAppSidebarOpen" x-cloak>
                 <a class="text-2xl font-extrabold text-purple-200 dark:text-purple-200 " href="#">
-                    {{-- طبيب<span class=" text-purple-300 dark:text-purple-600 ">.كلاود</span> --}}
-                    {{-- Tabib<span class="text-orange-600">Hub</span> --}}
                     <img src="{{ asset('images/logo/4.png') }}" alt="Logo"
                         class="w-[50px] border-2 bg-c-gray-700 border-gray-400 mx-auto pointer-events-none select-none rounded-full">
                 </a>
-            </div>
+            </div> --}}
             <div class="flex flex-col ">
                 <ul class="mt-1 text-xs">
                     <x-theme.sidebar-link href="{{ route('app.admin.dashboard') }}" activeRoute="app.admin.dashboard">
@@ -267,7 +323,8 @@
                 <div class="relative">
                     <img src="{{ auth()->user()->profile_photo_url }}" alt="Profile"
                         class="w-10 h-10 rounded-full border-2 border-purple-400 object-cover">
-                    <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-purple-900 rounded-full">
+                    <div
+                        class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-purple-900 rounded-full">
                     </div>
                     <span aria-hidden="true"
                         class="absolute bottom-0 animate-ping right-0 inline-block w-3 h-3  bg-green-500 border-2 border-purple-700 rounded-full dark:border-gray-800"></span>

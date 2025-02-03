@@ -265,6 +265,7 @@ enum SystemPromptEnum: int
         - remember to include factories if needed
         - remember to the main folder is ai_tests
         - remember json format return
+        - remember always return message should be in the format i specified
         '
         EOT;
     }

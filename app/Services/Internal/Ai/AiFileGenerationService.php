@@ -35,9 +35,15 @@ class AiFileGenerationService
 
         foreach ($fileChunks as $chunk) {
             try {
-                // Randomly select a model.
-                $usingModels = ['custom.gemini_1', 'gemini'];
-                $usingModel = $usingModels[array_rand($usingModels)];
+                # randomly select a model from the list of models.
+                $usingModels = [
+                    'custom.gemini_1' => AiModelEnum::GEMINI_2_0_FLASH_EXP->value,
+                    'gemini' => AiModelEnum::GEMINI_2_0_FLASH_EXP->value,
+                    // 'ollama' => AiModelEnum::DEEPSEEK_R1_7B->value
+                ];
+                $modelKey = array_rand($usingModels);
+
+                $model = $usingModels[$modelKey];
 
                 $filesContents = '';
                 foreach ($chunk as $file) {
@@ -49,7 +55,7 @@ class AiFileGenerationService
 
                 $prism = Prism::text()
                     ->withSystemPrompt($systemPrompt) // Use the resolved system prompt.
-                    ->using($usingModel, AiModelEnum::GEMINI_2_0_FLASH_EXP->value)
+                    ->using($modelKey, $model)
                     ->usingProviderConfig([
                         'temperature' => 1,
                         'topK' => 40,
@@ -67,7 +73,7 @@ class AiFileGenerationService
 
                 $parsedResponse = $this->generateAiFiles($response);
                 $responses[] = $parsedResponse;
-            } catch (FailedToParseResponseException|\Exception $e) {
+            } catch (FailedToParseResponseException | \Exception $e) {
                 log_error($e);
                 continue;
             }

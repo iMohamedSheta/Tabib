@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Enums\Ai;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 enum PromptTopicEnum: int
@@ -39,33 +42,48 @@ enum PromptTopicEnum: int
 
     public function getPatientPrompt(): string
     {
-        if (auth()->user()->isClinicAdmin()) {
-            return DB::table('patients as p')->where('p.organization_id', auth()->user()->organization_id)
-                ->select([
-                    'p.id as patient_id',
-                    'u.first_name',
-                    'u.last_name',
-                    'u.phone',
-                    'u.other_phone',
-                    'p.age',
-                    'p.gender',
-                    'p.address',
-                    'p.puid',
-                    'e.id as event_id',
-                    'e.start_at',
-                    'e.end_at',
-                    'p.organization_id',
-                    'du.first_name as doctor_first_name',
-                    'du.last_name as doctor_last_name',
-                ])
+        if (Auth::user()->isClinicAdmin()) {
+            $patients = DB::table('patients as p')
+                ->where('p.organization_id', auth()->user()->organization_id)
                 ->join('users as u', 'u.id', '=', 'p.user_id')
                 ->join('events as e', 'e.patient_id', '=', 'p.id')
                 ->join('doctors as d', 'd.id', '=', 'e.doctor_id')
                 ->join('users as du', 'du.id', '=', 'd.user_id')
+                ->select([
+                    'p.id as pid',
+                    DB::raw("CONCAT(u.first_name, '. ', u.last_name) as patient"),
+                    'u.phone',
+                    'p.age',
+                    'p.gender',
+                    'p.puid',
+                    'e.id as eid',
+                    DB::raw("DATE_FORMAT(e.start_at, '%Y-%m-%d %H:%i') as start"),
+                    DB::raw("DATE_FORMAT(e.end_at, '%Y-%m-%d %H:%i') as end"),
+                    DB::raw("CONCAT(du.first_name, '. ', du.last_name) as doctor"),
+                ])
                 ->get()
+                ->map(fn($p) => [
+                    'id' => $p->pid,
+                    'patient' => $p->patient,
+                    'phone' => $p->phone,
+                    'age' => $p->age,
+                    'gender' => $p->gender,
+                    'event' => [
+                        'id' => $p->eid,
+                        'start' => $p->start,
+                        'end' => $p->end,
+                        'doctor' => $p->doctor,
+                    ],
+                ])
                 ->toJson();
+
+            return $patients;
         }
 
         return '';
+    }
+
+    public function getAppointmentPrompt(): string {
+        return 
     }
 }
