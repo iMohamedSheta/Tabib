@@ -35,7 +35,7 @@ class AiFileGenerationService
 
         foreach ($fileChunks as $chunk) {
             try {
-                # randomly select a model from the list of models.
+                // randomly select a model from the list of models.
                 $usingModels = [
                     'custom.gemini_1' => AiModelEnum::GEMINI_2_0_FLASH_EXP->value,
                     'gemini' => AiModelEnum::GEMINI_2_0_FLASH_EXP->value,
@@ -73,7 +73,7 @@ class AiFileGenerationService
 
                 $parsedResponse = $this->generateAiFiles($response);
                 $responses[] = $parsedResponse;
-            } catch (FailedToParseResponseException | \Exception $e) {
+            } catch (FailedToParseResponseException|\Exception $e) {
                 log_error($e);
                 continue;
             }
