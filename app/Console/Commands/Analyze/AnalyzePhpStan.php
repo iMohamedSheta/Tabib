@@ -29,6 +29,7 @@ class AnalyzePhpStan extends Command
     {
         $this->info('Running phpstan analysis...');
         $command = 'composer analyze';
+        $command = 'composer analyze';
 
         // File to save the report
         $dateTime = now()->format('Y-m-d_H_i_s');
@@ -47,7 +48,7 @@ class AnalyzePhpStan extends Command
 
         // Keep only the 10 most recent reports
         if (count($files) > 10) {
-            usort($files, fn ($a, $b): int => filemtime($a) <=> filemtime($b));
+            usort($files, fn($a, $b): int => filemtime($a) <=> filemtime($b));
             $filesToRemove = array_slice($files, 0, count($files) - 10);
 
             foreach ($filesToRemove as $file) {
@@ -60,6 +61,7 @@ class AnalyzePhpStan extends Command
         // Run phpstan
         exec($command, $output, $returnCode);
 
+        $isSuccess = 0 === $returnCode;
         $isSuccess = 0 === $returnCode;
         $message = $isSuccess ? 'PhpStan analysis complete.' : 'PhpStan analysis has some errors.';
 
@@ -75,6 +77,7 @@ class AnalyzePhpStan extends Command
         }
 
         // Save the report
+        $reportContent = '# PhpStan Analysis Report - ' . now()->toDateTimeString() . "\n\n" . implode("\n", $output);
         $reportContent = '# PhpStan Analysis Report - ' . now()->toDateTimeString() . "\n\n" . implode("\n", $output);
         file_put_contents($reportPath, $reportContent);
 
