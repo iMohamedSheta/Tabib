@@ -10,7 +10,6 @@
 |__________________________________________
 */
 
-use App\Enums\Ai\PromptTopicEnum;
 use App\Enums\Exceptions\ExceptionCodeEnum;
 use App\Enums\User\UserRoleEnum;
 use App\Generators\ClinicCodeGenerator;
