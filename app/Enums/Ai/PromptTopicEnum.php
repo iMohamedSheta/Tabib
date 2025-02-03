@@ -43,7 +43,7 @@ enum PromptTopicEnum: int
     public function getPatientPrompt(): string
     {
         if (Auth::user()->isClinicAdmin()) {
-            $patients = DB::table('patients as p')
+            return DB::table('patients as p')
                 ->where('p.organization_id', auth()->user()->organization_id)
                 ->join('users as u', 'u.id', '=', 'p.user_id')
                 ->join('events as e', 'e.patient_id', '=', 'p.id')
@@ -62,7 +62,7 @@ enum PromptTopicEnum: int
                     DB::raw("CONCAT(du.first_name, '. ', du.last_name) as doctor"),
                 ])
                 ->get()
-                ->map(fn($p) => [
+                ->map(fn ($p): array => [
                     'id' => $p->pid,
                     'patient' => $p->patient,
                     'phone' => $p->phone,
@@ -76,8 +76,6 @@ enum PromptTopicEnum: int
                     ],
                 ])
                 ->toJson();
-
-            return $patients;
         }
 
         return '';
@@ -85,6 +83,6 @@ enum PromptTopicEnum: int
 
     public function getAppointmentPrompt(): string
     {
-        return "";
+        return '';
     }
 }
