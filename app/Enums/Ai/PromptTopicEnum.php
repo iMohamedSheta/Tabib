@@ -83,7 +83,8 @@ enum PromptTopicEnum: int
         return '';
     }
 
-    public function getAppointmentPrompt(): string {
-        return 
+    public function getAppointmentPrompt(): string
+    {
+        return "";
     }
 }

@@ -145,7 +145,7 @@ Route::name('storage.private.tmp.')
 Route::get('test', function () {
     $url = 'http://localhost:11434/api/generate';
 
-    $response = Http::stream($url, [
+    $response = Http::post($url, [
         "model" => "Deepseek-R1:7B", // Use the correct model name
         "prompt" => "Write a PHP function to connect to a database.",
         "stream" => false // Set to true for streaming responses
