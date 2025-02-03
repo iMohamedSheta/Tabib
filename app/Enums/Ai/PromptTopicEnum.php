@@ -62,7 +62,7 @@ enum PromptTopicEnum: int
                     DB::raw("CONCAT(du.first_name, '. ', du.last_name) as doctor"),
                 ])
                 ->get()
-                ->map(fn($p): array => [
+                ->map(fn ($p): array => [
                     'id' => $p->pid,
                     'patient' => $p->patient,
                     'phone' => $p->phone,
@@ -84,6 +84,7 @@ enum PromptTopicEnum: int
     public function getAppointmentPrompt(): string
     {
         return '';
+
         return '';
     }
 }

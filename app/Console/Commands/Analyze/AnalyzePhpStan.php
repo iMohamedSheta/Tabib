@@ -48,7 +48,7 @@ class AnalyzePhpStan extends Command
 
         // Keep only the 10 most recent reports
         if (count($files) > 10) {
-            usort($files, fn($a, $b): int => filemtime($a) <=> filemtime($b));
+            usort($files, fn ($a, $b): int => filemtime($a) <=> filemtime($b));
             $filesToRemove = array_slice($files, 0, count($files) - 10);
 
             foreach ($filesToRemove as $file) {
