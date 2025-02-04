@@ -61,7 +61,7 @@ parameters:
         -'#^Access to an undefined property App\\Models\\Calendar\:\:\$data\.$#'
         -'#^Call to an undefined method App\\QueryBuilders\\DoctorQueryBuilder\:\:take\(\)\.$#'
         -'#^Access to an undefined property App\\Models\\Prompt\:\:\$messages\.$#'
-
+        -'#^Call to an undefined static method Illuminate\\Support\\Facades\\Cache\:\:generateOrgScopedKey\(\)\.$#'
         # ignore this error 
         - '#^Unsafe usage of new static\(\)\.$#'
 
