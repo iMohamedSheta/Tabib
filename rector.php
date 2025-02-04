@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
+use Rector\Php55\Rector\Class_\ClassConstantToSelfClassRector;
 use Rector\Strict\Rector\Empty_\DisallowedEmptyRuleFixerRector;
 use Rector\TypeDeclaration\Rector\Property\TypedPropertyFromStrictConstructorRector;
 
@@ -22,6 +23,7 @@ return RectorConfig::configure()
     ])
     ->withSkip([
         DisallowedEmptyRuleFixerRector::class,
+        ClassConstantToSelfClassRector::class,
     ])
     ->withPreparedSets(
         deadCode: true,

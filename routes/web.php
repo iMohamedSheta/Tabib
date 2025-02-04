@@ -10,11 +10,13 @@
 |__________________________________________
 */
 
+use App\Enums\Ai\PromptTopicEnum;
 use App\Enums\Exceptions\ExceptionCodeEnum;
 use App\Enums\User\UserRoleEnum;
 use App\Generators\ClinicCodeGenerator;
 // use App\Exceptions\Test\TestException;
 use App\Generators\PUIDGenerator;
+use App\Helpers\Helper;
 use App\Http\Controllers\Auth\Socialite\FacebookSocialiteController;
 use App\Http\Controllers\Auth\Socialite\GoogleSocialiteController;
 use App\Http\Controllers\PWA\LaravelPWAController;
@@ -152,3 +154,6 @@ Route::get('test', function () {
 
     return $response->json(); // Return response as JSON
 });
+
+// Route::get('a', fn() => PromptTopicEnum::PATIENT->prompt());
+Route::get('a', fn () => Helper::test());

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Enums\Ai;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
 enum PromptTopicEnum: int
@@ -40,11 +41,20 @@ enum PromptTopicEnum: int
         };
     }
 
-    public function getPatientPrompt(): string
+    public function getAppointmentPrompt(): string
     {
-        if (Auth::user()->isClinicAdmin()) {
-            return DB::table('patients as p')
-                ->where('p.organization_id', auth()->user()->organization_id)
+        return '';
+    }
+
+    private function getPatientPrompt(): string
+    {
+        if (Auth::check() && Auth::user()->isClinicAdmin()) {
+            $rememberMinutes = now()->addMinutes(10);
+
+            $cacheKey = Cache::generateOrgScopedKey('patient_prompt_query', self::class);
+
+            $query = (fn () => DB::table('patients as p')
+                ->where('p.organization_id', Auth::user()->organization_id)
                 ->join('users as u', 'u.id', '=', 'p.user_id')
                 ->join('events as e', 'e.patient_id', '=', 'p.id')
                 ->join('doctors as d', 'd.id', '=', 'e.doctor_id')
@@ -62,7 +72,7 @@ enum PromptTopicEnum: int
                     DB::raw("CONCAT(du.first_name, '. ', du.last_name) as doctor"),
                 ])
                 ->get()
-                ->map(fn($p): array => [
+                ->map(fn ($p): array => [
                     'id' => $p->pid,
                     'patient' => $p->patient,
                     'phone' => $p->phone,
@@ -75,15 +85,15 @@ enum PromptTopicEnum: int
                         'doctor' => $p->doctor,
                     ],
                 ])
-                ->toJson();
+                ->toJson());
+
+            return Cache::remember(
+                key: $cacheKey,
+                ttl: $rememberMinutes,
+                callback: $query,
+            );
         }
 
-        return '';
-    }
-
-    public function getAppointmentPrompt(): string
-    {
-        return '';
         return '';
     }
 }

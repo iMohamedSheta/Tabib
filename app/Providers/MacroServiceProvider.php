@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Macros\CacheMacro;
 use App\Macros\QueryBuilderMacro;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,5 +23,6 @@ class MacroServiceProvider extends ServiceProvider
     public function boot(): void
     {
         QueryBuilderMacro::boot();
+        CacheMacro::boot();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class Helper
@@ -14,5 +15,10 @@ class Helper
             'line' => $exception->getLine(),
             'timestamp' => now()->toDateTimeString(),
         ]);
+    }
+
+    public static function test()
+    {
+        return Cache::generateOrgScopedKey('sasasa', self::class);
     }
 }
