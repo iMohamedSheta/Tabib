@@ -78,36 +78,43 @@ jobs:
       - name: Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
 
+      # MySQL Migration
       - name: Run Migrations - MySQL
         if: matrix.database == 'mysql'
         run: |
-          echo "DB_CONNECTION=mysql" >> .env
-          echo "DB_HOST=127.0.0.1" >> .env
-          echo "DB_PORT=3306" >> .env
-          echo "DB_DATABASE=app_test" >> .env
-          echo "DB_USERNAME=root" >> .env
-          echo "DB_PASSWORD=password" >> .env
+          echo "DB_CONNECTION=mysql" > .env.temp
+          echo "DB_HOST=127.0.0.1" >> .env.temp
+          echo "DB_PORT=3306" >> .env.temp
+          echo "DB_DATABASE=app_test" >> .env.temp
+          echo "DB_USERNAME=root" >> .env.temp
+          echo "DB_PASSWORD=password" >> .env.temp
+          cp .env.temp .env
           php artisan migrate --force
 
+      # PostgreSQL Migration
       - name: Run Migrations - PostgreSQL
         if: matrix.database == 'pgsql'
         run: |
-          echo "DB_CONNECTION=pgsql" >> .env
-          echo "DB_HOST=127.0.0.1" >> .env
-          echo "DB_PORT=5432" >> .env
-          echo "DB_DATABASE=app_test" >> .env
-          echo "DB_USERNAME=user" >> .env
-          echo "DB_PASSWORD=password" >> .env
+          echo "DB_CONNECTION=pgsql" > .env.temp
+          echo "DB_HOST=127.0.0.1" >> .env.temp
+          echo "DB_PORT=5432" >> .env.temp
+          echo "DB_DATABASE=app_test" >> .env.temp
+          echo "DB_USERNAME=user" >> .env.temp
+          echo "DB_PASSWORD=password" >> .env.temp
+          cp .env.temp .env
           php artisan migrate --force
 
+      # SQLite Migration
       - name: Run Migrations - SQLite
         if: matrix.database == 'sqlite'
         run: |
-          echo "DB_CONNECTION=sqlite" >> .env
-          echo "DB_DATABASE=/tmp/database.sqlite" >> .env
+          echo "DB_CONNECTION=sqlite" > .env.temp
+          echo "DB_DATABASE=/tmp/database.sqlite" >> .env.temp
           touch /tmp/database.sqlite
+          cp .env.temp .env
           php artisan migrate --force
 
+      # Check migration status
       - name: Set output for migrations
         if: failure()
         run: echo "migrations_failed=true" >> $GITHUB_ENV
