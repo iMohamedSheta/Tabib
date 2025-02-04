@@ -1,0 +1,14 @@
+{
+    "preset": "laravel",
+    "disabled": [
+        "RemoveLeadingSlashNamespaces"
+    ],
+    "rules": {
+        "increment_style": {
+            "style": "post"
+        },
+        "concat_space": {
+            "spacing": "one"
+        }
+    }
+}
