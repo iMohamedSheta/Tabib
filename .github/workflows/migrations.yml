@@ -53,6 +53,7 @@ jobs:
       - name: Copy .env.testing file
         run: |
           cp .env.testing.production .env.testing
+          cp .env.testing.production .env
           php -r "file_exists('.env.testing') || copy('.env.testing.production', '.env.testing');"
 
       - name: Set up database configuration for .env.testing
