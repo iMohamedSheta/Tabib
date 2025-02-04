@@ -19,23 +19,23 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
-          MYSQL_DATABASE: laravel
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_USER: user
+          MYSQL_DATABASE: app_test
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_USER: root
           MYSQL_PASSWORD: password
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping --host=127.0.0.1 --user=root --password=root" --health-interval=10s --health-timeout=5s --health-retries=3
+        options: --health-cmd="mysqladmin ping --host=127.0.0.1 --user=root --password=password" --health-interval=10s --health-timeout=5s --health-retries=3
 
       postgres:
         image: postgres:15
         env:
-          POSTGRES_DB: laravel
-          POSTGRES_USER: user
+          POSTGRES_DB: app_test
+          POSTGRES_USER: root
           POSTGRES_PASSWORD: password
         ports:
           - 5432:5432
-        options: --health-cmd="pg_isready -U user -d laravel" --health-interval=10s --health-timeout=5s --health-retries=3
+        options: --health-cmd="pg_isready -U root -d app_test" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
       - name: Checkout repository
@@ -54,7 +54,7 @@ jobs:
 
       - name: Copy .env.testing file
         run: |
-          cp .env.testing.example .env.testing
+          cp .env.testing.production .env.testing
           php -r "file_exists('.env.testing') || copy('.env.testing.production', '.env.testing');"
 
       - name: Set up database configuration for .env.testing
@@ -63,15 +63,15 @@ jobs:
             echo "DB_CONNECTION=mysql" >> .env.testing
             echo "DB_HOST=127.0.0.1" >> .env.testing
             echo "DB_PORT=3306" >> .env.testing
-            echo "DB_DATABASE=laravel" >> .env.testing
+            echo "DB_DATABASE=app_test" >> .env.testing
             echo "DB_USERNAME=root" >> .env.testing
-            echo "DB_PASSWORD=root" >> .env.testing
+            echo "DB_PASSWORD=password" >> .env.testing
           elif [ "${{ matrix.database }}" == "pgsql" ]; then
             echo "DB_CONNECTION=pgsql" >> .env.testing
             echo "DB_HOST=127.0.0.1" >> .env.testing
             echo "DB_PORT=5432" >> .env.testing
-            echo "DB_DATABASE=laravel" >> .env.testing
-            echo "DB_USERNAME=user" >> .env.testing
+            echo "DB_DATABASE=app_test" >> .env.testing
+            echo "DB_USERNAME=root" >> .env.testing
             echo "DB_PASSWORD=password" >> .env.testing
           else
             echo "DB_CONNECTION=sqlite" >> .env.testing
