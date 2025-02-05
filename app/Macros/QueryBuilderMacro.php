@@ -21,7 +21,9 @@ class QueryBuilderMacro implements MacroInterface
         self::registerWhereConcat();
     }
 
-    public static function register(): void {}
+    public static function register(): void
+    {
+    }
 
     public static function registerLikeIn(): void
     {
@@ -78,7 +80,7 @@ class QueryBuilderMacro implements MacroInterface
     {
         Builder::macro('whereConcat', function (array $columns, string $operator, ?string $value = null, $boolean = 'and') {
             // If only two arguments are provided, shift them correctly
-            if ($value === null) {
+            if (null === $value) {
                 $value = $operator;
                 $operator = 'LIKE';
             }
@@ -101,7 +103,7 @@ class QueryBuilderMacro implements MacroInterface
             // Build the concatenated column expression
             $columnExpression = implode(" || ' ' || ", $columns); // Default for PostgreSQL, SQLite
 
-            if ($driver === 'mysql') {
+            if ('mysql' === $driver) {
                 $columnExpression = 'CONCAT(' . implode(", ' ', ", $columns) . ')';
             }
 
@@ -109,7 +111,7 @@ class QueryBuilderMacro implements MacroInterface
             $columnExpressionWithTrimAndLowercase = "LOWER(REPLACE({$columnExpression}, ' ', ''))";
 
             // Adjust the value for LIKE operator
-            $queryValue = $operator === 'LIKE' || $operator === 'NOT LIKE' ? "%{$value}%" : $value;
+            $queryValue = 'LIKE' === $operator || 'NOT LIKE' === $operator ? "%{$value}%" : $value;
 
             // Apply the condition using the correct boolean (`and` or `or`)
             return $this->whereRaw("{$columnExpressionWithTrimAndLowercase} {$operator} ?", [$queryValue], $boolean);
