@@ -1,8 +1,7 @@
 <!-- Desktop sidebar -->
-<aside
-    class="z-20 hidden h-screen  opacity-95 bg-c-gray-800 duration-300 shadow-lg dark:shadow-lg md:block flex-shrink-0
-"
-    style="z-index: 0" x-data="{
+<aside class="z-20 hidden h-screen  opacity-95 bg-c-gray-800 duration-300  md:block flex-shrink-0
+" style="z-index: 0"
+    x-data="{
         userMenuOpen: false,
         toggleUserProfileDropdown() {
             if (!$store.appConfig.isAppSidebarOpen) {
@@ -28,9 +27,8 @@
                 </a>
             </div> --}}
             <!-- User Profile Section -->
-            <div class=" border-b border-purple-700/50 bg-purple-950/10 ">
-                <button @click="toggleUserProfileDropdown()"
-                    class="flex items-center w-full rounded-lg p-4 transition-colors duration-200 hover:bg-purple-800/50 group">
+            <div class=" border-b border-purple-700/40 ">
+                <button class="flex items-center w-full p-4 transition-colors duration-200 hover:bg-purple-400/10 group">
                     <div class="relative">
                         <img src="{{ auth()->user()->profile_photo_url }}" alt="Profile"
                             class="w-10 h-10 rounded-b-full border-2 border-purple-400 object-cover">
@@ -42,52 +40,13 @@
                     </div>
                     <div class="mr-3 text-right transition-all duration-200" x-cloak
                         :class="{ 'hidden': !$store.appConfig.isAppSidebarOpen }">
-                        <h3 class="text-2xl font-medium text-white">
+                        <h3 class="text-xl font-medium text-white">
                             {{ auth()->user()->organization->name }}</h3>
                         <p class="text-xs text-purple-300">
                             المنظمة
                         </p>
                     </div>
-                    <i class="fa-solid fa-chevron-down mr-auto text-purple-400 transition-transform duration-200"
-                        x-cloak
-                        :class="{ 'rotate-180': userMenuOpen, 'hidden': !$store.appConfig.isAppSidebarOpen }"></i>
                 </button>
-
-                <!-- User Menu Dropdown -->
-                <div x-show="userMenuOpen" x-collapse :class="{ 'hidden': !$store.appConfig.isAppSidebarOpen }" x-cloak
-                    class="mb-2  rounded-lg bg-c-gray-900/90 overflow-auto">
-                    <a href="#"
-                        class="flex items-center px-4 py-2 text-sm hover:bg-purple-700/50 transition-colors duration-200">
-                        <i class="fa-solid fa-user-cog fa-lg"></i>
-                        <span class="mr-3">الملف الشخصي</span>
-                    </a>
-                    <a href="#"
-                        class="flex items-center justify-between px-4 py-2 text-sm hover:bg-purple-700/50 transition-colors duration-200">
-                        <div class="flex items-center">
-                            <i class="fa-solid fa-envelope fa-lg "></i>
-                            <span class="mr-3">الرسائل</span>
-                        </div>
-                        <span
-                            class="flex items-center justify-center w-5 h-5 bg-blue-600 text-white text-xs rounded-full">4</span>
-                    </a>
-                    <a href="#"
-                        class="flex items-center justify-between px-4 py-2 text-sm hover:bg-purple-700/50 transition-colors duration-200">
-                        <div class="flex items-center">
-                            <i class="fa-solid fa-bell fa-lg "></i>
-                            <span class="mr-3">الإشعارات</span>
-                        </div>
-                        <span
-                            class="flex items-center justify-center w-5 h-5 bg-red-600 text-white text-xs rounded-full">2</span>
-                    </a>
-                    <form method="POST" action="{{ route('logout') }}" class="border-t border-purple-700/50">
-                        @csrf
-                        <button type="submit"
-                            class="flex w-full items-center px-4 py-2  text-sm text-red-400 hover:bg-purple-700/50 transition-colors duration-200">
-                            <i class="fa-solid fa-sign-out-alt fa-lg"></i>
-                            <span class="mr-3">تسجيل الخروج</span>
-                        </button>
-                    </form>
-                </div>
             </div>
             {{-- <div class="text-center bg-c-gray-800   pb-2 pt-4 rounded transition-all duration-500"
                 x-show="!$store.appConfig.isAppSidebarOpen" x-cloak>
@@ -317,14 +276,13 @@
             </div>
         </div>
         <!-- User Profile Section -->
-        <div class=" border-t border-purple-700/50 bg-purple-950/20 ">
+        <div class=" border-t border-purple-700/40 ">
             <button @click="toggleUserProfileDropdown()"
-                class="flex items-center w-full rounded-lg p-4 transition-colors duration-200 hover:bg-purple-700/50 group">
+                class="flex items-center w-full p-4 transition-colors duration-200 hover:bg-purple-400/10 group">
                 <div class="relative">
                     <img src="{{ auth()->user()->profile_photo_url }}" alt="Profile"
                         class="w-10 h-10 rounded-full border-2 border-purple-400 object-cover">
-                    <div
-                        class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-purple-900 rounded-full">
+                    <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-purple-900 rounded-full">
                     </div>
                     <span aria-hidden="true"
                         class="absolute bottom-0 animate-ping right-0 inline-block w-3 h-3  bg-green-500 border-2 border-purple-700 rounded-full dark:border-gray-800"></span>
@@ -344,21 +302,21 @@
             <div x-show="userMenuOpen" x-collapse :class="{ 'hidden': !$store.appConfig.isAppSidebarOpen }" x-cloak
                 class="mb-2  rounded-lg bg-c-gray-900/90 overflow-auto">
                 <a href="#"
-                    class="flex items-center px-4 py-2 text-sm hover:bg-purple-700/50 transition-colors duration-200">
+                    class="flex items-center px-4 py-2 text-sm  hover:bg-purple-500/10 hover:text-white transition-colors duration-200">
                     <i class="fa-solid fa-user-cog fa-lg"></i>
                     <span class="mr-3">الملف الشخصي</span>
                 </a>
                 <a href="#"
-                    class="flex items-center justify-between px-4 py-2 text-sm hover:bg-purple-700/50 transition-colors duration-200">
+                    class="flex items-center justify-between px-4 py-2 text-sm  hover:bg-purple-500/10 hover:text-white transition-colors duration-200">
                     <div class="flex items-center">
                         <i class="fa-solid fa-envelope fa-lg "></i>
                         <span class="mr-3">الرسائل</span>
                     </div>
                     <span
-                        class="flex items-center justify-center w-5 h-5 bg-blue-600 text-white text-xs rounded-full">4</span>
+                        class="flex items-center justify-center w-5 h-5 bg-purple-600 text-white text-xs rounded-full">4</span>
                 </a>
                 <a href="#"
-                    class="flex items-center justify-between px-4 py-2 text-sm hover:bg-purple-700/50 transition-colors duration-200">
+                    class="flex items-center justify-between px-4 py-2 text-sm  hover:bg-purple-500/10 hover:text-white transition-colors duration-200">
                     <div class="flex items-center">
                         <i class="fa-solid fa-bell fa-lg "></i>
                         <span class="mr-3">الإشعارات</span>
@@ -369,7 +327,7 @@
                 <form method="POST" action="{{ route('logout') }}" class="border-t border-purple-700/50">
                     @csrf
                     <button type="submit"
-                        class="flex w-full items-center px-4 py-2  text-sm text-red-400 hover:bg-purple-700/50 transition-colors duration-200">
+                        class="flex w-full items-center px-4 py-2  text-sm text-red-400 hover:bg-purple-500/10 transition-colors duration-200">
                         <i class="fa-solid fa-sign-out-alt fa-lg"></i>
                         <span class="mr-3">تسجيل الخروج</span>
                     </button>

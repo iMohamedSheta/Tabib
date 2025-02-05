@@ -89,7 +89,7 @@
         @include('layouts.app.sidebar_mobile')
         {{-- /MobileSidebar --}}
         <div
-            class=" h-full flex flex-col flex-1 overflow-y-auto  scrollbar-thin scrollbar-track-purple-800 scrollbar-thumb-purple-500 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800 min-h-[80vh] max-w-[100vw] ">
+            class=" h-full flex flex-col flex-1 overflow-x-hidden  scrollbar-thin scrollbar-track-purple-800 scrollbar-thumb-purple-500 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800 min-h-[80vh] max-w-[100vw] ">
 
             {{-- Header --}}
             @include('layouts.app.header')

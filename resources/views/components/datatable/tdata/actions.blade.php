@@ -5,8 +5,8 @@
 <div x-data="actions()" class="hover:cursor-pointer" @click="toggleActionsMenu()">
     <td class="flex items-center justify-center group my-4" x-data="actions()"
         @if ($isTable) @click="toggleActionsMenu()" @endif>
-        <div class="relative bg-c-gray-700 rounded-full">
-            <div class="flex relative  items-center justify-center  ">
+        <div class="bg-c-gray-700 rounded-full">
+            <div class="flex  items-center justify-center  ">
                 <div data-ripple-light="true"
                     class=" w-full bg-purple-500 hover:bg-purple-600  dark:bg-gray-800 rounded-full transform transition-transform duration-300 hover:-translate-x-1 hover:-translate-y-1  hover:shadow-2xl">
                     <button

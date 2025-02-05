@@ -44,8 +44,8 @@ class DoctorQueryBuilder extends QueryBuilderWrapper
     {
         $this->query->when($search, function ($query) use ($search): void {
             $query->where(function ($query) use ($search): void {
-                $query->likeIn(['users.first_name', 'users.last_name', 'users.phone', 'users.other_phone', 'doctors.specialization'], $search)
-                    ->orLikeUserFullName($search);
+                $query->whereAny(['users.first_name', 'users.last_name', 'users.phone', 'users.other_phone', 'doctors.specialization'], 'LIKE', "%{$search}%")
+                    ->orWhereConcat(['users.first_name', 'users.last_name'], $search);
             });
         });
 

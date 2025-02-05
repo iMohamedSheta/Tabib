@@ -9,7 +9,7 @@ class GetProfilePhotoUrlService
 {
     public static function handle($profile_photo_path, $username, $first_name)
     {
-        if (str_starts_with((string) $profile_photo_path, 'http')) {
+        if ($profile_photo_path && str_starts_with((string) $profile_photo_path, 'http')) {
             return $profile_photo_path;
         }
 

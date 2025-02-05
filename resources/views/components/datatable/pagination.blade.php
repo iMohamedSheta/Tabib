@@ -19,13 +19,15 @@
         <div class="flex justify-between p-4">
             <div class="relative">
                 @if ($paginator->total() > min($items))
-                    {{-- <li class="fa fa-caret-down absolute top-8 left-8"></li> --}}
+                    <li class="fa fa-caret-down absolute top-3 right-3"></li>
                     <select
-                        class ='block w-full text-sm dark:text-gray-500 focus:outline-none focus:shadow-outline-purple
-                border-gray-300 bg-purple-200 rounded-full shadow-md ring-0 ring-offset-0
+                        class ='block w-full text-sm text-gray-400 focus:outline-none focus:shadow-outline-purple
+                        border-0
+                 bg-c-gray-700 rounded-sm shadow-md ring-0 ring-offset-0
                 dark:focus:shadow-outline-gray form-input pr-8'
                         wire:change="setPerPage($event.target.value)">
-                        <option value="{{ $paginator->perPage() }}" selected>{{ $paginator->perPage() }}</option>
+                        <option value="{{ $paginator->perPage() }}" selected>
+                            {{ $paginator->perPage() }}</option>
                         @foreach ($items as $item)
                             @if ($item != $paginator->perPage())
                                 <option value="{{ $item }}">{{ $item }}</option>

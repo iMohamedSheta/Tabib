@@ -2,7 +2,7 @@
     use Carbon\Carbon;
 @endphp
 
-<div class="py-6 md:mx-4 grid  text-gray-700 dark:text-gray-200">
+<div class=" py-6 md:mx-4 text-gray-700 dark:text-gray-200">
     {{-- <x-main.head wire:ignore>
         <x-slot name="title">
             المرضي
@@ -13,18 +13,17 @@
             معلوماته الطبية وسجلاته الصحية بشكل شامل ومنظم.
         </x-slot>
     </x-main.head> --}}
-    <div
-        class="relative bg-purple-200 text-gray-700 dark:bg-c-gray-800 dark:text-white font-bold p-6 rounded-lg shadow-xl">
+    <div class=" bg-purple-200 text-gray-700 dark:bg-c-gray-800 dark:text-white  py-6 sm:px-2 rounded-lg shadow-xl">
+        <div class="flex justify-between mb-4" x-data="addModal" x-on:added="show = false">
+            <livewire:app.patient.includes.create-patient-modal
+                :clinics="$clinics"></livewire:app.patient.includes.create-patient-modal>
+            <div class="w-1/2 flex justify-end">
+                <x-input wire:model.live.debounce.500ms="search" placeholder="بحث"
+                    class="py-1 mt-2 w-1/3 rounded-sm bg-c-gray-700 border-0  text-gray-200  min-w-[200px] p-4 mx-4" />
+            </div>
+        </div>
         <x-datatable.table :total="$patients->total()">
             <x-slot name="thead">
-                <div class="flex justify-between mb-4" x-data="addModal" x-on:added="show = false">
-                    <livewire:app.patient.includes.create-patient-modal
-                        :clinics="$clinics"></livewire:app.patient.includes.create-patient-modal>
-                    <div class="w-1/2 flex justify-end">
-                        <x-input wire:model.live.debounce.500ms="search" placeholder="بحث"
-                            class="py-1 text-xs mt-2 w-1/3 text-gray-600 min-w-[200px] bg-purple-200" />
-                    </div>
-                </div>
                 <x-datatable.thead :headers="__('datatable.patient_table')" :iterator="true" :sorting="true"></x-datatable.thead>
             </x-slot>
             <x-datatable.tbody>

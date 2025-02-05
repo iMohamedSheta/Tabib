@@ -1,4 +1,4 @@
-<header class="sticky  top-0 z-10 py-2   flex    opacity-95 shadow-lg bg-c-gray-800 ">
+<header class="sticky  top-0 z-10  py-2  flex    opacity-95 shadow-lg bg-c-gray-800 ">
     <div class="container contents  h-full px-6 mx-auto text-purple-200">
         <!-- Mobile hamburger -->
         <button class="p-1 -ml-1 mr-5 justify-start rounded-md md:hidden focus:outline-none focus:shadow-outline-purple"
@@ -27,7 +27,7 @@
                 </form> --}}
                 <label class="input  items-center gap-2 " x-on:click="$store.appConfig.showReceptionSearchModal = true"
                     style="border:none!important;outline:none!important;">
-                    <input type="text" class="grow outline-none border-none ring-0   focus:ring-0 "
+                    <input type="text" class="grow outline-none hidden sm:block border-none ring-0   focus:ring-0 "
                         placeholder="البحث" readonly />
                     <kbd class="kbd kbd-sm">K</kbd>
                     <kbd class="kbd kbd-sm">⌘</kbd>
@@ -48,7 +48,7 @@
                 <i class="fas fa-arrow-left text-purple-200"></i>
             </a>
             <li class="relative mx-4 flex justify-center items-center">
-                <span class="  bg-gray-800 p-3 rounded-full shadow-lg">
+                <span class="bg-gray-800 p-3 rounded-full shadow-lg">
                     كود التحصيل :
                     {{ auth()->user()->organization->billing_code }}
                 </span>
