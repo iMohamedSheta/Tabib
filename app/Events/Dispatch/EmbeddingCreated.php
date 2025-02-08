@@ -10,10 +10,7 @@ class EmbeddingCreated
     use Dispatchable;
     use SerializesModels;
 
-    public $model;
-
-    public function __construct($model)
+    public function __construct(public $model)
     {
-        $this->model = $model;
     }
 }

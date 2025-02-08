@@ -162,7 +162,7 @@ Route::get('test', function () {
 // Route::get('a', fn() => PromptTopicEnum::PATIENT->prompt());
 Route::get(
     'embedding/{query}',
-    function (string $query) {
+    function (string $query): void {
         $embeddingService = new GenerateEmbeddingService();
         $queryVector = $embeddingService->handle($query);
         // $magnitude = sqrt(array_sum(array_map(fn($val) => $val ** 2, $queryVector)));
@@ -176,7 +176,7 @@ Route::get(
     }
 );
 
-Route::get('patientseed', function () {
+Route::get('patientseed', function (): void {
     $org = Organization::first();
     $clinic = Clinic::first();
 

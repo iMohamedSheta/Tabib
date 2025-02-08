@@ -8,7 +8,7 @@ trait HasEmbedding
 {
     protected static function bootHasEmbedding()
     {
-        static::created(function ($model) {
+        static::created(function ($model): void {
             event(new EmbeddingCreated($model));
         });
     }
@@ -19,8 +19,8 @@ trait HasEmbedding
         $data = [class_basename($this)];
 
         foreach ($columns as $column) {
-            if (str_contains($column, '.')) {
-                [$relation, $attribute] = explode('.', $column, 2);
+            if (str_contains((string) $column, '.')) {
+                [$relation, $attribute] = explode('.', (string) $column, 2);
                 $value = optional($this->$relation)->$attribute;
             } else {
                 $value = $this->$column;

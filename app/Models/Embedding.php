@@ -22,7 +22,7 @@ class Embedding extends Model
         return $this->morphTo();
     }
 
-    public function wordSearch(string $search)
+    public function wordSearch(string $search): void
     {
         // Cosine Similarity which is great for searching for similar words.
         $this->orderByRaw('embedding <=> ?', [new Vector($search)]);

@@ -62,10 +62,10 @@ class GenerateEmbeddingService
         $text = preg_replace('/[\x{064B}-\x{065F}]/u', '', $text);
 
         // Remove special characters and punctuation (keep Arabic, numbers, spaces)
-        $text = preg_replace('/[^\p{Arabic}\p{N}\s]/u', '', $text);
+        $text = preg_replace('/[^\p{Arabic}\p{N}\s]/u', '', (string) $text);
 
         // Convert to lowercase
-        $text = mb_strtolower($text, 'UTF-8');
+        $text = mb_strtolower((string) $text, 'UTF-8');
 
         // Trim extra spaces
         $text = preg_replace('/\s+/', ' ', trim($text));
