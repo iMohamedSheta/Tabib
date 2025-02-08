@@ -54,7 +54,7 @@ enum PromptTopicEnum: int
             $cacheKey = Cache::generateOrgScopedKey('patient_prompt_query', self::class);
             $dbDriver = config('database.default');
 
-            $query = (fn() => DB::table('patients as p')
+            $query = (fn () => DB::table('patients as p')
                 ->where('p.organization_id', Auth::user()->organization_id)
                 ->join('users as u', 'u.id', '=', 'p.user_id')
                 ->join('events as e', 'e.patient_id', '=', 'p.id')
@@ -68,12 +68,12 @@ enum PromptTopicEnum: int
                     'p.gender',
                     'p.puid',
                     'e.id as eid',
-                    DB::raw(($dbDriver === 'pgsql' ? "TO_CHAR(e.start_at, 'YYYY-MM-DD HH24:MI')" : "DATE_FORMAT(e.start_at, '%Y-%m-%d %H:%i')") . " as start"),
-                    DB::raw(($dbDriver === 'pgsql' ? "TO_CHAR(e.end_at, 'YYYY-MM-DD HH24:MI')" : "DATE_FORMAT(e.end_at, '%Y-%m-%d %H:%i')") . " as end"),
+                    DB::raw(('pgsql' === $dbDriver ? "TO_CHAR(e.start_at, 'YYYY-MM-DD HH24:MI')" : "DATE_FORMAT(e.start_at, '%Y-%m-%d %H:%i')") . ' as start'),
+                    DB::raw(('pgsql' === $dbDriver ? "TO_CHAR(e.end_at, 'YYYY-MM-DD HH24:MI')" : "DATE_FORMAT(e.end_at, '%Y-%m-%d %H:%i')") . ' as end'),
                     DB::raw("CONCAT(du.first_name, '. ', du.last_name) as doctor"),
                 ])
                 ->get()
-                ->map(fn($p): array => [
+                ->map(fn ($p): array => [
                     'id' => $p->pid,
                     'patient' => $p->patient,
                     'phone' => $p->phone,
@@ -87,7 +87,6 @@ enum PromptTopicEnum: int
                     ],
                 ])
                 ->toJson());
-
 
             return Cache::remember(
                 key: $cacheKey,
