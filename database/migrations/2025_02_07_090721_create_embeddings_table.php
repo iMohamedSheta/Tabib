@@ -11,7 +11,6 @@ return new class extends Migration {
      */
     public function up(): void
     {
-
         Schema::create('embeddings', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('organization_id');
