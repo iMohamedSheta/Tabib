@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Contracts\UserRoleModelInterface;
 use App\Models\Scopes\OrganizationScope;
+use App\Traits\Embeding\HasEmbedding;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Doctor extends Model implements UserRoleModelInterface
 {
     use HasFactory;
+    use HasEmbedding;
 
     protected $guarded = [];
 
@@ -22,6 +24,16 @@ class Doctor extends Model implements UserRoleModelInterface
         self::deleting(function ($doctor): void {
             $doctor->user->delete();
         });
+    }
+
+    protected function getEmbeddingColumns(): array
+    {
+        return [
+            'specialization',
+            'license_number',
+            'qualifications',
+            'notes'
+        ];
     }
 
     public function user(): BelongsTo

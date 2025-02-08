@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Manager;
 use App\Models\Organization;
+use App\Models\Patient;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -28,12 +29,12 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'username' => fake()->userName(),
+            'username' => fake()->unique()->userName(),
             'first_name' => fake()->firstName(),
             'last_name' => fake()->lastName(),
             'phone' => fake()->phoneNumber(),
             'other_phone' => fake()->phoneNumber(),
-            'role' => Manager::class,
+            'role' => Patient::class,
             'password' => static::$password ??= Hash::make('password'),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
@@ -46,7 +47,7 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn (array $attributes) => [
+        return $this->state(fn(array $attributes) => [
             'email_verified_at' => null,
         ]);
     }
@@ -62,7 +63,7 @@ class UserFactory extends Factory
 
         return $this->has(
             Team::factory()
-                ->state(fn (array $attributes, User $user) => [
+                ->state(fn(array $attributes, User $user) => [
                     'name' => $user->username . '\'s Team',
                     'user_id' => $user->id,
                     'personal_team' => true,

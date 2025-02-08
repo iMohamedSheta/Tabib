@@ -5,6 +5,7 @@ return [
         'name' => 'اسم العيادة',
         'specialization' => 'النوع',
         'clinic' => 'كود التحصيل',
+        'patient_count' => 'عدد المرضى',
         'plan' => 'الخطة',
         'created_at' => 'تاريخ الانشاء',
     ],

@@ -15,6 +15,7 @@ class ClinicQueryBuilderProxy
         return ClinicQueryBuilder::Instance()
             ->getOrganizationClinics()
             ->withPlans()
+            ->withPatientsCount()
             ->paginate(perPage: $perPage, page: $page);
     }
 }

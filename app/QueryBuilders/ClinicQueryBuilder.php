@@ -27,6 +27,20 @@ class ClinicQueryBuilder extends QueryBuilderWrapper
         return $this;
     }
 
+    public function withPatientsCount(): static
+    {
+        $builder = DB::table('patients')
+            ->select('clinic_id', DB::raw('COUNT(id) as patients_count'))
+            ->groupBy('clinic_id');
+
+        $this->query
+            ->addSelect([
+                'patients_tmp.patients_count',
+            ])->leftJoinSub($builder, 'patients_tmp', 'clinics.id', '=', 'patients_tmp.clinic_id');
+
+        return $this;
+    }
+
     protected function initializeQuery(): Builder
     {
         return DB::table('clinics');

@@ -14,8 +14,7 @@
     }"
     :class="{ 'w-64': $store.appConfig.isAppSidebarOpen, 'w-24': !$store.appConfig.isAppSidebarOpen }">
     <div class="h-full flex flex-col flex-1 justify-space-between  text-gray-400 dark:text-gray-400">
-        <div
-            class="h-full overflow-y-auto  scrollbar-thin scrollbar-track-purple-800 scrollbar-thumb-purple-500 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800 transition-all  duration-500">
+        <div class="h-full ">
             {{-- <div class="text-center bg-c-gray-800   pb-2 pt-4 rounded transition-all duration-500"
                 x-show="$store.appConfig.isAppSidebarOpen">
                 <a class="text-2xl font-extrabold text-purple-200 dark:text-purple-200 " href="#">
@@ -55,7 +54,8 @@
                         class="w-[50px] border-2 bg-c-gray-700 border-gray-400 mx-auto pointer-events-none select-none rounded-full">
                 </a>
             </div> --}}
-            <div class="flex flex-col ">
+            <div
+                class="flex flex-col max-h-[85vh] overflow-y-auto  scrollbar-thin scrollbar-track-purple-800 scrollbar-thumb-purple-500 dark:scrollbar-thumb-gray-600 dark:scrollbar-track-gray-800 transition-all  duration-500 ">
                 <ul class="mt-1 text-xs">
                     <x-theme.sidebar-link href="{{ route('app.admin.dashboard') }}" activeRoute="app.admin.dashboard">
                         <x-slot:icon>

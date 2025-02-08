@@ -44,7 +44,7 @@ class GoogleSocialiteController extends Controller
             ]);
         }
 
-        $clinicAdmin = ClinicAdmin::where('user_id', $user->id)->first();
+        $clinicAdmin = ClinicAdmin::withoutGlobalScopes()->where('user_id', $user->id)->first();
 
         if (!$clinicAdmin) {
             return view(

@@ -71,6 +71,9 @@
                                 {{ $clinic->code }}
                             </td>
                             <td class="px-4 py-3">
+                                {{ $clinic->patients_count }}
+                            </td>
+                            <td class="px-4 py-3">
                                 {{ $clinic->plan_name }}
                             </td>
                             <td class="px-4 py-3" dir="ltr">

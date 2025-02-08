@@ -3,7 +3,22 @@
 @endphp
 
 <div class=" py-6 md:mx-4 text-gray-700 dark:text-gray-200">
-    {{-- <x-main.head wire:ignore>
+    @push('scripts')
+        <script>
+            function headComponent() {
+                return {
+                    hide: true,
+                    init() {
+                        Echo.channel('patient-table-head')
+                            .listen('ShowPatientTableHeadEvent', (e) => {
+                                this.hide = e.hideHead;
+                            })
+                    }
+                }
+            }
+        </script>
+    @endpush
+    <x-main.head wire:ignore x-data="headComponent" x-bind:class="{ 'hidden': hide }">
         <x-slot name="title">
             المرضي
         </x-slot>
@@ -12,7 +27,7 @@
             بيانات المرضى الحاليين، أو حذف المرضى غير النشطين. يحتوي كل مريض على ملف خاص داخل النظام يمكّنك من متابعة
             معلوماته الطبية وسجلاته الصحية بشكل شامل ومنظم.
         </x-slot>
-    </x-main.head> --}}
+    </x-main.head>
     <div class=" bg-purple-200 text-gray-700 dark:bg-c-gray-800 dark:text-white  py-6 sm:px-2 rounded-lg shadow-xl">
         <div class="flex justify-between mb-4" x-data="addModal" x-on:added="show = false">
             <livewire:app.patient.includes.create-patient-modal

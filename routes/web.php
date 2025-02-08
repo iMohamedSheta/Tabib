@@ -10,9 +10,11 @@
 |__________________________________________
 */
 
+use App\Enums\Ai\AiModelEnum;
 use App\Enums\Ai\PromptTopicEnum;
 use App\Enums\Exceptions\ExceptionCodeEnum;
 use App\Enums\User\UserRoleEnum;
+use App\Events\Broadcast\ShowPatientTableHeadEvent;
 use App\Generators\ClinicCodeGenerator;
 // use App\Exceptions\Test\TestException;
 use App\Generators\PUIDGenerator;
@@ -21,8 +23,13 @@ use App\Http\Controllers\Auth\Socialite\FacebookSocialiteController;
 use App\Http\Controllers\Auth\Socialite\GoogleSocialiteController;
 use App\Http\Controllers\PWA\LaravelPWAController;
 use App\Http\Controllers\Storage\PrivateStorageController;
+use App\Models\Clinic;
+use App\Models\Embedding;
+use App\Models\Organization;
 use App\Models\Patient;
+use App\Services\External\Ai\Embedding\GenerateEmbeddingService;
 use Carbon\Carbon;
+use EchoLabs\Prism\Prism;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -30,6 +37,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use League\Flysystem\FileAttributes;
+use Pgvector\Laravel\Vector;
 
 // Home
 Route::get('/', function () {
@@ -54,7 +62,7 @@ Route::get('auth/google/callback', [GoogleSocialiteController::class, 'callback'
 Route::get('auth/facebook/redirect', [FacebookSocialiteController::class, 'redirect'])->name('socialite.facebook.redirect');
 Route::get('auth/facebook/callback', [FacebookSocialiteController::class, 'callback'])->name('socialite.facebook.callback');
 
-Route::get('welcome', fn () => view('welcome'));
+Route::get('welcome', fn() => view('welcome'));
 
 // Test Routes
 Route::get('test', function () {
@@ -64,7 +72,7 @@ Route::get('test', function () {
     return to_route('register');
 });
 
-Route::get('speed', fn (): array => speedTest(fn () => DB::table('users')
+Route::get('speed', fn(): array => speedTest(fn() => DB::table('users')
     ->where('role', Patient::class)
     ->where(function ($query): void {
         $query->likeIn(['first_name', 'last_name', 'phone', 'other_phone'], 'i');
@@ -85,8 +93,8 @@ Route::view('testx', 'welcome');
 //     dd($code->getLink());
 // })->name('docs.exceptions');
 
-Route::get('check', fn (): string => PUIDGenerator::generate());
-Route::get('check-2', fn (): string => ClinicCodeGenerator::generate());
+Route::get('check', fn(): string => PUIDGenerator::generate());
+Route::get('check-2', fn(): string => ClinicCodeGenerator::generate());
 
 // Route::get('test', function () {
 //     $yamlFile = base_path('.github/workflows/tabib_pushflow.yml');
@@ -156,4 +164,30 @@ Route::get('test', function () {
 });
 
 // Route::get('a', fn() => PromptTopicEnum::PATIENT->prompt());
-Route::get('a', fn () => Helper::test());
+Route::get(
+    'embedding/{query}',
+    function (string $query) {
+
+        $embeddingService = new GenerateEmbeddingService();
+        $queryVector = $embeddingService->handle($query);
+        // $magnitude = sqrt(array_sum(array_map(fn($val) => $val ** 2, $queryVector)));
+        // dd($magnitude);
+        $results = Embedding::selectRaw('*, embedding <=> ? AS score', [new Vector($queryVector)])
+            ->orderByRaw('embedding <#> ?', [new Vector($queryVector)])
+            ->limit(10)
+            ->get();
+
+        dd($results);
+    }
+);
+
+
+Route::get('patientseed', function () {
+    $org = Organization::first();
+    $clinic = Clinic::first();
+
+    Patient::factory(500)->create([
+        'organization_id' => $org->id,
+        'clinic_id' => $clinic->id
+    ])->each(fn($patient) => $patient->fireModelEvent('created', false));
+});

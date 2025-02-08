@@ -1,5 +1,6 @@
 <div {{ $attributes->except('class') }}
-    class="mb-6  bg-purple-200 text-gray-800 dark:bg-c-gray-700 dark:text-purple-200 font-bold p-6  shadow-lg dark:shadow-lg">
+    class="mb-6  bg-purple-200 text-gray-800 dark:bg-c-gray-700 dark:text-purple-200 font-bold p-6  shadow-lg dark:shadow-lg
+    {{ $attributes->get('class') }}">
     <h2 class="text-xl inline-flex items-center mx-6 my-4">
         <img src="{{ $icon ?? asset('images/doctors/icon.png') }}" alt="Doctor Icon"
             class="w-20 h-20 rounded-full object-cover border-2 border-gray-300 dark:border-gray-600 shadow-md">

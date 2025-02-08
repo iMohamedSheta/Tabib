@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Scopes\OrganizationScope;
+use App\Traits\Embeding\HasEmbedding;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 class Patient extends Model
 {
     use HasFactory;
+    use HasEmbedding;
 
     protected $guarded = [];
 
@@ -20,6 +22,25 @@ class Patient extends Model
         self::deleting(function ($patient): void {
             $patient->user->delete();
         });
+    }
+
+    protected function getEmbeddingColumns(): array
+    {
+        return [
+            'user.first_name',
+            'user.last_name',
+            'gender',
+            'birth_date',
+            'nationality',
+            'marital_status',
+            'address',
+            'notes',
+            'family_medical_history',
+            'chronic_diseases',
+            'blood_type',
+            'allergies',
+            'occupation',
+        ];
     }
 
     public function user()

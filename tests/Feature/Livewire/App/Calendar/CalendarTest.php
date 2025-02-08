@@ -64,7 +64,7 @@ describe('Calendar [Livewire-Component]', function (): void {
         expect($events[0]['overlap'])->toBeTrue();
         expect($events[1])->toBeArray();
         expect($events[1]['backgroundColor'])->toBe('#1f1f1f');
-        expect($events[1]['allDay'])->toBe(0);
+        expect($events[1]['allDay'])->toBe(false);
         expect($events[1]['editable'])->toBeTrue();
         expect($events[1]['textColor'])->toBe('#FFFFFF');
     });
