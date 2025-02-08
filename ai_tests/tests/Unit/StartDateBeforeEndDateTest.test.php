@@ -4,7 +4,6 @@ use App\Rules\StartDateBeforeEndDate;
 
 use function Pest\Faker\faker;
 
-
 describe('StartDateBeforeEndDate Rule', function () {
     it('passes when start date is before end date', function () {
         $endDate = faker()->dateTimeBetween('now', '+1 week');

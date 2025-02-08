@@ -3,7 +3,6 @@
 use App\Enums\Actions\ActionResponseStatusEnum;
 use App\Responses\ActionResponse;
 
-
 describe('ActionResponse', function () {
     it('can create a new ActionResponse instance', function () {
         $status = ActionResponseStatusEnum::SUCCESS;
@@ -16,7 +15,7 @@ describe('ActionResponse', function () {
         expect($actionResponse->success)->toBeTrue();
         expect($actionResponse->status)->toBe($status);
         expect($actionResponse->message)->toBe($message);
-        expect($actionResponse->data)->toEqual((object)$data);
+        expect($actionResponse->data)->toEqual((object) $data);
     });
 
     it('can get the data', function () {
@@ -26,7 +25,7 @@ describe('ActionResponse', function () {
 
         $actionResponse = new ActionResponse(true, $status, $message, $data);
 
-        expect($actionResponse->getData())->toEqual((object)$data);
+        expect($actionResponse->getData())->toEqual((object) $data);
     });
 
     it('can check if the operation was successful', function () {

@@ -7,12 +7,10 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
-
 beforeEach(function (): void {
     $this->organization = Organization::factory()->create();
     $this->actingAs($this->organization->owner);
 });
-
 
 describe('getClinicServicesForTable', function () {
     it('returns a LengthAwarePaginator', function () {
@@ -60,7 +58,7 @@ describe('getClinicServicesForTable', function () {
         // This test is a bit more complex as it needs to verify the `withPatientsCount` method.
         // We'll create clinic services and patients associated with them, then check if the count is loaded.
         $clinicService = ClinicService::factory()->create(['organization_id' => $this->organization->id]);
-        
+
         $perPage = 10;
         $page = 1;
 

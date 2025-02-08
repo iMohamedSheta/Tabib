@@ -3,7 +3,6 @@
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 
 uses(Tests\TestCase::class)->in('Feature');
@@ -38,7 +37,7 @@ describe('UpdateUserPassword', function () {
                 'password' => $newPassword,
                 'password_confirmation' => $newPassword,
             ]);
-        } catch (\Illuminate\Validation\ValidationException $e) {
+        } catch (Illuminate\Validation\ValidationException $e) {
             expect($e->errors())->toHaveKey('current_password');
 
             return;
@@ -56,7 +55,7 @@ describe('UpdateUserPassword', function () {
                 'password' => 'short',
                 'password_confirmation' => 'short',
             ]);
-        } catch (\Illuminate\Validation\ValidationException $e) {
+        } catch (Illuminate\Validation\ValidationException $e) {
             expect($e->errors())->toHaveKey('password');
 
             return;

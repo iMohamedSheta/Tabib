@@ -4,7 +4,6 @@ use App\DTOs\ClinicService\UpdateClinicServiceDTO;
 
 use function Pest\Faker\faker;
 
-
 describe('UpdateClinicServiceDTO', function () {
     it('should return an array of clinic service data', function () {
         $name = faker()->name();

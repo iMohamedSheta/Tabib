@@ -3,10 +3,7 @@
 use App\Models\Clinic;
 use App\Models\Organization;
 
-use function Pest\Faker\fake;
-
-uses(\Tests\TestCase::class)->in('Unit');
-
+uses(Tests\TestCase::class)->in('Unit');
 
 describe('Clinic Model', function () {
     it('can create a clinic', function () {
@@ -49,7 +46,7 @@ describe('Clinic Model', function () {
         $parentClinic = Clinic::factory()->create(['organization_id' => $organization->id]);
         $subClinic = Clinic::factory()->create(['organization_id' => $organization->id, 'parent_clinic_id' => $parentClinic->id]);
 
-        expect($subClinic->parentClinic())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+        expect($subClinic->parentClinic())->toBeInstanceOf(Illuminate\Database\Eloquent\Relations\BelongsTo::class);
         expect($subClinic->parentClinic()->first())->toBeInstanceOf(Clinic::class);
         expect($subClinic->parentClinic()->first()->id)->toBe($parentClinic->id);
     });
@@ -58,7 +55,7 @@ describe('Clinic Model', function () {
         $organization = Organization::factory()->create();
         $clinic = Clinic::factory()->create(['organization_id' => $organization->id]);
 
-        expect($clinic->organization())->toBeInstanceOf(\Illuminate\Database\Eloquent\Relations\BelongsTo::class);
+        expect($clinic->organization())->toBeInstanceOf(Illuminate\Database\Eloquent\Relations\BelongsTo::class);
         expect($clinic->organization()->first())->toBeInstanceOf(Organization::class);
         expect($clinic->organization()->first()->id)->toBe($organization->id);
     });

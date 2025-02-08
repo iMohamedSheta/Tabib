@@ -10,7 +10,6 @@ use Livewire\Livewire;
 
 use function Pest\Laravel\actingAs;
 
-
 beforeEach(function (): void {
     $this->organization = Organization::factory()->create();
 

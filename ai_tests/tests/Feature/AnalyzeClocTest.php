@@ -6,11 +6,9 @@ use Symfony\Component\Console\Command\Command;
 
 use function Pest\Laravel\artisan;
 
-
 uses(
     Tests\TestCase::class,
 )->in('Feature');
-
 
 it('can execute the analyze:cloc command successfully', function () {
     File::shouldReceive('exists')->once()->andReturn(false);
@@ -20,7 +18,7 @@ it('can execute the analyze:cloc command successfully', function () {
     $reportsDir = base_path('analyze/cloc/');
     $reportPath = $reportsDir . "cloc_report_{$dateTime}.txt";
 
-    $command = "cloc --exclude-dir=vendor,node_modules,storage .";
+    $command = 'cloc --exclude-dir=vendor,node_modules,storage .';
     $reportContent = 'cloc Report - Generated on: ' . now()->toDateTimeString() . "\n\n";
 
     $process = Mockery::mock();
@@ -40,11 +38,10 @@ it('can execute the analyze:cloc command successfully', function () {
 
     artisan('analyze:cloc')
         ->assertExitCode(Command::SUCCESS);
-
 });
 
 it('handles cloc execution failure', function () {
-    $command = "cloc --exclude-dir=vendor,node_modules,storage .";
+    $command = 'cloc --exclude-dir=vendor,node_modules,storage .';
 
     $process = Mockery::mock();
     $process->shouldReceive('close')->once()->andReturn(1);
@@ -62,5 +59,3 @@ it('handles cloc execution failure', function () {
     artisan('analyze:cloc')
         ->assertExitCode(Command::FAILURE);
 });
-
-

@@ -1,12 +1,9 @@
 <?php
 
-use App\Console\Commands\Generators\MakeActionCommand;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 
-
 uses(Tests\TestCase::class)->in('Feature');
-
 
 it('can create a new action class', function () {
     // Set up
@@ -27,7 +24,6 @@ it('can create a new action class', function () {
     // Clean up
     unlink($expectedPath);
 });
-
 
 it('should place the action in the correct namespace', function () {
     // Set up
@@ -50,7 +46,6 @@ it('should place the action in the correct namespace', function () {
     unlink($expectedPath);
 });
 
-
 it('should use the action.stub file', function () {
     // Set up
     $actionName = 'YetAnotherTestActionBar';
@@ -61,7 +56,7 @@ it('should use the action.stub file', function () {
         unlink($expectedPath);
     }
 
-    //Act
+    // Act
     Artisan::call('make:action', ['name' => $actionName]);
 
     // Assert

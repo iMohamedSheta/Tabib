@@ -91,6 +91,6 @@ it('adds a doctor successfully', function (): void {
     $this->assertNotNull($doctor, 'Doctor should exist in the database.');
 
     $this->assertEquals($this->organization->id, $doctor->organization_id);
-    
+
     Storage::disk('avatars')->assertExists($user->photo);
 });

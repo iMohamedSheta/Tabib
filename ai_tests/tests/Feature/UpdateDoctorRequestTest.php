@@ -3,8 +3,6 @@
 use App\Http\Requests\Doctor\UpdateDoctorRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
-
 
 beforeEach(function () {
     $this->doctor = User::factory()->create();

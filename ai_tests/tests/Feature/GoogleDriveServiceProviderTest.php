@@ -2,11 +2,8 @@
 
 use App\Providers\GoogleDriveServiceProvider;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Filesystem\FilesystemManager;
-
 
 use function Pest\Laravel\app;
-
 
 beforeEach(function (): void {
     $this->app = app();
@@ -17,14 +14,12 @@ it('registers the google storage driver', function (): void {
     expect($provider)->toBeInstanceOf(GoogleDriveServiceProvider::class);
 });
 
-
 it('extends the storage facade with the google driver', function (): void {
     $this->app->register(GoogleDriveServiceProvider::class);
 
     $manager = Storage::disk('google');
     expect($manager)->toBeInstanceOf(Illuminate\Filesystem\FilesystemAdapter::class);
 });
-
 
 it('catches exceptions during driver loading and logs the error', function (): void {
     Storage::extend('google_error', function ($app, $config) {
@@ -39,5 +34,3 @@ it('catches exceptions during driver loading and logs the error', function (): v
     // This is a placeholder, replace with your actual log assertion.
     $this->assertTrue(true); // Replace with a proper log assertion
 });
-
-

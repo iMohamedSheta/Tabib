@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\ClinicAdmin;
 use App\Models\Clinic;
+use App\Models\ClinicAdmin;
 use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -9,13 +9,11 @@ use Tests\TestCase;
 
 uses(TestCase::class, RefreshDatabase::class);
 
-
 beforeEach(function (): void {
     $this->organization = Organization::factory()->create();
     $this->user = User::factory()->create(['organization_id' => $this->organization->id]);
     $this->clinicAdmin = ClinicAdmin::factory()->create(['user_id' => $this->user->id, 'organization_id' => $this->organization->id]);
 });
-
 
 describe('ClinicAdmin Model', function () {
     it('can create a clinic admin', function () {

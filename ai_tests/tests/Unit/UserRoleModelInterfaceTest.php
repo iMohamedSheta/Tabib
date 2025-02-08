@@ -3,13 +3,11 @@
 use App\Contracts\UserRoleModelInterface;
 use PHPUnit\Framework\TestCase;
 
-
-/**
+/*
  * This is just a basic example of how you might test an interface.
  * In reality, you'd want to test the specific implementations of this interface
  * to ensure they behave as expected.
  */
-
 
 uses(TestCase::class);
 

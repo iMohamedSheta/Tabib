@@ -35,7 +35,5 @@ trait HasEmbedding
         return implode(', ', $data); // Use a separator for clarity
     }
 
-
-
     abstract protected function getEmbeddingColumns(): array;
 }

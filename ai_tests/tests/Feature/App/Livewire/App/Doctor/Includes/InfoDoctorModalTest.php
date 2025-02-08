@@ -31,7 +31,7 @@ it('should have doctor property locked', function (): void {
 
     $hasLockedAttribute = false;
     foreach ($attributes as $attribute) {
-        if ($attribute->getName() === \Livewire\Attributes\Locked::class) {
+        if (\Livewire\Attributes\Locked::class === $attribute->getName()) {
             $hasLockedAttribute = true;
             break;
         }

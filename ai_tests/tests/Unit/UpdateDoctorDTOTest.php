@@ -3,7 +3,6 @@
 use App\DTOs\Doctor\UpdateDoctorDTO;
 use Illuminate\Support\Facades\Hash;
 
-
 describe('UpdateDoctorDTO', function () {
     it('constructs the DTO correctly', function () {
         $dto = new UpdateDoctorDTO(

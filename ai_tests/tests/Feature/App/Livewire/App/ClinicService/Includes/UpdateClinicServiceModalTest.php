@@ -1,7 +1,6 @@
 <?php
 
 use App\Actions\ClinicService\UpdateClinicServiceAction;
-use App\DTOs\ClinicService\UpdateClinicServiceDTO;
 use App\Enums\Actions\ActionResponseStatusEnum;
 use App\Livewire\App\ClinicService\Includes\UpdateClinicServiceModal;
 use App\Models\Clinic;
@@ -10,11 +9,10 @@ use App\Models\Organization;
 use App\Models\User;
 use Livewire\Livewire;
 
-
 beforeEach(function (): void {
     $this->organization = Organization::factory()->create();
 
-    $this->user = User::factory()->create([ 'organization_id' => $this->organization->id ]);
+    $this->user = User::factory()->create(['organization_id' => $this->organization->id]);
 
     $this->clinic = Clinic::factory()->create(['organization_id' => $this->organization->id]);
 
@@ -25,12 +23,10 @@ beforeEach(function (): void {
     $this->actingAs($this->user);
 });
 
-
 it('renders successfully with localized content', function (): void {
     Livewire::test(UpdateClinicServiceModal::class, ['clinicService' => $this->clinicService, 'clinics' => $this->clinics])
         ->assertSee('تعديل');
 });
-
 
 it('updates a clinic service successfully', function (): void {
     Livewire::test(UpdateClinicServiceModal::class, [
@@ -55,7 +51,6 @@ it('updates a clinic service successfully', function (): void {
     ]);
 });
 
-
 it('validates the input correctly', function (): void {
     Livewire::test(UpdateClinicServiceModal::class, [
         'clinicService' => $this->clinicService,
@@ -69,7 +64,6 @@ it('validates the input correctly', function (): void {
         ->call('updateClinicServiceAction')
         ->assertHasErrors(['name', 'price', 'clinic_id']);
 });
-
 
 it('flashes an error message when the update action fails', function (): void {
     $this->mock(UpdateClinicServiceAction::class, function ($mock) {
@@ -94,5 +88,3 @@ it('flashes an error message when the update action fails', function (): void {
 
     expect(session('flash.message'))->toBe('غير مسموح لك بتعديل خدمة طبية!!');
 });
-
-

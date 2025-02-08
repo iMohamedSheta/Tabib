@@ -3,7 +3,6 @@
 use App\Traits\LivewireTraits\WithSteps;
 use Livewire\Livewire;
 
-
 class TestComponentWithSteps extends \Livewire\Component
 {
     use WithSteps;

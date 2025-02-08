@@ -35,20 +35,21 @@ class GenerateEmbeddingService
         return [$modelKey, $usingModels[$modelKey]];
     }
 
-
     public function use768Di($embeddings): ?Vector
     {
-        if ($this->dimension == 768) {
+        if (768 == $this->dimension) {
             return new Vector($embeddings);
         }
+
         return null;
     }
 
     public function use1536Di($embeddings): ?Vector
     {
-        if ($this->dimension == 1536) {
+        if (1536 == $this->dimension) {
             return $embeddings;
         }
+
         return null;
     }
 

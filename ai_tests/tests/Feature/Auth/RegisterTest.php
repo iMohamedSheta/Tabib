@@ -1,15 +1,11 @@
 <?php
 
 use App\Actions\Clinic\CreateClinicAction;
-use App\DTOs\Auth\RegisterUserDTO;
 use App\Livewire\Auth\Register\Register;
-use App\Models\Clinic;
 use App\Models\ClinicAdmin;
 use App\Models\Organization;
-use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Livewire\Livewire;
-
 
 use function Pest\Laravel\assertDatabaseHas;
 
@@ -37,7 +33,6 @@ beforeEach(function (): void {
 });
 
 describe('Register Component', function () {
-
     it('renders successfully', function () {
         Livewire::test(Register::class)
             ->assertStatus(200);
@@ -77,7 +72,6 @@ describe('Register Component', function () {
     });
 
     it('registers a clinic admin successfully', function () {
-
         Livewire::test(Register::class)
             ->set('name', 'test')
             ->set('type', 'clinic')
@@ -95,13 +89,12 @@ describe('Register Component', function () {
 
         assertDatabaseHas('users', ['username' => 'test', 'role' => ClinicAdmin::class]);
         assertDatabaseHas('clinics', ['name' => 'test', 'type' => 'clinic']);
-
     });
 
     it('rolls back the transaction if an error occurs during registration', function () {
         // Mock the CreateClinicAction to throw an exception
         $this->mock(CreateClinicAction::class, function ($mock) {
-            $mock->shouldReceive('handle')->andThrow(new \Exception('Simulated error'));
+            $mock->shouldReceive('handle')->andThrow(new Exception('Simulated error'));
         });
 
         // Ensure that the DB facade receives the rollBack call
@@ -122,6 +115,4 @@ describe('Register Component', function () {
             ->set('policy', true)
             ->call('submitStepThree');
     });
-
-
 });

@@ -5,7 +5,6 @@ use Livewire\Volt\Component;
 
 uses(Tests\TestCase::class);
 
-
 describe('ActionResponseHandlerTrait', function () {
     beforeEach(function () {
         $this->component = new class extends Component {

@@ -2,7 +2,6 @@
 
 use App\Enums\Helpers\Dates\DaysEnum;
 
-
 describe('DaysEnum', function () {
     it('can get days labels', function () {
         $labels = DaysEnum::getDaysLabels();

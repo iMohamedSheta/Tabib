@@ -31,7 +31,7 @@ class GenerateUniqueCodeTraitTest extends TestCase
     public function testGenerateUniqueCodeThrowsExceptionWhenLengthOrBatchSizeIsLessThanOne(): void
     {
         $this->expectException(
-            \InvalidArgumentException::class
+            InvalidArgumentException::class
         );
 
         $this->expectExceptionMessage(

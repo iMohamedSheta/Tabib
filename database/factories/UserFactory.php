@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Manager;
 use App\Models\Organization;
 use App\Models\Patient;
 use App\Models\Team;
@@ -47,7 +46,7 @@ class UserFactory extends Factory
      */
     public function unverified(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
         ]);
     }
@@ -63,7 +62,7 @@ class UserFactory extends Factory
 
         return $this->has(
             Team::factory()
-                ->state(fn(array $attributes, User $user) => [
+                ->state(fn (array $attributes, User $user) => [
                     'name' => $user->username . '\'s Team',
                     'user_id' => $user->id,
                     'personal_team' => true,

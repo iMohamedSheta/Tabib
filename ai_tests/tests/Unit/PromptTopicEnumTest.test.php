@@ -2,9 +2,6 @@
 
 use App\Enums\Ai\PromptTopicEnum;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
-
 
 describe('PromptTopicEnum', function () {
     it('should return the correct topic options', function () {
@@ -38,14 +35,11 @@ describe('PromptTopicEnum', function () {
             $this->mockedCache = Mockery::mock('alias:Illuminate\Support\Facades\Cache');
             $this->mockedDB = Mockery::mock('alias:Illuminate\Support\Facades\DB');
 
-
             $this->mockedAuth->shouldReceive('check')->andReturn(true);
             $this->mockedAuth->shouldReceive('user')->andReturn($this->mockedUser);
             $this->mockedUser->shouldReceive('isClinicAdmin')->andReturn(true);
             $this->mockedUser->shouldReceive('getAttribute')->with('organization_id')->andReturn(1); // Mock organization_id
-
         });
-
 
         it('should return cached patient prompt when available', function () {
             $cacheKey = 'org_scoped_key';
@@ -60,7 +54,7 @@ describe('PromptTopicEnum', function () {
                 ->once()
                 ->with(
                     key: $cacheKey,
-                    ttl: Mockery::type(\DateTimeInterface::class),
+                    ttl: Mockery::type(DateTimeInterface::class),
                     callback: Mockery::type('Closure')
                 )
                 ->andReturn($cachedPrompt);
@@ -68,11 +62,9 @@ describe('PromptTopicEnum', function () {
             $prompt = PromptTopicEnum::PATIENT->getPatientPrompt();
 
             expect($prompt)->toBe($cachedPrompt);
-
         });
 
         it('should return patient prompt from query when not cached', function () {
-
             $cacheKey = 'org_scoped_key';
             $dbResult = collect([
                 (object) [
@@ -100,7 +92,7 @@ describe('PromptTopicEnum', function () {
                 ->once()
                 ->with(
                     key: $cacheKey,
-                    ttl: Mockery::type(\DateTimeInterface::class),
+                    ttl: Mockery::type(DateTimeInterface::class),
                     callback: Mockery::type('Closure')
                 )
                 ->andReturnUsing(function ($key, $ttl, $callback) use ($dbResult) {
@@ -115,7 +107,6 @@ describe('PromptTopicEnum', function () {
 
                     return $callback();
                 });
-
 
             $prompt = PromptTopicEnum::PATIENT->getPatientPrompt();
 

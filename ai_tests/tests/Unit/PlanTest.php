@@ -5,7 +5,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
-
 describe('Plan Model', function () {
     it('can create a plan', function () {
         $plan = Plan::factory()->create();

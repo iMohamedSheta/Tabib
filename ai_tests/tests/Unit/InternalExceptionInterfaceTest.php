@@ -2,9 +2,6 @@
 
 use App\Contracts\InternalExceptionInterface;
 
-use function Pest\Faker\fake;
-
-
 describe('InternalExceptionInterface', function () {
     it('should exist', function () {
         expect(interface_exists(InternalExceptionInterface::class))->toBeTrue();

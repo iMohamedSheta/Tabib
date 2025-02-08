@@ -5,11 +5,6 @@ use App\Jobs\Backups\VerifyBackupsAreRecentJob;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use League\Flysystem\FileAttributes;
-use League\Flysystem\StorageAttributes;
-
-
-use function Pest\Faker\fake;
-
 
 beforeEach(function (): void {
     Storage::fake('google');
@@ -23,7 +18,9 @@ it('successfully handles the job when a recent backup exists', function (): void
     Storage::disk('google')->put($filePath, 'backup content');
 
     $file = new class($filePath, $now->timestamp) extends FileAttributes {
-        public function __construct(private string $path, private int $timestamp) {}
+        public function __construct(private string $path, private int $timestamp)
+        {
+        }
 
         public function path(): string
         {
@@ -65,8 +62,10 @@ it('checks if the backup is stale', function (): void {
 
     Storage::disk('google')->put($filePath, 'old backup content');
 
-     $file = new class($filePath, $staleTime->timestamp) extends FileAttributes {
-        public function __construct(private string $path, private int $timestamp) {}
+    $file = new class($filePath, $staleTime->timestamp) extends FileAttributes {
+        public function __construct(private string $path, private int $timestamp)
+        {
+        }
 
         public function path(): string
         {

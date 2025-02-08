@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
-
 beforeEach(function (): void {
     $this->user = User::factory()->create();
     Auth::setUser($this->user);
@@ -30,4 +29,3 @@ it('applies the scope with organization id when the model is an organization', f
     $this->builder->shouldReceive('where')->with('organization_id', $this->user->organization_id)->once()->andReturnSelf();
     $this->scope->apply($this->builder, $organization);
 });
-

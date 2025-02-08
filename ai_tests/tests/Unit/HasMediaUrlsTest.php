@@ -5,7 +5,6 @@ use App\Services\Internal\Media\MediaUrlGeneratorService;
 
 uses(Tests\TestCase::class);
 
-
 describe('HasMediaUrls Trait', function () {
     it('should return the media URL', function () {
         // Arrange

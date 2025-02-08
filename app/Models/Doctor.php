@@ -32,7 +32,7 @@ class Doctor extends Model implements UserRoleModelInterface
             'specialization',
             'license_number',
             'qualifications',
-            'notes'
+            'notes',
         ];
     }
 

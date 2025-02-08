@@ -7,7 +7,6 @@ use Livewire\Livewire;
 
 uses(Tests\TestCase::class);
 
-
 beforeEach(function (): void {
     // Create a clinic for testing
     $this->clinic = Clinic::factory()->create();

@@ -3,7 +3,6 @@
 use App\Enums\Media\MediaCollectionEnum;
 use App\Enums\Media\MediaTypeEnum;
 use App\Livewire\App\Patient\Includes\UploadAttachedFileModal;
-use App\Models\Media;
 use App\Models\Organization;
 use App\Models\Patient;
 use App\Models\User;
@@ -11,7 +10,6 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Livewire;
-
 
 uses(Tests\TestCase::class, Illuminate\Foundation\Testing\RefreshDatabase::class);
 
@@ -87,7 +85,7 @@ it('handles exceptions during file upload', function (): void {
     $file = UploadedFile::fake()->create('test.pdf', 500, 'application/pdf');
 
     Storage::shouldReceive('disk')
-        ->andThrow(new \Exception('Simulated exception'));
+        ->andThrow(new Exception('Simulated exception'));
 
     Livewire::test(UploadAttachedFileModal::class, ['patient' => $this->patient])
         ->set('uploadedAttachedFile', $file)

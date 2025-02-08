@@ -1,6 +1,5 @@
 <?php
 
-use App\Console\Commands\Ai\AiGenerateCommand;
 use App\Services\Internal\Ai\AiFileGenerationService;
 use App\Services\Internal\Collector\FileCollectorService;
 use Illuminate\Support\Facades\Artisan;

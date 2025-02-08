@@ -3,11 +3,8 @@
 use App\Actions\Fortify\CreateNewUser;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 
 use function Pest\Laravel\assertDatabaseHas;
-
 
 beforeEach(function (): void {
     $this->creator = new CreateNewUser();
@@ -48,7 +45,7 @@ describe('CreateNewUser', function () {
         try {
             $this->creator->create($input);
         } catch (
-            \Illuminate\Validation\ValidationException $e
+            Illuminate\Validation\ValidationException $e
         ) {
             expect($e->errors())->toBeArray();
             expect($e->errors())->toHaveKeys(['username', 'email', 'password']);
@@ -72,7 +69,7 @@ describe('CreateNewUser', function () {
 
         try {
             $this->creator->create($input);
-        } catch (\Illuminate\Validation\ValidationException $e) {
+        } catch (Illuminate\Validation\ValidationException $e) {
             expect($e->errors())->toBeArray();
             expect($e->errors())->toHaveKey('terms');
 

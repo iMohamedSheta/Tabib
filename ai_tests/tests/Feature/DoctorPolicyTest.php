@@ -72,7 +72,7 @@ describe('delete', function () {
         expect($this->policy->delete($user, $this->doctor))->toBeTrue();
     });
 
-     it('allows receptionists to delete doctors', function () {
+    it('allows receptionists to delete doctors', function () {
         $user = User::factory()->receptionist()->create(['organization_id' => $this->organization->id]);
         expect($this->policy->delete($user, $this->doctor))->toBeTrue();
     });

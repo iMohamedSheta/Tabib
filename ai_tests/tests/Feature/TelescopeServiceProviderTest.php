@@ -1,12 +1,10 @@
 <?php
 
+use App\Models\User;
 use App\Providers\TelescopeServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Telescope\IncomingEntry;
 use Laravel\Telescope\Telescope;
-use App\Models\User;
-
-
 
 beforeEach(function () {
     $this->telescope = Mockery::mock('alias:' . Telescope::class);
@@ -24,7 +22,7 @@ describe('TelescopeServiceProvider', function () {
     it('hides sensitive request details in non-local environments', function () {
         $this->app->shouldReceive('environment')->with('local')->once()->andReturn(false);
         $this->telescope->shouldReceive('hideRequestParameters')->with(['_token'])->once();
-        $this->telescope->shouldReceive('hideRequestHeaders')->with([ 'cookie', 'x-csrf-token', 'x-xsrf-token', ])->once();
+        $this->telescope->shouldReceive('hideRequestHeaders')->with(['cookie', 'x-csrf-token', 'x-xsrf-token'])->once();
 
         $serviceProvider = new TelescopeServiceProvider($this->app);
         $serviceProvider->register();

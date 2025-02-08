@@ -26,7 +26,6 @@ beforeEach(function (): void {
     $this->clinicService = ClinicService::factory()->create(['clinic_id' => $this->clinic->id]);
     $this->doctor = Doctor::factory()->create(['organization_id' => $this->organization->id]);
     $this->patient = Patient::factory()->create(['organization_id' => $this->organization->id]);
-
 });
 
 describe('Event Model', function () {

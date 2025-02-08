@@ -11,7 +11,6 @@ use Tests\TestCase;
 
 uses(TestCase::class, RefreshDatabase::class);
 
-
 describe('FortifyServiceProvider', function () {
     beforeEach(function () {
         // Mock the service provider to avoid actual registration during testing.
@@ -123,7 +122,6 @@ describe('FortifyServiceProvider', function () {
 
         // Act
         app(FortifyServiceProvider::class)->boot();
-
     });
 
     it('defines rate limiter for two-factor authentication', function () {

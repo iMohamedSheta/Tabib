@@ -2,9 +2,6 @@
 
 use App\Adapters\Dates\CalendarDatepickerAdapter;
 
-use Carbon\Carbon;
-
-
 describe('CalendarDatepickerAdapter', function () {
     it('should return null when the input date is empty', function () {
         expect(CalendarDatepickerAdapter::handle(''))

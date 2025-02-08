@@ -5,13 +5,9 @@ use App\Http\Controllers\Auth\Socialite\GoogleSocialiteController;
 use App\Models\ClinicAdmin;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
 
-use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
-use function Pest\Laravel\post;
-
 
 beforeEach(function (): void {
     $this->mockSocialiteUser = Mockery::mock('Laravel\Socialite\Contracts\User');
@@ -30,9 +26,7 @@ beforeEach(function (): void {
     Socialite::shouldReceive('driver')->with('google')->andReturn($this->mockSocialiteProvider);
 });
 
-
 describe('GoogleSocialiteController', function () {
-
     it('redirects to Google for authentication', function () {
         Socialite::shouldReceive('driver')->with('google')->andReturnSelf();
         Socialite::shouldReceive('redirect')->andReturn(
@@ -43,7 +37,6 @@ describe('GoogleSocialiteController', function () {
     });
 
     it('handles callback from Google and authenticates user if they exist', function () {
-
         $user = User::factory()->create([
             'email' => 'test@example.com',
             'oauth_id' => 'google_user_id',
@@ -79,5 +72,4 @@ describe('GoogleSocialiteController', function () {
 
         expect(Auth::check())->toBeFalse();
     });
-
 });

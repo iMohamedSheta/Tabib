@@ -6,12 +6,12 @@ use App\Models\Doctor;
 use App\Models\Manager;
 use Illuminate\Support\Facades\Auth;
 
-
 beforeEach(function () {
     $this->mockAuthUser = function ($role) {
-        $user = new \stdClass();
+        $user = new stdClass();
         $user->role = $role;
         Auth::shouldReceive('user')->andReturn($user);
+
         return $user;
     };
 });
@@ -19,13 +19,13 @@ beforeEach(function () {
 describe('authRedirectRouteBasedOnType', function () {
     it('returns the correct route for MANAGER', function () {
         $user = ($this->mockAuthUser)(Manager::class);
-        
+
         expect(UserRoleEnum::authRedirectRouteBasedOnType())->toBe(route('app.admin.dashboard'));
     });
 
     it('returns the correct route for CLINIC_ADMIN', function () {
         $user = ($this->mockAuthUser)(ClinicAdmin::class);
-        
+
         expect(UserRoleEnum::authRedirectRouteBasedOnType())->toBe(route('app.admin.clinic.index'));
     });
 
@@ -41,7 +41,6 @@ describe('authRedirectRouteBasedOnType', function () {
         expect(UserRoleEnum::authRedirectRouteBasedOnType())->toBe(route('app.admin.clinic.index'));
     });
 });
-
 
 describe('getAuthPrefix', function () {
     it('returns the correct prefix for MANAGER', function () {
@@ -68,7 +67,6 @@ describe('getAuthPrefix', function () {
         expect(UserRoleEnum::getAuthPrefix())->toBe('unknown');
     });
 });
-
 
 describe('label', function () {
     it('returns the correct label for MANAGER', function () {

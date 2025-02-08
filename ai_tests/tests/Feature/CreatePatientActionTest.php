@@ -41,9 +41,9 @@ describe('CreatePatientAction', function () {
             username: $userData['username'],
             password: $userData['password'],
             first_name: $userData['first_name'],
-            last_name:  $userData['last_name'],
-            phone:      $userData['phone'],
-            gender:     $patientData['gender'],
+            last_name: $userData['last_name'],
+            phone: $userData['phone'],
+            gender: $patientData['gender'],
             date_of_birth: $patientData['date_of_birth'],
             photo: null // Provide a mock UploadedFile if needed
         );
@@ -86,13 +86,13 @@ describe('CreatePatientAction', function () {
         ];
 
         $createPatientDTO = new CreatePatientDTO(
-             username: $userData['username'],
-             password: $userData['password'],
-             first_name: $userData['first_name'],
-             last_name:  $userData['last_name'],
-             phone:      $userData['phone'],
-             gender:     $patientData['gender'],
-             date_of_birth: $patientData['date_of_birth'],
+            username: $userData['username'],
+            password: $userData['password'],
+            first_name: $userData['first_name'],
+            last_name: $userData['last_name'],
+            phone: $userData['phone'],
+            gender: $patientData['gender'],
+            date_of_birth: $patientData['date_of_birth'],
             photo: null
         );
 
@@ -111,7 +111,7 @@ describe('CreatePatientAction', function () {
         DB::shouldReceive('rollBack')->once();
         DB::shouldReceive('commit')->never();
 
-        User::shouldReceive('create')->andThrow(new \Exception('Database error'));
+        User::shouldReceive('create')->andThrow(new Exception('Database error'));
 
         $userData = [
             'username' => 'testuser',
@@ -131,9 +131,9 @@ describe('CreatePatientAction', function () {
             username: $userData['username'],
             password: $userData['password'],
             first_name: $userData['first_name'],
-            last_name:  $userData['last_name'],
-            phone:      $userData['phone'],
-            gender:     $patientData['gender'],
+            last_name: $userData['last_name'],
+            phone: $userData['phone'],
+            gender: $patientData['gender'],
             date_of_birth: $patientData['date_of_birth'],
             photo: null // Provide a mock UploadedFile if needed
         );
@@ -168,9 +168,9 @@ describe('CreatePatientAction', function () {
             username: $userData['username'],
             password: $userData['password'],
             first_name: $userData['first_name'],
-            last_name:  $userData['last_name'],
-            phone:      $userData['phone'],
-            gender:     $patientData['gender'],
+            last_name: $userData['last_name'],
+            phone: $userData['phone'],
+            gender: $patientData['gender'],
             date_of_birth: $patientData['date_of_birth'],
             photo: $photo
         );
@@ -182,6 +182,5 @@ describe('CreatePatientAction', function () {
         $user = User::where('username', 'testuser')->first();
         expect($user)->not()->toBeNull();
         Storage::disk('public')->assertExists('profile-photos/' . $photo->hashName());
-
     });
 });

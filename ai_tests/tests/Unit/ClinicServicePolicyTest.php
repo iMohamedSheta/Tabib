@@ -7,13 +7,11 @@ use App\Policies\ClinicServicePolicy;
 
 use function Pest\Laravel\actingAs;
 
-
 beforeEach(function (): void {
     $this->organization = Organization::factory()->create();
     $this->clinicService = ClinicService::factory()->create(['organization_id' => $this->organization->id]);
     $this->policy = new ClinicServicePolicy();
 });
-
 
 describe('view', function () {
     it('allows users within the same organization to view the ClinicService', function () {
@@ -28,7 +26,6 @@ describe('view', function () {
         expect($this->policy->view($user, $this->clinicService))->toBeFalse();
     });
 });
-
 
 describe('create', function () {
     it('allows clinic admins to create ClinicServices', function () {
@@ -49,7 +46,6 @@ describe('create', function () {
         expect($this->policy->create($user))->toBeFalse();
     });
 });
-
 
 describe('update', function () {
     it('allows clinic admins in the same organization to update ClinicServices', function () {
@@ -77,8 +73,6 @@ describe('update', function () {
     });
 });
 
-
-
 describe('delete', function () {
     it('allows clinic admins in the same organization to delete ClinicServices', function () {
         $user = User::factory()->clinicAdmin()->create(['organization_id' => $this->organization->id]);
@@ -105,8 +99,6 @@ describe('delete', function () {
     });
 });
 
-
-
 describe('restore', function () {
     it('allows clinic admins in the same organization to restore ClinicServices', function () {
         $user = User::factory()->clinicAdmin()->create(['organization_id' => $this->organization->id]);
@@ -114,7 +106,7 @@ describe('restore', function () {
         expect($this->policy->restore($user, $this->clinicService))->toBeTrue();
     });
 
-     it('allows receptionists to restore ClinicServices', function () {
+    it('allows receptionists to restore ClinicServices', function () {
         $user = User::factory()->receptionist()->create(['organization_id' => $this->organization->id]);
         actingAs($user);
         expect($this->policy->restore($user, $this->clinicService))->toBeTrue();
@@ -132,8 +124,6 @@ describe('restore', function () {
         expect($this->policy->restore($user, $this->clinicService))->toBeFalse();
     });
 });
-
-
 
 describe('forceDelete', function () {
     it('allows clinic admins in the same organization to force delete ClinicServices', function () {

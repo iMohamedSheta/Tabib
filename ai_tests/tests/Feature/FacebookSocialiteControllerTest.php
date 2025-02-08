@@ -7,14 +7,10 @@ use App\Models\ClinicAdmin;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Socialite\Facades\Socialite;
 
-use function Pest\Laravel\get;
-
 uses(RefreshDatabase::class);
-
 
 beforeEach(function (): void {
     Storage::fake('public');
@@ -103,6 +99,5 @@ describe('callback', function () {
 
         $this->get(route('facebook.callback'))
             ->assertRedirect(UserRoleEnum::authRedirectRouteBasedOnType());
-
     });
 });

@@ -24,7 +24,6 @@ describe('view', function (): void {
     });
 });
 
-
 describe('create', function (): void {
     it('allows clinic admins to create patients', function (): void {
         $user = User::factory()->clinicAdmin()->create();
@@ -46,8 +45,6 @@ describe('create', function (): void {
         expect($this->policy->create($user))->toBeFalse();
     });
 });
-
-
 
 describe('update', function (): void {
     it('allows clinic admins in the same organization to update patients', function (): void {
@@ -76,7 +73,6 @@ describe('update', function (): void {
     });
 });
 
-
 describe('delete', function (): void {
     it('allows clinic admins in the same organization to delete patients', function (): void {
         $user = User::factory()->clinicAdmin()->create(['organization_id' => $this->patient->organization_id]);
@@ -94,8 +90,6 @@ describe('delete', function (): void {
     });
 });
 
-
-
 describe('restore', function (): void {
     it('allows clinic admins in the same organization to restore patients', function (): void {
         $user = User::factory()->clinicAdmin()->create(['organization_id' => $this->patient->organization_id]);
@@ -112,8 +106,6 @@ describe('restore', function (): void {
         expect($this->policy->restore($user, $this->patient))->toBeFalse();
     });
 });
-
-
 
 describe('forceDelete', function (): void {
     it('allows clinic admins in the same organization to force delete patients', function (): void {

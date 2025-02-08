@@ -5,7 +5,6 @@ use App\Models\Patient;
 use App\Models\User;
 use Livewire\Livewire;
 
-
 beforeEach(function (): void {
     $this->user = User::factory()->create();
     $this->actingAs($this->user);

@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Storage\PrivateStorageController;
 use App\Models\Media;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -8,16 +7,13 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Tests\TestCase;
 
 uses(TestCase::class, RefreshDatabase::class, WithFaker::class);
 
-
 beforeEach(function (): void {
     Storage::fake('public');
 });
-
 
 describe('PrivateStorageController', function () {
     describe('showMedia', function () {
@@ -27,7 +23,7 @@ describe('PrivateStorageController', function () {
             Gate::shouldReceive('allows')
                 ->with('view', $media)
                 ->andReturn(false);
-            
+
             $this->actingAs($user);
 
             $encryptedMedia = encrypt($media->id);
@@ -69,7 +65,7 @@ describe('PrivateStorageController', function () {
             $fullPath = Storage::disk('public')->path($filePath);
 
             $encryptedMedia = encrypt($media->id);
-            
+
             $response = $this->get(route('media.show', $encryptedMedia));
 
             $response->assertStatus(200);

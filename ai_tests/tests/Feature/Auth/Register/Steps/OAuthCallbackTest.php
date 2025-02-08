@@ -1,16 +1,11 @@
 <?php
 
 use App\Actions\Clinic\CreateClinicAction;
-use App\DTOs\Auth\RegisterUserDTO;
 use App\Livewire\Auth\Register\Steps\OAuthCallback;
-use App\Models\Clinic;
-use App\Models\Organization;
 use App\Models\User;
 use Livewire\Livewire;
 
-
 use function Pest\Laravel\assertDatabaseHas;
-
 
 beforeEach(function (): void {
     $this->userData = [
@@ -20,7 +15,6 @@ beforeEach(function (): void {
         'email' => 'john@example.com',
         'password' => 'password',
     ];
-
 });
 
 it('renders successfully', function (): void {

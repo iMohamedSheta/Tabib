@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\DB;
 
 uses(Tests\TestCase::class);
 
-
 describe('OrganizationBillingCodeGenerator', function () {
     it('can generate a unique billing code', function () {
         $billingCode = OrganizationBillingCodeGenerator::generate();

@@ -1,25 +1,17 @@
 <?php
 
-use App\Enums\Ai\AiModelEnum;
 use App\Enums\Ai\PromptMessageEnum;
 use App\Enums\Ai\PromptTopicEnum;
 use App\Enums\Ai\SystemPromptEnum;
-use App\Enums\Message\MessageTypeEnum;
 use App\Livewire\App\Ai\Prompt;
 use App\Models\Prompt as PromptModel;
-use EchoLabs\Prism\Enums\FinishReason;
-use EchoLabs\Prism\Prism;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Livewire\Livewire;
 
-
 use function Pest\Laravel\assertDatabaseHas;
 
-
-
 beforeEach(function (): void {
-    $this->systemPrompt = SystemPromptEnum::DEFAULT->prompt() . "\n here is the conversation history: \n" . "User: " . SystemPromptEnum::AUTH->prompt() . "\n";
+    $this->systemPrompt = SystemPromptEnum::DEFAULT->prompt() . "\n here is the conversation history: \n" . 'User: ' . SystemPromptEnum::AUTH->prompt() . "\n";
 });
 
 it('mounts successfully with initial data', function (): void {
@@ -55,7 +47,6 @@ it('sends a prompt and uses the existing PromptModel', function (): void {
         ->assertSet('prompt', '');
 });
 
-
 it('validates prompt input', function (): void {
     Livewire::test(Prompt::class)
         ->set('prompt', '')
@@ -68,7 +59,6 @@ it('validates prompt input', function (): void {
         ->assertHasErrors(['prompt' => 'max']);
 });
 
-
 it('sets prompt model and updates messages', function (): void {
     $promptModel = PromptModel::factory()->create();
 
@@ -76,6 +66,3 @@ it('sets prompt model and updates messages', function (): void {
         ->call('setPromptModel', $promptModel->id)
         ->assertSet('promptModel', $promptModel);
 });
-
-
-

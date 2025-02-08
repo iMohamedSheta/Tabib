@@ -6,7 +6,8 @@ use App\Traits\ActionTraits\ActionResponseTrait;
 
 uses(Tests\TestCase::class);
 
-class ActionResponseTraitTestClass {
+class ActionResponseTraitTestClass
+{
     use ActionResponseTrait;
 }
 

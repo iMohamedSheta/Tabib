@@ -1,18 +1,14 @@
 <?php
 
 use App\Actions\Patient\DeletePatientAction;
-use App\Enums\Actions\ActionResponseStatusEnum;
 use App\Livewire\App\Patient\PatientTable;
 use App\Models\Clinic;
 use App\Models\Organization;
 use App\Models\Patient;
 use App\Models\User;
-use App\Proxy\QueryBuilders\PatientQueryBuilderProxy;
 use Livewire\Livewire;
 
-
 use function Pest\Laravel\actingAs;
-use function Pest\Laravel\assertDatabaseHas;
 
 beforeEach(function (): void {
     $this->organization = Organization::factory()->create();
@@ -83,5 +79,3 @@ it('displays error message when deleting a patient fails', function (): void {
 
     $this->assertDatabaseHas('patients', ['id' => $patient->id]);
 });
-
-

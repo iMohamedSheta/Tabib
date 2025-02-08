@@ -4,7 +4,6 @@ use App\DTOs\Auth\RegisterUserDTO;
 use App\Enums\User\Auth\OAuthProviderEnum;
 use Illuminate\Support\Facades\Hash;
 
-
 beforeEach(function (): void {
     $this->firstName = 'John';
     $this->lastName = 'Doe';

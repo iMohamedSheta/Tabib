@@ -5,7 +5,6 @@ use App\Models\Organization;
 
 uses(Tests\TestCase::class);
 
-
 describe('ClinicService', function () {
     it('can create a clinic service', function () {
         $clinicService = ClinicService::factory()->create();

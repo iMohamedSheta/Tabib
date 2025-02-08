@@ -3,7 +3,6 @@
 use App\Livewire\App\Clinic\Includes\CreateClinicModal;
 use Livewire\Livewire;
 
-
 it('renders successfully', function () {
     Livewire::test(CreateClinicModal::class)
         ->assertStatus(200);

@@ -1,6 +1,5 @@
 <?php
 
-use App\View\Components\spinners\TSpinner;
 use Illuminate\Support\Facades\Blade;
 
 it('renders the spinner component', function () {

@@ -3,7 +3,6 @@
 use App\Http\Requests\Patient\CreatePatientRequest;
 use Illuminate\Support\Facades\Validator;
 
-
 beforeEach(function (): void {
     $this->clinicsIds = [1, 2, 3];
 });
@@ -163,7 +162,7 @@ describe('validation rules', function () {
             'clinic_id' => 1,
             'phone' => '01000000000',
             'gender' => 'male',
-            'photo' => null
+            'photo' => null,
         ];
 
         $request = new CreatePatientRequest($this->clinicsIds);

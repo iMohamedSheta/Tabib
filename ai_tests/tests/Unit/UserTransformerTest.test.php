@@ -6,7 +6,6 @@ use App\Transformers\UserTransformer;
 
 uses(Tests\TestCase::class);
 
-
 beforeEach(function (): void {
     $this->user = User::factory()->make([
         'first_name' => 'John',
@@ -18,7 +17,6 @@ beforeEach(function (): void {
     $this->userTransformer = new UserTransformer($this->user);
 });
 
-
 describe('fullname', function () {
     it('should set the fullname attribute on the item', function () {
         $this->userTransformer->fullname();
@@ -27,15 +25,10 @@ describe('fullname', function () {
     });
 });
 
-
 describe('profilePhotoUrl', function () {
     it('should set the profile_photo_url attribute on the item', function () {
         $mockedUrl = 'mocked_url';
-        
-        
-        
-        
-        
+
         GetProfilePhotoUrlService::shouldReceive('handle')
             ->once()
             ->with(

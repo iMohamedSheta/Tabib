@@ -8,10 +8,7 @@ use App\Models\Patient;
 use App\Models\Receptionist;
 use App\Models\User;
 
-use function Pest\Faker\fake;
-
 uses(Tests\TestCase::class)->in('Unit');
-
 
 describe('User Model', function () {
     it('can get the full name attribute', function () {

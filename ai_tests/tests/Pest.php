@@ -37,4 +37,3 @@ expect()->extend('toBeOne', function () {
 | Here you can define functions that would be available in all your tests.
 |
 */
-

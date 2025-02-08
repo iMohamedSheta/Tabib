@@ -1,26 +1,18 @@
 <?php
 
-use App\Actions\Patient\CreatePatientAction;
 use App\Adapters\Dates\CalendarDatepickerAdapter;
-use App\DTOs\Patient\CreatePatientDTO;
-use App\Enums\Actions\ActionResponseStatusEnum;
 use App\Enums\Calendar\CalendarTypeEnum;
 use App\Enums\Invoice\InvoiceStatusEnum;
-use App\Enums\Invoice\InvoiceTypeEnum;
 use App\Livewire\App\Calendar\Includes\AddEventModal;
 use App\Models\Clinic;
 use App\Models\ClinicService;
 use App\Models\Doctor;
 use App\Models\Event;
-use App\Models\Invoice;
 use App\Models\Organization;
 use App\Models\Patient;
 use App\Models\User;
 use Carbon\Carbon;
 use Livewire\Livewire;
-
-
-
 
 beforeEach(function (): void {
     $this->organization = Organization::factory()->create();
@@ -52,7 +44,6 @@ it('can search doctors', function (): void {
         ->set('searchDoctor', $doctorUser->first_name)
         ->assertSee($doctorUser->first_name);
 });
-
 
 it('can add a new patient with an event', function (): void {
     $startDate = Carbon::now()->format('Y/m/d');
@@ -169,4 +160,3 @@ it('shows error if paid price is more than service price', function (): void {
         'paid_price' => 150,
     ]);
 });
-

@@ -10,7 +10,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
-
 describe('Organization Model', function () {
     it('has many clinics', function () {
         $organization = Organization::factory()->create();

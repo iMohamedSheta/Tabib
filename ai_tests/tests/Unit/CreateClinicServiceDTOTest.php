@@ -4,7 +4,6 @@ use App\DTOs\ClinicService\CreateClinicServiceDTO;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-
 beforeEach(function (): void {
     $this->user = User::factory()->create();
     Auth::setUser($this->user);

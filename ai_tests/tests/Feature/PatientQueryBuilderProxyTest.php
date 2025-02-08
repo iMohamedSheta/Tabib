@@ -8,13 +8,11 @@ use Tests\TestCase;
 
 uses(TestCase::class, RefreshDatabase::class);
 
-
 beforeEach(function (): void {
     $this->organization = Organization::factory()->create();
     Patient::factory(20)->create(['organization_id' => $this->organization->id]);
     $this->actingAs($this->organization->owner);
 });
-
 
 describe('searchPatients', function () {
     it('returns a collection of patients matching the search term', function () {
@@ -36,7 +34,6 @@ describe('searchPatients', function () {
         expect($results->count())->toBeLessThanOrEqual(5);
     });
 });
-
 
 describe('getPatientsForTable', function () {
     it('returns a paginated list of patients for the organization', function () {

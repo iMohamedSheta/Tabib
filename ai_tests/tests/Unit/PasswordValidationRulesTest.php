@@ -6,7 +6,6 @@ use Illuminate\Validation\Rules\Password;
 
 uses(Tests\TestCase::class);
 
-
 describe('PasswordValidationRules', function () {
     uses(PasswordValidationRules::class);
 

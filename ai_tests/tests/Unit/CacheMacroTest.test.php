@@ -7,7 +7,6 @@ use Mockery;
 
 uses(Tests\TestCase::class);
 
-
 beforeEach(function (): void {
     Cache::clearResolvedInstances();
 });
@@ -51,5 +50,3 @@ it('generates organization-scoped cache key correctly with different organizatio
 
     expect($generatedKey)->toBe($expectedKey);
 });
-
-

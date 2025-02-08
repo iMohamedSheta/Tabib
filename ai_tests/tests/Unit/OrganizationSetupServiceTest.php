@@ -1,12 +1,10 @@
 <?php
 
-use App\Models\ClinicService;
 use App\Models\Organization;
 use App\Services\Internal\Organization\OrganizationSetupService;
 
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\assertDatabaseHas;
-
 
 beforeEach(function (): void {
     $this->organization = Organization::factory()->create();

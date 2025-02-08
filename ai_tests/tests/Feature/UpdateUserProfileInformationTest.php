@@ -5,14 +5,13 @@ use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use function Pest\Laravel\actingAs;
 
+use function Pest\Laravel\actingAs;
 
 beforeEach(function (): void {
     $this->user = User::factory()->create();
     $this->updater = new UpdateUserProfileInformation();
 });
-
 
 describe('update', function () {
     it('should update user profile information', function () {
@@ -87,5 +86,3 @@ describe('update', function () {
         expect($validator->errors()->has('email'))->toBeTrue();
     });
 });
-
-

@@ -7,7 +7,6 @@ use Tests\TestCase;
 
 uses(TestCase::class, RefreshDatabase::class);
 
-
 describe('Calendar Model', function () {
     it('can create a calendar entry', function () {
         $calendar = Calendar::factory()->create();

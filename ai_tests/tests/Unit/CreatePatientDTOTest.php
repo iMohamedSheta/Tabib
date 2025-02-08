@@ -2,19 +2,16 @@
 
 use App\DTOs\Patient\CreatePatientDTO;
 use App\Formatters\AgeFormatter;
-use App\Generators\PUIDGenerator;
 use App\Models\Patient;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
-uses(\Tests\TestCase::class);
-
+uses(Tests\TestCase::class);
 
 beforeEach(function (): void {
     $this->user = User::factory()->create();
     Auth::shouldReceive('user')->andReturn($this->user);
 });
-
 
 describe('CreatePatientDTO', function () {
     it('correctly constructs the DTO', function () {

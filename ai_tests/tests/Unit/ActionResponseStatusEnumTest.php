@@ -21,5 +21,5 @@ it('can be created from an integer value', function () {
 });
 
 it('throws an exception if an invalid integer value is used', function () {
-    expect(fn() => ActionResponseStatusEnum::from(999))->toThrow(ValueError::class);
+    expect(fn () => ActionResponseStatusEnum::from(999))->toThrow(ValueError::class);
 });

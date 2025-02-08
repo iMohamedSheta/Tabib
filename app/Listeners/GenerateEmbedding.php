@@ -27,12 +27,12 @@ class GenerateEmbedding implements ShouldQueue
             $embedding = $this->embeddingService->handle($text);
 
             Embedding::create([
-                'embeddable_id'   => $model->id,
+                'embeddable_id' => $model->id,
                 'embeddable_type' => get_class($model),
-                'key'             => class_basename($model), // More readable key
-                'content'         => $text,
-                'embedding'   => $this->embeddingService->use768Di($embedding),
-                'embedding_1536'       => $this->embeddingService->use1536Di($embedding),
+                'key' => class_basename($model), // More readable key
+                'content' => $text,
+                'embedding' => $this->embeddingService->use768Di($embedding),
+                'embedding_1536' => $this->embeddingService->use1536Di($embedding),
                 'organization_id' => $model->organization_id,
             ]);
         }

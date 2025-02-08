@@ -4,7 +4,6 @@ use App\Services\Internal\User\GetProfilePhotoUrlService;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 
-
 beforeEach(function () {
     Storage::fake('public');
 });
@@ -26,7 +25,7 @@ describe('GetProfilePhotoUrlService', function () {
         $firstName = 'Test';
 
         Storage::disk(config('jetstream.profile_photo_disk', 'public'))->put($profilePhotoPath, 'test content');
-        
+
         URL::shouldReceive('route')
             ->once()
             ->with('storage.private.tmp.profile_picture', ['profilePhotoPath' => encrypt($profilePhotoPath)])
@@ -43,7 +42,7 @@ describe('GetProfilePhotoUrlService', function () {
         $firstName = 'Test';
 
         $defaultUrl = GetProfilePhotoUrlService::defaultProfilePhotoUrl($username, $firstName);
-        
+
         $result = GetProfilePhotoUrlService::handle($profilePhotoPath, $username, $firstName);
 
         expect($result)->toBe($defaultUrl);
