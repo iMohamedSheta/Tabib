@@ -11,10 +11,6 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        // Ensure the pg-vector extension is enabled
-        if (config('app.url') == 'http://localhost') {
-            DB::statement('CREATE EXTENSION IF NOT EXISTS vector;');
-        }
 
         Schema::create('embeddings', function (Blueprint $table) {
             $table->id();
@@ -36,9 +32,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        if (config('app.url') == 'http://localhost') {
-            DB::statement('DROP EXTENSION vector;');
-        }
         Schema::dropIfExists('embeddings');
     }
 };
