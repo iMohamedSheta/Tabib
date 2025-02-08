@@ -118,8 +118,6 @@ class QueryBuilderMacro implements MacroInterface
         });
 
         // Add `orWhereConcat` by calling `whereConcat` with `'or'`
-        Builder::macro('orWhereConcat', function (array $columns, $operator, $value = null) {
-            return $this->whereConcat($columns, $operator, $value, 'or');
-        });
+        Builder::macro('orWhereConcat', fn(array $columns, $operator, $value = null) => $this->whereConcat($columns, $operator, $value, 'or'));
     }
 }
