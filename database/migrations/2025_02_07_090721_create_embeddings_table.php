@@ -12,7 +12,7 @@ return new class extends Migration {
     public function up(): void
     {
         // Ensure the pg-vector extension is enabled
-        if (config('app.url') == 'http://localhost') {
+        if ('http://localhost' == config('app.url')) {
             DB::statement('CREATE EXTENSION IF NOT EXISTS vector;');
         }
 
@@ -36,7 +36,7 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        if (config('app.url') == 'http://localhost') {
+        if ('http://localhost' == config('app.url')) {
             DB::statement('DROP EXTENSION vector;');
         }
         Schema::dropIfExists('embeddings');
