@@ -137,7 +137,7 @@
                         </div>
                     @endforeach
 
-                    <div wire:loading wire:target="send,generatePrompt">
+                    <div wire:loading>
                         <div class="flex items-start gap-3">
                             <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18"
