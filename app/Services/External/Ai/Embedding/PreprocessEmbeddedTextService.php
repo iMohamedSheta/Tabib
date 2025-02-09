@@ -16,7 +16,7 @@ class PreprocessEmbeddedTextService implements \Stringable
         $this->text = \Normalizer::normalize($this->text, \Normalizer::FORM_C);
 
         // Remove Arabic diacritics (Harakat)
-        $text = preg_replace('/[\x{064B}-\x{065F}]/u', '', $this->text);
+        preg_replace('/[\x{064B}-\x{065F}]/u', '', $this->text);
 
         // Remove special characters and punctuation, but keep letters, numbers, and spaces
         $this->text = preg_replace('/[^\p{L}\p{N}\s]/u', '', $this->text);
