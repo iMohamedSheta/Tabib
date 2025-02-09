@@ -10,6 +10,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @property User $user
+ */
 #[ScopedBy(OrganizationScope::class)]
 class Doctor extends Model implements UserRoleModelInterface
 {
@@ -26,23 +29,24 @@ class Doctor extends Model implements UserRoleModelInterface
         });
     }
 
-    protected function getEmbeddingColumns(): array
-    {
-        return [
-            'specialization',
-            'license_number',
-            'qualifications',
-            'notes',
-        ];
-    }
-
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function clinic(): BelongsTo
     {
         return $this->belongsTo(Clinic::class, 'clinic_id', 'id');
+    }
+
+    protected function embeddedFields(): array
+    {
+        return [
+            'name' => trim("{$this->user->first_name} {$this->user->last_name}"),
+            'specialization' => $this->specialization,
+            'license_number' => $this->license_number,
+            'qualifications' => $this->qualifications,
+            'notes' => $this->notes,
+        ];
     }
 }

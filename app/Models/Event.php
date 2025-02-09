@@ -7,6 +7,17 @@ use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property ClinicService $clinicService
+ * @property Doctor        $doctor
+ * @property Patient       $patient
+ * @property Clinic        $clinic
+ *
+ * @method \Illuminate\Database\Eloquent\Relations\BelongsTo clinicService()
+ * @method \Illuminate\Database\Eloquent\Relations\BelongsTo doctor()
+ * @method \Illuminate\Database\Eloquent\Relations\BelongsTo patient()
+ * @method \Illuminate\Database\Eloquent\Relations\BelongsTo clinic()
+ */
 #[ScopedBy(OrganizationScope::class)]
 class Event extends Model
 {

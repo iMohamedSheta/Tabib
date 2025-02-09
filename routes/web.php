@@ -33,6 +33,8 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use League\Flysystem\FileAttributes;
+use Pgvector\Laravel\Distance;
+use Pgvector\Laravel\SparseVector;
 use Pgvector\Laravel\Vector;
 
 // Home
@@ -161,27 +163,45 @@ Route::get('test', function () {
 
 // Route::get('a', fn() => PromptTopicEnum::PATIENT->prompt());
 Route::get(
-    'embedding/{query}',
-    function (string $query) {
-        $embeddingService = new GenerateEmbeddingService();
-        $queryVector = $embeddingService->handle($query);
-        // $magnitude = sqrt(array_sum(array_map(fn($val) => $val ** 2, $queryVector)));
-        // dd($magnitude);
-        $results = Embedding::selectRaw('*, embedding <=> ? AS score', [new Vector($queryVector)])
-            ->orderByRaw('embedding <#> ?', [new Vector($queryVector)])
-            ->limit(10)
-            ->get();
+    'embedding',
+    function (): string {
+        $message = 'هل لديك مريض اسمه محمد يوسف شتا ؟';
+        // $embeddingService = new GenerateEmbeddingService();
+        // $queryVector = $embeddingService->handle($query);
+        // // $magnitude = sqrt(array_sum(array_map(fn($val) => $val ** 2, $queryVector)));
+        // // dd($magnitude);
+        // // $results = Embedding::selectRaw('*, 1 - (embedding <#> ?) AS score', [$vector])
+        // //     ->orderByDesc('score') // Higher similarity first
+        // //     ->limit(100)
+        // //     ->pluck('content')
+        // //     ->toArray();
+        // $results = Embedding::nearestNeighbors('embedding', new Vector($queryVector), Distance::InnerProduct)
+        //     // ->orderByRaw('sparse_vector <#> ?', new SparseVector($queryVector, 30522))
+        //     ->pluck('content')
+        //     ->toArray();
 
-        dd($results);
+        // // $results = Embedding::selectRaw('*, 1 - (sparse_vector <#> ?) AS score', [new SparseVector($queryVector, 30522)])
+        // //     ->orderByDesc('score') // Higher similarity first
+        // //     ->limit(100)
+        // //     ->pluck('content')
+        // //     ->toArray();
+
+        $results = PromptTopicEnum::getSemanticTopic($message);
+
+        // $exists = strpos($results, $message) !== false
+        //     ? "{$message} does exist in the results."
+        //     : "{$message} does not exist in the results!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!";
+
+        return $results;
     }
 );
 
-Route::get('patientseed', function () {
+Route::get('patientseed', function (): void {
     $org = Organization::first();
     $clinic = Clinic::first();
 
     Patient::factory(500)->create([
         'organization_id' => $org->id,
         'clinic_id' => $clinic->id,
-    ])->each(fn ($patient) => $patient->fireModelEvent('created', false));
+    ])->each(fn ($patient) => $patient->fireModelEvent('created', false)); // @phpstan-ignore-line
 });

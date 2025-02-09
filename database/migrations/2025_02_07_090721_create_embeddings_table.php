@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->text('content');
             $table->vector('embedding', 768)->nullable();
             $table->vector('embedding_1536', 1536)->nullable();
+            // $table->sparsevec('sparse_vector', 30522)->nullable();
             $table->timestamps();
         });
 

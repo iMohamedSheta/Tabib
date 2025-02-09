@@ -15,6 +15,9 @@ use Laravel\Sanctum\HasApiTokens;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
+/**
+ * @property string|null $profile_photo_url
+ */
 class User extends Authenticatable implements HasMedia
 {
     use HasApiTokens;

@@ -4,11 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Pgvector\Laravel\HasNeighbors;
 use Pgvector\Laravel\Vector;
 
 class Embedding extends Model
 {
     use HasFactory;
+    use HasNeighbors;
 
     protected $guarded = [];
 
@@ -22,7 +24,7 @@ class Embedding extends Model
         return $this->morphTo();
     }
 
-    public function wordSearch(string $search)
+    public function wordSearch(string $search): void
     {
         // Cosine Similarity which is great for searching for similar words.
         $this->orderByRaw('embedding <=> ?', [new Vector($search)]);

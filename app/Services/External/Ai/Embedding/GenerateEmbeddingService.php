@@ -4,6 +4,7 @@ namespace App\Services\External\Ai\Embedding;
 
 use App\Enums\Ai\AiModelEnum;
 use EchoLabs\Prism\Prism;
+use Pgvector\Laravel\SparseVector;
 use Pgvector\Laravel\Vector;
 
 class GenerateEmbeddingService
@@ -12,27 +13,18 @@ class GenerateEmbeddingService
 
     public function handle(string $text): array
     {
-        $cleanText = $this->preprocessText($text);
+        $textPreProcessor = new PreprocessEmbeddedTextService($text);
+
+        $translatedCleanedText = (string) $textPreProcessor->clean()->translate();
 
         [$modelKey, $model] = $this->model();
 
         $request = Prism::embeddings()
             ->using($modelKey, $model)
-            ->fromInput($cleanText)
+            ->fromInput($translatedCleanedText)
             ->generate();
 
         return $request->embeddings ?? [];
-    }
-
-    private function model(): array
-    {
-        $usingModels = [
-            'gemini' => AiModelEnum::TEXT_EMBEDDING_004->value,
-            'custom.gemini_1' => AiModelEnum::TEXT_EMBEDDING_004->value,
-        ];
-        $modelKey = array_rand($usingModels);
-
-        return [$modelKey, $usingModels[$modelKey]];
     }
 
     public function use768Di($embeddings): ?Vector
@@ -44,6 +36,11 @@ class GenerateEmbeddingService
         return null;
     }
 
+    public function useSparseVector($embeddings, $dimension = null): ?SparseVector
+    {
+        return new SparseVector($embeddings, $dimension);
+    }
+
     public function use1536Di($embeddings): ?Vector
     {
         if (1536 == $this->dimension) {
@@ -53,23 +50,14 @@ class GenerateEmbeddingService
         return null;
     }
 
-    private function preprocessText(string $text): string
+    private function model(): array
     {
-        // Normalize Unicode
-        $text = \Normalizer::normalize($text, \Normalizer::FORM_C);
+        $usingModels = [
+            'gemini' => AiModelEnum::TEXT_EMBEDDING_004->value,
+            'custom.gemini_1' => AiModelEnum::TEXT_EMBEDDING_004->value,
+        ];
+        $modelKey = array_rand($usingModels);
 
-        // Remove Arabic diacritics (Harakat)
-        $text = preg_replace('/[\x{064B}-\x{065F}]/u', '', $text);
-
-        // Remove special characters and punctuation (keep Arabic, numbers, spaces)
-        $text = preg_replace('/[^\p{Arabic}\p{N}\s]/u', '', $text);
-
-        // Convert to lowercase
-        $text = mb_strtolower($text, 'UTF-8');
-
-        // Trim extra spaces
-        $text = preg_replace('/\s+/', ' ', trim($text));
-
-        return $text;
+        return [$modelKey, $usingModels[$modelKey]];
     }
 }

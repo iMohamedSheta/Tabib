@@ -4,9 +4,14 @@ declare(strict_types=1);
 
 namespace App\Enums\Ai;
 
+use App\Models\Embedding;
+use App\Services\External\Ai\Embedding\GenerateEmbeddingService;
+use App\Services\External\Ai\Embedding\PreprocessEmbeddedTextService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Pgvector\Laravel\Distance;
+use Pgvector\Laravel\Vector;
 
 enum PromptTopicEnum: int
 {
@@ -21,6 +26,34 @@ enum PromptTopicEnum: int
             self::APPOINTMENT->value => 'المواعيد والحجوزات',
             self::INVOICE->value => 'الفواتير',
         ];
+    }
+
+    public static function getSemanticTopic(string $message): string
+    {
+        $messagePreProcessor = new PreprocessEmbeddedTextService($message);
+        $translatedCleanedMessage = (string) $messagePreProcessor->clean()->translate();
+
+        $messageVector = (new GenerateEmbeddingService())->handle($translatedCleanedMessage);
+
+        $results = Embedding::nearestNeighbors('embedding', new Vector($messageVector), Distance::InnerProduct)
+            ->where('organization_id', Auth::user()->organization_id)
+            // ->orderByRaw('sparse_vector <#> ?', [new SparseVector($messageVector, 30522)]) // Fixed
+            ->limit(120)
+            ->pluck('content', 'id')
+            ->toArray();
+
+        $searchString = '%' . implode('%', array_map('trim', explode(' ', $message))) . '%';
+
+        $resultsSearch = Embedding::where('content', 'LIKE', $searchString)
+            ->limit(10)
+            ->pluck('content', 'id')
+            ->toArray();
+
+        $i = 1;
+
+        return implode(', ', array_map(function (string $item) use (&$i): string {
+            return ($i++) . '. ' . $item;
+        }, array_unique([...$results, ...$resultsSearch])));
     }
 
     public function label(): string

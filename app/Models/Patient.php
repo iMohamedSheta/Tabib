@@ -8,6 +8,12 @@ use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property User $user
+ *
+ * @method \Illuminate\Database\Eloquent\Relations\BelongsTo user()
+ * @method fireModelEvent()
+ */
 #[ScopedBy(OrganizationScope::class)]
 class Patient extends Model
 {
@@ -22,25 +28,6 @@ class Patient extends Model
         self::deleting(function ($patient): void {
             $patient->user->delete();
         });
-    }
-
-    protected function getEmbeddingColumns(): array
-    {
-        return [
-            'user.first_name',
-            'user.last_name',
-            'gender',
-            'birth_date',
-            'nationality',
-            'marital_status',
-            'address',
-            'notes',
-            'family_medical_history',
-            'chronic_diseases',
-            'blood_type',
-            'allergies',
-            'occupation',
-        ];
     }
 
     public function user()
@@ -61,5 +48,22 @@ class Patient extends Model
     public function invoices()
     {
         return $this->morphMany(Invoice::class, 'model');
+    }
+
+    protected function embeddedFields(): array
+    {
+        return [
+            'name' => trim("{$this->user->first_name} {$this->user->last_name}"),
+            'gender' => $this->gender,
+            'birth_date' => $this->birth_date,
+            'nationality' => $this->nationality,
+            'address' => $this->address,
+            'marital_status' => $this->marital_status,
+            'family_medical_history' => $this->family_medical_history,
+            'chronic_diseases' => $this->chronic_diseases,
+            'blood_type' => $this->blood_type,
+            'allergies' => $this->allergies,
+            'occupation' => $this->occupation,
+        ];
     }
 }

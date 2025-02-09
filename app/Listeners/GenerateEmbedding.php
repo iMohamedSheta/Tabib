@@ -9,14 +9,11 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class GenerateEmbedding implements ShouldQueue
 {
-    protected GenerateEmbeddingService $embeddingService;
-
-    public function __construct(GenerateEmbeddingService $embeddingService)
+    public function __construct(protected GenerateEmbeddingService $embeddingService)
     {
-        $this->embeddingService = $embeddingService;
     }
 
-    public function handle(EmbeddingCreated $event)
+    public function handle(EmbeddingCreated $event): void
     {
         log_dev(var_export($event, true)); // Better logging
 
@@ -28,11 +25,12 @@ class GenerateEmbedding implements ShouldQueue
 
             Embedding::create([
                 'embeddable_id' => $model->id,
-                'embeddable_type' => get_class($model),
-                'key' => class_basename($model), // More readable key
+                'embeddable_type' => $model::class,
+                'key' => class_basename($model),
                 'content' => $text,
                 'embedding' => $this->embeddingService->use768Di($embedding),
                 'embedding_1536' => $this->embeddingService->use1536Di($embedding),
+                // 'sparse_vector' => $this->embeddingService->useSparseVector($embedding, 30522),
                 'organization_id' => $model->organization_id,
             ]);
         }

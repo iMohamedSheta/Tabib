@@ -8,32 +8,21 @@ trait HasEmbedding
 {
     protected static function bootHasEmbedding()
     {
-        static::created(function ($model) {
+        static::created(function ($model): void {
             event(new EmbeddingCreated($model));
         });
     }
 
     public function getEmbeddingText(): string
     {
-        $columns = $this->getEmbeddingColumns();
-        $data = [class_basename($this)];
+        $data = $this->embeddedFields();
 
-        foreach ($columns as $column) {
-            if (str_contains($column, '.')) {
-                [$relation, $attribute] = explode('.', $column, 2);
-                $value = optional($this->$relation)->$attribute;
-            } else {
-                $value = $this->$column;
-            }
+        // Filter out empty or null values
+        $filteredData = array_filter($data, fn ($value): bool => !empty($value) && ' ' !== $value);
 
-            if (!empty($value)) {
-                $label = str_replace('.', ' ', ucfirst(str_replace('_', ' ', $column)));
-                $data[] = "$label: $value";
-            }
-        }
-
-        return implode(', ', $data); // Use a separator for clarity
+        // Convert to key-value string
+        return strtolower(trim(implode(' & ', array_map(fn ($key, $value): string => "$key: $value", array_keys($filteredData), $filteredData))));
     }
 
-    abstract protected function getEmbeddingColumns(): array;
+    abstract protected function embeddedFields(): array;
 }
