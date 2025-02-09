@@ -35,7 +35,7 @@ enum PromptTopicEnum: int
 
         $messageVector = (new GenerateEmbeddingService())->handle($translatedCleanedMessage);
 
-        $results = Embedding::nearestNeighbors('embedding', new Vector($messageVector), Distance::InnerProduct)
+        $results = Embedding::nearestNeighbors('embedding', new Vector($messageVector))
             ->where('organization_id', Auth::user()->organization_id)
             // ->orderByRaw('sparse_vector <#> ?', [new SparseVector($messageVector, 30522)]) // Fixed
             ->limit(120)
