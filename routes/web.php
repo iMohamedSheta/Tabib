@@ -12,7 +12,10 @@
 
 use App\Enums\Ai\PromptTopicEnum;
 use App\Enums\Exceptions\ExceptionCodeEnum;
+use App\Enums\Extractor\FileTypeEnum;
 use App\Enums\User\UserRoleEnum;
+use App\Extractors\FileTextExtractor;
+use App\Extractors\PdfTextExtractor;
 use App\Generators\ClinicCodeGenerator;
 // use App\Exceptions\Test\TestException;
 use App\Generators\PUIDGenerator;
@@ -60,7 +63,15 @@ Route::get('auth/google/callback', [GoogleSocialiteController::class, 'callback'
 Route::get('auth/facebook/redirect', [FacebookSocialiteController::class, 'redirect'])->name('socialite.facebook.redirect');
 Route::get('auth/facebook/callback', [FacebookSocialiteController::class, 'callback'])->name('socialite.facebook.callback');
 
-Route::get('welcome', fn () => view('welcome'));
+Route::name('storage.private.tmp.')
+    ->prefix('storage/private/')
+    ->group(function (): void {
+        Route::get('media/{encryptedMedia}', [PrivateStorageController::class, 'showMedia'])->name('media');
+        Route::get('profile_picture/{profilePhotoPath}', [PrivateStorageController::class, 'showProfilePicture'])->name('profile_picture');
+    });
+
+
+Route::get('welcome', fn() => view('welcome'));
 
 // Test Routes
 Route::get('test', function () {
@@ -70,7 +81,7 @@ Route::get('test', function () {
     return to_route('register');
 });
 
-Route::get('speed', fn (): array => speedTest(fn () => DB::table('users')
+Route::get('speed', fn(): array => speedTest(fn() => DB::table('users')
     ->where('role', Patient::class)
     ->where(function ($query): void {
         $query->likeIn(['first_name', 'last_name', 'phone', 'other_phone'], 'i');
@@ -91,8 +102,8 @@ Route::view('testx', 'welcome');
 //     dd($code->getLink());
 // })->name('docs.exceptions');
 
-Route::get('check', fn (): string => PUIDGenerator::generate());
-Route::get('check-2', fn (): string => ClinicCodeGenerator::generate());
+Route::get('check', fn(): string => PUIDGenerator::generate());
+Route::get('check-2', fn(): string => ClinicCodeGenerator::generate());
 
 // Route::get('test', function () {
 //     $yamlFile = base_path('.github/workflows/tabib_pushflow.yml');
@@ -142,12 +153,6 @@ Route::get('test-google-drive', function (): false|string {
     }
 });
 
-Route::name('storage.private.tmp.')
-    ->prefix('storage/private/')
-    ->group(function (): void {
-        Route::get('media/{encryptedMedia}', [PrivateStorageController::class, 'showMedia'])->name('media');
-        Route::get('profile_picture/{profilePhotoPath}', [PrivateStorageController::class, 'showProfilePicture'])->name('profile_picture');
-    });
 
 Route::get('test', function () {
     $url = 'http://localhost:11434/api/generate';
@@ -203,5 +208,12 @@ Route::get('patientseed', function (): void {
     Patient::factory(500)->create([
         'organization_id' => $org->id,
         'clinic_id' => $clinic->id,
-    ])->each(fn ($patient) => $patient->fireModelEvent('created', false)); // @phpstan-ignore-line
+    ])->each(fn($patient) => $patient->fireModelEvent('created', false)); // @phpstan-ignore-line
+});
+
+Route::get('totext', function () {
+
+    $text = FileTextExtractor::extract(public_path('files/1.csv'));
+
+    return $text;
 });

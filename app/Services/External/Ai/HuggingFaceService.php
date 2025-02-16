@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\External\Ai\Services;
 
 use App\Generators\FilenameGenerator;
 use GuzzleHttp\Client;

@@ -4,10 +4,10 @@
         اضافة طبيب
     </button>
     <div>
-        <x-modals.modal @keydown.escape.window="show = false" maxWidth="4xl">
-            <x-slot name="title">
+        <x-modals.modal @keydown.escape.window="show = false" maxWidth="4xl" class="bg-c-gray-800 opacity-95">
+            {{-- <x-slot name="title">
                 اضافة طبيب
-            </x-slot>
+            </x-slot> --}}
 
             <x-slot name="content">
                 <div x-data="{ selectedTab: 'groups', start_time: '', end_time: '' }" class="w-full">
@@ -17,8 +17,8 @@
                         <button @click="selectedTab = 'groups'" :aria-selected="selectedTab === 'groups'"
                             :tabindex="selectedTab === 'groups' ? '0' : '-1'"
                             :class="selectedTab === 'groups' ?
-                                'font-bold text-black border-b-2 border-black dark:border-white' :
-                                'text-neutral-600 font-medium  dark:hover:border-b-neutral-300  hover:border-b-2 hover:border-b-neutral-800 hover:text-neutral-900'"
+                                'font-bold text-gray-300 border-b-2 border-black dark:border-white' :
+                                'text-gray-400 font-medium  dark:hover:border-b-neutral-300  hover:border-b-2 hover:border-b-neutral-800 hover:text-neutral-900'"
                             class="flex h-min items-center gap-2 px-4 py-2 text-sm" type="button" role="tab"
                             aria-controls="tabpanelGroups">
                             <i class="fa fa-address-card"></i>
@@ -30,8 +30,8 @@
                         <button @click="selectedTab = 'work'" :aria-selected="selectedTab === 'work'"
                             :tabindex="selectedTab === 'work' ? '0' : '-1'"
                             :class="selectedTab === 'work' ?
-                                'font-bold text-black border-b-2 border-black dark:border-white' :
-                                'text-neutral-600 font-medium  dark:hover:border-b-neutral-300  hover:border-b-2 hover:border-b-neutral-800 hover:text-neutral-900'"
+                                'font-bold text-gray-300 border-b-2 border-black dark:border-white' :
+                                'text-gray-400 font-medium  dark:hover:border-b-neutral-300  hover:border-b-2 hover:border-b-neutral-800 hover:text-neutral-900'"
                             class="flex h-min items-center gap-2 px-4 py-2 text-sm" type="button" role="tab"
                             aria-controls="tabpanelWork">
                             <i class="fa fa-address-book"></i>
@@ -44,17 +44,17 @@
                 </h3> --}}
                     <div x-show="selectedTab === 'groups'" id="tabpanelGroups" role="tabpanel" aria-label="groups">
                         <div class="flex flex-wrap p-4">
-                            <div class="w-full  px-2 mt-4 md:w-1/2">
+                            <div class="w-full text-gray-300 px-2 mt-4 md:w-1/2">
                                 <label>
                                     اسم المستخدم
                                     <span class="text-red-600">*</span>
                                 </label>
                                 <x-input type="text" id="username" wire:model="username" withError="username"
-                                    class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 w-full break-all"
+                                    class="mt-4 bg-c-gray-700 px-4 border-0 py-2 rounded-sm text-sm text-gray-300 w-full break-all"
                                     autofocus autocomplete="off" autocorrect="off" autocapitalize="off"
                                     spellcheck="false" />
                             </div>
-                            <div class="w-full px-2 mt-4 md:w-1/2">
+                            <div class="w-full text-gray-300 px-2 mt-4 md:w-1/2">
                                 <label>
                                     الرقم السري
                                     <span class="text-red-600">*</span>
@@ -65,19 +65,19 @@
                                     spellcheck="false" /> --}}
                                 <x-form.input-password type="password" id="password" wire:model="password"
                                     withError="password"
-                                    class=" bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 w-full break-all"
+                                    class="bg-c-gray-700 px-4 border-0 py-2 rounded-sm text-sm text-gray-300 w-full break-all"
                                     autofocus autocomplete="off" autocorrect="off" autocapitalize="off"
                                     spellcheck="false" label="الرقم السري"></x-form.input-password>
 
                             </div>
-                            <div class="mt-4 w-full px-2">
+                            <div class="mt-4 text-gray-300 w-full px-2">
                                 <label>
                                     التخصص
                                     <span class="text-red-600">*</span>
                                 </label>
                                 <x-input type="text" id="specialization" wire:model="specialization"
                                     withError="specialization"
-                                    class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 w-full break-all"
+                                    class="mt-4 bg-c-gray-700 px-4 border-0 py-2 rounded-sm text-sm text-gray-300 w-full break-all"
                                     autofocus autocomplete="off" autocorrect="off" autocapitalize="off"
                                     spellcheck="false" />
                             </div>
@@ -91,43 +91,43 @@
                                 class="mt-2 bg-gray-100 px-4 py-2 rounded text-sm text-gray-500 w-full break-all">
                                 </x-select.select>
                             </div> --}}
-                            <div class="mt-4 w-full md:w-1/2 px-2">
+                            <div class="mt-4 text-gray-300 w-full md:w-1/2 px-2">
                                 <label>
                                     الاسم الاول
                                     <span class="text-red-600">*</span>
                                 </label>
                                 <x-input type="text" id="first_name" wire:model="first_name" withError="first_name"
-                                    class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 w-full break-all"
+                                    class="mt-4 bg-c-gray-700 px-4 border-0 py-2 rounded-sm text-sm text-gray-300 w-full break-all"
                                     autofocus autocomplete="off" autocorrect="off" autocapitalize="off"
                                     spellcheck="false" />
                             </div>
-                            <div class="mt-4 w-full md:w-1/2 px-2">
+                            <div class="mt-4 w-full text-gray-300 md:w-1/2 px-2">
                                 <label>
                                     اسم العائلة
                                     <span class="text-red-600">*</span>
                                 </label>
                                 <x-input type="text" id="last_name" wire:model="last_name" withError="last_name"
-                                    class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 w-full break-all"
+                                    class="mt-4 bg-c-gray-700 px-4 border-0 py-2 rounded-sm text-sm text-gray-300 w-full break-all"
                                     autofocus autocomplete="off" autocorrect="off" autocapitalize="off"
                                     spellcheck="false" />
                             </div>
-                            <div class="mt-4 w-full md:w-1/2 px-2">
+                            <div class="mt-4 w-full text-gray-300 md:w-1/2 px-2">
                                 <label>
                                     رقم الهاتف
                                     <span class="text-red-600">*</span>
                                 </label>
                                 <x-input type="text" id="phone" wire:model="phone" withError="phone"
-                                    class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 w-full break-all"
+                                    class="mt-4 bg-c-gray-700 px-4 border-0 py-2 rounded-sm text-sm text-gray-300 w-full break-all"
                                     autofocus autocomplete="off" autocorrect="off" autocapitalize="off"
                                     spellcheck="false" />
                             </div>
-                            <div class="mt-4 w-full md:w-1/2 px-2">
+                            <div class="mt-4 text-gray-300 w-full md:w-1/2 px-2">
                                 <label>
                                     رقم الهاتف الاضافي
                                 </label>
                                 <x-input type="text" id="other_phone" wire:model="other_phone"
                                     withError="other_phone"
-                                    class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 w-full break-all"
+                                    class="mt-4 bg-c-gray-700 px-4 border-0 py-2 rounded-sm text-sm text-gray-300 w-full break-all"
                                     autofocus autocomplete="off" autocorrect="off" autocapitalize="off"
                                     spellcheck="false" />
                             </div>
@@ -138,14 +138,14 @@
                     </div>
                     <div x-show="selectedTab === 'work'" id="tabpanelWork" role="tabpanel"
                         aria-label="work_inforamtion">
-                        <div class="flex flex-wrap p-4">
+                        <div class="flex flex-wrap p-4  text-gray-300">
                             <div class="w-full  px-2 mt-4 md:w-1/2">
                                 <label>
                                     رقم الترخيص
                                 </label>
                                 <x-input type="text" id="license_number" wire:model="license_number"
                                     withError="license_number"
-                                    class="mt-4 bg-gray-100 px-4 py-2 rounded  text-sm text-gray-500 w-full break-all"
+                                    class="mt-4 bg-c-gray-700 px-4 border-0 py-2 rounded-sm text-sm text-gray-300 w-full break-all"
                                     autofocus autocomplete="off" autocorrect="off" autocapitalize="off"
                                     spellcheck="false" />
                             </div>
@@ -155,7 +155,7 @@
                                 </label>
                                 <x-input type="text" id="telehealth_phone" wire:model="telehealth_phone"
                                     withError="telehealth_phone"
-                                    class="mt-4 bg-gray-100 px-4 py-2 rounded font-mono text-sm text-gray-500 w-full break-all"
+                                    class="mt-4 bg-c-gray-700 px-4 border-0 py-2 rounded-sm text-sm text-gray-300 w-full break-all"
                                     autofocus autocomplete="off" autocorrect="off" autocapitalize="off"
                                     spellcheck="false" />
                             </div>
@@ -164,7 +164,7 @@
                                     العيادات
                                 </label>
                                 <x-select.multiselect :items="$clinics" label="اختيار العيادات" withError="clinic_ids"
-                                    class="mt-2 bg-gray-100 px-4 py-2 rounded text-sm text-gray-500 w-full break-all">
+                                    class="mt-2 bg-c-gray-700 px-4 py-2 rounded-sm text-xs text-gray-300 w-full break-all">
 
                                 </x-select.multiselect>
                             </div>
@@ -174,7 +174,7 @@
                                 </label>
                                 <x-select.multiselect :items="$days" label="اختيار ايام العمل"
                                     withError="selected_days"
-                                    class="mt-2 bg-gray-100 px-4 py-2 rounded text-sm text-gray-500 w-full break-all">
+                                    class="mt-2 bg-c-gray-700 px-4 py-2 rounded-sm text-xs text-gray-300 w-full break-all">
 
                                 </x-select.multiselect>
                             </div>
@@ -184,7 +184,7 @@
                                 </label>
                                 <x-input type="date" id="start-time-datepicker" wire:ignore x-model="start_time"
                                     withError="start_time" wire:model="start_time"
-                                    class='border-gray-300  focus:border-indigo-500 mt-4 bg-gray-100 px-4 py-2  text-sm text-gray-500 w-full break-all focus:ring-indigo-500 rounded shadow-sm' />
+                                    class="mt-4 bg-c-gray-700 px-4 border-0 py-2 rounded-sm text-sm text-gray-300 w-full break-all" />
                             </div>
                             <div class="w-full  px-2 mt-4 md:w-1/2">
                                 <label>
@@ -192,7 +192,7 @@
                                 </label>
                                 <x-input type="date" id="end-time-datepicker" wire:ignore x-model="end_time"
                                     withError="end_time" wire:model="end_time"
-                                    class='border-gray-300  focus:border-indigo-500 mt-4 bg-gray-100 px-4 py-2  text-sm text-gray-500 w-full break-all focus:ring-indigo-500 rounded shadow-sm' />
+                                    class="mt-4 bg-c-gray-700 px-4 border-0 py-2 rounded-sm text-sm text-gray-300 w-full break-all" />
                             </div>
                             <div class="w-full  px-2 mt-4">
                                 <label>
@@ -200,9 +200,8 @@
                                 </label>
                                 <textarea id="qualifications" placeholder="اكتب المؤهلات الخاصة بالطبيب..." wire:model="qualifications"
                                     rows="3" withError="qualifications"
-                                    class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500
-                                shadow-sm bg-gray-100 resize-y mt-4 px-4 py-2 rounded  text-sm text-gray-500 w-full break-all"
-                                    autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+                                    class="mt-4 bg-c-gray-700 px-4 border-0 py-2 rounded-sm text-xs text-gray-300 w-full break-all" autofocus
+                                    autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
 
                                 {{-- <x-input type="text" id="qualifications" wire:model="qualifications"
                                     withError="qualifications"
@@ -210,15 +209,14 @@
                                     autofocus autocomplete="off" autocorrect="off" autocapitalize="off"
                                     spellcheck="false" /> --}}
                             </div>
-                            <div class="w-full px-2 mt-4 ">
+                            <div class="w-full px-2 mt-4">
                                 <label>
                                     مذكرة الدكتور (notes)
                                 </label>
                                 <textarea id="notes" placeholder="اكتب هنا المعلومات الاضافية الخاصة بالمريض ..." wire:model="notes"
                                     rows="6" withError="notes"
-                                    class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500
-                                    shadow-sm bg-gray-100 resize-y mt-4 px-4 py-2 rounded  text-sm text-gray-500 w-full break-all"
-                                    autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+                                    class="mt-4 bg-c-gray-700 px-4 border-0 py-2 rounded-sm text-xs text-gray-300 w-full break-all" autofocus
+                                    autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
                             </div>
 
                         </div>

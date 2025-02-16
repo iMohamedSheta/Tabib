@@ -35,12 +35,13 @@ enum PromptTopicEnum: int
 
         $messageVector = (new GenerateEmbeddingService())->handle($translatedCleanedMessage);
 
-        $results = Embedding::nearestNeighbors('embedding', new Vector($messageVector))
-            ->where('organization_id', Auth::user()->organization_id)
-            // ->orderByRaw('sparse_vector <#> ?', [new SparseVector($messageVector, 30522)]) // Fixed
-            ->limit(120)
-            ->pluck('content', 'id')
-            ->toArray();
+        // $results = Embedding::nearestNeighbors('embedding', new Vector($messageVector))
+        //     ->where('organization_id', Auth::user()->organization_id)
+        //     // ->orderByRaw('sparse_vector <#> ?', [new SparseVector($messageVector, 30522)]) // Fixed
+        //     ->limit(120)
+        //     ->pluck('content', 'id')
+        //     ->toArray();
+        $results = Embedding::searchSimilar(new Vector($messageVector), 30);
 
         $searchString = '%' . implode('%', array_map('trim', explode(' ', $message))) . '%';
 
@@ -87,7 +88,7 @@ enum PromptTopicEnum: int
             $cacheKey = Cache::generateOrgScopedKey('patient_prompt_query', self::class);
             $dbDriver = config('database.default');
 
-            $query = (fn () => DB::table('patients as p')
+            $query = (fn() => DB::table('patients as p')
                 ->where('p.organization_id', Auth::user()->organization_id)
                 ->join('users as u', 'u.id', '=', 'p.user_id')
                 ->join('events as e', 'e.patient_id', '=', 'p.id')
@@ -106,7 +107,7 @@ enum PromptTopicEnum: int
                     DB::raw("CONCAT(du.first_name, '. ', du.last_name) as doctor"),
                 ])
                 ->get()
-                ->map(fn ($p): array => [
+                ->map(fn($p): array => [
                     'id' => $p->pid,
                     'patient' => $p->patient,
                     'phone' => $p->phone,

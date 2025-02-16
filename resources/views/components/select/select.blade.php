@@ -1,9 +1,9 @@
 @props(['label', 'items', 'withError' => false])
 <label class="block  ">
     <select {!! $attributes->merge([
-        'class' => 'block w-full  text-xs  dark:text-gray-500 focus:outline-none focus:shadow-outline-purple
-                                        border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm
-                                        dark:focus:shadow-outline-gray form-input px-8',
+        'class' => 'block w-full  text-xs  dark:text-gray-300 focus:outline-none focus:shadow-outline-purple
+                                            border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm
+                                            dark:focus:shadow-outline-gray form-input px-8',
     ]) !!} {{ $attributes->except('class') }}>
         <option value="">
             {{ $label }}

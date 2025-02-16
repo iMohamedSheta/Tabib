@@ -23,8 +23,6 @@ class Prompt extends Component
     public string $prompt = '';
     public array $messages = [];
     public $promptModels = [];
-    public ?PromptModel $sessionGeneratedPrompt = null;
-
     public ?PromptModel $promptModel = null;
     public array $topics = [];
 
@@ -37,7 +35,7 @@ class Prompt extends Component
             'message' => PromptMessageEnum::WELCOME->prompt(),
         ];
 
-        $this->promptModels = PromptModel::latest()->select('id', 'name')->get();
+        $this->promptModels = PromptModel::list();
 
         $this->topics = PromptTopicEnum::getTopicOptions();
 
@@ -61,7 +59,9 @@ class Prompt extends Component
                 'name' => Str::limit($prompt, 50),
             ]);
 
-            $this->sessionGeneratedPrompt = $this->promptModel;
+            $newPrompt = [$this->promptModel->id => $this->promptModel->name];
+
+            $this->promptModels = $newPrompt + $this->promptModels;
         }
 
         $this->prompt = '';
@@ -110,8 +110,11 @@ class Prompt extends Component
 
             // Communicate with the AI through Prism, sending the conversation history
             $prism = Prism::text()
-                ->withSystemPrompt(SystemPromptEnum::DEFAULT->prompt() . "\n here is the conversation history: \n" . $conversationHistory . "\n" . 'these are the user information :' . SystemPromptEnum::AUTH->prompt() . "\n\n these are the additional prompt data that may be helpful to the AI: " . $this->getAdditionalPromptTopics()
-                    . "\n  these are my semantic search results for the conversation :" . PromptTopicEnum::getSemanticTopic($conversationHistory . "\n\n" . $prompt))
+                ->withSystemPrompt(SystemPromptEnum::DEFAULT->prompt())
+                ->withSystemPrompt("here is the conversation history: \n" . $conversationHistory)
+                ->withSystemPrompt('these are the user information :' . SystemPromptEnum::AUTH->prompt())
+                ->withSystemPrompt("these are the additional prompt data that may be helpful to the AI: " . $this->getAdditionalPromptTopics())
+                ->withSystemPrompt("these are my semantic search results for the conversation :" . PromptTopicEnum::getSemanticTopic($conversationHistory . "\n\n" . $prompt))
                 ->using('custom.gemini_1', AiModelEnum::GEMINI_EXP_1206->value)
                 ->usingProviderConfig([
                     'temperature' => 0.3,
@@ -158,19 +161,15 @@ class Prompt extends Component
         }
     }
 
-    public function setPromptModel(?int $promptModelId = null): void
+    public function setPromptModel(?int $promptModel = null): void
     {
-        $promptModel = PromptModel::find($promptModelId);
+        if (null  !== $promptModel) {
+            $promptModel = PromptModel::find($promptModel);
+        }
 
         $this->messages = [];
 
-        if (null === $promptModel && !$this->sessionGeneratedPrompt instanceof PromptModel) {
-            $this->promptModel = null;
-        } elseif (null === $promptModel && $this->sessionGeneratedPrompt instanceof PromptModel) {
-            $this->promptModel = $this->sessionGeneratedPrompt;
-        } else {
-            $this->promptModel = $promptModel;
-        }
+        $this->promptModel = $promptModel;
 
         $this->dispatch('prompt-model-changed');
     }

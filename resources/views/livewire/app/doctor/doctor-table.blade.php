@@ -22,7 +22,8 @@
                 <livewire:app.doctor.includes.create-doctor-modal
                     :clinics="$clinics"></livewire:app.doctor.includes.create-doctor-modal>
             </div>
-            <div class=" md:flex md:flex-wrap mx-2  border border-gray-600 border-dashed rounded-lg bg-c-gray-700 ">
+            <div
+                class=" md:flex md:flex-wrap justify-center mx-2  border border-gray-600 border-dashed rounded-lg bg-c-gray-700 ">
                 @forelse ($doctors as $doctor)
                     <div class="p-2  md:w-1/4 mx-auto  ">
                         <div class="my-6 bg-purple-700 rounded-xl">

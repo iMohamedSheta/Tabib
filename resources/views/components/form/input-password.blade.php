@@ -6,8 +6,8 @@
 <div x-data="{ showPassword: false }" class="relative mt-4">
     <input :type="showPassword ? 'text' : 'password'" id="{{ $id ?? 'passwordInput' }}" {{ $disabled ? 'disabled' : '' }}
         {!! $attributes->merge([
-            'class' => 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm',
-        ]) !!} name="password" autocomplete="current-password" placeholder="Enter your password" />
+            'class' => 'border-gray-300 focus:border-indigo-500 focus:ring-indigo-500  shadow-sm',
+        ]) !!} name="password" autocomplete="current-password" placeholder="********" />
     <button type="button" @click="showPassword = !showPassword"
         class="absolute left-2.5 top-1/2 -translate-y-1/2 text-neutral-600" aria-label="Show password">
 

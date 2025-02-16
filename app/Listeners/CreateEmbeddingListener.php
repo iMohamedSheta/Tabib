@@ -2,23 +2,19 @@
 
 namespace App\Listeners;
 
-use App\Events\Dispatch\EmbeddingCreated;
+use App\Events\Dispatch\CreateEmbeddingEvent;
 use App\Models\Embedding;
 use App\Services\External\Ai\Embedding\GenerateEmbeddingService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class GenerateEmbedding implements ShouldQueue
+class CreateEmbeddingListener implements ShouldQueue
 {
-    public function __construct(protected GenerateEmbeddingService $embeddingService)
-    {
-    }
+    public function __construct(protected GenerateEmbeddingService $embeddingService) {}
 
-    public function handle(EmbeddingCreated $event): void
+    public function handle(CreateEmbeddingEvent $event): void
     {
-        log_dev(var_export($event, true)); // Better logging
-
         $model = $event->model;
-        $text = $model->getEmbeddingText(); // Ensure this method returns meaningful text.
+        $text = $model->getEmbeddingText();
 
         if ($text) {
             $embedding = $this->embeddingService->handle($text);

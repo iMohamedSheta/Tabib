@@ -4,8 +4,8 @@
 ])
 
 <div x-data="fileUpload()" class="mt-4 w-full px-2">
-    <div class="w-full py-6 bg-gray-50 rounded-2xl border border-gray-300 border-dashed"
-        :class="{ 'border-purple-600 bg-indigo-50': isDragging }" @dragover.prevent="isDragging = true"
+    <div class="w-full py-6 bg-c-gray-700 rounded-2xl border border-gray-600 border-dashed"
+        :class="{ 'border-purple-600 bg-c-gray-800': isDragging }" @dragover.prevent="isDragging = true"
         @dragleave.prevent="isDragging = false" @drop.prevent="handleDrop">
 
         <div class="grid gap-3">
@@ -18,13 +18,13 @@
                     <img :src="imagePreview" class="mx-auto mb-1 w-20 h-20 rounded-full object-cover">
                 </template>
 
-                <h2 class="text-center text-gray-400 text-xs font-light leading-4">
+                <h2 class="text-center text-gray-300 text-xs font-light leading-4">
                     PNG, JPG, JPEG, اصغر من 2MB
                 </h2>
             </div>
 
             <div class="grid gap-2">
-                <h4 class="text-center text-gray-900 text-sm font-medium leading-snug">
+                <h4 class="text-center text-gray-200 text-sm font-medium leading-snug">
                     اسحب وادرج الصورة هنا او اضغط
                 </h4>
                 <div class="flex items-center justify-center">

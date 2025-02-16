@@ -11,32 +11,44 @@
                 <li>
                     <button wire:click.prevent="setPromptModel()"
                         class="w-full px-4 py-3 rounded-xl transition-all duration-200
-						{{ $promptModel === null ||
-      ($sessionGeneratedPrompt !== null && $promptModel->id === $sessionGeneratedPrompt->id)
-          ? 'bg-purple-600 text-white'
-          : 'text-gray-300 hover:bg-gray-700' }}">
+						{{ $promptModel === null ? 'bg-purple-600 text-white' : 'text-gray-300 hover:bg-gray-700' }}">
                         <div class="flex items-center space-x-3 text-sm">
                             <span class="mx-2">
                                 💬
                             </span>
-                            @if ($sessionGeneratedPrompt !== null)
-                                <span class="font-medium truncate">{{ $sessionGeneratedPrompt->name }}</span>
-                            @else
-                                <span class="font-medium truncate">محادثة جديدة</span>
-                            @endif
+                            <span class="font-medium truncate">محادثة جديدة</span>
                         </div>
                     </button>
                 </li>
-                @foreach ($promptModels as $model)
+                {{-- @if ($sessionGeneratedPrompt !== null)
                     <li>
-                        <button wire:click="setPromptModel('{{ $model->id }}')"
-                            class="w-full px-4 py-3 rounded-xl transition-all duration-200
-							{{ $promptModel?->id === $model->id ? 'bg-purple-600 text-white' : 'text-gray-300 hover:bg-gray-700' }}">
+                        <button wire:click.prevent="setPromptModel('{{ $sessionGeneratedPrompt->id }}')"
+                            class="w-full px-4 py-3 rounded-xl transition-all duration-200 
+                            {{ $sessionGeneratedPrompt !== null && $promptModel->id === $sessionGeneratedPrompt->id
+                                ? 'bg-purple-600 text-white'
+                                : 'text-gray-300 hover:bg-gray-700' }}">
                             <div class="flex items-center space-x-3 text-sm">
                                 <span class="mx-2">
                                     💬
                                 </span>
-                                <span class="font-medium truncate">{{ $model->name }}</span>
+                                <span class="font-medium truncate">{{ $sessionGeneratedPrompt->name }}</span>
+                            </div>
+                        </button>
+                    </li>
+                @endif --}}
+
+
+                @foreach ($promptModels as $promptId => $promptName)
+                    <li>
+                        <button wire:click="setPromptModel('{{ $promptId }}')"
+                            class="w-full px-4 py-3 rounded-xl transition-all duration-200
+							{{ $promptModel?->id === $promptId ? 'bg-purple-600 text-white' : 'text-gray-300 hover:bg-gray-700' }}">
+                            <div class="flex items-center space-x-3 text-sm">
+                                <span class="mx-2">
+                                    💬
+                                    {{-- {{ $promptModel?->id }} - {{ $promptId }} --}}
+                                </span>
+                                <span class="font-medium truncate">{{ $promptName }}</span>
                             </div>
                         </button>
                     </li>
@@ -73,9 +85,13 @@
                     </h1>
                     <div class="hidden sm:block text-gray-400 ">
                         <p class="block leading-relaxed pb-3">
-                            اختر البيانات التي توافق علي حصول الذكاء الاصطناعي عليها لحل مشكلتك
+                            "احصل على إجابات دقيقة وسريعة من مساعدك الذكي، المصمم لمساعدتك في إدارة عيادتك بكفاءة وتحسين
+                            تجربة المرضى!"
                         </p>
-                        <div class="grid sm:grid-cols-3 gap-2">
+                        {{-- <p class="block leading-relaxed pb-3">
+                            اختر البيانات التي توافق علي حصول الذكاء الاصطناعي عليها لحل مشكلتك
+                        </p> --}}
+                        {{-- <div class="grid sm:grid-cols-3 gap-2">
                             @foreach ($topics as $key => $topic)
                                 <label for="checkbox-{{ $key }}"
                                     class="flex p-3 w-full bg-c-gray-700 shadow-inner  cursor-pointer  hover:bg-c-gray-600 rounded-lg checked:ring text-sm">
@@ -92,7 +108,7 @@
 
                                 </label>
                             @endforeach
-                        </div>
+                        </div> --}}
                     </div>
                     <button type="button" x-on:click="setChatFullScreen()" class="absolute top-4 right-6">
                         <i class="fa fa-expand" x-show="!chatFullScreen"></i>
