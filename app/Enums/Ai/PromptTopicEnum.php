@@ -10,7 +10,6 @@ use App\Services\External\Ai\Embedding\PreprocessEmbeddedTextService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
-use Pgvector\Laravel\Distance;
 use Pgvector\Laravel\Vector;
 
 enum PromptTopicEnum: int
@@ -88,7 +87,7 @@ enum PromptTopicEnum: int
             $cacheKey = Cache::generateOrgScopedKey('patient_prompt_query', self::class);
             $dbDriver = config('database.default');
 
-            $query = (fn() => DB::table('patients as p')
+            $query = (fn () => DB::table('patients as p')
                 ->where('p.organization_id', Auth::user()->organization_id)
                 ->join('users as u', 'u.id', '=', 'p.user_id')
                 ->join('events as e', 'e.patient_id', '=', 'p.id')
@@ -107,7 +106,7 @@ enum PromptTopicEnum: int
                     DB::raw("CONCAT(du.first_name, '. ', du.last_name) as doctor"),
                 ])
                 ->get()
-                ->map(fn($p): array => [
+                ->map(fn ($p): array => [
                     'id' => $p->pid,
                     'patient' => $p->patient,
                     'phone' => $p->phone,

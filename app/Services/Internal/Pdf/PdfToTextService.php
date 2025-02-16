@@ -2,7 +2,6 @@
 
 namespace App\Services\Internal\Pdf\PdfToTextService;
 
-use Closure;
 use App\Exceptions\Spatie\PdfToText\BinaryNotFoundException;
 use App\Exceptions\Spatie\PdfToText\CouldNotExtractText;
 use App\Exceptions\Spatie\PdfToText\PdfNotFound;
@@ -25,24 +24,14 @@ class PdfToTextService
         $this->binPath = $binPath ?? $this->findPdfToText();
     }
 
-    protected function findPdfToText(): string
+    public static function getText(string $pdf, ?string $binPath = null, array $options = [], $timeout = 60, ?\Closure $callback = null): string
     {
-        $commonPaths = [
-            '/usr/bin/pdftotext',          // Common on Linux
-            '/usr/local/bin/pdftotext',    // Common on Linux
-            '/opt/homebrew/bin/pdftotext', // Homebrew on macOS (Apple Silicon)
-            '/opt/local/bin/pdftotext',    // MacPorts on macOS
-            '/usr/local/bin/pdftotext',    // Homebrew on macOS (Intel)
-            'pdftotext',     // Windows (MinGW)
-        ];
-
-        foreach ($commonPaths as $path) {
-            if (is_executable($path)) {
-                return $path;
-            }
-        }
-
-        throw new BinaryNotFoundException("The required binary was not found or is not executable.");
+        return (new static($binPath))
+            ->setOptions($options)
+            ->setTimeout($timeout)
+            ->setPdf($pdf)
+            ->text($callback)
+        ;
     }
 
     public function setPdf(string $pdf): self
@@ -73,29 +62,14 @@ class PdfToTextService
         return $this;
     }
 
-    protected function parseOptions(array $options): array
-    {
-        $mapper = function (string $content): array {
-            $content = trim($content);
-            if ('-' !== ($content[0] ?? '')) {
-                $content = '-' . $content;
-            }
-
-            return explode(' ', $content, 2);
-        };
-
-        $reducer = fn(array $carry, array $option): array => array_merge($carry, $option);
-
-        return array_reduce(array_map($mapper, $options), $reducer, []);
-    }
-
     public function setTimeout($timeout)
     {
         $this->timeout = $timeout;
+
         return $this;
     }
 
-    public function text(?Closure $callback = null): string
+    public function text(?\Closure $callback = null): string
     {
         $process = new Process(array_merge([$this->binPath], $this->options, [$this->pdf, '-']));
         $process->setTimeout($this->timeout);
@@ -108,13 +82,39 @@ class PdfToTextService
         return trim($process->getOutput(), " \t\n\r\0\x0B\x0C");
     }
 
-    public static function getText(string $pdf, ?string $binPath = null, array $options = [], $timeout = 60, ?Closure $callback = null): string
+    protected function findPdfToText(): string
     {
-        return (new static($binPath))
-            ->setOptions($options)
-            ->setTimeout($timeout)
-            ->setPdf($pdf)
-            ->text($callback)
-        ;
+        $commonPaths = [
+            '/usr/bin/pdftotext',          // Common on Linux
+            '/usr/local/bin/pdftotext',    // Common on Linux
+            '/opt/homebrew/bin/pdftotext', // Homebrew on macOS (Apple Silicon)
+            '/opt/local/bin/pdftotext',    // MacPorts on macOS
+            '/usr/local/bin/pdftotext',    // Homebrew on macOS (Intel)
+            'pdftotext',     // Windows (MinGW)
+        ];
+
+        foreach ($commonPaths as $path) {
+            if (is_executable($path)) {
+                return $path;
+            }
+        }
+
+        throw new BinaryNotFoundException('The required binary was not found or is not executable.');
+    }
+
+    protected function parseOptions(array $options): array
+    {
+        $mapper = function (string $content): array {
+            $content = trim($content);
+            if ('-' !== ($content[0] ?? '')) {
+                $content = '-' . $content;
+            }
+
+            return explode(' ', $content, 2);
+        };
+
+        $reducer = fn (array $carry, array $option): array => array_merge($carry, $option);
+
+        return array_reduce(array_map($mapper, $options), $reducer, []);
     }
 }

@@ -4,21 +4,17 @@ namespace App\Extractors\FileTextExtractors;
 
 use App\Contracts\TextExtractorInterface;
 use App\Regex\Regex;
-use ZipArchive;
 
 class ExcelTextExtractor implements TextExtractorInterface
 {
     /**
      * Extract text from an Excel file.
-     *
-     * @param string $filePath
-     * @return string
      */
     public static function extract(string $filePath): string
     {
-        $zip = new ZipArchive;
+        $zip = new \ZipArchive();
 
-        if ($zip->open($filePath) === true) {
+        if (true === $zip->open($filePath)) {
             $text = '';
 
             // Extract shared strings (used for text in Excel)

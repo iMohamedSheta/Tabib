@@ -17,13 +17,13 @@ trait HasEmbedding
     {
         $data['type'] = class_basename(static::class);
 
-        $data =  $data + $this->embeddedFields();
+        $data = $data + $this->embeddedFields();
 
         // Filter out blank values
-        $filteredData = array_filter($data, fn($value): bool => !blank($value));
+        $filteredData = array_filter($data, fn ($value): bool => !blank($value));
 
         // Convert to key-value string
-        return strtolower(trim(implode(' & ', array_map(fn($key, $value): string => "$key: $value", array_keys($filteredData), $filteredData))));
+        return strtolower(trim(implode(' & ', array_map(fn ($key, $value): string => "$key: $value", array_keys($filteredData), $filteredData))));
     }
 
     abstract protected function embeddedFields(): array;

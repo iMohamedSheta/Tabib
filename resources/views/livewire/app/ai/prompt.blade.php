@@ -23,7 +23,7 @@
                 {{-- @if ($sessionGeneratedPrompt !== null)
                     <li>
                         <button wire:click.prevent="setPromptModel('{{ $sessionGeneratedPrompt->id }}')"
-                            class="w-full px-4 py-3 rounded-xl transition-all duration-200 
+                            class="w-full px-4 py-3 rounded-xl transition-all duration-200
                             {{ $sessionGeneratedPrompt !== null && $promptModel->id === $sessionGeneratedPrompt->id
                                 ? 'bg-purple-600 text-white'
                                 : 'text-gray-300 hover:bg-gray-700' }}">

@@ -38,7 +38,7 @@ class Media extends MediaLibraryModel
     protected function embeddedFields(): array
     {
         return [
-            'content' => FileTextExtractor::extract($this->getPath())
+            'content' => FileTextExtractor::extract($this->getPath()),
         ];
     }
 }

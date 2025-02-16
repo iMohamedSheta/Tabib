@@ -113,8 +113,8 @@ class Prompt extends Component
                 ->withSystemPrompt(SystemPromptEnum::DEFAULT->prompt())
                 ->withSystemPrompt("here is the conversation history: \n" . $conversationHistory)
                 ->withSystemPrompt('these are the user information :' . SystemPromptEnum::AUTH->prompt())
-                ->withSystemPrompt("these are the additional prompt data that may be helpful to the AI: " . $this->getAdditionalPromptTopics())
-                ->withSystemPrompt("these are my semantic search results for the conversation :" . PromptTopicEnum::getSemanticTopic($conversationHistory . "\n\n" . $prompt))
+                ->withSystemPrompt('these are the additional prompt data that may be helpful to the AI: ' . $this->getAdditionalPromptTopics())
+                ->withSystemPrompt('these are my semantic search results for the conversation :' . PromptTopicEnum::getSemanticTopic($conversationHistory . "\n\n" . $prompt))
                 ->using('custom.gemini_1', AiModelEnum::GEMINI_EXP_1206->value)
                 ->usingProviderConfig([
                     'temperature' => 0.3,
@@ -163,7 +163,7 @@ class Prompt extends Component
 
     public function setPromptModel(?int $promptModel = null): void
     {
-        if (null  !== $promptModel) {
+        if (null !== $promptModel) {
             $promptModel = PromptModel::find($promptModel);
         }
 

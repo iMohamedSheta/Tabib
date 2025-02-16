@@ -9,7 +9,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 
 class CreateEmbeddingListener implements ShouldQueue
 {
-    public function __construct(protected GenerateEmbeddingService $embeddingService) {}
+    public function __construct(protected GenerateEmbeddingService $embeddingService)
+    {
+    }
 
     public function handle(CreateEmbeddingEvent $event): void
     {

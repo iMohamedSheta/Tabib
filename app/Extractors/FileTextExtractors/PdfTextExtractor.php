@@ -9,9 +9,6 @@ class PdfTextExtractor implements TextExtractorInterface
 {
     /**
      *  Extract text from a pdf file.
-     * 
-     * @param string $filePath
-     * @return string
      */
     public static function extract(string $filePath): string
     {

@@ -8,9 +8,6 @@ class TxtTextExtractor implements TextExtractorInterface
 {
     /**
      * Extract text from a TXT file.
-     *
-     * @param string $filePath
-     * @return string
      */
     public static function extract(string $filePath): string
     {

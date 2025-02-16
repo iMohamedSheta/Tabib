@@ -89,7 +89,7 @@
                         class="mt-2 bg-c-gray-700 px-4 py-2 rounded-sm text-xs text-gray-300 w-full break-all border-0"></x-select>
                 </div> --}}
             </div>
-            {{-- 
+            {{--
             <div
                 class="fixed inset-0 z-50 flex animate-in flex-col items-center bg-gray-900/80 p-4 backdrop-blur-sm md:pt-[8vh]">
                 <div

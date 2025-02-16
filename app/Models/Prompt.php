@@ -16,6 +16,11 @@ class Prompt extends Model
 
     protected $guarded = [];
 
+    public static function list(int $limit = 50): array
+    {
+        return self::latest()->take($limit)->pluck('name', 'id')->toArray();
+    }
+
     #[\Override]
     protected static function booted()
     {
@@ -29,14 +34,9 @@ class Prompt extends Model
         return $this->morphMany(Message::class, 'model');
     }
 
-    public static function list(int $limit = 50): array
-    {
-        return self::latest()->take($limit)->pluck('name', 'id')->toArray();
-    }
-
     public function getAiContextAttribute(): array
     {
-        return $this->messages->map(fn($message): array => [
+        return $this->messages->map(fn ($message): array => [
             'type' => match ($message->type) {
                 MessageTypeEnum::ANSWER->value => 'ai',
                 MessageTypeEnum::QUESTION->value => 'user',

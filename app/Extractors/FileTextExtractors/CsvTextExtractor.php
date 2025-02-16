@@ -8,9 +8,6 @@ class CsvTextExtractor implements TextExtractorInterface
 {
     /**
      * Extract text from a CSV file.
-     *
-     * @param string $filePath
-     * @return string
      */
     public static function extract(string $filePath): string
     {
@@ -21,7 +18,7 @@ class CsvTextExtractor implements TextExtractorInterface
         $text = '';
         $handle = fopen($filePath, 'r');
 
-        if ($handle !== false) {
+        if (false !== $handle) {
             while (($row = fgetcsv($handle)) !== false) {
                 $text .= implode(' ', $row) . "\n";
             }

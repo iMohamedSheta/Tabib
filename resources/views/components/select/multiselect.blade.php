@@ -3,7 +3,7 @@
 <div x-data="multiSelect('{{ json_encode($items, true) }}')" class="relative block">
     <!-- Selected Tags Display -->
     <div {!! $attributes->merge([
-        'class' => 'flex flex-wrap gap-1 p-2 cursor-pointer border-0 w-full dark:text-gray-500 
+        'class' => 'flex flex-wrap gap-1 p-2 cursor-pointer border-0 w-full dark:text-gray-500
                                         rounded-sm shadow-sm
                                         form-input',
     ]) !!} {{ $attributes->except('class') }} @click="toggleDropdown">
