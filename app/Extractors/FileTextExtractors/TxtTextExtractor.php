@@ -34,7 +34,7 @@ class TxtTextExtractor implements TextExtractorInterface
                 // Read a chunk of text from the file
                 $chunk = fread($handle, $chunkSize);
 
-                if ($chunk !== false) {
+                if (false !== $chunk) {
                     yield trim($chunk);
                 }
             }

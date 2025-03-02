@@ -27,7 +27,7 @@ trait HasEmbeddingChunks
 
         $data['content'] = is_iterable($chunk) ? implode(' ', iterator_to_array($chunk)) : (string) $chunk;
 
-        $text = strtolower(trim(implode(' & ', array_map(fn($key, $value): string => "$key: $value", array_keys($data), $data))));
+        $text = strtolower(trim(implode(' & ', array_map(fn ($key, $value): string => "$key: $value", array_keys($data), $data))));
 
         return mb_convert_encoding($text, 'UTF-8', 'UTF-8'); // Cleaned Text
     }

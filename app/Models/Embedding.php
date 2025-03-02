@@ -25,6 +25,26 @@ class Embedding extends Model
         'embedding_768' => Vector::class,
     ];
 
+    public static function search(string $message, int $chunksLimit = 5, bool $keywordSearch = false, int $keywordResultsLimit = 5): string
+    {
+        $messagePreProcessor = new PreprocessEmbeddedTextService($message);
+        $translatedCleanedMessage = (string) $messagePreProcessor->clean()->translate();
+
+        $messageVector = (new GenerateEmbeddingService())->handle($translatedCleanedMessage);
+
+        $semanticSearchResults = Embedding::semanticSearch(new Vector($messageVector), $chunksLimit);
+
+        $keywordSearchResults = $keywordSearch
+            ? Embedding::keywordSearch($message, $keywordResultsLimit)
+            : [];
+
+        $i = 1;
+
+        return implode(', ', array_map(function (string $item) use (&$i): string {
+            return ($i++) . '. ' . $item;
+        }, array_unique([...$semanticSearchResults, ...$keywordSearchResults])));
+    }
+
     public function embeddable()
     {
         return $this->morphTo();
@@ -51,7 +71,7 @@ class Embedding extends Model
             ->toArray();
     }
 
-    public function scopeKeywordSearch(Builder  &$builder, string $search, int $limit = 5): array
+    public function scopeKeywordSearch(Builder &$builder, string $search, int $limit = 5): array
     {
         $searchString = '%' . implode('%', array_map('trim', explode(' ', $search))) . '%';
 
@@ -59,25 +79,5 @@ class Embedding extends Model
             ->limit($limit)
             ->pluck('content', 'id')
             ->toArray();
-    }
-
-    public static function search(string $message, int $chunksLimit = 5, bool $keywordSearch = false, int $keywordResultsLimit = 5): string
-    {
-        $messagePreProcessor = new PreprocessEmbeddedTextService($message);
-        $translatedCleanedMessage = (string) $messagePreProcessor->clean()->translate();
-
-        $messageVector = (new GenerateEmbeddingService())->handle($translatedCleanedMessage);
-
-        $semanticSearchResults = Embedding::semanticSearch(new Vector($messageVector), $chunksLimit);
-
-        $keywordSearchResults = $keywordSearch
-            ? Embedding::keywordSearch($message, $keywordResultsLimit)
-            : [];
-
-        $i = 1;
-
-        return implode(', ', array_map(function (string $item) use (&$i): string {
-            return ($i++) . '. ' . $item;
-        }, array_unique([...$semanticSearchResults, ...$keywordSearchResults])));
     }
 }

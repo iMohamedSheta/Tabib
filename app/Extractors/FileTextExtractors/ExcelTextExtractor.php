@@ -4,15 +4,13 @@ namespace App\Extractors\FileTextExtractors;
 
 use App\Contracts\TextExtractorInterface;
 use App\Regex\Regex;
-use Generator;
 use Illuminate\Support\Facades\Storage;
 use IMohamedSheta\Todo\Attributes\TODO;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
-use ZipArchive;
 
-#[TODO("Need to create extractChunks.")]
+#[TODO('Need to create extractChunks.')]
 class ExcelTextExtractor implements TextExtractorInterface
 {
     /**
@@ -89,8 +87,6 @@ class ExcelTextExtractor implements TextExtractorInterface
         }
     }
 
-
-
     public static function extractChunksf(string $filePath, ?int $chunkSize): \Generator
     {
         // Create a temporary file in Laravel's storage path
@@ -110,9 +106,9 @@ class ExcelTextExtractor implements TextExtractorInterface
     {
         $chunkSize ??= config('embedding.chunk_size');
 
-        $zip = new ZipArchive;
+        $zip = new \ZipArchive();
 
-        if ($zip->open($filePath) === true) {
+        if (true === $zip->open($filePath)) {
             // Extract shared strings (used for text in Excel)
             if (($xmlContent = $zip->getFromName('xl/sharedStrings.xml')) !== false) {
                 $text = Regex::removeXmlTags($xmlContent) . "\n";
@@ -156,7 +152,6 @@ class ExcelTextExtractor implements TextExtractorInterface
         }
     }
 
-
     public static function extractChunks(string $filePath, ?int $chunkSize): \Generator
     {
         $chunkSize ??= config('embedding.chunk_size');
@@ -177,7 +172,7 @@ class ExcelTextExtractor implements TextExtractorInterface
                 foreach ($row->getCellIterator() as $cell) {
                     // Check if the cell value is not a formula and is a string or number
                     if (
-                        $cell->getDataType() === \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING
+                        \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING === $cell->getDataType()
                     ) {
                         $rowText[] = $cell->getValue();
                     }
@@ -199,10 +194,6 @@ class ExcelTextExtractor implements TextExtractorInterface
         }
     }
 
-
-
-
-
     public static function extractExcelText(string $excelFilePath, string $outputFilePath, int $writerBatchSize = 500): void
     {
         $reader = IOFactory::createReaderForFile($excelFilePath);
@@ -223,19 +214,18 @@ class ExcelTextExtractor implements TextExtractorInterface
                 $batch[] = implode("\t", $rowText) . PHP_EOL;
 
                 if (count($batch) >= $writerBatchSize) {
-                    fwrite($outputFile, implode("", $batch));
+                    fwrite($outputFile, implode('', $batch));
                     $batch = [];
                 }
             }
 
             if (!empty($batch)) {
-                fwrite($outputFile, implode("", $batch));
+                fwrite($outputFile, implode('', $batch));
             }
         }
 
         fclose($outputFile);
     }
-
 
     /**
      * Get shared strings from the spreadsheet.

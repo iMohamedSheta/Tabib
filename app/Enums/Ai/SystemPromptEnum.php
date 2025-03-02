@@ -21,7 +21,7 @@ enum SystemPromptEnum: int
             self::PROGRAMMING => $this->getProgrammingPrompt(),
             self::DOCUMENTATION => $this->getDocumentationPrompt(),
             self::TEST_GENERATOR => $this->getTestingGeneratorPrompt(),
-            self::TEST_PACKAGE => $this->getPackageTestingGeneratorPrompt()
+            self::TEST_PACKAGE => $this->getPackageTestingGeneratorPrompt(),
         };
     }
 

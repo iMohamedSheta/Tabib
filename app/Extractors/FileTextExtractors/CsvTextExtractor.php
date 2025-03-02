@@ -3,7 +3,6 @@
 namespace App\Extractors\FileTextExtractors;
 
 use App\Contracts\TextExtractorInterface;
-use Generator;
 
 class CsvTextExtractor implements TextExtractorInterface
 {
