@@ -62,7 +62,7 @@ class PdfToTextService
         return $this;
     }
 
-    public function setTimeout($timeout)
+    public function setTimeout(int $timeout): static
     {
         $this->timeout = $timeout;
 
@@ -73,13 +73,13 @@ class PdfToTextService
     {
         $process = new Process(array_merge([$this->binPath], $this->options, [$this->pdf, '-']));
         $process->setTimeout($this->timeout);
-        $process = $callback ? $callback($process) : $process;
+        $process = $callback instanceof \Closure ? $callback($process) : $process;
         $process->run();
         if (!$process->isSuccessful()) {
             throw new CouldNotExtractText($process);
         }
 
-        return trim($process->getOutput(), " \t\n\r\0\x0B\x0C");
+        return trim((string) $process->getOutput(), " \t\n\r\0\x0B\x0C");
     }
 
     protected function findPdfToText(): string

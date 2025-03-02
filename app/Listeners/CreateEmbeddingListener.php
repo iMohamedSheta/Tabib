@@ -16,7 +16,9 @@ class CreateEmbeddingListener implements ShouldQueue
     public function handle(CreateEmbeddingEvent $event): void
     {
         $model = $event->model;
-        $text = $model->getEmbeddingText();
+
+        // if there is a chuck then save the chunk for this specific model else get the embedding text from the model
+        $text = $event->chunk ?? $model->getEmbeddingText();
 
         if ($text) {
             $embedding = $this->embeddingService->handle($text);

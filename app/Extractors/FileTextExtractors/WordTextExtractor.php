@@ -4,7 +4,9 @@ namespace App\Extractors\FileTextExtractors;
 
 use App\Contracts\TextExtractorInterface;
 use App\Regex\Regex;
+use IMohamedSheta\Todo\Attributes\TODO;
 
+#[TODO]
 class WordTextExtractor implements TextExtractorInterface
 {
     /**
@@ -34,5 +36,11 @@ class WordTextExtractor implements TextExtractorInterface
         }
 
         return ''; // Return empty string if no text found
+    }
+
+    public static function extractChunks(string $filePath, ?int $chunkSize = null): \Generator
+    {
+        $chunkSize ??= config('embedding.chunk_size');
+        yield [1, 2];
     }
 }

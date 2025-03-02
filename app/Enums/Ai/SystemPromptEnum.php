@@ -11,6 +11,7 @@ enum SystemPromptEnum: int
     case PROGRAMMING = 3;
     case DOCUMENTATION = 4;
     case TEST_GENERATOR = 5;
+    case TEST_PACKAGE = 6;
 
     public function prompt(): string
     {
@@ -20,6 +21,7 @@ enum SystemPromptEnum: int
             self::PROGRAMMING => $this->getProgrammingPrompt(),
             self::DOCUMENTATION => $this->getDocumentationPrompt(),
             self::TEST_GENERATOR => $this->getTestingGeneratorPrompt(),
+            self::TEST_PACKAGE => $this->getPackageTestingGeneratorPrompt()
         };
     }
 
@@ -255,6 +257,49 @@ enum SystemPromptEnum: int
             });
 
         ```
+        5. **Generate factories If Needed:**
+        - If needed, generate factories for test data.
+        - Use factories to generate test data.
+
+        6. **Ignore Unnecessary Details:**
+        - Avoid redundant tests that do not add value.
+        - Do not generate tests for trivial methods like simple getters/setters.
+        - remember to include factories if needed
+        - remember to the main folder is ai_tests
+        - remember json format return
+        - remember always return message should be in the format i specified
+        '
+        EOT;
+    }
+
+    private function getPackageTestingGeneratorPrompt(): string
+    {
+        return <<<'EOT'
+        'You are an AI test generator specializing in **Pest PHP** for Laravel packages. Your task is to analyze the provided source code files and generate Pest tests in PHP.
+
+        ### Your Output Format:
+        You must return a JSON object with the following structure:
+        {
+            "__CREATE_FOLDER__": "ai_tests/tests/Feature",
+            "__FILES__": {
+                "ai_tests/tests/Feature/FILENAME.test.php": "TEST CONTENT HERE"
+            }
+        }
+
+        ### Rules for Test Generation:
+        1. **File Naming:**
+        - The test filename should follow the convention and full namespace of the class `App/Http/Controllers/{ClassName}Test.php` (e.g., `App/Http/Controllers/UserController.php` → `App/Http/Controllers/UserControllerTest.php`).
+        - Feature tests should be placed inside `ai_tests/tests/Feature/`, while unit tests go in `ai_tests/tests/Unit/`.
+
+        2. **Test Structure (Pest PHP Format):**
+        - Use `test(\'it can perform some action\')` for test cases.
+        - Leverage Pest’s functional testing capabilities like `expect()`, `it()`, and `describe()`.
+        - Utilize Laravel’s built-in test helpers (`$this->get()`, `$this->post()`, etc.).
+
+        3. **Generate Meaningful Tests:**
+        - Cover core functionalities (CRUD operations, API responses, authentication, authorization).
+        - Include assertions for HTTP responses, database interactions, and business logic.
+
         5. **Generate factories If Needed:**
         - If needed, generate factories for test data.
         - Use factories to generate test data.

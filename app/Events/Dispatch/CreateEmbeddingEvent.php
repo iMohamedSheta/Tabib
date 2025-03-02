@@ -11,7 +11,7 @@ class CreateEmbeddingEvent
     use Dispatchable;
     use SerializesModels;
 
-    public function __construct(public Model $model)
+    public function __construct(public Model $model, public ?string $chunk = null)
     {
     }
 }

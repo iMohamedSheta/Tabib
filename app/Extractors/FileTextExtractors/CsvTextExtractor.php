@@ -3,6 +3,7 @@
 namespace App\Extractors\FileTextExtractors;
 
 use App\Contracts\TextExtractorInterface;
+use Generator;
 
 class CsvTextExtractor implements TextExtractorInterface
 {
@@ -26,5 +27,10 @@ class CsvTextExtractor implements TextExtractorInterface
         }
 
         return trim($text);
+    }
+
+    public static function extractChunks(string $filePath, ?int $chunkSize = null): \Generator
+    {
+        yield from TxtTextExtractor::extractChunks($filePath, $chunkSize);
     }
 }

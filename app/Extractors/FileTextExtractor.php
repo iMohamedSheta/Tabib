@@ -11,6 +11,7 @@ use App\Extractors\FileTextExtractors\PdfTextExtractor;
 use App\Extractors\FileTextExtractors\TxtTextExtractor;
 use App\Extractors\FileTextExtractors\WordTextExtractor;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class FileTextExtractor
 {
@@ -21,6 +22,12 @@ class FileTextExtractor
      */
     public static function from(string $filePath): TextExtractorInterface
     {
+        $filePath = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $filePath);
+
+        if (Storage::exists($filePath)) {
+            $filePath = Storage::path($filePath);
+        }
+
         if (!File::exists($filePath) || !File::isReadable($filePath)) {
             throw new \Exception("File not found or not readable: $filePath");
         }
@@ -30,10 +37,10 @@ class FileTextExtractor
 
         return match (true) {
             'pdf' === $extension || 'application/pdf' === $mimeType => new PdfTextExtractor(),
-            'docx' === $extension || 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' === $mimeType => new WordTextExtractor(),
-            'xlsx' === $extension || 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' === $mimeType => new ExcelTextExtractor(),
-            'csv' === $extension || false !== strpos($mimeType, 'csv') => new CsvTextExtractor(),
-            'txt' === $extension || false !== strpos($mimeType, 'text') => new TxtTextExtractor(),
+            // 'docx' === $extension || 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' === $mimeType => new WordTextExtractor(),
+            // 'xlsx' === $extension || 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' === $mimeType => new ExcelTextExtractor(),
+            'csv' === $extension || str_contains($mimeType, 'csv') => new CsvTextExtractor(),
+            'txt' === $extension || str_contains($mimeType, 'text') => new TxtTextExtractor(),
             default => throw new \Exception("Unsupported file type: MIME - $mimeType, Extension - $extension"),
         };
     }
@@ -43,5 +50,12 @@ class FileTextExtractor
         $extractor = self::from($filePath);
 
         return $extractor->extract($filePath);
+    }
+
+    public static function extractChunks(string $filePath, ?int $chunkSize = null): \Generator
+    {
+        $extractor = self::from($filePath);
+
+        yield from $extractor->extractChunks($filePath, $chunkSize);
     }
 }

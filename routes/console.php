@@ -10,6 +10,7 @@
 |__________________________________________
 */
 
+use App\Extractors\FileTextExtractors\PdfTextExtractor;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 
@@ -39,3 +40,12 @@ Artisan::command('files', function (): void {
     fclose($pipes[2]);
     proc_close($process);
 })->purpose('Display an inspiring quote')->hourly();
+
+Artisan::command('what:generator', function (): void {
+    $filePath = public_path('files/2.pdf');
+
+    foreach (PdfTextExtractor::extractInChunks($filePath) as $chunk) {
+        $this->line($chunk);
+        usleep(50 * 1000);
+    }
+});

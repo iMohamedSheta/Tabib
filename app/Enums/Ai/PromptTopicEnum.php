@@ -27,35 +27,6 @@ enum PromptTopicEnum: int
         ];
     }
 
-    public static function getSemanticTopic(string $message): string
-    {
-        $messagePreProcessor = new PreprocessEmbeddedTextService($message);
-        $translatedCleanedMessage = (string) $messagePreProcessor->clean()->translate();
-
-        $messageVector = (new GenerateEmbeddingService())->handle($translatedCleanedMessage);
-
-        // $results = Embedding::nearestNeighbors('embedding', new Vector($messageVector))
-        //     ->where('organization_id', Auth::user()->organization_id)
-        //     // ->orderByRaw('sparse_vector <#> ?', [new SparseVector($messageVector, 30522)]) // Fixed
-        //     ->limit(120)
-        //     ->pluck('content', 'id')
-        //     ->toArray();
-        $results = Embedding::searchSimilar(new Vector($messageVector), 30);
-
-        $searchString = '%' . implode('%', array_map('trim', explode(' ', $message))) . '%';
-
-        $resultsSearch = Embedding::where('content', 'LIKE', $searchString)
-            ->limit(10)
-            ->pluck('content', 'id')
-            ->toArray();
-
-        $i = 1;
-
-        return implode(', ', array_map(function (string $item) use (&$i): string {
-            return ($i++) . '. ' . $item;
-        }, array_unique([...$results, ...$resultsSearch])));
-    }
-
     public function label(): string
     {
         return match ($this) {
@@ -87,7 +58,7 @@ enum PromptTopicEnum: int
             $cacheKey = Cache::generateOrgScopedKey('patient_prompt_query', self::class);
             $dbDriver = config('database.default');
 
-            $query = (fn () => DB::table('patients as p')
+            $query = (fn() => DB::table('patients as p')
                 ->where('p.organization_id', Auth::user()->organization_id)
                 ->join('users as u', 'u.id', '=', 'p.user_id')
                 ->join('events as e', 'e.patient_id', '=', 'p.id')
@@ -106,7 +77,7 @@ enum PromptTopicEnum: int
                     DB::raw("CONCAT(du.first_name, '. ', du.last_name) as doctor"),
                 ])
                 ->get()
-                ->map(fn ($p): array => [
+                ->map(fn($p): array => [
                     'id' => $p->pid,
                     'patient' => $p->patient,
                     'phone' => $p->phone,

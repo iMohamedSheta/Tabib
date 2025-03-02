@@ -15,7 +15,7 @@ class FileCollectorService
      * @param string      $foldersInput comma-separated list of folders
      * @param string|null $filesInput   comma-separated list of specific files
      *
-     * @return Collection collection of file paths or SplFileInfo objects
+     * @return Collection<\SplFileInfo>
      */
     public function collectFiles(string $foldersInput = '', ?string $filesInput = null): Collection
     {
@@ -56,7 +56,7 @@ class FileCollectorService
         }
 
         // remove duplicate files (if a file is specified both ways).
-        $files = $files->unique(fn ($file) => $file instanceof \SplFileInfo
+        $files = $files->unique(fn($file) => $file instanceof \SplFileInfo
             ? $file->getRealPath()
             : $file);
 

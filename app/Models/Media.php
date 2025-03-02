@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Extractors\FileTextExtractor;
 use App\Models\Scopes\OrganizationScope;
-use App\Traits\Embeding\HasEmbedding;
+use App\Traits\Embeding\HasEmbeddingChunks;
 use App\Traits\Models\Media\HasMediaUrls;
 use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,7 +16,7 @@ class Media extends MediaLibraryModel
 {
     use HasFactory;
     use HasMediaUrls;
-    use HasEmbedding;
+    use HasEmbeddingChunks;
 
     protected $guarded = [];
 
@@ -35,10 +35,8 @@ class Media extends MediaLibraryModel
         });
     }
 
-    protected function embeddedFields(): array
+    public function embeddedChunks(): \Generator
     {
-        return [
-            'content' => FileTextExtractor::extract($this->getPath()),
-        ];
+        yield from FileTextExtractor::extractChunks($this->getPath());
     }
 }

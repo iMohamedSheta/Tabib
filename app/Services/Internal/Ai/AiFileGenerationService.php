@@ -73,7 +73,7 @@ class AiFileGenerationService
 
                 $parsedResponse = $this->generateAiFiles($response);
                 $responses[] = $parsedResponse;
-            } catch (FailedToParseResponseException|\Exception $e) {
+            } catch (FailedToParseResponseException | \Exception $e) {
                 log_error($e);
                 continue;
             }
@@ -91,6 +91,7 @@ class AiFileGenerationService
             'test', 'test_generator', 'testing', 'testing_generator' => SystemPromptEnum::TEST_GENERATOR->prompt(),
             'docs', 'documentation', 'document', 'doc' => SystemPromptEnum::DOCUMENTATION->prompt(),
             'programming', 'program' => SystemPromptEnum::PROGRAMMING->prompt(),
+            'test_package' => SystemPromptEnum::TEST_PACKAGE->prompt(),
             default => SystemPromptEnum::TEST_GENERATOR->prompt(),
         };
     }

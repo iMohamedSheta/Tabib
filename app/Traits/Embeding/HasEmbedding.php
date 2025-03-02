@@ -17,7 +17,7 @@ trait HasEmbedding
     {
         $data['type'] = class_basename(static::class);
 
-        $data = $data + $this->embeddedFields();
+        $data += $this->embeddedFields();
 
         // Filter out blank values
         $filteredData = array_filter($data, fn ($value): bool => !blank($value));

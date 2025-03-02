@@ -62,6 +62,12 @@ return [
             'visibility' => 'private',
         ],
 
+        'tmp' => [
+            'driver' => 'local',
+            'root' => storage_path('app/private/tmp'),
+            'visibility' => 'private',
+        ],
+
         'livewire_tmp' => [
             'driver' => 'local',
             'root' => storage_path('app/private/livewire_tmp'),
