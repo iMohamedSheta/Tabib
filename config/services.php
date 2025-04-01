@@ -34,13 +34,13 @@ return [
         ],
     ],
     'google' => [
-        'client_id' => env('GOOGLE_CLIENT_ID', '880959900321-ti5o09mvuedb8iqkh25m2d0n6422iced.apps.googleusercontent.com'),
-        'client_secret' => env('GOOGLE_CLIENT_SECRET', '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'),
+        'client_id' => env('GOOGLE_CLIENT_ID', ''),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET', ''),
         'redirect' => env('APP_URL', 'https://hare-great-ideally.ngrok-free.app') . '/auth/google/callback',
     ],
     'facebook' => [
-        'client_id' => '520747644156758',
-        'client_secret' => '0a146bd984be4498767f052fdf7f49c0',
+        'client_id' => env('FACEBOOK_CLIENT_ID', ''),
+        'client_secret' => env('FACEBOOK_CLIENT_SECRET', ''),
         'redirect' => env('APP_URL', 'https://hare-great-ideally.ngrok-free.app') . '/auth/facebook/callback',
     ],
 ];

@@ -7,7 +7,7 @@ use App\Models\Doctor;
 use App\Models\Manager;
 use Illuminate\Support\Facades\Auth;
 
-enum UserRoleEnum: String
+enum UserRoleEnum: string
 {
     case MANAGER = Manager::class;
     case CLINIC_ADMIN = ClinicAdmin::class;

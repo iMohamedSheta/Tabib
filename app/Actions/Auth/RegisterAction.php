@@ -9,10 +9,12 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use IMohamedSheta\Todo\Attributes\TODO;
+use IMohamedSheta\Todo\Enums\Priority;
 
 #[TODO]
 class RegisterAction
 {
+    #[TODO('Create a new clinic and clinic admin', Priority::LOW)]
     public function handle(User $user, array $clinicData): void
     {
         try {
@@ -32,6 +34,7 @@ class RegisterAction
         }
     }
 
+    #[TODO('Generate a unique billing code for the clinic', Priority::HIGH)]
     private function createClinicAdmin(Clinic $clinic, int $userId): ClinicAdmin
     {
         return ClinicAdmin::create([
@@ -41,6 +44,7 @@ class RegisterAction
         ]);
     }
 
+    #[TODO('Create a new clinic', Priority::CRITICAL)]
     private function createClinic(array $clinicData): Clinic
     {
         return Clinic::create([

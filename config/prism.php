@@ -33,17 +33,17 @@ return [
             'url' => env('XAI_URL', 'https://api.x.ai/v1'),
         ],
         'gemini' => [
-            'api_key' => env('GEMINI_API_KEY', 'AIzaSyBQBIqzU3MHexOFAGSwbblVE4Uf8JWNe_g'),
+            'api_key' => env('GEMINI_API_KEY', ''),
             'url' => env('GEMINI_URL', 'https://generativelanguage.googleapis.com/v1beta/models'),
         ],
         'deepseek' => [
-            'api_key' => env('DEEPSEEK_API_KEY', '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'),
+            'api_key' => env('DEEPSEEK_API_KEY', ''),
             'url' => env('DEEPSEEK_URL', 'https://api-inference.huggingface.co/models/deepseek-ai/DeepSeek-R1/v1/chat/completions'),
         ],
 
         'custom' => [
             'gemini_1' => [
-                'api_key' => env('GEMINI_1_CUSTOM_API_KEY', 'AIzaSyCfI9JCoCRQX-98QYiVXlHHX5ijND6_NJM'),
+                'api_key' => env('GEMINI_1_CUSTOM_API_KEY', ''),
                 'url' => env('GEMINI_URL', 'https://generativelanguage.googleapis.com/v1beta/models'),
             ],
         ],
