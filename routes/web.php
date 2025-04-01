@@ -216,7 +216,7 @@ Route::get('generator', function (): void {
     $outputFile = public_path('files/ooooooooo.csv');
     $spreadsheet = IOFactory::load($inputFile);
 
-    foreach ($spreadsheet->getSheetNames() as $index => $sheetName) {
+    foreach (array_keys($spreadsheet->getSheetNames()) as $index) {
         $spreadsheet->setActiveSheetIndex($index);
 
         $csvWriter = new Csv($spreadsheet);

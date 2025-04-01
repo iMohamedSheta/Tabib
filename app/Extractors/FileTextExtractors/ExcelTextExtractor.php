@@ -64,7 +64,7 @@ class ExcelTextExtractor implements TextExtractorInterface
         foreach ($sharedStrings as $sharedString) {
             // Extract the text from each shared string entry (cleaned if necessary)
             $text = $sharedString->getText(); // Get the actual text from the shared string
-            $text = trim($text); // Clean up leading/trailing spaces
+            $text = trim((string) $text); // Clean up leading/trailing spaces
 
             // Skip empty shared strings
             if (empty($text)) {
@@ -219,31 +219,11 @@ class ExcelTextExtractor implements TextExtractorInterface
                 }
             }
 
-            if (!empty($batch)) {
+            if ($batch !== []) {
                 fwrite($outputFile, implode('', $batch));
             }
         }
 
         fclose($outputFile);
-    }
-
-    /**
-     * Get shared strings from the spreadsheet.
-     */
-    private static function getSharedStrings(Spreadsheet $spreadsheet): array
-    {
-        $sharedStrings = [];
-
-        // Get shared strings from the first worksheet (adjust if needed)
-        $sheet = $spreadsheet->getSheet(0);
-
-        // Loop through all cells in the sheet and find shared strings
-        foreach ($sheet->getCellCollection() as $cell) {
-            if (\PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING === $cell->getDataType()) {
-                $sharedStrings[] = $cell->getValue();
-            }
-        }
-
-        return $sharedStrings;
     }
 }

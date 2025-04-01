@@ -24,7 +24,7 @@ class PdfToTextService
         $this->binPath = $binPath ?? $this->findPdfToText();
     }
 
-    public static function getText(string $pdf, ?string $binPath = null, array $options = [], $timeout = 60, ?\Closure $callback = null): string
+    public static function getText(string $pdf, ?string $binPath = null, array $options = [], int $timeout = 60, ?\Closure $callback = null): string
     {
         return (new static($binPath))
             ->setOptions($options)
