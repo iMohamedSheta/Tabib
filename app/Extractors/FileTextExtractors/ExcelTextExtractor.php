@@ -219,7 +219,7 @@ class ExcelTextExtractor implements TextExtractorInterface
                 }
             }
 
-            if ($batch !== []) {
+            if ([] !== $batch) {
                 fwrite($outputFile, implode('', $batch));
             }
         }
